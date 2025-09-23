@@ -90,13 +90,9 @@
                   name="location"
                   class="bg-black text-white mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
                 >
-                  {#if PUBLIC_BARBADOS_MODE === "true"}
-                    <option value="Barbados">Barbados</option>
-                  {:else}
-                    {#each data.countries as country}
-                      <option value={country}>{country}</option>
-                    {/each}
-                  {/if}
+                  {#each data.countries as country}
+                    <option value={country}>{country}</option>
+                  {/each}
                 </select>
               </div>
 
