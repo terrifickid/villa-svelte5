@@ -1,2 +1,2 @@
-echo "$VILLABOUND_DEV" > .env.json
+echo "$VFIVE_LIVE" > .env.json
 npm run dev
