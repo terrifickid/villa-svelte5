@@ -2,7 +2,6 @@
   import { goto } from "$app/navigation";
   import Spinner from "../components/Spinner.svelte";
   import DateOption from "../components/DateOption.svelte";
-  import { PUBLIC_BARBADOS_MODE } from "$env/static/public";
   import KeywordSearch from "../components/KeywordSearch.svelte";
   let searching = false;
   let search = {
