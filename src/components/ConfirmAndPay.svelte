@@ -2,7 +2,7 @@
   export let reservation;
   import _ from "lodash";
   import axios from "axios";
-
+  import { PUBLIC_API_SERVER } from "$env/static/public";
   import Spinner from "$components/Spinner.svelte";
   import { loadStripe } from "@stripe/stripe-js";
   import { onMount } from "svelte";
@@ -34,15 +34,12 @@
       guest
     );
     try {
-      const response = await axios.post(
-        "https://vapi-le6wug7tlq-vp.a.run.app/book",
-        {
-          quoteId,
-          ccToken,
-          ratePlanId,
-          guest,
-        }
-      );
+      const response = await axios.post(PUBLIC_API_SERVER + "/book", {
+        quoteId,
+        ccToken,
+        ratePlanId,
+        guest,
+      });
       if (_.has(response, "data._id")) {
         window.location.href = "/reservation/" + _.get(response, "data._id");
       } else {
@@ -69,6 +66,7 @@
           name: "Jenny Rosen",
         },
       });
+      console.log("token created");
       if (_.has(r, "paymentMethod.id")) {
         var ccToken = _.get(r, "paymentMethod.id");
         var quoteId = _.get(reservation, "_id");
@@ -80,6 +78,7 @@
           guest
         );
       } else {
+        console.log("Payment Error");
         loading = false;
       }
     } catch (err) {
