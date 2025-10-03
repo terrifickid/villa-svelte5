@@ -93,8 +93,9 @@
     </p>
     <div class="grid grid-cols-1">
       <div class="mb-4">
-        <label class="font-medium text-sm">Check In</label>
+        <label class="font-medium text-sm" for="checkin-input">Check In</label>
         <input
+          id="checkin-input"
           class="text-white bg-black rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-0.5 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
           type="date"
           style=" color-scheme: dark;"
@@ -102,8 +103,10 @@
         />
       </div>
       <div>
-        <label class="font-medium text-sm">Check Out</label>
+        <label class="font-medium text-sm" for="checkout-input">Check Out</label
+        >
         <input
+          id="checkout-input"
           class="text-white bg-black rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-0.5 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
           type="date"
           style=" color-scheme: dark;"
@@ -111,13 +114,23 @@
         />
       </div>
     </div>
-    <p class="mt-4"><label class="font-medium text-sm">Guests</label></p>
+    <label class="font-medium text-sm mt-4" for="guests-input">Guests</label>
 
-    <div class="flex items-center grid grid-cols-5">
-      <div class="mr-5 col-span-2">{guests}</div>
+    <div class="grid items-center grid-cols-5">
+      <input
+        id="guests-input"
+        type="number"
+        min="1"
+        max={data.accommodates}
+        class="mr-5 col-span-2 bg-transparent border-none text-right"
+        bind:value={guests}
+        aria-label="Number of guests"
+        style="width: 3em;"
+      />
 
       <button
         class="mr-2"
+        aria-label="Increase guests"
         on:click={() => {
           if (guests < data.accommodates) guests++;
         }}
@@ -138,6 +151,7 @@
       </button>
 
       <button
+        aria-label="Decrease guests"
         on:click={() => {
           if (guests > 1) guests--;
         }}
