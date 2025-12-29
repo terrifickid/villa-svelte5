@@ -8,7 +8,7 @@ export async function load({ url }) {
   const apiUrl = PUBLIC_API_SERVER + "/search";
   try {
     const response = await axios.post(apiUrl, {
-      query: "listings?country=" + destination + "&limit=100",
+      query: "listings?country=" + destination + "&limit=1000",
     });
     response.data.destination = destination;
     return response.data;
