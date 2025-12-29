@@ -32,12 +32,10 @@
           <h3 class="text-lg font-medium font-mono text-regent-900 transition-colors">
             <a 
               href={`/search?country=${encoded}`}
-              class="hover:underline hover:text-blue-600 inline-flex items-center gap-2 transition"
+              class=" inline-flex items-center gap-2"
             >
               <span>{country}</span>
-              <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
+            
             </a>
           </h3>
         </div>
