@@ -2,108 +2,46 @@
   export let data;
 </script>
 
-<section>
-  <div class="frame py-24">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 items-end">
+<section class="bg-white">
+  <!-- Hero/intro section -->
+  <div class="frame py-20 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-end">
       <div>
-        <span
-          class="text-base items-center inline-flex uppercase tracking-wide font-medium text-bound"
-        >
+        <span class="text-base uppercase tracking-wider font-medium text-bound inline-flex items-center">
           Destinations
         </span>
-        <p class="mt-16 text-2xl font-normal lg:text-4xl text-regent-900">
+        <h2 class="mt-6 text-3xl md:text-4xl lg:text-5xl font-normal text-regent-900 leading-tight">
           Explore exclusive properties in popular destinations.
-        </p>
+        </h2>
       </div>
       <div>
-        <p class="text-slate-500 text-lg lg:text-xl tracking-wide">
-          Embark on a journey of discovery as you delve into our curated
-          selection of exclusive properties, all nestled within the most
-          sought-after and popular destinations around the world.
+        <p class="text-slate-600 text-lg md:text-xl leading-relaxed tracking-wide">
+          Embark on a journey of discovery as you delve into our curated selection of exclusive properties, 
+          all nestled within the most sought-after and popular destinations around the world.
         </p>
       </div>
     </div>
   </div>
-  <div class="frame" x-data="" x-tabs="">
-    
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Anguilla">
-      <span class="text-lg text-medium font-mono">Anguilla</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Antigua+and+Barbuda">
-      <span class="text-lg text-medium font-mono">Antigua and Barbuda</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Barbados">
-      <span class="text-lg text-medium font-mono">Barbados</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Dominican+Republic">
-      <span class="text-lg text-medium font-mono">Dominican Republic</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Mexico">
-      <span class="text-lg text-medium font-mono">Mexico</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Saint+Lucia">
-      <span class="text-lg text-medium font-mono">Saint Lucia</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Saint+Martin">
-      <span class="text-lg text-medium font-mono">Saint Martin</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Saint+Vincent+and+the+Grenadines">
-      <span class="text-lg text-medium font-mono">Saint Vincent and the Grenadines</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Sint+Maarten">
-      <span class="text-lg text-medium font-mono">Sint Maarten</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=Turks+and+Caicos+Islands">
-      <span class="text-lg text-medium font-mono">Turks and Caicos Islands</span>
-    </a>
-  </h3>
-</div>
-<div>
-  <h3>
-    <a class="hover:underline" href="/search?country=United+States">
-      <span class="text-lg text-medium font-mono">United States</span>
-    </a>
-  </h3>
-</div>
+
+  <!-- Countries grid -->
+  <div class="frame pb-20 md:pb-24">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-12">
+      {#each data.countries as country}
+        {@const encoded = country.replace(/ /g, '+')}
+        <div class="group">
+          <h3 class="text-lg font-medium font-mono text-regent-900 transition-colors">
+            <a 
+              href={`/search?country=${encoded}`}
+              class="hover:underline hover:text-blue-600 inline-flex items-center gap-2 transition"
+            >
+              <span>{country}</span>
+              <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </h3>
+        </div>
+      {/each}
     </div>
   </div>
 </section>
-
