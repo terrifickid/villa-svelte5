@@ -11,9 +11,8 @@ export async function load({ page }) {
     "Dominican Republic",
     "Mexico",
     "Saint Lucia",
-    "Saint Martin",
     "Saint Vincent and the Grenadines",
-    "Sint Maarten",
+
     "Turks and Caicos Islands",
     "United States",
   ];
