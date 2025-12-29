@@ -22,7 +22,7 @@ export async function load({ params }) {
   const queryParams = {
     content_type: "property",
     query: keyword, // full-text search
-    limit: 100,
+    limit: 20,
     // 'fields.tags[in]': 'iCal',    // uncomment if you had this filter before
   };
 
