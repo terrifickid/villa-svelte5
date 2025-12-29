@@ -13,7 +13,7 @@
   import _ from "lodash";
   import Booker from "$components/Booker.svelte";
 
-  console.log(data);
+  console.log('property loaded!', data);
 
   function formatPrice(price, currency) {
     return new Intl.NumberFormat("en-US", {
