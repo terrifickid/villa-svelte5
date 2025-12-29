@@ -25,14 +25,7 @@
     </div>
   </div>
   <div class="frame" x-data="" x-tabs="">
-    <div class="grid gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-       <div>
-  <h3>
-    <a class="hover:underline" href="/search?country=anguilla">
-      <span class="text-lg text-medium font-mono">Anguilla</span>
-    </a>
-  </h3>
-</div>
+    
 <div>
   <h3>
     <a class="hover:underline" href="/search?country=Anguilla">
