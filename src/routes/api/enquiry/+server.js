@@ -2,7 +2,7 @@ import { json } from "@sveltejs/kit";
 import { HUBSPOT_ACCESS_TOKEN } from "$env/static/private";
 
 export async function POST({ request }) {
-  const { email, checkInDate, checkOutDate, guests, propertyName } =
+  const { email, checkInDate, checkOutDate, guests, propertyName, id, quote } =
     await request.json();
 
   if (!email || !email.includes("@")) {
@@ -11,11 +11,13 @@ export async function POST({ request }) {
 
   const subject = `Sales Enquiry: ${propertyName} – Check-in ${checkInDate} (${guests} guests)`;
   const content = `
+ID: ${id}
 Property: ${propertyName}
 Email: ${email}
 Check-in: ${checkInDate}
 Check-out: ${checkOutDate}
 Guests: ${guests}
+Quote: ${quote}
   `.trim();
 
   try {
