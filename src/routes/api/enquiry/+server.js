@@ -1,5 +1,5 @@
 import { json } from "@sveltejs/kit";
-import { PUBLIC_HUBSPOT_ACCESS_TOKEN } from "$env/static/private";
+import { HUBSPOT_ACCESS_TOKEN } from "$env/static/private";
 
 export async function POST({ request }) {
   const { email, checkInDate, checkOutDate, guests, propertyName } =
@@ -25,7 +25,7 @@ Guests: ${guests}
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${PUBLIC_HUBSPOT_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -53,13 +53,17 @@ Guests: ${guests}
 
     // 2. Create contact if not found
     if (!contactId) {
-      console.log("No contact id found", searchRes);
+      console.log(
+        "No contact id found",
+        searchRes,
+        `Bearer ${HUBSPOT_ACCESS_TOKEN}`
+      );
       const createRes = await fetch(
         "https://api.hubapi.com/crm/v3/objects/contacts",
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${PUBLIC_HUBSPOT_ACCESS_TOKEN}`,
+            Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -82,7 +86,7 @@ Guests: ${guests}
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${PUBLIC_HUBSPOT_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
