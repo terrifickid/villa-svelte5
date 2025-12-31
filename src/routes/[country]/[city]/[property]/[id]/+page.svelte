@@ -11,9 +11,9 @@
   };
   let more = true;
   import _ from "lodash";
-  import Booker from "$components/Booker.svelte";
+  import Hubspot from "$components/Hubspot.svelte";
 
-  console.log('property loaded!', data);
+  console.log("property loaded!", data);
 
   function formatPrice(price, currency) {
     return new Intl.NumberFormat("en-US", {
@@ -159,14 +159,14 @@
                   style="width: 100%; background-image: url({_.get(
                     picture,
                     'original',
-                    '/p.svg',
+                    '/p.svg'
                   )})"
                 />
               {/each}
             </section>
           {/if}
         </div>
-        <Booker {data} />
+        <Hubspot {data} />
       </div>
     </div>
   </section>
