@@ -132,7 +132,7 @@
   <section class="frame bg-white text-black text-xl py-12">
     <div>
       <div class="grid grid-cols-1 gap-0 lg:grid-cols-3 md:gap-12">
-        <div class="lg:col-span-2">
+        <div class="lg:col-span-2 order-2 lg:order-1">
           <p class="mb-2 font-medium">Description</p>
           <p class:line-clamp-6={more}>
             {_.get(data, "publicDescription.summary", "")}
