@@ -97,8 +97,10 @@
 </script>
 
 <!-- Desktop sidebar form -->
-<form class="hidden lg:block" on:submit={runHubspot}>
-  <div class="border border-black p-6 rounded-xl shadow sticky top-32">
+<form on:submit={runHubspot}>
+  <div
+    class="border border-black p-6 rounded-xl shadow sticky top-32 order-1 lg:order-2"
+  >
     <p>{data.nickname}</p>
     <p class="font-medium pb-4">
       {formatPrice(data.prices.basePrice, data.prices.currency)} / night
