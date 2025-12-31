@@ -99,7 +99,7 @@
 <!-- Desktop sidebar form -->
 <form on:submit={runHubspot}>
   <div
-    class="border border-black p-6 rounded-xl shadow sticky top-32 order-1 lg:order-2"
+    class="border border-black p-6 rounded-xl shadow sticky top-32 order-1 lg:order-2 mb-12"
   >
     <p>{data.nickname}</p>
     <p class="font-medium pb-4">
