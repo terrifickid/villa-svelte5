@@ -1,4 +1,5 @@
 @import url("https://api.fontshare.com/v2/css?f[]=general-sans@1,2&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap");
 @import "tailwindcss";
 
 @plugin '@tailwindcss/forms';
@@ -7,6 +8,7 @@
 @theme {
   --color-bound: #52bddd;
   --font-general: "General Sans", sans-serif;
+  --font-satoshi: "Satoshi", sans-serif;
 }
 
 .frame {
@@ -24,4 +26,17 @@
 
 .ElementsApp input {
   border: 1px solid black !important;
+}
+
+.vframe {
+  @apply container max-w-6xl p-6 mx-auto;
+}
+/* Global font setup – use Satoshi as the primary font (like FlowSpace) */
+html {
+  font-family: "Satoshi", var(--font-general);
+}
+
+/* Optional: Fallback chain for better compatibility */
+body {
+  font-family: "Satoshi", "General Sans", system-ui, -apple-system, sans-serif;
 }
