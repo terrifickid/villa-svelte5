@@ -1,7 +1,6 @@
 <script>
   export let data;
   import PropertyList from "$components/PropertyList.svelte";
-  console.log(data);
 </script>
 
 <section>

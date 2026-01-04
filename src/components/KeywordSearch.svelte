@@ -1,6 +1,4 @@
-<div
-  class="fixed hidden inset-0 bg-black bg-opacity-80 transition-opacity z-50"
-/>
+<div class="fixed hidden inset-0 bg-black bg-opacity-80 transition-opacity" />
 
 <div class="fixed hidden inset-0 overflow-y-auto z-50">
   <div

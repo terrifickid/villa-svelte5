@@ -3,8 +3,6 @@
 
   let { data = {} } = $props();
 
-  console.log(data);
-
   let title = $state(data.title ?? "Find your space, your way");
   let description = $state(
     data.description ??

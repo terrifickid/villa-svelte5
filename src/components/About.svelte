@@ -6,7 +6,7 @@
       >
         What We Do
       </span>
-      <p class="mt-16 text-2xl font-normal lg:text-4xl text-regent-900">
+      <p class="mt-16 text-2xl font-normal lg:text-4xl">
         Established in 2011 by Barbadian entrepreneur Lily Dash, Villabound
         evolved from her Caribbean villa rentals service, Caribound. Stemming
         from Dash's premium Barbados villa rental experiences, Villabound now

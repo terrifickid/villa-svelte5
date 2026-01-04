@@ -41,23 +41,30 @@
     document.getElementById("checkOut").select();
   }
   export let data;
-  console.log(data);
 </script>
 
-<KeywordSearch />
 <section
-  class="bg-black overflow-hidden text-white py-24 min-h-screen bg-cover bg-center shadow-md bg-center bg-cover"
-  style="background-image: url(/7flntut11.jpg)"
+  class="bg-black overflow-hidden text-white py-24 min-h-screen bg-cover bg-center bg-center bg-cover"
 >
-  <div class="pt-60 container max-w-6xl mx-auto p-6">
-    <h1 class="text-8xl">Your next vacation starts here.</h1>
+  <!-- Dark fade gradient overlay -->
+  <div
+    class="absolute inset-0 z-10"
+    style=" background: linear-gradient(228deg,#0000 0%,#000000e6 100%)"
+  >
+    <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
+    <div class="mt-[50vh] container max-w-6xl mx-auto px-6 lg:px-12">
+      <div class="max-w-[66%]">
+        <h1 class="text-4xl font-normal inline-block">Find your stay.</h1>
 
-    <h2 class="text-4xl">
-      A flexible coworking space built for freelancers, remote teams, and
-      creative minds. From hot desks to private offices — everything you need to
-      do your best work.
-    </h2>
-
-    <FindYourStayButton />
+        <h2 class="text-lg my-4">
+          A curated collection of exclusive beachfront and private estates in
+          the Caribbean and worldwide — featuring infinity pools, ocean views,
+          and exceptional amenities.
+        </h2>
+        <div class="my-2">
+          <FindYourStayButton />
+        </div>
+      </div>
+    </div>
   </div>
 </section>
