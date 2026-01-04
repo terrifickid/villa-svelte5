@@ -5,9 +5,11 @@
 <div class=" py-24">
   <div class="vframe">
     <h1 class="text-center text-3xl">
-      Work solo, meet others, or build your team — all in one flexible space.
-      Our coworking spaces are designed for comfort, community, and deep focus.
+      Escape solo, gather with loved ones, or celebrate special moments — all in
+      your own private luxury villa. Our handpicked retreats are designed for
+      ultimate privacy, unparalleled comfort, and unforgettable Caribbean
+      experiences.
     </h1>
-    <Flist />
+    <Flist class="mt-10" />
   </div>
 </div>

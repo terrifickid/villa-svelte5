@@ -52,9 +52,9 @@
     style=" background: linear-gradient(228deg,#0000 0%,#000000e6 100%)"
   >
     <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
-    <div class="mt-[50vh] container max-w-6xl mx-auto px-6 lg:px-12">
+    <div class="mt-[40vh] container max-w-6xl mx-auto px-12">
       <div class="max-w-[66%]">
-        <h1 class="text-4xl font-normal inline-block">Find your stay.</h1>
+        <h1 class="text-6xl inline-block">Find your Luxury Villa.</h1>
 
         <h2 class="text-lg my-4">
           A curated collection of exclusive beachfront and private estates in
@@ -64,6 +64,8 @@
         <div class="my-2">
           <FindYourStayButton />
         </div>
+
+        <p class="mt-20">Trusted by 500+ Clients</p>
       </div>
     </div>
   </div>
