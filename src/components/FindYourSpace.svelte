@@ -6,7 +6,7 @@
   let title = $state(data.title ?? "Find your space, your way");
   let description = $state(
     data.description ??
-      "From flexible desks to fully private offices, our workspaces are designed to adapt to your pace, your needs — and your flow."
+      "From flexible desks to fully private offices, our workspaces are designed to adapt to your pace, your needs — and your flow.",
   );
   let ctaText = $state(data.ctaText ?? "Book a tour");
   let ctaHref = $state(data.ctaHref ?? "/contact");
@@ -14,7 +14,7 @@
 </script>
 
 <section
-  class="spaces-section grid grid-cols-2 container mx-auto max-w-6xl p-6 gap-6"
+  class="spaces-section grid grid-cols-2 container mx-auto max-w-6xl px-6 gap-6"
   id="spaces"
 >
   <!-- Headline & CTA -->
