@@ -43,30 +43,35 @@
   export let data;
 </script>
 
-<section
-  class="bg-black overflow-hidden text-white py-24 min-h-screen bg-cover bg-center bg-center bg-cover"
->
-  <!-- Dark fade gradient overlay -->
-  <div
-    class=" inset-0 z-10"
-    style=" background: linear-gradient(228deg,#0000 0%,#000000e6 100%)"
+<div style="background-image: url(/7flntut11.jpg)">
+  <section
+    class="bg-black overflow-hidden text-white py-24 min-h-screen bg-cover bg-center bg-center bg-cover"
+    style=" background: linear-gradient(228deg,#0000 0%,#000000e6 320%)"
   >
-    <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
-    <div class="mt-[35vh] container max-w-6xl mx-auto px-12">
-      <div class="max-w-[66%]">
-        <h1 class="text-6xl inline-block">Find your Luxury Villa.</h1>
+    <!-- Dark fade gradient overlay -->
+    <div class=" inset-0 z-10">
+      <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
+      <div class="mt-[35vh] container max-w-6xl mx-auto px-12">
+        <div class="max-w-[66%]">
+          <h1
+            class="text-6xl inline-block drop-shadow-2xl"
+            style="text-shadow: #ffcc00 1px 0 10px;"
+          >
+            Find your Luxury Villa.
+          </h1>
 
-        <h2 class="text-lg my-4">
-          A curated collection of exclusive beachfront and private estates in
-          the Caribbean and worldwide — featuring infinity pools, ocean views,
-          and exceptional amenities.
-        </h2>
-        <div class="my-2">
-          <FindYourStayButton />
+          <h2 class="text-lg my-4 drop-shadow-2xl">
+            A curated collection of exclusive beachfront and private estates in
+            the Caribbean and worldwide — featuring infinity pools, ocean views,
+            and exceptional amenities.
+          </h2>
+          <div class="my-2">
+            <FindYourStayButton />
+          </div>
+
+          <p class="mt-20">Trusted by 500+ Clients</p>
         </div>
-
-        <p class="mt-20">Trusted by 500+ Clients</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
