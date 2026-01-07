@@ -20,7 +20,7 @@
   <!-- Headline & CTA -->
   <div class="header">
     <div class="text-content">
-      <h2 class="text-3xl mb-4 font-medium">{title}</h2>
+      <h2 class="text-3xl mb-4">{title}</h2>
       <p>{description}</p>
     </div>
 
@@ -34,7 +34,6 @@
         class="card flex border rounded-2xl p-6 mb-6 pl-26 border-gray-200"
       >
         <div class="card-text">
-          <h3 class="font-medium text-lg">{card.title}</h3>
           <p class="subtitle mb-4">{card.subtitle}</p>
           <p class="description">{card.description}</p>
         </div>

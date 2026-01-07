@@ -53,7 +53,7 @@
       class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12"
     >
       <div>
-        <h2 class="text-4x">
+        <h2 class="text-3xl">
           Explore exclusive properties in popular destinations.
         </h2>
         <p class="mt-4 text-lg">

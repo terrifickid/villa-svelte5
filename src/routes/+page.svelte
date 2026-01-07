@@ -5,23 +5,7 @@
   import SpacesSection from "../components/FindYourSpace.svelte";
 
   import Destinations from "../components/Destinations.svelte";
-  const spacesData = {
-    title: "Find your space, your way",
-    description:
-      "From flexible desks to fully private offices, our workspaces are designed to adapt to your pace, your needs — and your flow.",
-    ctaText: "Book a tour",
-    ctaHref: "/contact",
-    cards: [
-      {
-        iconSvg: `<svg viewBox="0 0 256 256"><!-- Hot Desk SVG path --></svg>`,
-        title: "Hot Desk",
-        subtitle: "Sit anywhere, stay flexible",
-        description:
-          "Access a shared workspace whenever you need it — no booking, no hassle...",
-      },
-      // ... other cards
-    ],
-  };
+
   export let data;
 </script>
 
@@ -61,13 +45,6 @@
         subtitle: "Epic gatherings in style",
         description:
           "Host milestone events — birthdays, reunions, or bachelor(ette) parties — in grand villas with outdoor lounges, BBQs, and entertainment spaces. Private chefs and concierge service ensure a seamless, unforgettable celebration.",
-      },
-      {
-        iconSvg: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>`,
-        title: "Recharge mind and body",
-        subtitle: "This should appear",
-        description:
-          "Focus on well-being with in-villa yoga decks, spa treatments, healthy gourmet meals, and tranquil tropical settings. Ideal for retreats emphasizing relaxation, fitness, and holistic rejuvenation.",
       },
     ],
   }}

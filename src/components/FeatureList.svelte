@@ -2,7 +2,7 @@
   import Flist from "../components/junk/featureList.svelte";
 </script>
 
-<div class="py-24">
+<div class="py-24" style="background: #fffefd;">
   <div class="vframe px-6">
     <h1 class="text-center text-3xl">
       Escape solo, gather with loved ones, or celebrate special moments — all in
