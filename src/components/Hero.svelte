@@ -48,11 +48,11 @@
 >
   <!-- Dark fade gradient overlay -->
   <div
-    class="absolute inset-0 z-10"
+    class=" inset-0 z-10"
     style=" background: linear-gradient(228deg,#0000 0%,#000000e6 100%)"
   >
     <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
-    <div class="mt-[40vh] container max-w-6xl mx-auto px-12">
+    <div class="mt-[35vh] container max-w-6xl mx-auto px-12">
       <div class="max-w-[66%]">
         <h1 class="text-6xl inline-block">Find your Luxury Villa.</h1>
 
