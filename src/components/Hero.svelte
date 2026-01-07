@@ -48,34 +48,19 @@
   style="background-image: url(/upscaled2.jpeg)"
 >
   <section
-    class="bg-black overflow-hidden text-white py-24 bg-cover bg-center bg-center bg-cover"
+    class="bg-black overflow-hidden text-white bg-cover bg-center bg-center bg-cover"
     style=" background: linear-gradient(228deg,#0000 0%,#000000e6 520%)"
   >
     <!-- Dark fade gradient overlay -->
     <div class=" inset-0 z-10">
       <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
-      <div class="mt-[25vh] mb-[0vh] container max-w-6xl mx-auto px-12">
+      <div class="mt-[30vh] mb-[10vh] container max-w-6xl mx-auto px-6">
         <div class="max-w-[66%]">
           <h1
             class="text-5xl inline-block drop-shadow-2xl"
             style="text-shadow: #000 1px 0 50px;"
           >
-            <svg
-              width="1.2em"
-              height="1.2em"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="inline-block align-middle mr-3 drop-shadow-2xl"
-              style="text-shadow: #000 1px 0 50px;"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg> Find your Villa.
+            Find your Villa.
           </h1>
 
           <h2 class=" my-4" style="text-shadow: #000 1px 0 30px;">

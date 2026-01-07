@@ -11,8 +11,8 @@
 
 <!-- Main wrapper - full width, fixed or sticky if needed -->
 <nav
-  class="w-full absolute z-50 pb-50"
-  style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));"
+  class="w-full absolute z-50 pb-50 bg-bone"
+  style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));"
 >
   <div class="container mx-auto max-w-6xl p-6 text-white">
     <div class="flex items-center justify-between">
@@ -20,7 +20,7 @@
         ><img class="w-40" src="/vb.png" /></a
       >
       <ul
-        class="flex items-center justify-between text-lg"
+        class="flex items-center mr-auto ml-20"
         style="text-shadow: #000 1px 0 60px;"
       >
         <li class="px-2 transition-opacity duration-300 hover:opacity-50">
