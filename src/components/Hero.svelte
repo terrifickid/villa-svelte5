@@ -55,12 +55,12 @@
         <div class="max-w-[66%]">
           <h1
             class="text-6xl inline-block drop-shadow-2xl"
-            style="text-shadow: #ffcc00 1px 0 10px;"
+            style="text-shadow: #000 1px 0 50px;"
           >
-            Find your Luxury Villa.
+            Find your Villa.
           </h1>
 
-          <h2 class="text-lg my-4 drop-shadow-2xl">
+          <h2 class="text-lg my-4" style="text-shadow: #000 1px 0 20px;">
             A curated collection of exclusive beachfront and private estates in
             the Caribbean and worldwide — featuring infinity pools, ocean views,
             and exceptional amenities.
