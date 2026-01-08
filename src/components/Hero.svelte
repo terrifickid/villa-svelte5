@@ -48,16 +48,16 @@
   style="background-image: url(/upscaled2.jpeg)"
 >
   <section
-    class="bg-black overflow-hidden text-white bg-cover bg-center bg-center bg-cover"
+    class="bg-black overflow-hidden text-white bg-cover bg-center bg-center bg-cover min-h-screen"
     style=" background: linear-gradient(228deg,#0000 0%,#000000e6 520%)"
   >
     <!-- Dark fade gradient overlay -->
     <div class=" inset-0 z-10">
       <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
-      <div class="mt-[30vh] mb-[10vh] container max-w-6xl mx-auto px-6">
+      <div class="mt-[50vh] mb-[10vh] container max-w-6xl mx-auto px-6">
         <div class="max-w-[66%]">
           <h1
-            class="text-5xl inline-block drop-shadow-2xl"
+            class="text-4xl inline-block drop-shadow-2xl"
             style="text-shadow: #000 1px 0 50px;"
           >
             Find your Villa.

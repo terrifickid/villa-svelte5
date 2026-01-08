@@ -12,7 +12,7 @@
 <!-- Main wrapper - full width, fixed or sticky if needed -->
 <nav
   class="w-full absolute z-50 pb-50 bg-bone"
-  style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));"
+  style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));"
 >
   <div class="container mx-auto max-w-6xl p-6 text-white">
     <div class="flex items-center justify-between">
