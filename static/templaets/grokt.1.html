@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VillaBound – Curated Luxury Villas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+  </style>
+</head>
+<body class="bg-[#FDFAF5] text-[#1F1F1F] antialiased">
+
+  <!-- Hero - Large immersive with subtle overlay -->
+  <header class="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+    style="background-image: url('https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80');">
+    <div class="absolute inset-0 bg-black/30"></div> <!-- subtle dark overlay -->
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      <h1 class="text-6xl md:text-8xl font-bold text-white tracking-tight drop-shadow-2xl animate-fade-in">
+        Find Your Villa
+      </h1>
+      <p class="mt-6 text-xl md:text-3xl text-white/90 font-light max-w-3xl mx-auto">
+        Curated beachfront estates and private luxury villas worldwide — infinity pools, dedicated staff, ocean sanctuaries.
+      </p>
+      <div class="mt-10">
+        <button class="bg-[#C9A96E] text-[#1F1F1F] px-10 py-5 rounded-full text-lg font-medium hover:bg-[#b38c50] transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+          Search Villas
+        </button>
+      </div>
+      <p class="mt-8 text-white/80 text-lg">Trusted by 500+ discerning clients</p>
+    </div>
+  </header>
+
+  <!-- Features / Amenities - Glassmorphism cards -->
+  <section class="py-24 px-6 md:px-12 lg:px-24 bg-white/50 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-5xl md:text-6xl font-bold text-center mb-16">Why VillaBound</h2>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Example glass card -->
+        <div class="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+          <h3 class="text-3xl font-semibold mb-6">Private Infinity Pools</h3>
+          <p class="text-lg opacity-80">Edge-to-edge ocean views for ultimate relaxation.</p>
+        </div>
+        
+        <div class="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+          <h3 class="text-3xl font-semibold mb-6">Dedicated Staff</h3>
+          <p class="text-lg opacity-80">Private chef, butler, housekeeper — at your service.</p>
+        </div>
+        
+        <div class="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+          <h3 class="text-3xl font-semibold mb-6">Oceanfront Sanctuaries</h3>
+          <p class="text-lg opacity-80">Direct beach access, lush gardens, 24/7 security.</p>
+        </div>
+        
+        <!-- Add more from your amenities list... -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Discover Your Villa - Bento-style grid -->
+  <section class="py-24 px-6 md:px-12 lg:px-24 bg-[#FAF9F6]">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-5xl md:text-6xl font-bold text-center mb-16">Discover Your Perfect Escape</h2>
+      
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="space-y-8">
+          <div class="bg-white/80 backdrop-blur-lg rounded-3xl p-10 border border-gray-100 shadow-lg hover:shadow-xl transition">
+            <h3 class="text-4xl font-semibold mb-4">Unwind in Complete Solitude</h3>
+            <p class="text-lg opacity-80">Personal rejuvenation with wellness amenities, infinity pools, and uninterrupted ocean views.</p>
+          </div>
+          
+          <div class="bg-white/80 backdrop-blur-lg rounded-3xl p-10 border border-gray-100 shadow-lg hover:shadow-xl transition">
+            <h3 class="text-4xl font-semibold mb-4">Intimate Moments, Elevated</h3>
+            <p class="text-lg opacity-80">Honeymoons, anniversaries — candlelit dinners, sunset terraces, luxurious suites.</p>
+          </div>
+        </div>
+        
+        <div class="space-y-8">
+          <div class="bg-white/80 backdrop-blur-lg rounded-3xl p-10 border border-gray-100 shadow-lg hover:shadow-xl transition">
+            <h3 class="text-4xl font-semibold mb-4">Spacious Luxury for All Ages</h3>
+            <p class="text-lg opacity-80">Family gatherings with kid-friendly pools, game rooms, dedicated staff.</p>
+          </div>
+          
+          <div class="bg-white/80 backdrop-blur-lg rounded-3xl p-10 border border-gray-100 shadow-lg hover:shadow-xl transition">
+            <h3 class="text-4xl font-semibold mb-4">Epic Gatherings in Style</h3>
+            <p class="text-lg opacity-80">Birthdays, reunions — outdoor lounges, BBQs, entertainment spaces.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-16">
+        <button class="bg-[#C9A96E] text-[#1F1F1F] px-12 py-6 rounded-full text-xl font-medium hover:bg-[#b38c50] transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+          Book a Private Tour
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter / Stay in the Know -->
+  <section class="py-24 px-6 bg-gradient-to-br from-[#5A7D95]/10 to-transparent">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-5xl font-bold mb-8">Stay in the Know</h2>
+      <p class="text-xl mb-10 opacity-80">Get exclusive offers, new villa releases, and insider Caribbean insights straight to your inbox.</p>
+      
+      <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+        <input type="email" placeholder="Your email address" class="flex-1 px-6 py-5 rounded-full border border-gray-300 focus:outline-none focus:border-[#C9A96E] bg-white/70 backdrop-blur-sm">
+        <button type="submit" class="bg-[#C9A96E] text-[#1F1F1F] px-10 py-5 rounded-full font-medium hover:bg-[#b38c50] transition shadow-lg">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#1F1F1F] text-white/90 py-16 px-6">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
+      <div>
+        <h3 class="text-2xl font-bold mb-6">VillaBound</h3>
+        <p class="opacity-70">Curated luxury since 2011. From beachfront Barbados to global estates.</p>
+      </div>
+      
+      <div>
+        <h4 class="text-xl font-semibold mb-6">Sitemap</h4>
+        <ul class="space-y-3 opacity-70">
+          <li><a href="#" class="hover:text-[#C9A96E] transition">Home</a></li>
+          <li><a href="#" class="hover:text-[#C9A96E] transition">Destinations</a></li>
+          <li><a href="#" class="hover:text-[#C9A96E] transition">Villas</a></li>
+          <li><a href="#" class="hover:text-[#C9A96E] transition">About</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="text-xl font-semibold mb-6">Connect</h4>
+        <p class="opacity-70">Suite 1, Barbados Golf Club<br>Christ Church, Barbados</p>
+        <p class="mt-4 opacity-70">lily@villabound.com</p>
+      </div>
+    </div>
+    
+    <div class="mt-12 text-center opacity-60 text-sm">
+      © 2026 VillaBound. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Simple fade-in animation -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          entry.target.classList.remove('opacity-0', 'translate-y-10');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+      section.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-1000');
+      observer.observe(section);
+    });
+  </script>
+
+</body>
+</html>
