@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villabound • Exclusive Villa Rentals Worldwide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .horizontal-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #ddd #fff;
+        }
+    </style>
+</head>
+<body class="bg-white text-zinc-900">
+
+    <!-- HEADER -->
+    <header class="border-b bg-white sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+            <a href="/" class="text-2xl font-semibold">Villabound</a>
+
+            <nav class="hidden md:flex items-center gap-x-8 text-sm">
+                <a href="/villas" class="hover:underline">Villas</a>
+                <a href="/destinations" class="hover:underline">Destinations</a>
+                <a href="/journeys" class="hover:underline">Journeys</a>
+                <a href="/about" class="hover:underline">Our Story</a>
+                <a href="/contact" class="hover:underline">Contact</a>
+            </nav>
+
+            <a href="/contact" class="border border-zinc-900 px-6 py-3 text-sm font-medium">
+                Inquire Now
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="min-h-screen flex items-center justify-center bg-zinc-900 text-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h1 class="text-6xl md:text-7xl font-light tracking-tight leading-none mb-6">
+                Curated Villas.<br>Extraordinary Stays.
+            </h1>
+            <p class="max-w-md mx-auto text-lg mb-10">
+                Hand-selected private villas across the world’s most remarkable destinations.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/villas" class="border border-white px-10 py-4 text-sm font-medium">
+                    Explore Villas
+                </a>
+                <a href="/contact" class="bg-white text-zinc-900 px-10 py-4 text-sm font-medium">
+                    Start Your Journey
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="max-w-4xl mx-auto px-6 py-24">
+        <h2 class="text-3xl font-semibold mb-8">Our Story</h2>
+        <div class="prose text-lg">
+            <p>
+                Established in 2011 by Barbadian entrepreneur Lily Dash, Villabound evolved from her Caribbean villa rentals service, Caribound. 
+                Stemming from Dash's premium Barbados villa rental experiences, Villabound now offers a globally curated selection of exclusive villas for discerning clients.
+            </p>
+            <p class="mt-6">
+                Each villa, meticulously chosen, showcases a country's best features, with top amenities, staff, art, and unique additions like gyms and personal spas.
+            </p>
+        </div>
+    </section>
+
+    <!-- WHAT MAKES THE DIFFERENCE + CALLOUTS -->
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-b">
+        <div class="flex flex-col md:flex-row gap-12">
+            <!-- Left Title -->
+            <div class="md:w-1/3">
+                <h2 class="text-3xl font-semibold mb-6">What Makes the Difference</h2>
+                <p class="text-zinc-600 leading-relaxed">
+                    Luxury is expected. What sets us apart is a team that operates in sync year-round. 
+                    Shared standards and consistent training ensure your villa runs properly from arrival to departure.
+                </p>
+            </div>
+
+            <!-- Horizontal Scroll Cards -->
+            <div class="md:w-2/3">
+                <div class="horizontal-scroll flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory">
+                    
+                    <!-- Personal Concierge -->
+                    <div class="min-w-[280px] border border-zinc-200 p-6 snap-start">
+                        <div class="h-48 bg-zinc-200 mb-6"></div>
+                        <h4 class="font-semibold text-lg mb-3">Personal Concierge</h4>
+                        <p class="text-sm text-zinc-600">
+                            Your concierge plans your trip well before arrival and manages it actively once you’re here.
+                        </p>
+                        <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1">Learn More →</a>
+                    </div>
+
+                    <!-- Private Chef -->
+                    <div class="min-w-[280px] border border-zinc-200 p-6 snap-start">
+                        <div class="h-48 bg-zinc-200 mb-6"></div>
+                        <h4 class="font-semibold text-lg mb-3">Private Chef</h4>
+                        <p class="text-sm text-zinc-600">
+                            Restaurant-level cooking tailored to your group’s tastes, timing, and pace.
+                        </p>
+                        <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1">Learn More →</a>
+                    </div>
+
+                    <!-- Personal Butler -->
+                    <div class="min-w-[280px] border border-zinc-200 p-6 snap-start">
+                        <div class="h-48 bg-zinc-200 mb-6"></div>
+                        <h4 class="font-semibold text-lg mb-3">Personal Butler</h4>
+                        <p class="text-sm text-zinc-600">
+                            Manages service, setup, and daily villa operations seamlessly.
+                        </p>
+                        <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1">Learn More →</a>
+                    </div>
+
+                    <!-- Transportation -->
+                    <div class="min-w-[280px] border border-zinc-200 p-6 snap-start">
+                        <div class="h-48 bg-zinc-200 mb-6"></div>
+                        <h4 class="font-semibold text-lg mb-3">Transportation</h4>
+                        <p class="text-sm text-zinc-600">
+                            Professional chauffeur service with local knowledge and real-time coordination.
+                        </p>
+                        <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1">Learn More →</a>
+                    </div>
+
+                    <!-- Celebrations -->
+                    <div class="min-w-[280px] border border-zinc-200 p-6 snap-start">
+                        <div class="h-48 bg-zinc-200 mb-6"></div>
+                        <h4 class="font-semibold text-lg mb-3">Celebrations</h4>
+                        <p class="text-sm text-zinc-600">
+                            Spacious layouts and ocean views perfect for memorable gatherings.
+                        </p>
+                        <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1">Learn More →</a>
+                    </div>
+
+                    <!-- Corporate -->
+                    <div class="min-w-[280px] border border-zinc-200 p-6 snap-start">
+                        <div class="h-48 bg-zinc-200 mb-6"></div>
+                        <h4 class="font-semibold text-lg mb-3">Corporate Retreats</h4>
+                        <p class="text-sm text-zinc-600">
+                            Private spaces designed for focus, collaboration, and connection.
+                        </p>
+                        <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1">Learn More →</a>
+                    </div>
+
+                    <!-- Families -->
+                    <div class="min-w-[280px] border border-zinc-200 p-6 snap-start">
+                        <div class="h-48 bg-zinc-200 mb-6"></div>
+                        <h4 class="font-semibold text-lg mb-3">Families</h4>
+                        <p class="text-sm text-zinc-600">
+                            Spacious layouts and thoughtful comforts for all generations.
+                        </p>
+                        <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1">Learn More →</a>
+                    </div>
+
+                    <!-- Couples -->
+                    <div class="min-w-[280px] border border-zinc-200 p-6 snap-start">
+                        <div class="h-48 bg-zinc-200 mb-6"></div>
+                        <h4 class="font-semibold text-lg mb-3">Couples</h4>
+                        <p class="text-sm text-zinc-600">
+                            Intimate villas with private pools and ocean terraces.
+                        </p>
+                        <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1">Learn More →</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="max-w-7xl mx-auto px-6 py-20">
+        <div class="grid md:grid-cols-3 gap-12">
+            <div>
+                <div class="text-5xl font-light mb-4">01</div>
+                <h3 class="text-2xl font-semibold mb-3">Hand-Selected Properties</h3>
+                <p class="text-zinc-600">Every villa is personally inspected for quality, privacy, location, and character.</p>
+            </div>
+            <div>
+                <div class="text-5xl font-light mb-4">02</div>
+                <h3 class="text-2xl font-semibold mb-3">Global Collection</h3>
+                <p class="text-zinc-600">From Caribbean shores to Iceland and beyond — only the finest private residences.</p>
+            </div>
+            <div>
+                <div class="text-5xl font-light mb-4">03</div>
+                <h3 class="text-2xl font-semibold mb-3">Seamless Experiences</h3>
+                <p class="text-zinc-600">Full concierge planning, private staff, and custom journeys tailored to you.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DESTINATIONS -->
+    <section class="max-w-7xl mx-auto px-6 py-20">
+        <h2 class="text-3xl font-semibold mb-12 text-center">Featured Destinations</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="border border-zinc-200 p-8">
+                <h3 class="text-xl font-semibold mb-2">Barbados & Caribbean</h3>
+                <p class="text-zinc-600">Oceanfront estates with barefoot luxury and warm service.</p>
+            </div>
+            <div class="border border-zinc-200 p-8">
+                <h3 class="text-xl font-semibold mb-2">Iceland & Nordic</h3>
+                <p class="text-zinc-600">Dramatic landscapes, geothermal villas, and modern retreats.</p>
+            </div>
+            <div class="border border-zinc-200 p-8">
+                <h3 class="text-xl font-semibold mb-2">Mediterranean & Beyond</h3>
+                <p class="text-zinc-600">Clifftop sanctuaries, Tuscan estates, and hidden gems.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIGNATURE VILLAS -->
+    <section class="max-w-7xl mx-auto px-6 py-20 bg-zinc-50">
+        <h2 class="text-3xl font-semibold mb-12">Signature Villas</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="border border-zinc-200 p-6">
+                <div class="h-64 bg-zinc-200 mb-6"></div>
+                <h4 class="font-semibold">Villa Serenity • Barbados</h4>
+                <p class="text-sm text-zinc-500 mt-1">Oceanfront • 6 bedrooms • Private pool & staff</p>
+            </div>
+            <div class="border border-zinc-200 p-6">
+                <div class="h-64 bg-zinc-200 mb-6"></div>
+                <h4 class="font-semibold">Northern Lights Lodge • Iceland</h4>
+                <p class="text-sm text-zinc-500 mt-1">Glass villa • Geothermal spa • 5 bedrooms</p>
+            </div>
+            <div class="border border-zinc-200 p-6">
+                <div class="h-64 bg-zinc-200 mb-6"></div>
+                <h4 class="font-semibold">Cliffside Haven • Greece</h4>
+                <p class="text-sm text-zinc-500 mt-1">Infinity pool • 4 bedrooms • Private chef</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 bg-zinc-900 text-white text-center">
+        <div class="max-w-2xl mx-auto px-6">
+            <h2 class="text-4xl font-light mb-6">Ready for your next private villa escape?</h2>
+            <a href="/contact" class="inline-block border border-white px-10 py-4 text-sm font-medium">
+                Tell Us Your Dates →
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-zinc-100 py-20">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-y-12">
+            <div class="md:col-span-5">
+                <div class="text-2xl font-semibold mb-4">Villabound</div>
+                <p class="text-sm text-zinc-500">Curated by Lily Dash since 2011</p>
+            </div>
+            
+            <div class="md:col-span-2">
+                <div class="font-medium mb-4">Company</div>
+                <div class="space-y-3 text-sm">
+                    <a href="/about" class="block hover:underline">Our Story</a>
+                    <a href="/journal" class="block hover:underline">Journal</a>
+                </div>
+            </div>
+            
+            <div class="md:col-span-2">
+                <div class="font-medium mb-4">Villas</div>
+                <div class="space-y-3 text-sm">
+                    <a href="/villas" class="block hover:underline">All Villas</a>
+                    <a href="/destinations" class="block hover:underline">Destinations</a>
+                </div>
+            </div>
+            
+            <div class="md:col-span-3">
+                <div class="font-medium mb-4">Stay in touch</div>
+                <div class="flex">
+                    <input type="email" placeholder="Email address" class="bg-white border border-zinc-300 px-5 py-4 text-sm flex-1">
+                    <button class="bg-zinc-900 text-white px-8 text-sm font-medium">Join</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center text-xs text-zinc-400 mt-16">
+            © 2026 Villabound • Luxury Villa Rentals Worldwide
+        </div>
+    </footer>
+
+</body>
+</html>
