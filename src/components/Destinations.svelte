@@ -48,7 +48,7 @@
 
 <section class="bg-white py-20 md:py-24">
   <!-- Header -->
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
     <div
       class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12"
     >
@@ -73,7 +73,7 @@
   </div>
 
   <!-- Locations Grid -->
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-16">
+  <div class="max-w-7xl mx-auto mt-16">
     <div
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
     >

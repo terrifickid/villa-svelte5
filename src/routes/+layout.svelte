@@ -7,6 +7,8 @@
 
 <div class="font-general">
   <Header />
-  <slot />
+  <div class="mx-auto container frame">
+    <slot />
+  </div>
   <Newsletter />
 </div>

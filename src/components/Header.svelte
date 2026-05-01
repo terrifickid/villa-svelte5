@@ -10,19 +10,13 @@
 </script>
 
 <!-- Main wrapper - full width, fixed or sticky if needed -->
-<nav
-  class="w-full absolute z-50 pb-50 bg-bone"
-  style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));"
->
-  <div class="container mx-auto max-w-6xl p-6 text-white">
+<nav class="w-full z-50 container frame mx-auto my-5">
+  <div class="p-6 text-gray-600 border-gray-500 rounded-3xl">
     <div class="flex items-center justify-between">
       <a class="transition-opacity duration-300 hover:opacity-50" href="#"
-        ><img class="w-40" src="/vb.png" /></a
+        ><img class="w-40 invert" src="/vb.png" /></a
       >
-      <ul
-        class="flex items-center mr-auto ml-20"
-        style="text-shadow: #000 1px 0 60px;"
-      >
+      <ul class="flex items-center mr-auto ml-20">
         <li class="px-2 transition-opacity duration-300 hover:opacity-50">
           <a href="/">Home</a>
         </li>

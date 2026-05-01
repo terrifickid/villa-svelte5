@@ -1,4 +1,4 @@
-<div class="frame pb-24">
+<div class="frame pb-24 container">
   <div class="xl:gap-8 xl:grid xl:grid-cols-3 border-t pt-12 mt-12">
     <div class="text-regent-900 xl:col-span-3">
       <div class="lg:inline-flex lg:items-center justify-between w-full">

@@ -1,5 +1,5 @@
 <section>
-  <div class="frame py-24">
+  <div class=" py-24">
     <div>
       <span
         class="text-base items-center inline-flex uppercase tracking-wide font-medium text-bound"

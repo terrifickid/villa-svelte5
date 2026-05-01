@@ -43,27 +43,21 @@
   export let data;
 </script>
 
-<div
-  class="  bg-no-repeat bg-cover"
-  style="background-image: url(/upscaled2.jpeg)"
->
+<!--  style="background-image: url(/upscaled2.jpeg)" -->
+<div class="bg-no-repeat bg-cover bg-center pt-20 rounded-3xl bg-gray-100">
   <section
-    class="bg-black overflow-hidden text-white bg-cover bg-center bg-center bg-cover min-h-screen"
-    style=" background: linear-gradient(228deg,#0000 0%,#000000e6 520%)"
+    class="overflow-hidden text-gray-600 bg-cover bg-center bg-center bg-cover"
   >
     <!-- Dark fade gradient overlay -->
     <div class=" inset-0 z-10">
       <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
-      <div class="mt-[50vh] mb-[10vh] container max-w-6xl mx-auto px-6">
+      <div class="mt-[20vh] mb-[10vh] container max-w-6xl mx-auto px-6">
         <div class="max-w-[66%]">
-          <h1
-            class="text-4xl inline-block drop-shadow-2xl"
-            style="text-shadow: #000 1px 0 50px;"
-          >
+          <h1 class="text-4xl inline-block drop-shadow-2xl">
             Find your Villa.
           </h1>
 
-          <h2 class=" my-4" style="text-shadow: #000 1px 0 30px;">
+          <h2 class=" my-4">
             A curated collection of exclusive beachfront and private estates in
             the Caribbean and worldwide — featuring infinity pools, ocean views,
             and exceptional amenities.
