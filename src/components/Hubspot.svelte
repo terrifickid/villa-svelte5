@@ -1,7 +1,6 @@
 <script>
   export let data;
   import _ from "lodash";
-  import { PUBLIC_API_SERVER } from "$env/static/public";
   import { onMount } from "svelte";
   import axios from "axios";
   import { goto } from "$app/navigation";

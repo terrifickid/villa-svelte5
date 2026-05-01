@@ -1,11 +1,10 @@
 import axios from "axios";
-import { PUBLIC_API_SERVER } from "$env/static/public";
 
 export async function load({ url }) {
   var r = url.pathname.split("/");
   var destination = r[r.length - 1];
   console.log("Getting Destination...", destination);
-  const apiUrl = PUBLIC_API_SERVER + "/search";
+  const apiUrl = null + "/search";
   try {
     const response = await axios.post(apiUrl, {
       query: "listings?country=" + destination + "&limit=1000",

@@ -1,6 +1,5 @@
 // No need for axios or environment variables anymore
 // import axios from "axios";
-// import { PUBLIC_API_SERVER } from "$env/static/public";
 
 export async function load({ page }) {
   // Hardcoded list of countries (exactly matching your previous output)

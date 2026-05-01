@@ -2,7 +2,7 @@
   export let reservation;
   import _ from "lodash";
   import axios from "axios";
-  import { PUBLIC_API_SERVER } from "$env/static/public";
+
   import Spinner from "$components/Spinner.svelte";
   import { loadStripe } from "@stripe/stripe-js";
   import { onMount } from "svelte";
@@ -31,10 +31,10 @@
       quoteId,
       ccToken,
       ratePlanId,
-      guest
+      guest,
     );
     try {
-      const response = await axios.post(PUBLIC_API_SERVER + "/book", {
+      const response = await axios.post(null + "/book", {
         quoteId,
         ccToken,
         ratePlanId,
@@ -75,7 +75,7 @@
           quoteId,
           ccToken,
           ratePlanId,
-          guest
+          guest,
         );
       } else {
         console.log("Payment Error");

@@ -1,8 +1,8 @@
 import axios from "axios";
-  import { PUBLIC_API_SERVER } from "$env/static/public";
+
 export async function load({ url }) {
   console.log("Searching...", url.search);
-  const apiUrl = PUBLIC_API_SERVER + "/search";
+  const apiUrl = null + "/search";
   try {
     const response = await axios.post(apiUrl, {
       query: "listings" + url.search,

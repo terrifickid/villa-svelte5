@@ -1,7 +1,7 @@
 import axios from "axios";
-import { PUBLIC_API_SERVER } from "$env/static/public";
+
 export async function load({ params }) {
-  const apiUrl = PUBLIC_API_SERVER + "/api";
+  const apiUrl = null + "/api";
   try {
     const response = await axios.post(apiUrl, {
       query: "reservations/" + params.rid + "/details",
