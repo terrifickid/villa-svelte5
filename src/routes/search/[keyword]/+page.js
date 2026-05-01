@@ -11,18 +11,30 @@ const client = createClient({
   accessToken: PUBLIC_CONTENTFUL_DELIVERY_TOKEN,
 });
 
-export async function load({ params }) {
+const ITEMS_PER_PAGE = 8;
+
+export async function load({ params, url }) {
   const keyword = params.keyword?.trim();
+
+  // Get current page from URL query param, default to 1
+  const page = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10));
 
   if (!keyword) {
     console.log("No keyword provided");
-    return { results: [], keyword: "" };
+    return {
+      results: [],
+      keyword: "",
+      total: 0,
+      currentPage: 1,
+      totalPages: 0,
+    };
   }
 
   const queryParams = {
     content_type: "property",
     query: keyword, // full-text search
-    limit: 20,
+    limit: ITEMS_PER_PAGE,
+    skip: (page - 1) * ITEMS_PER_PAGE, // ← This enables pagination
     // 'fields.tags[in]': 'iCal',    // uncomment if you had this filter before
   };
 
@@ -32,6 +44,9 @@ export async function load({ params }) {
     JSON.stringify(queryParams, null, 2)
   );
   console.log(`Full-text search keyword: "${keyword}"`);
+  console.log(
+    `Page: ${page} (skip: ${queryParams.skip}, limit: ${queryParams.limit})`
+  );
   console.log(`Space ID: ${PUBLIC_CONTENTFUL_SPACE_ID}`);
   console.log(`Content type: property`);
 
@@ -57,10 +72,14 @@ export async function load({ params }) {
 
     console.log(`Processed results count: ${results.length}`);
 
+    const totalPages = Math.ceil(response.total / ITEMS_PER_PAGE);
+
     return {
       results,
       keyword,
       total: response.total,
+      currentPage: page,
+      totalPages,
     };
   } catch (error) {
     console.error("❌ Contentful CDA Error:", error);
@@ -71,6 +90,9 @@ export async function load({ params }) {
     return {
       results: [],
       keyword,
+      total: 0,
+      currentPage: 1,
+      totalPages: 0,
     };
   }
 }
