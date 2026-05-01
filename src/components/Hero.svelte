@@ -28,13 +28,11 @@
     return nextMonday.toISOString().split("T")[0];
   }
   function handleSubmit() {
+    console.log(search);
     event.preventDefault();
     searching = true; // Toggle the variable
-    const params = new URLSearchParams(search);
-    let queryParams = params.toString();
-    let country = params.get("country");
-    let searchUrl = `/search/${country}`;
-    console.log(searchUrl);
+    let queryParams = new URLSearchParams(search).toString();
+    let searchUrl = `/search?${queryParams}`;
     goto(searchUrl, false);
   }
 
