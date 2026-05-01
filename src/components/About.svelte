@@ -4,16 +4,14 @@
       <span
         class="text-base items-center inline-flex uppercase tracking-wide font-medium text-bound"
       >
-        What We Do
+        Our Story
       </span>
       <p class="mt-16 text-2xl font-normal lg:text-4xl">
-        Established in 2011 by Barbadian entrepreneur Lily Dash, Villabound
-        evolved from her Caribbean villa rentals service, Caribound. Stemming
-        from Dash's premium Barbados villa rental experiences, Villabound now
-        offers a globally curated selection of exclusive villas for discerning
-        clients. Each villa, meticulously chosen, showcases a country's best
-        features, with top amenities, staff, art, and unique additions like gyms
-        and personal spas.
+        Founded in 2011 by Barbadian entrepreneur Lily Dash, Villabound evolved
+        from her acclaimed Caribbean villa company, Caribound. What began as a
+        passion for premium Barbados escapes has grown into a globally curated
+        collection of the finest private villas, handpicked for discerning
+        travelers who seek more than just a place to stay.
       </p>
     </div>
   </div>

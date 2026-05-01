@@ -6,6 +6,8 @@
 
   import Destinations from "../components/Destinations.svelte";
 
+  import Ready from "../components/Ready.svelte";
+
   export let data;
 </script>
 
@@ -49,6 +51,7 @@
     ],
   }}
 />
-<Destinations {data} />
 
+<Destinations {data} />
 <About />
+<Ready />
