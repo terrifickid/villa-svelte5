@@ -12,12 +12,28 @@
 <!-- Main wrapper - full width, fixed or sticky if needed -->
 <nav class="w-full z-50 mx-auto my-5 fixed">
   <div class=" text-white px-8 py-4 rounded-3xl text-sm">
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-3 flex items-center">
       <a class="transition-opacity duration-300 hover:opacity-50" href="#"
         ><img class="w-30 invert" src="/vb.png" /></a
       >
 
-      <div class="bg-black">Menu</div>
+      <div class="bg-black rounded-2xl p-2 flex items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6 mr-2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 9h16.5m-16.5 6.75h16.5"
+          />
+        </svg>
+        Menu
+      </div>
       <ul class="flex items-center mr-auto ml-20 hidden">
         <li class="px-2 transition-opacity duration-300 hover:opacity-50">
           <a href="/">Home</a>
@@ -32,7 +48,9 @@
           <a href="#">Contact</a>
         </li>
       </ul>
-      <button class="ml-auto border p-2 bg-black text-white">Search</button>
+      <button class="ml-auto border p-2 bg-black rounded-3xl text-white"
+        >Search</button
+      >
     </div>
   </div>
 </nav>
