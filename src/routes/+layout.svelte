@@ -6,9 +6,9 @@
 </script>
 
 <div class="font-general">
-  <Header />
-  <div class="mx-auto container frame">
+  <div class="mx-auto container max-w-6xl px-6">
+    <Header />
     <slot />
+    <Newsletter />
   </div>
-  <Newsletter />
 </div>

@@ -10,13 +10,13 @@
 </script>
 
 <!-- Main wrapper - full width, fixed or sticky if needed -->
-<nav class="w-full z-50 container frame mx-auto my-5">
-  <div class="p-6 text-gray-600 border-gray-500 rounded-3xl">
+<nav class="w-full z-50 mx-auto my-5">
+  <div class=" text-gray-600 bg-gray-100 px-8 py-4 rounded-3xl text-sm">
     <div class="flex items-center justify-between">
       <a class="transition-opacity duration-300 hover:opacity-50" href="#"
-        ><img class="w-40 invert" src="/vb.png" /></a
+        ><img class="w-30 invert" src="/vb.png" /></a
       >
-      <ul class="flex items-center mr-auto ml-20">
+      <ul class="flex items-center mr-auto ml-20 hidden">
         <li class="px-2 transition-opacity duration-300 hover:opacity-50">
           <a href="/">Home</a>
         </li>
@@ -30,25 +30,8 @@
           <a href="#">Contact</a>
         </li>
       </ul>
-      <ButtonBlack
-        ><svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          class="inline-block"
-        >
-          <!-- Lens -->
-          <circle cx="11" cy="11" r="8" />
-          <!-- Handle -->
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg></ButtonBlack
-      >
+      <button class="ml-auto border p-2">Search</button>
+      <button class="ml-4 border p-2">Menu</button>
     </div>
   </div>
 </nav>

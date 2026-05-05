@@ -14,7 +14,7 @@
 
 .frame {
   /* @apply mx-auto px-8 md:px-12 lg:px-16 max-w-7xl; */
-  @apply mx-auto px-4 md:px-12 lg:px-24;
+  @apply mx-auto;
 }
 
 .cframe {
@@ -39,5 +39,10 @@ html {
 
 /* Optional: Fallback chain for better compatibility */
 body {
-  font-family: "Satoshi", "General Sans", system-ui, -apple-system, sans-serif;
+  font-family:
+    "Satoshi",
+    "General Sans",
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
