@@ -134,7 +134,8 @@
                 <option value="10">10</option>
               </select>
             </div>
-
+            <div></div>
+            <div></div>
             <div>
               <label for="location" class="flex text-sm leading-6">
                 <svg
@@ -186,7 +187,7 @@
                 style=" color-scheme: dark;"
               />
             </div>
-
+            <div></div>
             <div>
               <button
                 type="submit"

@@ -5,7 +5,7 @@
   import SpacesSection from "../components/FindYourSpace.svelte";
 
   import Destinations from "../components/Destinations.svelte";
-
+  import Flist from "../components/junk/featureList.svelte";
   import Ready from "../components/Ready.svelte";
   import Features from "../components/Features.svelte";
   import Difference from "../components/Difference.svelte";
@@ -14,9 +14,15 @@
 
 <Hero {data} />
 <Features />
-<About />
-
+<p class="text-2xl">
+  Curated for absolute privacy, uncompromising comfort, and timeless elegance,
+  Villabound offers extraordinary retreats that capture the very best each
+  destination has to offer — from breathtaking views and world-class amenities
+  to dedicated staff, curated art, and one-of-a-kind experiences.
+</p>
+<Flist class="mt-10" />
 <Difference />
 <Destinations {data} />
 
 <Ready />
+<About />

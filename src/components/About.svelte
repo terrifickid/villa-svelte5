@@ -1,7 +1,7 @@
 <section>
   <div class=" py-10">
     <div>
-      <p class="mt-16 text-2xl font-normal lg:text-4xl">
+      <p class="mt-16 text-2xl font-normal">
         Founded in 2011 by Barbadian entrepreneur Lily Dash, Villabound evolved
         from her acclaimed Caribbean villa company, Caribound. What began as a
         passion for premium Barbados escapes has grown into a globally curated
