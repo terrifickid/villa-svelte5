@@ -25,11 +25,11 @@
   <!-- Locations Grid -->
   <div class="mx-auto mt-16">
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6"
     >
       {#each data.countries as location}
         <div
-          class="group border h-60 rounded-2xl flex items-center justify-center align-center"
+          class="group bg-gray-100 p-12 h-60 rounded-2xl flex items-center justify-center align-center"
         >
           <!-- Content -->
 

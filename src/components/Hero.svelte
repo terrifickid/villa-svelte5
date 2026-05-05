@@ -51,10 +51,9 @@
     <!-- Dark fade gradient overlay -->
     <div class=" inset-0 z-10">
       <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
-      <div class=" container mx-auto px-12">
+      <div class="px-12">
         <div>
-          <h1 class="text-[7vw] text-white">Villabound</h1>
-          <h1 class="text-4xl inline-block drop-shadow-2xl max-w-[66%]">
+          <h1 class="text-3xl inline-block drop-shadow-2xl md:max-w-[66%]">
             Discover hand-selected private villas in the world's most
             extraordinary destinations
           </h1>
@@ -65,7 +64,7 @@
             and exceptional amenities.
           </h2>
 
-          <div class="grid grid-cols-4 gap-4 mt-10">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
             <div>
               <label for="location" class="flex text-sm leading-6"
                 ><svg
@@ -100,7 +99,7 @@
               </select>
             </div>
 
-            <div>
+            <div class="hidden">
               <label for="location" class="flex text-sm leading-6"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"

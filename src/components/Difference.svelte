@@ -1,102 +1,60 @@
-<section class="mx-autopy-20">
-  <div class="grid grid-cols-2 md:grid-cols-2lg:grid-cols-3 gap-6">
-    <!-- Personal Concierge -->
-    <div class=" border-zinc-200 snap-start rounded-2xl">
-      <div class="h-48 bg-zinc-200 mb-6"></div>
-      <h4 class="font-semibold text-lg mb-3">Personal Concierge</h4>
-      <p class="text-sm text-zinc-600">
-        Your concierge plans your trip well before arrival and manages it
-        actively once you’re here.
-      </p>
-      <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1"
-        >Learn More →</a
-      >
-    </div>
+<script>
+  // Plain JSON object
+  const services = [
+    {
+      title: "Personal Concierge",
+      description:
+        "Your concierge plans your trip well before arrival and manages it actively once you’re here.",
+    },
+    {
+      title: "Private Chef",
+      description:
+        "Restaurant-level cooking tailored to your group’s tastes, timing, and pace.",
+    },
+    {
+      title: "Personal Butler",
+      description:
+        "Manages service, setup, and daily villa operations seamlessly.",
+    },
+    {
+      title: "Transportation",
+      description:
+        "Professional chauffeur service with local knowledge and real-time coordination.",
+    },
+    {
+      title: "Celebrations",
+      description:
+        "Spacious layouts and ocean views perfect for memorable gatherings.",
+    },
+    {
+      title: "Corporate Retreats",
+      description:
+        "Private spaces designed for focus, collaboration, and connection.",
+    },
+    {
+      title: "Families",
+      description:
+        "Spacious layouts and thoughtful comforts for all generations.",
+    },
+    {
+      title: "Couples",
+      description: "Intimate villas with private pools and ocean terraces.",
+    },
+  ];
+</script>
 
-    <!-- Private Chef -->
-    <div class=" border-zinc-200 snap-start rounded-2xl">
-      <div class="h-48 bg-zinc-200 mb-6"></div>
-      <h4 class="text-xl mb-3">Private Chef</h4>
-      <p class="text-sm text-zinc-600">
-        Restaurant-level cooking tailored to your group’s tastes, timing, and
-        pace.
-      </p>
-      <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1"
-        >Learn More →</a
-      >
-    </div>
+<section class="mx-auto py-20">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {#each services as service}
+      <div class=" bg-gray-100 rounded-2xl p-12 snap-start">
+        <h4 class="text-lg mb-3">
+          {service.title}
+        </h4>
 
-    <!-- Personal Butler -->
-    <div class=" border-zinc-200 snap-start">
-      <div class="h-48 bg-zinc-200 mb-6"></div>
-      <h4 class="font-semibold text-lg mb-3">Personal Butler</h4>
-      <p class="text-sm text-zinc-600">
-        Manages service, setup, and daily villa operations seamlessly.
-      </p>
-      <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1"
-        >Learn More →</a
-      >
-    </div>
-
-    <!-- Transportation -->
-    <div class=" border-zinc-200 snap-start">
-      <div class="h-48 bg-zinc-200 mb-6"></div>
-      <h4 class="font-semibold text-lg mb-3">Transportation</h4>
-      <p class="text-sm text-zinc-600">
-        Professional chauffeur service with local knowledge and real-time
-        coordination.
-      </p>
-      <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1"
-        >Learn More →</a
-      >
-    </div>
-
-    <!-- Celebrations -->
-    <div class=" border-zinc-200 snap-start">
-      <div class="h-48 bg-zinc-200 mb-6"></div>
-      <h4 class="font-semibold text-lg mb-3">Celebrations</h4>
-      <p class="text-sm text-zinc-600">
-        Spacious layouts and ocean views perfect for memorable gatherings.
-      </p>
-      <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1"
-        >Learn More →</a
-      >
-    </div>
-
-    <!-- Corporate -->
-    <div class=" border-zinc-200 snap-start">
-      <div class="h-48 bg-zinc-200 mb-6"></div>
-      <h4 class="font-semibold text-lg mb-3">Corporate Retreats</h4>
-      <p class="text-sm text-zinc-600">
-        Private spaces designed for focus, collaboration, and connection.
-      </p>
-      <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1"
-        >Learn More →</a
-      >
-    </div>
-
-    <!-- Families -->
-    <div class=" border-zinc-200 snap-start">
-      <div class="h-48 bg-zinc-200 mb-6"></div>
-      <h4 class="font-semibold text-lg mb-3">Families</h4>
-      <p class="text-sm text-zinc-600">
-        Spacious layouts and thoughtful comforts for all generations.
-      </p>
-      <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1"
-        >Learn More →</a
-      >
-    </div>
-
-    <!-- Couples -->
-    <div class=" border-zinc-200 snap-start">
-      <div class="h-48 bg-zinc-200 mb-6"></div>
-      <h4 class="font-semibold text-lg mb-3">Couples</h4>
-      <p class="text-sm text-zinc-600">
-        Intimate villas with private pools and ocean terraces.
-      </p>
-      <a href="#" class="mt-6 inline-block text-sm font-medium border-b pb-1"
-        >Learn More →</a
-      >
-    </div>
+        <p class="text-lg">
+          {service.description}
+        </p>
+      </div>
+    {/each}
   </div>
 </section>

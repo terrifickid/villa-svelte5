@@ -1,5 +1,5 @@
 <section>
-  <div class=" pb-20">
+  <div class=" py-10">
     <div>
       <p class="mt-16 text-2xl font-normal lg:text-4xl">
         Founded in 2011 by Barbadian entrepreneur Lily Dash, Villabound evolved
