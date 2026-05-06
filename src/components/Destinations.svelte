@@ -13,7 +13,7 @@
         <h2 class="text-3xl hidden">
           Explore exclusive properties in popular destinations.
         </h2>
-        <p class="mt-4 text-2xl">
+        <p class="mt-4 text-2xl bg-black p-12 text-white rounded-2xl">
           Embark on a journey of discovery as you delve into our curated
           selection of exclusive properties, all nestled within the most
           sought-after and popular destinations around the world.

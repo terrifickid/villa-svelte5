@@ -44,9 +44,9 @@
 </script>
 
 <!--  style="background-image: url(/upscaled2.jpeg)" -->
-<div class="bg-no-repeat bg-cover bg-center py-[10vh] rounded-3xl bg-gray-100">
+<div class="bg-no-repeat bg-cover bg-center py-[10vh] rounded-3xl bg-black">
   <section
-    class="overflow-hidden text-gray-600 bg-cover bg-center bg-center bg-cover"
+    class="overflow-hidden text-white bg-cover bg-center bg-center bg-cover"
   >
     <!-- Dark fade gradient overlay -->
     <div class=" inset-0 z-10">
@@ -64,7 +64,9 @@
             and exceptional amenities.
           </h2>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10"
+          >
             <div>
               <label for="location" class="flex text-sm leading-6"
                 ><svg
@@ -91,7 +93,7 @@
               <select
                 bind:value={search.country}
                 name="location"
-                class="bg-black text-white mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
+                class="bg-transparent mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
               >
                 {#each data.countries as country}
                   <option value={country}>{country}</option>
@@ -99,7 +101,7 @@
               </select>
             </div>
 
-            <div class="hidden">
+            <div>
               <label for="location" class="flex text-sm leading-6"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +122,7 @@
               <select
                 bind:value={search.minOccupancy}
                 name="guests"
-                class="bg-black text-white mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
+                class="bg-transparent mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
               >
                 <option value="1">1</option>
                 <option value="2" selected>2</option>
@@ -134,8 +136,7 @@
                 <option value="10">10</option>
               </select>
             </div>
-            <div></div>
-            <div></div>
+
             <div>
               <label for="location" class="flex text-sm leading-6">
                 <svg
@@ -155,7 +156,7 @@
               >
               <input
                 bind:value={search.checkIn}
-                class="text-white bg-black rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
+                class="bg-transparent rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
                 type="date"
                 style=" color-scheme: dark;"
               />
@@ -182,16 +183,16 @@
               <input
                 id="checkOut"
                 bind:value={search.checkOut}
-                class="text-white bg-black rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
+                class=" bg-transparent rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
                 type="date"
                 style=" color-scheme: dark;"
               />
             </div>
-            <div></div>
+
             <div>
               <button
                 type="submit"
-                class="my-5 inline-flex cursor-pointer items-center justify-center w-auto lg:px-12 px-6 py-4 text-center duration-200 bg-black text-white rounded-full focus:outline-none hover:bg-black ring-white hover:ring-bound ring-1 hover:text-white hover:bg-black"
+                class="my-5 inline-flex cursor-pointer items-center justify-center w-auto lg:px-12 px-6 py-4 text-center duration-200 bg-transparent rounded-full focus:outline-none ring-gray-300 hover:ring-bound ring-1"
               >
                 {#if searching}
                   <Spinner />
