@@ -46,7 +46,7 @@
 <section class="mx-auto py-20">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {#each services as service}
-      <div class=" bg-gray-100 rounded-2xl p-12 snap-start">
+      <div class=" bg-gray-100 rounded-2xl p-12 snap-start text-center">
         <h4 class="text-lg mb-3">
           {service.title}
         </h4>
