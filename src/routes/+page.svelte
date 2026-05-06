@@ -9,6 +9,7 @@
   import Ready from "../components/Ready.svelte";
   import Features from "../components/Features.svelte";
   import Difference from "../components/Difference.svelte";
+  import Faq from "../components/Faq.svelte";
   export let data;
 </script>
 
@@ -22,6 +23,6 @@
 </p>
 <Difference />
 <Destinations {data} />
-
+<Faq />
 <Ready />
 <About />

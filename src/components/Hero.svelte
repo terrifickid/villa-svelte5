@@ -53,8 +53,8 @@
       <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
       <div class="px-12">
         <div>
-          <h1 class="text-3xl inline-block drop-shadow-2xl md:max-w-[66%]">
-            Discover hand-selected private villas in the world's most
+          <h1 class="text-3xl inline-block drop-shadow-2xl">
+            Discover exclusive private villas<br />in the world's most
             extraordinary destinations
           </h1>
 
