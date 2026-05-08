@@ -44,7 +44,7 @@
 </script>
 
 <!--  style="background-image: url(/upscaled2.jpeg)" -->
-<div class="bg-no-repeat bg-cover bg-center py-[10vh] rounded-3xl bg-black">
+<div class="bg-no-repeat bg-cover bg-center py-24 rounded-3xl bg-black">
   <section
     class="overflow-hidden text-white bg-cover bg-center bg-center bg-cover"
   >
@@ -53,9 +53,9 @@
       <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
       <div class="px-12">
         <div>
-          <h1 class="text-3xl inline-block drop-shadow-2xl">
-            Discover exclusive private villas<br />in the world's most
-            extraordinary destinations
+          <h1 class="text-4xl inline-block drop-shadow-2xl">
+            Discover exclusive private villas in the world's most extraordinary
+            destinations
           </h1>
 
           <h2 class=" hidden my-4">
