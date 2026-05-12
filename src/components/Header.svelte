@@ -10,14 +10,14 @@
 </script>
 
 <!-- Main wrapper - full width, fixed or sticky if needed -->
-<nav class="w-full z-50 mx-auto my-5 fixed">
+<nav class="w-full z-50 mx-auto my-5 absolute">
   <div class=" text-white px-8 py-4 rounded-3xl text-sm">
-    <div class="grid grid-cols-3 flex items-center">
+    <div class="grid grid-cols-2 flex items-center">
       <a class="transition-opacity duration-300 hover:opacity-50" href="#"
-        ><img class="w-35 invert" src="/vb.png" /></a
+        ><img class="w-35" src="/vb.png" /></a
       >
 
-      <div class="bg-black rounded-2xl p-2 flex items-center">
+      <div class="bg-black rounded-2xl p-2 flex items-center hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
