@@ -4,6 +4,7 @@
   import DateOption from "../components/DateOption.svelte";
   import KeywordSearch from "../components/KeywordSearch.svelte";
   import FindYourStayButton from "../components/buttons/findYourStay.svelte";
+  import Features from "../components/Features.svelte";
   let searching = false;
   let search = {
     checkIn: getNextFriday(),
@@ -44,16 +45,16 @@
 </script>
 
 <!--  style="background-image: url(/upscaled2.jpeg)" -->
-<div class="bg-no-repeat bg-cover bg-center py-24 rounded-3xl bg-black">
+<div class="bg-no-repeat bg-cover bg-center bg-black pt-24">
   <section
-    class="overflow-hidden text-white bg-cover bg-center bg-center bg-cover"
+    class="overflow-hidden text-white bg-cover bg-center bg-center bg-cover mx-auto container max-w-6xl px-6"
   >
     <!-- Dark fade gradient overlay -->
-    <div class=" inset-0 z-10">
+    <div class=" inset-0 z-10 flex items-center min-h-screen">
       <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
       <div class="px-12">
         <div>
-          <h1 class="text-4xl inline-block drop-shadow-2xl">
+          <h1 class="text-4xl inline-block drop-shadow-2xl text-center">
             Discover exclusive private villas in the world's most extraordinary
             destinations
           </h1>
@@ -188,19 +189,20 @@
                 style=" color-scheme: dark;"
               />
             </div>
+          </div>
 
-            <div>
-              <button
-                type="submit"
-                class="my-5 inline-flex cursor-pointer items-center justify-center w-auto lg:px-12 px-6 py-4 text-center duration-200 bg-transparent rounded-full focus:outline-none ring-gray-300 hover:ring-bound ring-1"
-              >
-                {#if searching}
-                  <Spinner />
-                {:else}
-                  Search
-                {/if}
-              </button>
-            </div>
+          <div class="text-center mt-6">
+            <button
+              type="submit"
+              class="my-5 inline-flex cursor-pointer items-center justify-center w-auto lg:px-24 px-6 py-4 text-center duration-200 bg-transparent rounded-full focus:outline-none ring-gray-300 hover:ring-bound ring-1"
+            >
+              {#if searching}
+                <Spinner />
+              {:else}
+                Search
+              {/if}
+            </button>
+            <Features />
           </div>
         </div>
       </div>

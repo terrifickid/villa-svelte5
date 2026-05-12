@@ -14,15 +14,16 @@
 </script>
 
 <Hero {data} />
-<Features />
-<p class="text-2xl mt-20 bg-black p-12 rounded-2xl text-white">
-  Curated for absolute privacy, uncompromising comfort, and timeless elegance,
-  Villabound offers extraordinary retreats that capture the very best each
-  destination has to offer — from breathtaking views and world-class amenities
-  to dedicated staff, curated art, and one-of-a-kind experiences.
-</p>
-<Difference />
-<Destinations {data} />
-<Faq />
-<Ready />
-<About />
+<div class="mx-auto container max-w-6xl px-6">
+  <p class="text-2xl mt-20 bg-black p-12 rounded-2xl text-white">
+    Curated for absolute privacy, uncompromising comfort, and timeless elegance,
+    Villabound offers extraordinary retreats that capture the very best each
+    destination has to offer — from breathtaking views and world-class amenities
+    to dedicated staff, curated art, and one-of-a-kind experiences.
+  </p>
+  <Difference />
+  <Destinations {data} />
+  <Faq />
+  <Ready />
+  <About />
+</div>

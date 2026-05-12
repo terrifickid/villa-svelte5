@@ -7,10 +7,6 @@
 
 <div class="font-general">
   <Header />
-  <div class="bg-black">
-    <div class="mx-auto container max-w-6xl px-6">
-      <div class="pt-30"><slot /></div>
-      <Newsletter />
-    </div>
-  </div>
+  <slot />
+  <Newsletter />
 </div>
