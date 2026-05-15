@@ -41,54 +41,56 @@
   }
 </script>
 
-<div class="my-12">
-  <div class="space-y-4">
-    {#each faqs as faq}
-      <div
-        class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden"
-      >
-        <!-- Question Header -->
-        <button
-          on:click={() => toggle(faq.id)}
-          class="w-full px-6 py-6 flex justify-between items-center text-left group hover:bg-zinc-800 transition-all"
+<div class="min-h-screen frame flex items-center">
+  <div class="w-full">
+    <div class="space-y-4 w-full">
+      {#each faqs as faq}
+        <div
+          class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden w-full"
         >
-          <span class="text-lg font-medium text-white pr-8 leading-tight">
-            {faq.question}
-          </span>
-
-          <div
-            class="w-7 h-7 flex items-center justify-center flex-shrink-0 transition-transform duration-300 {openId ===
-            faq.id
-              ? 'rotate-180'
-              : ''}"
+          <!-- Question Header -->
+          <button
+            on:click={() => toggle(faq.id)}
+            class="w-full px-6 py-6 flex justify-between items-center text-left group hover:bg-zinc-800 transition-all"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 text-zinc-400 group-hover:text-white transition"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="3"
+            <span class="text-lg font-medium text-white pr-8 leading-tight">
+              {faq.question}
+            </span>
+
+            <div
+              class="w-7 h-7 flex items-center justify-center flex-shrink-0 transition-transform duration-300 {openId ===
+              faq.id
+                ? 'rotate-180'
+                : ''}"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </div>
-        </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 text-zinc-400 group-hover:text-white transition"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </button>
 
-        <!-- Answer -->
-        {#if openId === faq.id}
-          <div
-            transition:slide={{ duration: 250 }}
-            class="px-6 pb-7 text-zinc-400 leading-relaxed border-t border-zinc-800"
-          >
-            {faq.answer}
-          </div>
-        {/if}
-      </div>
-    {/each}
+          <!-- Answer -->
+          {#if openId === faq.id}
+            <div
+              transition:slide={{ duration: 250 }}
+              class="px-6 pb-7 text-zinc-400 leading-relaxed border-t border-zinc-800"
+            >
+              {faq.answer}
+            </div>
+          {/if}
+        </div>
+      {/each}
+    </div>
   </div>
 </div>

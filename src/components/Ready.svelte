@@ -1,4 +1,6 @@
-<section class="py-20 bg-zinc-900 text-white text-center rounded-3xl">
+<section
+  class="min-h-screen bg-zinc-900 text-white text-center flex items-center"
+>
   <div class="max-w-2xl mx-auto px-6">
     <h2 class="text-2xl sm:text-3xl lg:text-4xl font-light mb-6">
       Ready for your next private villa escape?
