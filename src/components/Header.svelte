@@ -10,8 +10,8 @@
 </script>
 
 <!-- Main wrapper - full width, fixed or sticky if needed -->
-<nav class="w-full z-50 mx-auto my-5 absolute">
-  <div class=" text-white px-8 py-4 rounded-3xl text-sm container mx-auto">
+<nav class="w-full z-50 my-5 absolute">
+  <div class=" text-white px-8 py-4 rounded-3xl text-sm frame">
     <div class="grid grid-cols-2 flex items-center">
       <a class="transition-opacity duration-300 hover:opacity-50" href="#"
         ><img class="w-35" src="/vb.png" /></a
