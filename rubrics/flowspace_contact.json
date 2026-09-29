@@ -1,0 +1,2092 @@
+{
+  "format": "mixdown2",
+  "version": "1.0",
+  "rubric_id": "flowspace_contact_v1",
+  "class": "web-design.page",
+  "intended_use": "both",
+  "source": {
+    "mode": "capture",
+    "what": "FlowSpace contact page (flowspace.framer.website/contact): a full-bleed black hero split into a 64px 'Let's connect' invitation with four icon contact rows on the left and an inline four-field enquiry form on the right, followed by a light FAQ band pairing a two-line heading with a six-row accordion, then a two-row counter-scrolling testimonial marquee of white quote cards, then the black footer. The only FlowSpace page whose hero is dark and whose body is light, and the only one carrying an accordion.",
+    "when": "2026-09-29",
+    "method": "Node + puppeteer-core driving local Chromium (ms-playwright build). Loaded at 1440x900, 834x1112, 390x844; entrance animations sampled at 100ms intervals from first paint to read durations, delays, easings and per-property keyframes before they finished; marquee animations read live (not finished) so their travel distance and direction could be measured; FAQ rows enumerated in their open and closed states; full-page and fold stills per width. Computed-style probes on the H1, section headings, contact rows, form labels, the four field wrappers, the select, the submit control, the FAQ rows and answer, the testimonial cards, ratings, quotes, avatars and the footer. Behaviour probes: viewport changes across the three widths with re-measured H1 size and field boxes.",
+    "gaps": [
+      "The FAQ was not clicked. Its six rows were enumerated in their resting states (the first open at 110px, the rest closed at 54px except a two-line question at 77px) and the open/closed transition was not triggered or timed. Whether the rows animate their height, fade the answer, or snap is unverified.",
+      "The closing 10s opacity reveal on the first FAQ answer is recorded from the animation timeline (opacity 0.001 to 1, 10000ms, 5000ms delay, cubic-bezier(0.12,0.23,0.37,1)) but its trigger is unresolved: it is registered on load and had not visibly completed during sampling. It is the same animation that appeared unexplained on the sibling home, locations and property rubrics, and this page is where its target \u2014 the first FAQ answer \u2014 was identified.",
+      "Marquee travel was measured as +-2754px in a 1440x1440 viewport at 110160ms per pass with linear easing, giving the two rows opposite directions. The exact modulus that makes the loop seamless (the repeated card count) was not resolved, and the row directions were inferred from the two sign-opposed translateX keyframe pairs rather than from watching a full cycle.",
+      "Hover and focus states were not probed on this page: the submit pill, the FAQ rows' cursor affordance, the contact rows and the nav were not exercised.",
+      "The FAQ chevron swaps between a plus glyph on closed rows and a multiplication-style cross on the open row. Both render, but whether they are two icons swapped or one rotated glyph was not determined.",
+      "The testimonial avatars are demo portraits; their image set was not inventoried. Cards are clipped at both viewport edges by the marquee, so the total card count in the loop is not visible in any single still.",
+      "The form is a demo: four select options, no submission endpoint exercised, and no validation or error states captured. The submit pill has a 48px radius against the template's usual 24px, which is recorded as measured rather than as a deliberate system choice.",
+      "The contact rows carry four entries (email, phone, hours, social handle) while the footer repeats only the first three; whether the social handle is intentionally footer-omitted or simply not repeated was not resolved.",
+      "DM Sans and Inter load with the document but render no visible text; only Plus Jakarta Sans was observed.",
+      "Wrapper nodes computing the default link blue rgb(0,0,238) appear here as on the sibling pages and are treated as not part of the design.",
+      "The H1 measures 64px at 1440w and 56px at 834w, but the breakpoint at which it steps down was not located.",
+      "Template content is placeholder: demo quotes attributed to four recurring demo names, hello@yourcoworking.com and +33 6 12 34 56 78.",
+      "Validation is partial: discrimination was measured against the three sibling FlowSpace page rubrics, but a sensitivity pass, an invariance pass and a blind re-score are not recorded on this page.",
+      "Production use requires human sign-off on this frozen file."
+    ],
+    "notes": "Fourth of four FlowSpace page rubrics, after flowspace_home_v1, flowspace_property_single_v1 and flowspace_locations_v1. This page inverts the template's default polarity: its hero is the black full-bleed band that the other pages use only for the CTA panel and footer, and its body is the light band. It is also the only FlowSpace page with an accordion, and the only one running two counter-scrolling marquees. The 64px H1 is the largest type in the template, one step above the 40px used on the sibling pages."
+  },
+  "element_inventory": [
+    {
+      "element": "nav",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "white bar over the black hero, 76px, logo plus four links plus a black CTA pill"
+    },
+    {
+      "element": "dark_hero",
+      "aspects": [
+        "layout",
+        "color",
+        "motion"
+      ],
+      "note": "full-bleed 1440x800 black band, 40px side padding, holding a two-column container"
+    },
+    {
+      "element": "h1",
+      "aspects": [
+        "layout",
+        "type",
+        "color",
+        "motion"
+      ],
+      "note": "'Let's connect' 64px/70.4px weight 500, -2.56px tracking, white, split into two word spans that blur in"
+    },
+    {
+      "element": "hero_invite",
+      "aspects": [
+        "type",
+        "copy"
+      ],
+      "note": "two-line 16px sentence in white under the H1: a question then a warm follow-up"
+    },
+    {
+      "element": "contact_rows",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "four icon+value rows at a 30px pitch: email, phone, hours, social handle; 16px white on the black hero"
+    },
+    {
+      "element": "enquiry_form",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "four fields inline on the black hero, no card behind them; 246px labels, 508px full width"
+    },
+    {
+      "element": "form_fields",
+      "aspects": [
+        "layout",
+        "type",
+        "color"
+      ],
+      "note": "translucent grey wrappers rgba(187,187,187,0.15) at 10px radius with 12px padding; black inputs with white text at 14px"
+    },
+    {
+      "element": "submit_pill",
+      "aspects": [
+        "layout",
+        "type",
+        "color"
+      ],
+      "note": "full-width 508x48 white pill at 48px radius with black 'Send your message'"
+    },
+    {
+      "element": "form_footnote",
+      "aspects": [
+        "type",
+        "copy"
+      ],
+      "note": "12px white reassurance line under the pill: 'We usually reply within a few hours. No bots \u2014 just real humans.'"
+    },
+    {
+      "element": "faq_band",
+      "aspects": [
+        "layout",
+        "structure"
+      ],
+      "note": "light band 724px tall with 160px top and 80px bottom padding; a 540px left heading column against a 540px right accordion"
+    },
+    {
+      "element": "faq_accordion",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "six white rows at 8px radius and 16px padding; 16px question weight 500 with a glyph at the right; the open row is 110px and shows a 14px answer in secondary ink"
+    },
+    {
+      "element": "testimonial_band",
+      "aspects": [
+        "layout",
+        "structure",
+        "motion"
+      ],
+      "note": "698px band whose lists are 5492px wide in a 1440px viewport, running as two marquee rows"
+    },
+    {
+      "element": "testimonial_card",
+      "aspects": [
+        "layout",
+        "type",
+        "color",
+        "imagery"
+      ],
+      "note": "white card at 16px radius and 24px padding; a filled star with a rating, a three-line 16px quote, then a 42px avatar beside the name and role"
+    },
+    {
+      "element": "footer",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "black band, 295px, 40px padding; identical to the sibling pages"
+    }
+  ],
+  "parts": [
+    {
+      "id": "dark_hero_inline_form",
+      "name": "Black hero with the form inline in its right half",
+      "kind": "move",
+      "description": "The page opens on a full-bleed black band 1440x800 and splits it into a 508px invitation column and a 508px form column with 64px between them, both inside the 1120px container. The form is not a card: there is no white panel, no border and no shadow, so the translucent grey field wrappers sit directly on black and the only white mass in the hero is the full-width submit pill. This inverts the template's usual polarity, where the dark element is a CTA panel at the foot of a light page.",
+      "entry_test": "Box the form in a white card and the hero becomes the property page's sticky rail, not this page. Leaving the fields loose on black is what makes the hero read as one continuous dark surface with a white button as its single punctuation, and it is the page's opening identity.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='Hero'] black band; the 1120px [data-framer-name='Container'] with its two 508px columns"
+      },
+      "recipe": "Full-bleed band at 1440 wide and 800 tall, background #000, padding 0 40px 40px. Inside, a 1120px flex container with two 508px columns and a 64px gap. Left column: the 64px white H1, a two-line 16px white invite with 16px of spacing, then a 64px break before the four icon contact rows at a 30px pitch. Right column: the four fields stacked with 16px between them, ending in a full-width 48px white pill and its 12px footnote. Draw no panel behind the form.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "The hero is a full-bleed black band at least a viewport tall",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The band splits into two columns of roughly equal width with a wide gutter",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "No white panel, border or shadow sits behind the form fields",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Field wrappers are translucent grey directly on the black fill",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "The submit pill is the only white mass in the hero",
+          "critical": true
+        }
+      ],
+      "evidence": [
+        "computed hero band: x0 y0 w1440 h800, background rgb(0,0,0), padding '0px 40px 40px'",
+        "computed inner container: x160 y154 w1120 h452, display flex, gap 64px",
+        "computed columns: left 'Texts' 508px at x160; right form column 508px with labels at x752",
+        "computed field wrapper: background rgba(187,187,187,0.15), radius 10px, padding 12px, no border; the input inside is transparent with white 14px text",
+        "computed submit: x752 w508 h48, background rgb(255,255,255), radius 48px \u2014 the only white fill above the FAQ"
+      ]
+    },
+    {
+      "id": "counter_scrolling_testimonial_marquee",
+      "name": "Counter-scrolling testimonial marquee",
+      "kind": "move",
+      "description": "The page's social proof is two full-bleed rows of white quote cards running in opposite directions. Each row is a list 5492px wide inside a 1440px viewport, animated linearly over 110160ms; the measured keyframes translate one list from 0 to -2754px and the other from 0 to +2754px, so the rows cross while the cards are clipped at both viewport edges. The band is 698px tall and 416px of that is the two rows.",
+      "entry_test": "Freeze the rows into a static grid and the page loses the only thing that distinguishes its social proof from the home page's. Two lists drifting opposite ways past the viewport edge is the page's closing gesture, and the clipping is what signals that the set continues beyond the screen.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='Testimpnials'] band; two UL lists measured 5492px wide"
+      },
+      "recipe": "Build two full-bleed rows, each holding a long horizontal list of quote cards with a 16px gap. Animate row one from translateX(0) to translateX(-2754px) and row two from translateX(0) to translateX(2754px), both linear, over about 110s, repeating. Let the lists overflow their 1440px viewport so cards are clipped at both edges. Duplicate the card set so the loop reads as continuous.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Two separate rows of quote cards render",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The two rows travel in opposite directions",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Each row's list is wider than the viewport and clips at both edges",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "The motion is linear and continuous, not stepped or pausing between cards",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "Both rows move slowly enough that a card is readable while passing"
+        }
+      ],
+      "evidence": [
+        "animation API read live (not finished): two UL nodes with linear transform animations of 110160ms; keyframes translateX(0px)->translateX(-2754px) and translateX(0px)->translateX(2754px)",
+        "container survey: the testimonial lists record scrollWidth 5492 against a 1440 client width, and the inner band scrollWidth 2738",
+        "section survey: Testimonials band at y1524 h698, with its list band 'Testimpnials' at y1726 h416",
+        "two rows visible in the still, the lower showing the same four quotes in a rotated order"
+      ]
+    },
+    {
+      "id": "white_row_accordion",
+      "name": "White-row accordion",
+      "kind": "move",
+      "description": "The FAQ is a stack of six white rounded rows on the light canvas, each 540px wide with an 8px radius and 16px padding, holding a 16px weight-500 question and a glyph pinned at the right edge. Exactly one row is open on load and it is taller: the measured open row is 110px against 54px for a closed one, the extra 56px carrying a 14px answer in secondary ink. The rows carry no dividers and no borders; the white fill against the near-white canvas plus the 16px gap between rows is the whole separation.",
+      "entry_test": "Strip the white fills and the six questions become a plain list with plus signs. The filled row is what makes each question a discrete thing you can open, and the single expanded row is what shows the pattern without needing a user action to demonstrate it.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='FAQ'] right column; six rows measured 540px wide at 8px radius"
+      },
+      "recipe": "Stack six rows with a 16px gap. Each row: background #fff, radius 8px, padding 16px, a flex row with the 16px/500 question at the left and a small glyph at the right. Render the answer inside the open row only, at 14px in rgba(31,31,31,0.8), about 56px below the question. Open the first row by default. Use a plus glyph on closed rows and a cross or rotated glyph on the open one.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Six white rounded rows render in a single column",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Rows are white-filled with no border or divider between them",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Exactly one row is open on load and is visibly taller",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "The open row reveals an answer in secondary ink below its question",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "A glyph sits at each row's right edge and differs between open and closed"
+        }
+      ],
+      "evidence": [
+        "computed rows enumerated: first row [data-framer-name='Open'] 540x110, background rgb(255,255,255), radius 8px, padding 16px; five [data-framer-name='Closed'] rows at 540x54",
+        "one closed row measures 77px because its question wraps to two lines",
+        "computed open answer: 14px/19.6 in rgba(31,31,31,0.8) at y1030 inside the open row",
+        "computed question: 16px/22.4 weight 500 rgb(0,0,0) at x756, with cursor pointer on the row chain",
+        "no border computes on any row; separation is the white fill plus a 16px gap"
+      ]
+    },
+    {
+      "id": "hero_word_blur_settle",
+      "name": "Two-word blur-settle headline",
+      "kind": "move",
+      "description": "The 64px headline resolves rather than appears: 'Let's' and 'connect' are separate spans, each animating opacity from 0.001 and a filter blur from 4px to 0 over 1100ms on cubic-bezier(0.12,0.23,0.17,0.98), the second word 100ms behind the first. The 64px size makes this the template's largest application of the move, and the two-word split gives it a visible stagger that the longer headlines on the sibling pages do not.",
+      "entry_test": "Drop the blur and the page's opening beat loses its only softness \u2014 this page leads with the largest type in the template, and the resolve is what stops 64px black-on-black from simply snapping on. It is the same settle move the home page runs, scaled up.",
+      "anchor": {
+        "type": "selector",
+        "value": "the h1's two word spans"
+      },
+      "recipe": "Split the H1 into one span per word. Animate each span from opacity 0.001 and filter blur(4px) to opacity 1 and blur(0), 1100ms on cubic-bezier(0.12,0.23,0.17,0.98), with the second span delayed 100ms. Keep the H1's own tracking at -2.56px so the words still read as one line.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "The H1 is split into separate word spans",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Each word animates both opacity and a blur filter",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Words cascade rather than starting together",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "The blur starts around 4px and resolves to 0"
+        },
+        {
+          "id": "c5",
+          "check": "The settle uses cubic-bezier(0.12, 0.23, 0.17, 0.98)"
+        }
+      ],
+      "evidence": [
+        "animation API sampled from first paint: two spans ('Let's', 'connect') with filter blur(4px)->blur(0px) and opacity 0.001->1, each 1100ms",
+        "delays recorded 0ms and 100ms on the two spans",
+        "easing recorded cubic-bezier(0.12, 0.23, 0.17, 0.98) on all four span animations",
+        "settled state: both spans at opacity 1 and blur(0px)"
+      ]
+    },
+    {
+      "id": "icon_contact_rows",
+      "name": "Icon contact rows",
+      "kind": "component",
+      "description": "The hero's left column lists four ways to reach the studio as icon-plus-value rows at a 30px pitch: email, phone, opening hours and the social handle. Each row is a flex pair with an 8px gap and a line icon at the left; the values are 16px weight 400 in white, sitting below a 64px break from the invite copy.",
+      "anchor": {
+        "type": "selector",
+        "value": "the four rows at x160 from y422 to y513 in the hero's left column"
+      },
+      "recipe": "Stack four rows with about 30px of vertical pitch. Each row is a flex pair: a small line icon then the value at 16px/22.4 weight 400 in white, with an 8px gap. Set the block about 64px below the invite paragraph. Use one icon per row type: envelope, phone, clock, social mark.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Four contact rows render with distinct icons",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Each row pairs an icon with a plain value, no label prefix",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Values are white 16px weight 400",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Rows sit at an even vertical pitch of about 30px"
+        }
+      ],
+      "evidence": [
+        "computed rows: 'hello@yourcoworking.com' x160 y422; '+33 6 12 34 56 78' y452; 'Mon\u2013Fri, 9am to 6pm' y483; '@yourcoworking' y513",
+        "derived pitch 30-31px; all rows display flex with gap 8px",
+        "computed text: 16px/22.4 weight 400 rgb(255,255,255)",
+        "the block begins at y422 against the invite paragraph ending at y358 \u2014 a 64px break"
+      ]
+    },
+    {
+      "id": "stacked_dark_form_fields",
+      "name": "Translucent fields and a full-width submit",
+      "kind": "component",
+      "description": "The hero form's four fields are structural repeats of the property page's: each input sits in a translucent grey wrapper at 10px radius with 12px padding, and the input itself is transparent with no border. What differs is the arrangement and the payload -- Name and Email share a row as two 246px fields, the select and the textarea run full width at 508px, and the submit is a full-width 48px white pill at 48px radius, twice the template's usual 24px, with a 12px footnote under it.",
+      "anchor": {
+        "type": "selector",
+        "value": "the form column at x752; four .framer-form-input-wrapper fields plus the submit"
+      },
+      "recipe": "In the right column of the hero, place Name and Email side by side as two 246px fields with a 16px gap, then the select and textarea full width at 508px. Each field is a 12px white label over a 10px-gap, then a wrapper with background rgba(187,187,187,0.15), radius 10px and 12px padding holding a transparent borderless 14px black input with white text. Submit: full width, 48px tall, white fill, black label, 48px radius. Add the 12px footnote 24px below.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Name and Email share one row; the select and message run full width",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Field wrappers are translucent grey at a 10px radius with no border",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Labels sit above their fields at 12px in white",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "The submit is a full-width white pill",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "A small footnote renders directly under the submit pill"
+        }
+      ],
+      "evidence": [
+        "computed labels: 'Name' x752 w246; 'Email' x1014 w246; 'What can we help you with?' x752 w508; 'Message' x752 w508 \u2014 all 12px with a 10px gap",
+        "computed input wrappers: background rgba(187,187,187,0.15), radius 10px, padding 12px, border 0",
+        "computed inputs: transparent, no border, 14px, white text; select colour rgb(153,153,153) in its unset state",
+        "computed submit: x752 y499 w508 h48, background rgb(255,255,255), radius 48px",
+        "computed footnote: 12px/14.4 white at y571, 22px below the pill's bottom edge"
+      ]
+    },
+    {
+      "id": "testimonial_card",
+      "name": "Star-rated quote card",
+      "kind": "component",
+      "description": "Each testimonial is a 320x200 white card at 16px radius with 24px padding, holding a filled star beside a numeric rating, a three-line quote, and a footer row with a 42px round avatar beside the name over the role. The quote sits in secondary ink at 16px while the name is black at 16px weight 500 and the role is 14px muted, so a card carries three distinct type registers in 200px.",
+      "anchor": {
+        "type": "selector",
+        "value": "a card in either marquee row; measured 320x200 at 16px radius"
+      },
+      "recipe": "Card: 320x200, background #fff, radius 16px, padding 24px, flex column. Top: a filled star glyph then the rating at 16px/500. Middle: the quote at 16px/22.4 in rgba(31,31,31,0.8), wrapped in straight double quotes and free to run three lines. Bottom: a flex row with a 42px round avatar, a 12px gap, then the name at 16px/500 over the role at 14px in secondary ink.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "A filled star and a numeric rating head each card",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The quote is set in secondary ink, not black",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "A round avatar sits beside the name and role in a footer row",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Cards measure about 320x200 with a 16px radius and 24px padding",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "The name is weight 500 and the role is a smaller muted line"
+        }
+      ],
+      "evidence": [
+        "computed card: w320 h200, radius 16px, padding 24px, display flex (background transparent at the wrapper, white on the inner surface)",
+        "computed card children: a text block 272x98 with an 8px gap, and a 'Client' row 272x42 with a 12px gap",
+        "computed rating '4.9': 16px/22.4 weight 500 rgb(0,0,0) at x44 y1782",
+        "computed quote: 16px/22.4 weight 400 rgba(31,31,31,0.8) at x24 y1813, height 67px (three lines)",
+        "computed author 'Liam R.': 16px/22.4 weight 500 at x72 y1892; role 'Startup Founder': 14px/19.6 rgba(31,31,31,0.8) at y1915; avatar occupies the 42px beside them"
+      ]
+    },
+    {
+      "id": "split_heading_band",
+      "name": "Left heading against a right column",
+      "kind": "component",
+      "description": "Both the FAQ and the testimonial bands open the same way: a heading and a supporting line held in the left 540px of the container while the section's working content occupies the right. The FAQ heading wraps to two lines at 40px with its paragraph beneath; the testimonial heading is a single centred line above its marquee instead, so the pattern is used once split and once full width.",
+      "anchor": {
+        "type": "selector",
+        "value": "the FAQ band's left column (540px) and the testimonial band's centred heading"
+      },
+      "recipe": "For the FAQ: a 540px left column holding an h2 at 40px/48px weight 500 over a 16px paragraph in secondary ink, with the accordion in a 540px right column and 40px between them. For the testimonials: an h2 at 40px and its 16px line, both centred across the full container, above the marquee rows.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Section headings render at about 40px weight 500",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The FAQ heading sits in a left column with its content to the right",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Each heading is followed by a 16px supporting line in secondary ink"
+        },
+        {
+          "id": "c4",
+          "check": "The testimonial heading is centred rather than columned"
+        }
+      ],
+      "evidence": [
+        "computed FAQ h2: x160 y960 w540 h96, 40px/48px weight 500, -1.2px tracking (two lines)",
+        "computed FAQ paragraph: x160 y1068 w540, 16px/22.4 rgba(31,31,31,0.8)",
+        "computed accordion column: x740 w540 \u2014 a 40px gutter from the heading column",
+        "computed testimonial h2 at y1620 and its line at y1664 w1120, both spanning the container"
+      ]
+    },
+    {
+      "id": "inverted_footer",
+      "name": "Black footer bookend",
+      "kind": "component",
+      "description": "The page closes on the full-bleed black footer band, 295px tall with 40px padding, carrying the brand lockup and tagline at the left and three link columns at the right. Because this page's hero is also black, the footer and the hero bracket the light middle and the page reads as a dark-light-dark sandwich rather than the light-dark sequence of its siblings.",
+      "anchor": {
+        "type": "selector",
+        "value": "full-bleed black band at the bottom of the document"
+      },
+      "recipe": "Full-bleed band, background #000, 40px padding, about 295px tall. Left: logo plus a 14px white tagline. Right: three columns headed Navigation / Socials / Contact with 14px white links and icon-prefixed contact rows, then a credit line.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "The footer is a full-bleed black band matching the hero's fill",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Footer text is white on black",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Three link columns render: Navigation, Socials, Contact"
+        },
+        {
+          "id": "c4",
+          "check": "The band measures about 295px tall"
+        }
+      ],
+      "evidence": [
+        "section survey: footer band at y2222 h295, background rgb(0,0,0), padding 40px, full 1440px width",
+        "computed footer links 14px white; contact rows prefixed with icons at x1077",
+        "the footer fill matches the hero's rgb(0,0,0), giving the page a dark band at both ends"
+      ]
+    }
+  ],
+  "aspects": [
+    {
+      "id": "layout",
+      "scales": [
+        {
+          "id": "density",
+          "poles": [
+            "airy",
+            "packed"
+          ],
+          "value": 4.5,
+          "evidence": [
+            "the hero gives a 508px column to four contact rows and another 508px to a four-field form, both inside a 452px-tall container set in an 800px band; the FAQ band adds 160px of top padding for a heading and six rows",
+            "the page runs 2517px and the middle third is mostly the marquee band's own whitespace, so nothing crowds, but nor is there the single-block-per-viewport openness of the home page"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "grid_discipline",
+          "poles": [
+            "free-form",
+            "strict grid"
+          ],
+          "value": 8.0,
+          "evidence": [
+            "the 1120px container holds every band; the hero splits into two exact 508px columns with a 64px gutter, the FAQ into two 540px columns with a 40px gutter, the four fields land on x752/x1014 and x752/x1260, and the FAQ rows all measure 540px",
+            "the testimonial marquee deliberately breaks the grid by extending past the container into the viewport and clipping at both edges"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "symmetry",
+          "poles": [
+            "asymmetric",
+            "centered"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "the page is left-aligned in its hero and FAQ, with each band split into two unequal-purpose columns rather than centred",
+            "the testimonial heading is the single centred exception, sitting above a symmetric pair of marquee rows, which lifts the reading above pure asymmetry"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "container_width",
+          "slot": "container_width",
+          "kind": "number",
+          "value": 1120,
+          "evidence": [
+            "computed inner container x160 w1120 on a 1440px viewport; both h2 headings measure 1120 wide at the testimonials"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "hero_height",
+          "slot": "hero_height",
+          "kind": "number",
+          "value": 800,
+          "evidence": [
+            "computed hero band x0 y0 w1440 h800, matching one 900px-minus-nav viewport at the capture size"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "hero_column_width",
+          "slot": "hero_column_width",
+          "kind": "number",
+          "value": 508,
+          "evidence": [
+            "computed hero columns: left [data-framer-name='Texts'] 508px at x160; right form column with fields at x752 w508 and labels x752 w246 / x1014 w246"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "hero_gutter",
+          "slot": "hero_gutter",
+          "kind": "number",
+          "value": 64,
+          "evidence": [
+            "computed container display flex with gap 64px; 160+508=668 against the right column at 752 gives 84px including padding, and the declared gap is 64px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 15
+        },
+        {
+          "id": "hero_side_padding",
+          "slot": "hero_side_padding",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "computed hero padding '0px 40px 40px'"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "faq_column_width",
+          "slot": "faq_column_width",
+          "kind": "number",
+          "value": 540,
+          "evidence": [
+            "computed FAQ h2 x160 w540; accordion rows all measure 540px at x740"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "faq_gutter",
+          "slot": "faq_gutter",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "derived: accordion column x740 minus the heading column's right edge 700 = 40px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "faq_row_radius",
+          "slot": "faq_row_radius",
+          "kind": "number",
+          "value": 8,
+          "evidence": [
+            "computed FAQ rows radius 8px on a 540px box, the page's only 8px radius"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "form_row_gap",
+          "slot": "form_row_gap",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "derived: Name field at x752 w246 and Email at x1014 w246 leaves 16px; select at x752 w508 and textarea at x752 w508 are full width"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "submit_height",
+          "slot": "submit_height",
+          "kind": "number",
+          "value": 48,
+          "evidence": [
+            "computed submit pill x752 y499 w508 h48"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "submit_radius",
+          "slot": "submit_radius",
+          "kind": "number",
+          "value": 48,
+          "evidence": [
+            "computed submit pill border-radius 48px on a 48px-tall box, i.e. a fully rounded capsule"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "testimonial_card_size",
+          "slot": "testimonial_card_size",
+          "kind": "enum",
+          "value": [
+            "320x200"
+          ],
+          "evidence": [
+            "computed testimonial card w320 h200 with 24px padding"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "testimonial_gap",
+          "slot": "testimonial_gap",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "cards in both marquee rows sit 16px apart in the still and the band's card rows declare a 16px gap"
+          ],
+          "unit": "px",
+          "tolerance_pct": 15
+        },
+        {
+          "id": "section_padding",
+          "slot": "section_padding",
+          "kind": "number",
+          "value": 80,
+          "evidence": [
+            "section survey: FAQ pads 160px top and 80px bottom; Testimonials pads 80px top and bottom; the hero pads 40px at the bottom"
+          ],
+          "unit": "px",
+          "tolerance_pct": 25
+        },
+        {
+          "id": "footer_height",
+          "slot": "footer_height",
+          "kind": "number",
+          "value": 295,
+          "evidence": [
+            "section survey: footer band at y2222 h295 with 40px padding"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "card_radius",
+          "slot": "card_radius",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "testimonial cards and field wrappers compute 16px and 10px respectively; testimonial cards measure 16px"
+          ],
+          "unit": "px"
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the hero is a full-bleed black band about 800px tall holding two 508px columns with a 64px gutter"
+        },
+        {
+          "kind": "always",
+          "rule": "all content except the hero and footer sits inside the 1120px container"
+        },
+        {
+          "kind": "never",
+          "rule": "a row radius other than 8px on the FAQ or a card radius other than 16px on testimonials"
+        },
+        {
+          "kind": "never",
+          "rule": "the marquee confined to the container; it must run past both viewport edges"
+        }
+      ],
+      "directives": [
+        "lay the hero as a 1440x800 black band with 40px side padding containing a 1120px flex row: 508px of invitation, a 64px gutter, 508px of form",
+        "split the FAQ into a 540px heading column and a 540px accordion column with a 40px gutter",
+        "run the testimonial rows full bleed so cards clip at both viewport edges",
+        "set the submit pill to the full field width at 48px tall and 48px radius, and keep testimonial cards at 320x200 with 24px padding"
+      ]
+    },
+    {
+      "id": "structure",
+      "scales": [
+        {
+          "id": "hierarchy_depth",
+          "poles": [
+            "flat",
+            "deep"
+          ],
+          "value": 4.0,
+          "evidence": [
+            "three heading levels: a 64px H1, two 40px H2s, and no H3; per card the nesting stops at card -> quote -> avatar row",
+            "the FAQ answers add a text level inside a row, which is the deepest the page goes"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "rhythm",
+          "poles": [
+            "uniform",
+            "syncopated"
+          ],
+          "value": 6.0,
+          "evidence": [
+            "the page alternates polarity hard: an 800px black hero, a 724px light FAQ, a 698px light testimonial band with a moving interior, then a 295px black footer",
+            "the two light bands carry the same split-or-centred heading opening and the same 80px bottom padding, so the middle is even while the poles are abrupt"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "component_voice",
+          "poles": [
+            "borderless",
+            "framed"
+          ],
+          "value": 4.0,
+          "evidence": [
+            "the page's two structural sets are deliberately unframed: the hero form has no panel behind it and the testimonial marquee has no container, both sitting directly on their ground",
+            "against that, the six FAQ rows are white-filled rounded rows that read as framed, and the submit is a solid capsule, so the page sits just under the midpoint"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "section_order",
+          "slot": "section_order",
+          "kind": "enum",
+          "value": [
+            "nav",
+            "dark_hero",
+            "faq",
+            "testimonials",
+            "footer"
+          ],
+          "evidence": [
+            "section survey in document order: Hero (y0 h800) -> FAQ (y800 h724) -> Testimonials (y1524 h698) -> footer (y2222 h295)",
+            "text export order matches: nav, Let's connect, invite, contact details, form, footnote, Quick answers, six questions with the first answered, Still unsure, quotes, footer"
+          ],
+          "usage": "Drive band order from this list. The form is not a band: it lives inside the hero's right column."
+        },
+        {
+          "id": "section_count",
+          "slot": "section_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "four surveyed bands: the dark hero, the FAQ, the testimonials and the footer (plus the fixed nav)"
+          ]
+        },
+        {
+          "id": "heading_levels",
+          "slot": "heading_levels",
+          "kind": "enum",
+          "value": [
+            "h1",
+            "h2"
+          ],
+          "evidence": [
+            "document query returns one h1 ('Let's connect') and two h2s ('Quick answers before you reach out', 'Still unsure? Here's what our members say.'); the h3 query returns empty"
+          ],
+          "usage": "No h3 on the page; FAQ questions are 16px text inside their rows, not headings."
+        },
+        {
+          "id": "faq_row_count",
+          "slot": "faq_row_count",
+          "kind": "number",
+          "value": 6,
+          "evidence": [
+            "six FAQ rows enumerate: Can I visit before signing up?, What are your opening hours?, What's the difference between a hot desk and a dedicated desk?, Are pets allowed?, Is the Wi-Fi really that fast?, Can I switch plans later on?"
+          ]
+        },
+        {
+          "id": "faq_open_count",
+          "slot": "faq_open_count",
+          "kind": "number",
+          "value": 1,
+          "evidence": [
+            "row states enumerate as one [data-framer-name='Open'] and five [data-framer-name='Closed']; the first is open on load"
+          ],
+          "usage": "The first row is open by default, so the pattern is visible without interaction."
+        },
+        {
+          "id": "contact_row_count",
+          "slot": "contact_row_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "four rows measured in the hero at y422/452/483/513: email, phone, hours, social handle"
+          ]
+        },
+        {
+          "id": "form_field_count",
+          "slot": "form_field_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "Name, Email, 'What can we help you with?' and Message render in the form"
+          ]
+        },
+        {
+          "id": "testimonial_row_count",
+          "slot": "testimonial_row_count",
+          "kind": "number",
+          "value": 2,
+          "evidence": [
+            "two marquee rows render, the lower showing the same four quotes in a rotated order"
+          ]
+        },
+        {
+          "id": "testimonial_unique_quotes",
+          "slot": "testimonial_unique_quotes",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "four distinct quotes and four authors recur throughout both rows (Liam R., Nora G., Tom & Aisha, Zoe D., all titled Startup Founder)"
+          ],
+          "usage": "The marquee repeats one small set rather than extending it."
+        },
+        {
+          "id": "marquee_list_width",
+          "slot": "marquee_list_width",
+          "kind": "number",
+          "value": 5492,
+          "evidence": [
+            "container survey: the testimonial lists record scrollWidth 5492 against a 1440 client width"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the hero precedes the FAQ, which precedes the testimonials, which precede the footer"
+        },
+        {
+          "kind": "always",
+          "rule": "exactly one FAQ row is open on load"
+        },
+        {
+          "kind": "always",
+          "rule": "the marquee duplicates a small card set rather than extending it with new content"
+        },
+        {
+          "kind": "never",
+          "rule": "a heading level below h2"
+        }
+      ],
+      "directives": [
+        "order the bands nav, dark hero, FAQ, testimonials, footer",
+        "give the page one h1 and two h2s and no h3; keep FAQ questions as 16px row text",
+        "open the first of six FAQ rows on load and leave the other five closed",
+        "run the testimonials as two marquee rows repeating the same four quotes"
+      ]
+    },
+    {
+      "id": "type",
+      "scales": [
+        {
+          "id": "scale_contrast",
+          "poles": [
+            "even",
+            "dramatic"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "the page runs a 64 / 40 / 16 / 14 / 12 scale, and the 64px H1 against the 16px body is a 4x step \u2014 the largest on any FlowSpace page, where the siblings top out at 40px",
+            "below the H1 the steps are gentle: 40 to 16 is 2.5x, and 16 leading down to 14 and 12 keeps a long middle"
+          ],
+          "confidence": "high",
+          "note": "The 64px headline is the discriminator: without it this page's type system would score with its siblings."
+        },
+        {
+          "id": "weight_voice",
+          "poles": [
+            "light",
+            "heavy"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "a two-weight system: 400 for body, invites, contact rows, quotes, roles and filter labels; 500 for the H1, both h2s, FAQ questions, card names, ratings, button labels and the nav CTA",
+            "nothing renders heavier than 500, so 500 at 64px is the page's loudest moment rather than a bolder weight"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "family_register",
+          "poles": [
+            "editorial",
+            "utilitarian"
+          ],
+          "value": 4.0,
+          "evidence": [
+            "one geometric sans, Plus Jakarta Sans, on every visible node; DM Sans and Inter load but render nothing",
+            "neutral-product register throughout: no serif, no display face, no italic in any captured state"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "tracking_case",
+          "poles": [
+            "sentence-case",
+            "all-caps/wide"
+          ],
+          "value": 0.5,
+          "evidence": [
+            "every visible string is sentence or title case; textTransform computes none and no uppercase string appears in the text export",
+            "tracking is negative and scales with size: -2.56px on the 64px H1 (-4%), -1.2px on the 40px headings (-3%), normal below that"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "font_family",
+          "slot": "font_family",
+          "kind": "identity",
+          "value": "Plus Jakarta Sans",
+          "evidence": [
+            "computed font-family on the H1, both h2s, contact rows, form labels, FAQ rows, testimonial cards and footer links"
+          ],
+          "usage": "Identity value: resolve to Plus Jakarta Sans; the Placeholder entry is Framer's fallback alias."
+        },
+        {
+          "id": "h1_size",
+          "slot": "h1_size",
+          "kind": "number",
+          "value": 64,
+          "evidence": [
+            "computed H1 'Let's connect' 64px with line-height 70.4px on a 508x70 box at desktop; the same H1 measures 56px at 834w"
+          ],
+          "unit": "px",
+          "usage": "The largest type in the template."
+        },
+        {
+          "id": "h1_line_height",
+          "slot": "h1_line_height",
+          "kind": "number",
+          "value": 70.4,
+          "evidence": [
+            "computed line-height 70.4px on the 64px H1, i.e. 1.1"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "h1_tracking",
+          "slot": "h1_tracking",
+          "kind": "number",
+          "value": -2.56,
+          "evidence": [
+            "computed letter-spacing -2.56px on the 64px H1, i.e. -4% of size"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "h1_responsive_size",
+          "slot": "h1_responsive_size",
+          "kind": "number",
+          "value": 56,
+          "evidence": [
+            "re-measured at an 834px viewport: the H1 computes 56px with -2.24px tracking"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5,
+          "usage": "Recorded so the step-down is reproducible; the exact breakpoint was not located."
+        },
+        {
+          "id": "section_heading_size",
+          "slot": "section_heading_size",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "computed both h2s at 40px with a 48px line height"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "section_heading_tracking",
+          "slot": "section_heading_tracking",
+          "kind": "number",
+          "value": -1.2,
+          "evidence": [
+            "computed letter-spacing -1.2px on both 40px h2s, i.e. -3% of size"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "body_size",
+          "slot": "body_size",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "computed invite, contact rows, FAQ questions, quotes, card names and form labels at 16px"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "body_line_height",
+          "slot": "body_line_height",
+          "kind": "number",
+          "value": 22.4,
+          "evidence": [
+            "computed line-height 22.4px on 16px text, i.e. 1.4"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "secondary_size",
+          "slot": "secondary_size",
+          "kind": "number",
+          "value": 14,
+          "evidence": [
+            "computed FAQ answers, testimonial roles and the select control at 14px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "label_size",
+          "slot": "label_size",
+          "kind": "number",
+          "value": 12,
+          "evidence": [
+            "computed form labels at 12px with a 14.4px line height; the submit footnote is also 12px"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "font_weights",
+          "slot": "font_weights",
+          "kind": "enum",
+          "value": [
+            "400",
+            "500"
+          ],
+          "evidence": [
+            "visible-weight census: 400 for body, invites, contact rows, quotes and roles; 500 for the H1, h2s, FAQ questions, card names, ratings and controls"
+          ]
+        },
+        {
+          "id": "hero_ink",
+          "slot": "hero_ink",
+          "kind": "identity",
+          "value": "rgb(255,255,255)",
+          "evidence": [
+            "computed H1, invite, contact rows, form labels, input text and footnote all rgb(255,255,255) on the black hero"
+          ],
+          "usage": "Identity value: everything on the hero is pure white, including the 12px footnote."
+        },
+        {
+          "id": "canvas_ink",
+          "slot": "canvas_ink",
+          "kind": "identity",
+          "value": "rgb(0,0,0)",
+          "evidence": [
+            "computed FAQ and testimonial h2s, FAQ questions, ratings and card names rgb(0,0,0) on the light canvas"
+          ],
+          "usage": "Identity value: pure black on the light bands."
+        },
+        {
+          "id": "secondary_ink",
+          "slot": "secondary_ink",
+          "kind": "identity",
+          "value": "rgba(31,31,31,0.8)",
+          "evidence": [
+            "computed FAQ paragraph, FAQ answer, testimonial quote and role all rgba(31,31,31,0.8)"
+          ],
+          "usage": "Identity value: the single secondary ink, reused across all three light-band registers."
+        },
+        {
+          "id": "select_placeholder_ink",
+          "slot": "select_placeholder_ink",
+          "kind": "identity",
+          "value": "rgb(153,153,153)",
+          "evidence": [
+            "computed select colour rgb(153,153,153) in its unset state on the black hero"
+          ],
+          "usage": "Identity value: the grey that marks an untouched field, identical to the sibling pages."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the H1 is the largest type on the page at 64px, a full step above the 40px section headings"
+        },
+        {
+          "kind": "always",
+          "rule": "display type carries negative tracking proportional to size (-4% at 64px, -3% at 40px)"
+        },
+        {
+          "kind": "always",
+          "rule": "nothing on the page renders heavier than 500"
+        },
+        {
+          "kind": "never",
+          "rule": "uppercase, small caps or wide tracking anywhere"
+        },
+        {
+          "kind": "never",
+          "rule": "a heading size between 16px and 40px"
+        }
+      ],
+      "directives": [
+        "set Plus Jakarta Sans across the page; body 400, display and controls 500, nothing heavier than 500",
+        "set the H1 to 64px/70.4px with -2.56px tracking, and both section headings to 40px/48px with -1.2px",
+        "set everything on the black hero to pure white and everything on the light bands to pure black over rgba(31,31,31,0.8) for support text",
+        "hold body copy at 16px/22.4, answers and roles at 14px, and labels and the footnote at 12px"
+      ]
+    },
+    {
+      "id": "color",
+      "scales": [
+        {
+          "id": "base_polarity",
+          "poles": [
+            "light canvas",
+            "dark canvas"
+          ],
+          "value": 5.5,
+          "evidence": [
+            "this page inverts the template's default: the 800px hero is full-bleed black and so is the 295px footer, leaving a 1095px light middle, so neither polarity dominates",
+            "the palette census returns rgb(0,0,0) 1062 times against rgb(255,255,255) 179, but that count is text nodes and zero-size wrappers; by filled area the black hero is 800 of 2517px and the white bands hold the rest"
+          ],
+          "confidence": "high",
+          "note": "This is the only FlowSpace page whose hero is dark; the siblings run light heroes with dark bookends."
+        },
+        {
+          "id": "temperature",
+          "poles": [
+            "cool",
+            "warm"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "every interface surface is neutral: pure black, pure white and neutral alpha greys, with no hue in the chrome",
+            "no photography appears in the interface at all, so unlike the sibling pages even the warmth is absent \u2014 the only colour anywhere is the star glyph and the demo avatar portraits"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "chroma",
+          "poles": [
+            "muted",
+            "vivid"
+          ],
+          "value": 0.5,
+          "evidence": [
+            "the interface is fully desaturated: no accent on the form, the FAQ glyphs, the ratings or the marquee",
+            "the computed non-neutral list is three near-transparent values \u2014 rgba(255,255,255,0), rgba(255,255,255,0.01) and the field fill rgba(187,187,187,0.15)",
+            "there is no accent hex, which is the finding"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "palette_width",
+          "poles": [
+            "singular/duo",
+            "many hues"
+          ],
+          "value": 1.0,
+          "evidence": [
+            "two surfaces, black and white, plus one secondary ink and one translucent field fill; no third hue exists",
+            "the page is the narrowest palette of the four FlowSpace rubrics because it carries no imagery to widen it"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "contrast",
+          "poles": [
+            "soft",
+            "hard"
+          ],
+          "value": 9.0,
+          "evidence": [
+            "pure white 400-weight body text on pure black; pure black 500-weight questions on white rows; a white capsule submit against the black hero; and a footnote at 12px that is still pure white",
+            "the only soft pairings are the secondary ink at rgba(31,31,31,0.8) on white and the select's rgb(153,153,153) placeholder on the translucent field, both of which remain legible"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "surface_finish",
+          "poles": [
+            "flat",
+            "decorated"
+          ],
+          "value": 1.0,
+          "evidence": [
+            "every surface is a flat fill: no gradient anywhere on the page, no shadow on any card or pill, and no texture",
+            "unlike the sibling pages this one carries no image scrim either, so there is no gradient in the entire file"
+          ],
+          "confidence": "high",
+          "note": "Lower than the siblings (1.5) because the absence of photography removes the scrim that was their only gradient."
+        }
+      ],
+      "values": [
+        {
+          "id": "canvas",
+          "slot": "canvas",
+          "kind": "identity",
+          "value": "rgb(255,255,255)",
+          "evidence": [
+            "computed light band background rgb(255,255,255) behind the FAQ and testimonials"
+          ],
+          "usage": "Identity value: pure white canvas for the middle bands."
+        },
+        {
+          "id": "dark_surface",
+          "slot": "dark_surface",
+          "kind": "identity",
+          "value": "rgb(0,0,0)",
+          "evidence": [
+            "computed hero band background rgb(0,0,0) and footer background rgb(0,0,0)"
+          ],
+          "usage": "Identity value: the hero and footer share the ink hex; the page bookends itself in pure black."
+        },
+        {
+          "id": "hero_ink",
+          "slot": "hero_ink",
+          "kind": "identity",
+          "value": "rgb(255,255,255)",
+          "evidence": [
+            "computed H1, invite, contact rows, labels, input text and footnote on the hero"
+          ],
+          "usage": "Identity value: all text on the dark surface is pure white."
+        },
+        {
+          "id": "ink",
+          "slot": "ink",
+          "kind": "identity",
+          "value": "rgb(0,0,0)",
+          "evidence": [
+            "computed FAQ h2, questions, ratings and card names on the light bands"
+          ],
+          "usage": "Identity value: pure black on the canvas."
+        },
+        {
+          "id": "secondary_ink",
+          "slot": "secondary_ink",
+          "kind": "identity",
+          "value": "rgba(31,31,31,0.8)",
+          "evidence": [
+            "computed FAQ paragraph, FAQ answer, quote text and testimonial roles"
+          ],
+          "usage": "Identity value: black at 80% alpha, shared with the sibling pages."
+        },
+        {
+          "id": "field_fill",
+          "slot": "field_fill",
+          "kind": "identity",
+          "value": "rgba(187,187,187,0.15)",
+          "evidence": [
+            "computed .framer-form-input-wrapper background on all four hero fields"
+          ],
+          "usage": "Identity value: translucent grey over black, never a solid hex."
+        },
+        {
+          "id": "faq_row_fill",
+          "slot": "faq_row_fill",
+          "kind": "identity",
+          "value": "rgb(255,255,255)",
+          "evidence": [
+            "computed FAQ row background rgb(255,255,255) on the white canvas, separated only by its fill and the 16px gap"
+          ],
+          "usage": "Identity value: rows are white-on-white with no border; the fill is what defines them."
+        },
+        {
+          "id": "shadow_usage",
+          "slot": "shadow_usage",
+          "kind": "enum",
+          "value": [
+            "none"
+          ],
+          "evidence": [
+            "no box-shadow computes on any FAQ row, testimonial card or the submit pill"
+          ],
+          "usage": "The absence is the rule: no elevation anywhere on this page."
+        },
+        {
+          "id": "accent_hue",
+          "slot": "accent_hue",
+          "kind": "enum",
+          "value": [
+            "none"
+          ],
+          "evidence": [
+            "the non-neutral colour census lists only near-transparent whites and the field fill; no accent renders on any control or state"
+          ],
+          "usage": "The absence is the rule: do not add an accent when generating from this rubric."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the page is bookended in pure black: a full-bleed black hero and a full-bleed black footer around light middle bands"
+        },
+        {
+          "kind": "always",
+          "rule": "all text on the black surface is pure white, including the 12px footnote"
+        },
+        {
+          "kind": "always",
+          "rule": "FAQ rows are white on a white canvas, defined by their fill and the gap rather than a border"
+        },
+        {
+          "kind": "never",
+          "rule": "an accent or brand hue on the form, the accordion glyphs or the ratings"
+        },
+        {
+          "kind": "never",
+          "rule": "a shadow or gradient on any surface"
+        }
+      ],
+      "directives": [
+        "fill the hero and the footer with #000 and the FAQ and testimonial bands with #fff",
+        "set every string on the black surface to pure white and every string on the light bands to #000 or rgba(31,31,31,0.8)",
+        "fill the form fields with rgba(187,187,187,0.15) and use rgb(153,153,153) only for the untouched select",
+        "render FAQ rows as white fills with no border and no shadow"
+      ]
+    },
+    {
+      "id": "motion",
+      "scales": [
+        {
+          "id": "energy",
+          "poles": [
+            "still",
+            "kinetic"
+          ],
+          "value": 7.0,
+          "evidence": [
+            "the page never stops: two full-bleed testimonial marquees run continuously on linear 110-second loops, travelling 2754px per pass, while the hero headline blurs in and the first FAQ answer runs its own 10-second fade",
+            "measured live at settle: the marquee lists are still animating with currentTime values across their cycles, unlike the sibling pages whose animations all complete",
+            "this is the most continuously kinetic of the four FlowSpace pages, higher than the home page's marquees because here there are two rows running in opposite directions"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "temperament",
+          "poles": [
+            "functional",
+            "expressive"
+          ],
+          "value": 6.0,
+          "evidence": [
+            "the entrance is expressive \u2014 a 64px headline resolving word by word from a 4px blur on the template's settle curve, over 1100ms per word",
+            "the marquees are the page's expressive core: two rows crossing in opposite directions purely to create the sense of a crowd, carrying no information a static row would not",
+            "against that, the easing is linear on the loops and no hover transform exists, so the motion is expressive in intent but mechanically simple"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "marquee_duration",
+          "slot": "marquee_duration",
+          "kind": "number",
+          "value": 110160,
+          "evidence": [
+            "animation API read live: both marquee lists carry a 110160ms linear transform animation"
+          ],
+          "unit": "ms",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "marquee_travel",
+          "slot": "marquee_travel",
+          "kind": "number",
+          "value": 2754,
+          "evidence": [
+            "keyframes: one list translates from translateX(0px) to translateX(-2754px), the other from 0 to +2754px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "marquee_direction_pair",
+          "slot": "marquee_direction_pair",
+          "kind": "enum",
+          "value": [
+            "row1 left (-2754px)",
+            "row2 right (+2754px)"
+          ],
+          "evidence": [
+            "the two UL nodes carry sign-opposed translateX keyframe pairs, so the rows counter-scroll"
+          ],
+          "usage": "Opposite directions, not a single shared direction."
+        },
+        {
+          "id": "marquee_easing",
+          "slot": "marquee_easing",
+          "kind": "identity",
+          "value": "linear",
+          "evidence": [
+            "both marquee animations record easing linear with iterations null (an open-ended running loop)"
+          ],
+          "usage": "Identity value: the loops are linear; only the entrances use the settle curve."
+        },
+        {
+          "id": "h1_blur_from",
+          "slot": "h1_blur_from",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "H1 word-span keyframes: filter blur(4px) -> blur(0px)"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "h1_word_duration",
+          "slot": "h1_word_duration",
+          "kind": "number",
+          "value": 1100,
+          "evidence": [
+            "both H1 word spans animate for 1100ms, longer than the 800ms used on the sibling pages"
+          ],
+          "unit": "ms"
+        },
+        {
+          "id": "h1_word_delay",
+          "slot": "h1_word_delay",
+          "kind": "number",
+          "value": 100,
+          "evidence": [
+            "the two H1 spans carry delays of 0ms and 100ms"
+          ],
+          "unit": "ms",
+          "tolerance_pct": 20
+        },
+        {
+          "id": "entrance_easing",
+          "slot": "entrance_easing",
+          "kind": "identity",
+          "value": "cubic-bezier(0.12, 0.23, 0.17, 0.98)",
+          "evidence": [
+            "recorded on all four H1 span animations (filter and opacity on each word)"
+          ],
+          "usage": "Identity value: the settle curve, shared with the sibling pages."
+        },
+        {
+          "id": "faq_answer_reveal",
+          "slot": "faq_answer_reveal",
+          "kind": "number",
+          "value": 10000,
+          "evidence": [
+            "the first FAQ answer carries a 10000ms opacity animation from 0.001 to 1 with a 5000ms delay"
+          ],
+          "unit": "ms",
+          "tolerance_pct": 10,
+          "usage": "This resolves a gap carried unresolved in the three sibling rubrics, where a 10s fade with a 5s delay appeared with no identified target: on this page the target is the first FAQ answer."
+        },
+        {
+          "id": "faq_reveal_easing",
+          "slot": "faq_reveal_easing",
+          "kind": "identity",
+          "value": "cubic-bezier(0.12, 0.23, 0.37, 1)",
+          "evidence": [
+            "the FAQ answer reveal records easing cubic-bezier(0.12,0.23,0.37,1) with fill both"
+          ],
+          "usage": "Identity value: a third settle variant, distinct from the 0.98 endpoint used on entrances."
+        },
+        {
+          "id": "entrance_opacity_floor",
+          "slot": "entrance_opacity_floor",
+          "kind": "number",
+          "value": 0.001,
+          "evidence": [
+            "every entrance and the FAQ reveal start at opacity 0.001 rather than 0"
+          ],
+          "usage": "Reproduce the 0.001 floor exactly; a literal 0 changes focus and pointer behaviour."
+        },
+        {
+          "id": "transition_shortest",
+          "slot": "transition_shortest",
+          "kind": "identity",
+          "value": "color 0.15s",
+          "evidence": [
+            "CSSOM transition dump: .framer-form-text-input-clear -> color 0.15s"
+          ],
+          "usage": "Identity value: the shortest declared transition, inherited with the form component."
+        },
+        {
+          "id": "movement_trigger_list",
+          "slot": "movement_trigger_list",
+          "kind": "enum",
+          "value": [
+            "load (headline blur, first FAQ answer reveal)",
+            "continuous (two marquee rows)",
+            "hover (colour, unverified on this page)"
+          ],
+          "evidence": [
+            "the entrances run once with iterations 1; the marquees carry open-ended iterations and were still running at settle"
+          ],
+          "usage": "The only FlowSpace page whose motion does not stop after load."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "two testimonial rows run continuously in opposite directions on linear loops"
+        },
+        {
+          "kind": "always",
+          "rule": "the H1 resolves word by word from a blur on the settle curve"
+        },
+        {
+          "kind": "always",
+          "rule": "marquees are linear and continuous; entrances use cubic-bezier(0.12, 0.23, 0.17, 0.98)"
+        },
+        {
+          "kind": "never",
+          "rule": "a scroll-linked reveal or a hover transform"
+        },
+        {
+          "kind": "never",
+          "rule": "an entrance that starts at a literal opacity of 0"
+        }
+      ],
+      "directives": [
+        "run two testimonial rows as full-bleed lists, one translating to -2754px and the other to +2754px, linear, over about 110s, repeating",
+        "split the H1 into word spans and blur each from 4px to 0 over 1100ms on cubic-bezier(0.12,0.23,0.17,0.98), the second word 100ms behind",
+        "reveal the first FAQ answer with a long opacity fade on cubic-bezier(0.12,0.23,0.37,1)",
+        "start every entrance at opacity 0.001 and keep all hover transitions colour-only at 0.4s or less"
+      ]
+    },
+    {
+      "id": "imagery",
+      "scales": [
+        {
+          "id": "role",
+          "poles": [
+            "text-led",
+            "image-led"
+          ],
+          "value": 1.5,
+          "evidence": [
+            "the page carries no photography in its layout at all: the hero, the form, the FAQ and the marquee ground are all flat fills",
+            "the only images in the file are the four 42px demo avatars inside the testimonial cards, which are decorative proof marks rather than content"
+          ],
+          "confidence": "high",
+          "note": "This is the lowest imagery role of the four FlowSpace rubrics; the sibling pages are all photograph-led."
+        },
+        {
+          "id": "medium",
+          "poles": [
+            "photographic",
+            "graphic"
+          ],
+          "value": 8.0,
+          "evidence": [
+            "the page's visual vocabulary is graphic rather than photographic: star glyphs, plus and cross accordion marks, line icons in the contact rows, and flat colour fields",
+            "the only photographic content is the avatar portraits, too small to carry the page's character"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "treatment",
+          "poles": [
+            "natural",
+            "stylized"
+          ],
+          "value": 2.0,
+          "evidence": [
+            "the avatars are untreated circular portraits at actual size with no filter, grade or duotone",
+            "no treatment is applied to anything else because there is nothing else to treat"
+          ],
+          "confidence": "medium",
+          "note": "Confidence is medium because the judgement rests on four small demo portraits rather than on a body of imagery."
+        },
+        {
+          "id": "framing",
+          "poles": [
+            "sharp",
+            "rounded"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "every image on the page is a circle: the avatars compute a fully round frame, and there is no rectangular photograph anywhere to compare against",
+            "against the circles sit the page's squared-off surfaces \u2014 the 8px FAQ rows, the 48px submit capsule \u2014 so the framing register is mixed rather than settled"
+          ],
+          "confidence": "medium"
+        }
+      ],
+      "values": [
+        {
+          "id": "image_count",
+          "slot": "image_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "four avatar portraits render, one per testimonial card; no other img element carries layout content"
+          ]
+        },
+        {
+          "id": "avatar_size",
+          "slot": "avatar_size",
+          "kind": "number",
+          "value": 42,
+          "evidence": [
+            "computed avatar occupying the 42px height of the testimonial card's 'Client' row"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "avatar_shape",
+          "slot": "avatar_shape",
+          "kind": "identity",
+          "value": "circle (fully round)",
+          "evidence": [
+            "avatar portraits render as circles in the marquee cards; the round treatment is the only framing applied to any image"
+          ],
+          "usage": "Identity value: portraits are always circular."
+        },
+        {
+          "id": "avatar_gap",
+          "slot": "avatar_gap",
+          "kind": "number",
+          "value": 12,
+          "evidence": [
+            "computed testimonial card 'Client' row display flex with gap 12px between avatar and the name/role stack"
+          ],
+          "unit": "px",
+          "tolerance_pct": 20
+        },
+        {
+          "id": "graphic_glyphs",
+          "slot": "graphic_glyphs",
+          "kind": "enum",
+          "value": [
+            "star (rating)",
+            "plus (closed FAQ row)",
+            "cross (open FAQ row)",
+            "envelope",
+            "phone",
+            "clock",
+            "social mark"
+          ],
+          "evidence": [
+            "the page's non-text marks enumerated from the capture: a filled star beside each rating, plus glyphs on the five closed FAQ rows and a cross on the open one, and four line icons in the hero contact rows"
+          ],
+          "usage": "All marks are monochrome; none is an accent."
+        },
+        {
+          "id": "photography_absent",
+          "slot": "photography_absent",
+          "kind": "enum",
+          "value": [
+            "true"
+          ],
+          "evidence": [
+            "no photograph renders in any layout region of the page; the hero, FAQ and marquee grounds are flat fills"
+          ],
+          "usage": "Generating from this rubric means producing no hero imagery at all, unlike the sibling pages."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the page carries no photography in its layout regions; surfaces are flat fills"
+        },
+        {
+          "kind": "always",
+          "rule": "the only images are small circular avatars inside testimonial cards"
+        },
+        {
+          "kind": "always",
+          "rule": "all non-text marks are monochrome line glyphs or a single-colour star"
+        },
+        {
+          "kind": "never",
+          "rule": "a hero image, a photographic background or an image scrim"
+        },
+        {
+          "kind": "never",
+          "rule": "a non-circular image frame"
+        }
+      ],
+      "directives": [
+        "build the page with no photography: the hero, the FAQ and the marquee grounds are flat fills",
+        "render the only images as circular avatar portraits about 42px across inside the testimonial cards",
+        "draw every non-text mark as a monochrome glyph: a star for ratings, a plus on closed FAQ rows and a cross on the open one, plus line icons for the contact rows"
+      ]
+    },
+    {
+      "id": "copy",
+      "scales": [
+        {
+          "id": "register",
+          "poles": [
+            "casual",
+            "formal"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "the page is the most informal in the template: 'just say hi', 'No strings attached', 'No bots \u2014 just real humans.' and 'never looked back' all sit in the visible copy",
+            "against that, the contact block and form labels stay strictly functional (Name, Email, Message, opening hours) and the FAQ questions are plainly worded"
+          ],
+          "confidence": "high",
+          "note": "The warmest register of the four FlowSpace pages; the home page sits at 3.5 and the property page at 6.0 on the same scale."
+        },
+        {
+          "id": "voice",
+          "poles": [
+            "plain",
+            "playful"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "the page has a light, conversational voice in its reassurance lines ('We usually reply within a few hours. No bots \u2014 just real humans.') and its FAQ answers ('Absolutely. ... no strings attached.')",
+            "it stays plain in structure: questions are asked the way a visitor would ask them, and the quotes are unpolished first-person statements"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "density",
+          "poles": [
+            "terse",
+            "explanatory"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "the page is the template's most verbose: a two-line invite, a footnote, six FAQ questions with one answered at 39px of text, and four quotes of three lines each",
+            "against that, the six answers beyond the first are hidden, the form is labels only, and the contact block is four values with no prose \u2014 so the density is high in the FAQ and quotes and near zero in the interactive regions"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "h1_text",
+          "slot": "h1_text",
+          "kind": "identity",
+          "value": "Let\u2019s connect",
+          "evidence": [
+            "computed H1 innerText 'Let\u2019s connect', rendered across two word spans"
+          ],
+          "usage": "Identity value: a contraction with a typographic apostrophe (U+2019), not 'Let us connect'."
+        },
+        {
+          "id": "hero_invite",
+          "slot": "hero_invite",
+          "kind": "identity",
+          "value": "Got a question? Want to book a tour or just say hi? We\u2019d love to hear from you.",
+          "evidence": [
+            "hero paragraph rendering as two lines at 508px under the H1"
+          ],
+          "usage": "Identity value: two sentences, the first carrying two questions."
+        },
+        {
+          "id": "contact_values",
+          "slot": "contact_values",
+          "kind": "enum",
+          "value": [
+            "hello@yourcoworking.com",
+            "+33 6 12 34 56 78",
+            "Mon\u2013Fri, 9am to 6pm",
+            "@yourcoworking"
+          ],
+          "evidence": [
+            "the four computed contact rows in the hero at y422/452/483/513"
+          ],
+          "usage": "Four entries, bare values with no label prefix; the footer repeats only the first three."
+        },
+        {
+          "id": "form_field_labels",
+          "slot": "form_field_labels",
+          "kind": "enum",
+          "value": [
+            "Name",
+            "Email",
+            "What can we help you with?",
+            "Message"
+          ],
+          "evidence": [
+            "computed label text on the four hero fields"
+          ],
+          "usage": "Only the select label is a full question."
+        },
+        {
+          "id": "form_select_options",
+          "slot": "form_select_options",
+          "kind": "enum",
+          "value": [
+            "Select\u2026",
+            "Book a tour",
+            "Ask a question",
+            "Partnership",
+            "Something else"
+          ],
+          "evidence": [
+            "the select's option list in the text export, with 'Select\u2026' as the unset state"
+          ],
+          "usage": "Identical option set to the property page's form."
+        },
+        {
+          "id": "submit_label",
+          "slot": "submit_label",
+          "kind": "identity",
+          "value": "Send your message",
+          "evidence": [
+            "computed submit pill label"
+          ],
+          "usage": "Identity value: matches the property page's submit."
+        },
+        {
+          "id": "form_footnote",
+          "slot": "form_footnote",
+          "kind": "identity",
+          "value": "We usually reply within a few hours. No bots \u2014 just real humans.",
+          "evidence": [
+            "12px line rendering 22px under the submit pill"
+          ],
+          "usage": "Identity value: two sentences, the second using an unspaced em dash."
+        },
+        {
+          "id": "faq_heading_text",
+          "slot": "faq_heading_text",
+          "kind": "identity",
+          "value": "Quick answers before you reach out",
+          "evidence": [
+            "computed FAQ h2 innerText, wrapping to two lines at 540px"
+          ],
+          "usage": "Identity value: a noun phrase with a purpose clause, not 'FAQ' or 'Frequently asked questions'."
+        },
+        {
+          "id": "faq_questions",
+          "slot": "faq_questions",
+          "kind": "enum",
+          "value": [
+            "Can I visit before signing up?",
+            "What are your opening hours?",
+            "What\u2019s the difference between a hot desk and a dedicated desk?",
+            "Are pets allowed?",
+            "Is the Wi-Fi really that fast?",
+            "Can I switch plans later on?"
+          ],
+          "evidence": [
+            "the six FAQ row questions enumerated in order, one of which wraps to two lines at 540px"
+          ],
+          "usage": "Questions are written in the visitor's voice, including a casual one ('Is the Wi-Fi really that fast?')."
+        },
+        {
+          "id": "faq_first_answer",
+          "slot": "faq_first_answer",
+          "kind": "identity",
+          "value": "Absolutely. You can book a free tour anytime \u2014 no strings attached. We\u2019ll show you around and help you choose the best plan for your needs.",
+          "evidence": [
+            "the open row's 14px answer text at y1030, running 39px over two lines"
+          ],
+          "usage": "Identity value: opens on 'Absolutely.', carries an unspaced em dash, and is the only answer captured."
+        },
+        {
+          "id": "testimonial_heading_text",
+          "slot": "testimonial_heading_text",
+          "kind": "identity",
+          "value": "Still unsure? Here\u2019s what our members say.",
+          "evidence": [
+            "computed testimonial h2 innerText, centred across the container"
+          ],
+          "usage": "Identity value: a question joined to a claim in one heading."
+        },
+        {
+          "id": "testimonial_sub",
+          "slot": "testimonial_sub",
+          "kind": "identity",
+          "value": "Real words from people who booked a tour \u2014 and never looked back.",
+          "evidence": [
+            "the 16px centred line under the testimonial heading"
+          ],
+          "usage": "Identity value: an unspaced em dash before 'and never looked back'."
+        },
+        {
+          "id": "testimonial_quotes",
+          "slot": "testimonial_quotes",
+          "kind": "enum",
+          "value": [
+            "\"Hot desks during the day, events at night. I get my work done and meet great people.\"",
+            "\"I\u2019ve tried caf\u00e9s, libraries, you name it. Nothing beats the calm and setup here.\"",
+            "\"We started as 2 founders, now we\u2019re a team of 8 in a private office. No friction at all.\"",
+            "\"The people, the space, the coffee \u2014 I actually look forward to going to work.\""
+          ],
+          "evidence": [
+            "four distinct quotes enumerated from the marquee rows, each wrapped in straight double quotes"
+          ],
+          "usage": "Only four quotes exist; the marquee repeats them rather than extending the set."
+        },
+        {
+          "id": "attribution_pattern",
+          "slot": "attribution_pattern",
+          "kind": "identity",
+          "value": "<first name + initial> / <role>",
+          "evidence": [
+            "attributions render as 'Liam R.', 'Nora G.', 'Zoe D.' and 'Tom & Aisha', all followed by the identical role 'Startup Founder'"
+          ],
+          "usage": "Identity value: first name plus initial, and a single repeated role for every card."
+        },
+        {
+          "id": "rating_values",
+          "slot": "rating_values",
+          "kind": "enum",
+          "value": [
+            "4.9",
+            "5",
+            "4.5",
+            "5"
+          ],
+          "evidence": [
+            "ratings computed per card at 16px/500 beside a filled star"
+          ],
+          "usage": "Three distinct values across four cards; all near the top of the scale."
+        },
+        {
+          "id": "punctuation_policy",
+          "slot": "punctuation_policy",
+          "kind": "identity",
+          "value": "unspaced em dashes; straight double quotes around testimonial copy; ellipsis on the select's unset state; typographic apostrophes throughout",
+          "evidence": [
+            "em dashes appear unspaced in the form footnote, the first FAQ answer and the testimonial subtitle; quotes are wrapped in straight \" characters; 'Select\u2026' uses a single ellipsis character; apostrophes in 'Let\u2019s', 'We\u2019d', 'What\u2019s', 'I\u2019ve' are all U+2019"
+          ],
+          "usage": "Identity value: note that apostrophes are typographic while the quote marks around testimonials are straight \u2014 an inconsistency to reproduce rather than smooth over."
+        },
+        {
+          "id": "copy_length_rule",
+          "slot": "copy_length_rule",
+          "kind": "number",
+          "value": 3,
+          "evidence": [
+            "the longest prose blocks are the invite at two lines, the first FAQ answer at two lines, and each quote at three lines at its card width"
+          ],
+          "unit": "lines",
+          "tolerance_pct": 40,
+          "usage": "No copy block on the page runs longer than three lines at its intended measure."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the H1 is the two-word contraction 'Let\u2019s connect' with a typographic apostrophe"
+        },
+        {
+          "kind": "always",
+          "rule": "FAQ questions are written in the visitor's voice and end in a question mark"
+        },
+        {
+          "kind": "always",
+          "rule": "testimonial quotes are wrapped in straight double quotes and attributed as first name plus initial over the role"
+        },
+        {
+          "kind": "never",
+          "rule": "a label prefix on a contact value; the four hero rows are bare values with icons"
+        },
+        {
+          "kind": "never",
+          "rule": "more than three lines of copy in any block at its intended measure"
+        }
+      ],
+      "directives": [
+        "title the page 'Let\u2019s connect' over the two-sentence invite, then list the four contact values bare with icons",
+        "label the form Name, Email, What can we help you with? and Message, submit as 'Send your message', and add the 'No bots \u2014 just real humans.' footnote",
+        "head the FAQ 'Quick answers before you reach out' and write six visitor-voiced questions with the first answered in two lines",
+        "head the testimonials 'Still unsure? Here\u2019s what our members say.' over 'Real words from people who booked a tour \u2014 and never looked back.' and repeat four straight-quoted testimonials attributed to first name plus initial"
+      ]
+    }
+  ],
+  "limitations": [
+    "The FAQ was never clicked. Rows were enumerated in their resting states (first open at 110px, five closed at 54px, one 77px because its question wraps) and the open/closed transition was not triggered or timed. Whether rows animate their height, fade the answer, or snap is unverified.",
+    "The 10s opacity reveal on the first FAQ answer was read from the animation timeline but its trigger is unresolved: it is registered on load with a 5000ms delay, and at the sampling point 6.7s in it had not visibly completed. This page is where the animation's target was finally identified, but the mechanism that starts it is still unknown.",
+    "Marquee travel was measured as +-2754px per pass over 110160ms from the keyframes, and the two rows' opposite directions were inferred from the sign of those translateX pairs rather than from watching a full cycle. The modulus that makes the loop seamless was not resolved, and the total card count in each loop is not visible in any single still because cards clip at both viewport edges.",
+    "Hover and focus states were not probed on this page: the submit pill, the FAQ rows, the contact rows and the nav were not exercised.",
+    "The FAQ glyph differs between rows: plus on closed and a multiplication-style cross on the open one. Both render, but whether they are two swapped icons or one rotated glyph was not determined.",
+    "The H1 measures 64px at 1440w and 56px at 834w; the breakpoint where it steps down was not located.",
+    "The contact block carries four values while the footer repeats only three (the social handle is omitted); whether that omission is deliberate was not resolved.",
+    "The submit pill computes a 48px radius against the template's usual 24px on the sibling pages. That is recorded as measured; whether it is a deliberate variant or an artefact of the pill being 48px tall was not determined.",
+    "The form is a demo: four select options, no submission endpoint exercised, and no validation, error or success states captured.",
+    "The testimonial avatars are demo portraits and their image set was not inventoried; only their circular framing and approximate size are recorded.",
+    "DM Sans and Inter load with the document but render no visible text; only Plus Jakarta Sans was observed.",
+    "Wrapper nodes computing the default link blue rgb(0,0,238) appear here as on the sibling pages and are treated as not part of the design.",
+    "Template content is placeholder: four demo quotes attributed to four recurring demo names, demo portraits, hello@yourcoworking.com and +33 6 12 34 56 78.",
+    "Validation is partial: discrimination was measured against the three sibling FlowSpace page rubrics, but a sensitivity pass, an invariance pass and a blind re-score are not recorded here.",
+    "Production use requires human sign-off on this frozen file."
+  ]
+}

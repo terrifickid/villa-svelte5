@@ -4,6 +4,8 @@
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/locations", label: "Locations" },
+    { href: "/about", label: "About" },
+    { href: "/owners", label: "Villa Owners" },
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
   ];

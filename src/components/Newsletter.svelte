@@ -152,7 +152,7 @@
           <li>
             <a
               class="text-base text-slate-500 inline-flex items-center hover:text-regent-600"
-              href="/"
+              href="/owners"
             >
               <span>Villa Owners</span>
             </a>
