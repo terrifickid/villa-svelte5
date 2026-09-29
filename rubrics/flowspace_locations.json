@@ -1,0 +1,2013 @@
+{
+  "format": "mixdown2",
+  "version": "1.0",
+  "rubric_id": "flowspace_locations_v1",
+  "class": "web-design.page",
+  "intended_use": "both",
+  "source": {
+    "mode": "capture",
+    "what": "FlowSpace locations index (flowspace.framer.website/locations): the directory page of the FlowSpace coworking template. A large 'Our Locations' title over a one-line positioning statement, then a two-control filter bar (a name search field and a city dropdown) above a three-column grid of six photo location cards with scrim overlays and View pills, closing on a rounded black CTA panel with a feature list and an avatar counter, then the black footer. Monochrome UI, one family, three-quarter-step card entrance stagger.",
+    "when": "2026-09-29",
+    "method": "Node + puppeteer-core driving local Chromium (ms-playwright build). Loaded at 1440x900, 834x1112, 390x844; entrance animations sampled at 90ms intervals from first paint to read durations, delays, easings and per-property keyframes before the reveals finished, then all animations advanced to their end state so every still is settled. Full-page and fold stills per width. Computed-style probes on the H1, subtitle, filter labels and wrappers, search input, city select, grid cards, card names and addresses, the CTA panel, its Contact pill and trailing icon orb, the feature rows, the avatar stack and the footer. Behaviour probes: typing 'tui' into the search field, reading the six city options, selecting Paris, typing an impossible query, and measuring grid geometry at all three widths.",
+    "gaps": [
+      "The no-results state was not resolved. Typing an impossible query into the search field removed the visible cards but the probe's card detector still matched five wrapper nodes and no message string containing 'no location' or 'no result' was found in the page text. Whether the template prints an empty-state line, hides the grid entirely, or shows a zero-count is unknown.",
+      "Card filtering is confirmed to work (search 'tui' narrows the rendered cards to Tuileries; selecting Paris narrows to Tuileries) but the transition between filtered states was not characterised: whether cards animate out, fade, or re-run the entrance stagger is unverified.",
+      "Hover and focus states on the filter controls, the View pills and the Contact pill were not probed. The wrapper's border is drawn on its ::after pseudo-element rather than the element itself, which the hover machinery used here does not reach.",
+      "The city select is a native select. Its option list, its open state and any custom dropdown panel could not be captured because a native select popup is outside the page's DOM; only the closed control and its six options are recorded.",
+      "The avatar row's images are demo portraits; their source set and any hover behaviour were not captured. The stack is measured as four 32px circles overlapping by 8px.",
+      "The CTA panel's Contact pill carries a second, hidden text container in the DOM (a duplicated 'Contact us' label at a different y offset), which the probe caught as two text rows. The visible rendered pill shows one label plus the icon orb; the duplicate is treated as an unused hover-slide artefact and its animation state was not confirmed.",
+      "The 10s opacity fade registered on the subtitle container (opacity 0.001 to 0.001, effectively invisible) is unresolved; it appeared in the timeline on load on the sibling Tuileries page too, and completes before measurement here.",
+      "DM Sans and Inter load with the document but render no visible text; only Plus Jakarta Sans was observed rendering.",
+      "Several wrapper nodes compute the default link blue rgb(0,0,238) without rendering blue, as on the sibling pages.",
+      "Template content is placeholder: six demo locations across three demo cities, demo portraits, hello@yourcoworking.com and +33 6 12 34 56 78. A real deployment would carry real addresses and a real city set.",
+      "Validation is partial: discrimination was measured against the two sibling FlowSpace page rubrics but a full sensitivity/invariance pass and a blind re-score are not yet recorded on this page.",
+      "Production use requires human sign-off on this frozen file."
+    ],
+    "notes": "Third of three FlowSpace page rubrics, after flowspace_home_v1 and flowspace_property_single_v1. This page is the directory: it is the only one of the three with a filter bar, the only one that renders the location card as a grid tile rather than a single wide panel, and the only one where the card set is staggered in on load. Type scale, pill system, card radius, scrim gradient and footer are inherited from the template and match the sibling rubrics exactly. Discrimination: measured 48% of canon scales differing by 2.0 or more against flowspace_home_v1 (above the one-third bar), but only 8% against flowspace_property_single_v1. That second figure is expected rather than a defect: both are detail pages of one template and they share the container, the tile size, the scrim ramp, the CTA panel, the type scale, the pill system and the footer. The two pages separate almost entirely on motion (energy 5.0 vs 1.0, temperament 5.0 vs 1.5) because this page staggers its grid in and the property page is static. Use this rubric for the directory behaviour (filter bar, six-tile grid, staggered entrance) and the sibling for the single-listing behaviour (sticky rail, photo cluster, tabs)."
+  },
+  "element_inventory": [
+    {
+      "element": "nav",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "white bar, 76px, logo plus four links plus a black CTA pill; identical to the sibling pages"
+    },
+    {
+      "element": "page_header",
+      "aspects": [
+        "layout",
+        "type",
+        "color",
+        "motion"
+      ],
+      "note": "H1 'Our Locations' 40px/48px weight 500 with a per-glyph blur-settle entrance, over a 560px one-line subtitle"
+    },
+    {
+      "element": "filter_bar",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "two 12px labels over two 240x40 bordered fields, 16px apart: a search input and a native city select"
+    },
+    {
+      "element": "search_field",
+      "aspects": [
+        "layout",
+        "type",
+        "color"
+      ],
+      "note": "240x40, 8px radius, 1px rgba(0,0,0,0.1) border drawn on the wrapper's ::after, 12px padding, magnifier glyph then 'Search\u2026' at 14px"
+    },
+    {
+      "element": "city_select",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "240x40, same border and radius, chevron at the right; six options All / Paris / Marseille / Rennes (four rendered, the two extra are an all-sentinel and a hidden entry)"
+    },
+    {
+      "element": "location_grid",
+      "aspects": [
+        "layout",
+        "structure",
+        "motion"
+      ],
+      "note": "three columns at 1440w on a 16px gutter, two at 834w, one at 390w; six cards of 363x400"
+    },
+    {
+      "element": "location_card",
+      "aspects": [
+        "layout",
+        "type",
+        "color",
+        "imagery",
+        "motion"
+      ],
+      "note": "363x400 photo tile, 16px radius, bottom scrim, white name over grey address at the lower left, white View pill at the lower right; staggered in at 100ms intervals"
+    },
+    {
+      "element": "view_pill",
+      "aspects": [
+        "layout",
+        "type",
+        "color"
+      ],
+      "note": "white pill, 24px radius, 'View' label, sits inside the card at the bottom right"
+    },
+    {
+      "element": "cta_panel",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "1120x293 black panel, 16px radius, 48px padding, three-column internal grid at a 48px gap"
+    },
+    {
+      "element": "cta_heading",
+      "aspects": [
+        "layout",
+        "type",
+        "color"
+      ],
+      "note": "'Ready to find your flow?' 40px/48px weight 500 white, matching the H1 size exactly"
+    },
+    {
+      "element": "contact_pill",
+      "aspects": [
+        "layout",
+        "type",
+        "color",
+        "motion"
+      ],
+      "note": "white pill 168x48, 24px radius, asymmetric 0 4px 0 24px padding, 'Contact us' label plus a 40px black circle with a mail glyph"
+    },
+    {
+      "element": "feature_list",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "four icon+label rows in the panel's right column at a 34px pitch: 500 Mbps Wi-Fi, 24/7 Access, Meeting Rooms, Ergonomic Chairs"
+    },
+    {
+      "element": "social_proof_row",
+      "aspects": [
+        "layout",
+        "imagery",
+        "copy"
+      ],
+      "note": "four overlapping 32px circular avatars (40px radius) with a 14px 'Join 500+ professionals' caption"
+    },
+    {
+      "element": "footer",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "black band, 295px, 40px padding; identical to the sibling pages"
+    }
+  ],
+  "parts": [
+    {
+      "id": "card_entrance_stagger",
+      "name": "Location card entrance stagger",
+      "kind": "move",
+      "description": "The six location cards do not appear: they arrive in reading order, each fading up from opacity 0.001 and translateY(16px) to rest, 100ms behind the one before it. The cascade runs delays 400/500/600/700/800/900ms at 800ms per card on cubic-bezier(0.12,0.23,0.17,0.98), so the last card lands about 1700ms after paint. The H1 above it is split per glyph and blurs in separately, and the subtitle is a separate element that fades and rises on its own 200ms delay.",
+      "entry_test": "Remove the stagger and the page is a static grid of six tiles with no sense of a set being populated. The wave sweeping the grid in reading order is how this page announces that it holds a list rather than a single listing, and it is the only motion on the page with any duration to it.",
+      "anchor": {
+        "type": "selector",
+        "value": "the six grid tiles under [data-framer-name='LocationsList'], and the h1 glyph spans above them"
+      },
+      "recipe": "Wrap each grid card so it can carry its own animation. Per card: animate opacity from 0.001 and transform from translateY(16px) to opacity 1 and transform none, 800ms on cubic-bezier(0.12,0.23,0.17,0.98), delay 400ms plus 100ms per card index. Split the H1 into per-glyph spans and give each the same ease over 800ms with a filter blur from 4px to 0; give the subtitle 800ms on a 200ms delay with the same 16px rise.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Each grid card animates opacity and transform separately from its neighbours",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Card delays step by about 100ms in reading order, first at about 400ms",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Cards rise from about 16px below their resting position",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Card and heading entrances share cubic-bezier(0.12, 0.23, 0.17, 0.98)"
+        },
+        {
+          "id": "c5",
+          "check": "The H1 resolves from a 4px blur rather than sliding",
+          "critical": true
+        }
+      ],
+      "evidence": [
+        "animation API sampled at 90ms intervals from first paint: six card nodes with delays 400/500/600/700/800/900ms, each 800ms, opacity 0.001->1 plus transform translateY(16px)->none",
+        "easing recorded on every card and heading animation: cubic-bezier(0.12, 0.23, 0.17, 0.98) (the same family as the home page's settle ease)",
+        "H1 spans: per-glyph, 800ms, filter blur(4px)->blur(0px) plus opacity, sampled at 1070ms as running",
+        "settled state: every card at opacity 1, transform none; hiddenAfterFinish 0"
+      ]
+    },
+    {
+      "id": "two_control_filter_bar",
+      "name": "Two-control filter bar",
+      "kind": "move",
+      "description": "The directory is narrowed by exactly two controls sitting side by side above the grid: a free-text name search and a city dropdown, each a 240x40 field under a 12px label, both drawn as hairline-bordered rounded rectangles. There is no chip row, no sort control, no result count and no reset button. The whole filtering apparatus is two fields and 16px of gutter, which is what keeps a six-item directory from looking like a database.",
+      "entry_test": "Replace the bar with a row of city chips and the page gains a control that has to be styled, wrapped and scrolled on mobile. The two-field bar is the page's entire interaction model, and it is what makes 'Our Locations' read as a small curated set rather than a search product.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='Locations'] filter row; two .framer-form-input-wrapper fields"
+      },
+      "recipe": "Lay out a two-item row with a 16px gap: each item is a 12px label above a 240x40 field. Give each field a 1px rgba(0,0,0,0.1) border and an 8px radius drawn on the wrapper's ::after pseudo-element, with 12px of inner padding. The first field holds a small magnifier glyph and a 14px input placeholdered 'Search\u2026'; the second wraps a native select showing 'All' with a chevron at its right edge. Do not add a submit button: both controls filter live.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Exactly two filter controls render, one text and one select",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Each control carries a 12px label above it",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Fields are about 240x40 with an 8px radius and a hairline border",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "No submit, sort, reset or result-count control accompanies the bar",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "The search field shows a magnifier glyph before its placeholder"
+        }
+      ],
+      "evidence": [
+        "computed: search wrapper x160 y301 w240 h40, radius 8px, padding 12px; city wrapper x416 y301 w240 h40",
+        "computed ::after on the wrapper: 1px border in rgba(0,0,0,0.1), radius 8px, empty content \u2014 the border is a pseudo-element, not the element",
+        "computed labels: 'Name' 12px/14.4px at x160 y279; 'City' 12px at x416 y279",
+        "computed search input: 14px, transparent, placeholdered 'Search\u2026' at x196 y313",
+        "computed select: 228x40 at x416 y301, value __all__, 14px; options All / Paris / Marseille / Rennes"
+      ]
+    },
+    {
+      "id": "three_column_card_grid",
+      "name": "Three-column directory grid",
+      "kind": "move",
+      "description": "The directory is a strict three-up grid of equal 363x400 photo tiles on a 16px gutter, dropping to two columns at 834 and one at 390. The columns land on x160 / x539 / x917 at desktop: a 379px pitch made of a 363px card and a 16px gap. Rows advance by 416px, the card's 400px height plus the same 16px gap. Every tile is the same size regardless of how many locations the city holds, so the grid stays a grid.",
+      "entry_test": "Let the tiles size to their content and the page loses the even lattice that makes six locations comparable at a glance. The fixed 363x400 tile on a 16px gutter is what lets the eye scan across rows, and it is the same card geometry the single-property page uses for its other-locations pair.",
+      "anchor": {
+        "type": "selector",
+        "value": "grid inside [data-framer-name='LocationsList']; tiles measured 363x400"
+      },
+      "recipe": "Three equal columns inside the 1120px container with a 16px gap and 16px row gap. Each tile is fixed at 363x400 (a 0.91 ratio, taller than wide) with a 16px radius. At 834w step down to two columns of 385px; at 390w collapse to a single 358px column. Do not let the tile height follow the image or the address length.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Three equal columns render at 1440w",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Every tile measures the same 363x400 regardless of content",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Gaps are about 16px on both axes",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "The grid steps to two columns at 834w and one at 390w",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "Row pitch is about 416px (400 card plus 16 gap)"
+        }
+      ],
+      "evidence": [
+        "computed tile boxes at 1440w: x160/x539/x917 at y357, each 363x400; second row at y773",
+        "derived: column pitch 379 (539-160), gap 16 (379-363); row pitch 416 (773-357), gap 16 (416-400)",
+        "at 834w a measured tile is 385x400 at x24 with the container widening; at 390w a measured tile is 358x400 at x16",
+        "card radius 16px on every tile"
+      ]
+    },
+    {
+      "id": "scrim_card_with_view_pill",
+      "name": "Scrim tile with inset View pill",
+      "kind": "component",
+      "description": "Each directory tile is a full-bleed photograph with a dark gradient rising from its bottom third, the location name in white over a grey address at the lower left, and a white View pill floated at the lower right inside the same bottom row. The tile is 363x400 with 16px radius; the name is 16px/500 white, the address 14px in rgb(204,204,204) wrapping to two lines, and the scrim is the same ramp the property page uses.",
+      "anchor": {
+        "type": "selector",
+        "value": "each grid tile; overlay node plus the white 'View' control"
+      },
+      "recipe": "Tile: a 363x400 frame, radius 16px, holding a cover image. Overlay linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%). Inside the bottom edge, a row with the name over the address on the left and a white View pill (24px radius) on the right, both inset from the tile edge. The pill sits vertically centred against the two-line text stack.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "The name and address are overlaid on the photo, not placed beside it",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The scrim is clear at the top and reaches near-full black at the base",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Name is white 16px/500; address is a dimmer grey at 14px",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "A white View pill sits at the lower right inside the tile",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "Overlay text and pill share one bottom row rather than stacking"
+        }
+      ],
+      "evidence": [
+        "computed card: 363x400, radius 16px, padding 16px, flex with a 16px gap",
+        "computed overlay: linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%) \u2014 identical to the property page's scrim",
+        "computed name 'Tuileries': 16px/22.4 weight 500 rgb(255,255,255) at x176 y680",
+        "computed address '6 Av. du G\u00e9n\u00e9ral Lemonnier, 75001 Paris': 14px/19.6 rgb(204,204,204) at x176 y702, height 39px (two lines)",
+        "View pill renders white at the tile's lower right in all three widths"
+      ]
+    },
+    {
+      "id": "rounded_dark_cta_panel",
+      "name": "Rounded dark CTA panel",
+      "kind": "component",
+      "description": "The page closes its content on a black panel that is inset inside the container rather than run full bleed: 1120x293, 16px radius, 48px padding, with a three-column internal grid at a 48px gap. The messaging fills the left two columns and a four-row feature list fills the right one, with the avatar row beneath it. The panel's 16px radius is what separates it from the full-bleed black footer 40px below it.",
+      "anchor": {
+        "type": "selector",
+        "value": "black panel at x160 y1333, 1120x293, radius 16px"
+      },
+      "recipe": "Panel: background #000, width 1120 (the container), radius 16px, padding 48px, display grid with three equal columns and a 48px gap. Left two columns: the 40px/48px white heading over a 16px white body line, then the Contact pill below with a 48px top offset. Right column: four icon+label rows at a 34px pitch, then the avatar row and its caption.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "The panel is inset inside the container, not full bleed",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The panel carries a 16px radius, distinguishing it from the square-cornered footer",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Internal layout is three columns at about a 48px gap",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Feature rows sit in the right column, not under the body copy"
+        },
+        {
+          "id": "c5",
+          "check": "Panel measures about 1120x293 with 48px padding",
+          "critical": true
+        }
+      ],
+      "evidence": [
+        "computed panel: x160 y1333 w1120 h293, background rgb(0,0,0), radius 16px, padding 48px, display grid, gap 48px, columns '309.328px 309.328px 309.344px'",
+        "computed heading: x208 y1381 w426 h48, 40px/48px weight 500 rgb(255,255,255), letter-spacing -1.2px",
+        "computed body: x208 y1445 w600 h45, 16px/22.4 rgb(255,255,255)",
+        "computed feature rows: x953 at y1381/1416/1450/1484 \u2014 a 34px pitch, 16px/22.4 weight 500 white",
+        "section survey: the panel is its own band at y1333 h293 with 48px padding, above the footer band at y1666 h295 with 40px padding"
+      ]
+    },
+    {
+      "id": "solid_orb_cta_pill",
+      "name": "White pill with a solid icon orb",
+      "kind": "move",
+      "description": "The CTA's Contact pill is a white capsule containing the label at the left and a solid black circle at the right, the circle holding a mail glyph. The geometry is asymmetric: 168x48 with 24px radius and padding of 0 4px 0 24px, so the left inset is 24px against a 4px right inset that keeps the orb nearly touching the pill edge. The orb is 40 by 40 with a 50% radius, leaving 4px of white between it and the pill's own edge.",
+      "entry_test": "Replace the orb with a plain arrow or drop it and the pill becomes an ordinary white button. The solid circle capping the capsule is the template's signature control, it repeats on the home page's CTAs, and the 4px right inset that pins it to the edge is what makes the pill read as a container for the orb rather than a label with an icon.",
+      "anchor": {
+        "type": "selector",
+        "value": "white 'Contact us' pill in the CTA panel; its [data-framer-name='Icon Container'] child"
+      },
+      "recipe": "Build the pill as a flex row, height 48px, background #fff, radius 24px, padding 0 4px 0 24px, gap 16px. Left side: the label in 16px/500 black. Right side: a 40x40 circle with background #000 and border-radius 50%, holding a small white mail glyph centred in it. The 4px right padding is load-bearing: it floats the orb against the pill's right edge.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "A solid circular orb is nested inside the pill at its right",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The orb is fully round (50% radius) and about 40px across",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Pill padding is asymmetric: about 24px left against about 4px right",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "The orb inverts the pill: black circle on a white capsule",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "Pill height is about 48px with a 24px radius"
+        }
+      ],
+      "evidence": [
+        "computed pill: x208 y1530 w168 h48, background rgb(255,255,255), radius 24px, padding '0px 4px 0px 24px', gap 16px, display flex",
+        "computed orb [data-framer-name='Icon Container']: x332 y1534 w40 h40, background rgb(0,0,0), radius 50%",
+        "derived clearance: orb right edge 372 against pill right edge 376 = 4px, matching the 4px right padding",
+        "the same orb construction renders on the template's home page CTA, so this is a system control rather than a one-off"
+      ]
+    },
+    {
+      "id": "icon_feature_rows",
+      "name": "Icon feature rows",
+      "kind": "component",
+      "description": "The CTA panel's right column lists four amenities as an icon-glyph followed by a label, repeated at a 34px pitch with no dividers, no checkmarks and no card behind them. The labels are 16px weight 500 in white, brighter than the panel's body copy, so the list reads as facts rather than as a paragraph.",
+      "anchor": {
+        "type": "selector",
+        "value": "right column of the CTA panel; four icon+label rows at x953"
+      },
+      "recipe": "A single column of four rows, each a small line icon followed by a 16px/500 white label, at a vertical pitch of about 34px. No bullets, borders or background. Keep the icons monochrome white and optically aligned to the label's cap height.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Four amenity rows render in the panel's right column",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Each row pairs a line icon with a label",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Labels are 16px weight 500 white, matching the panel heading's weight"
+        },
+        {
+          "id": "c4",
+          "check": "No divider, bullet or card separates the rows",
+          "critical": true
+        }
+      ],
+      "evidence": [
+        "computed rows: '500 Mbps Wi-Fi' x953 y1381; '24/7 Access' y1416; 'Meeting Rooms' y1450; 'Ergonomic Chairs' y1484",
+        "derived pitch 34-35px; all four 16px/22.4 weight 500 rgb(255,255,255)",
+        "icons render to the left of each label in the CTA band crop"
+      ]
+    },
+    {
+      "id": "avatar_proof_row",
+      "name": "Overlapping avatar proof row",
+      "kind": "component",
+      "description": "Beneath the feature list sits a row of four circular portraits overlapped into a stack, with a plain 14px caption beside them. The circles are 32px with a 40px radius (fully round) and they overlap by 8px, so the stack reads as a crowd compressed into 128px. The caption is the lightest text in the panel: 14px weight 400 against the 500 weight of everything around it.",
+      "anchor": {
+        "type": "selector",
+        "value": "avatar stack at x923 y1543 plus the 'Join 500+ professionals' caption"
+      },
+      "recipe": "A flex row with a negative gap so each 32px circle overlaps the previous by 8px; give each circle a border-radius of 50% and a thin white or black ring so overlaps stay legible. Place the caption to the right in 14px/400 white. Keep the whole row under the feature list in the panel's right column.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Four circular portraits render as one overlapped stack",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Each circle is fully round at about 32px",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Circles overlap rather than sit in a spaced row",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "A caption sits beside the stack at 14px, lighter than the feature labels"
+        }
+      ],
+      "evidence": [
+        "computed avatar boxes: x923, x947, x971, x995 at y1543, each 32x32, radius 40px",
+        "derived overlap 8px (24px spacing against a 32px circle)",
+        "computed caption 'Join 500+ professionals': x1039 y1550 w193 h20, 14px/19.6 weight 400 rgb(255,255,255)",
+        "the caption's 400 weight is the lightest in the panel, whose other text is 500 or the 400 body line"
+      ]
+    },
+    {
+      "id": "page_header_stack",
+      "name": "Title over one-line statement",
+      "kind": "component",
+      "description": "The page opens with the H1 at 40px/48px weight 500 and -1.2px tracking, sitting directly over a single 560px line of 16px secondary-ink copy that states what the directory holds. There is no breadcrumb, no eyebrow and no filter summary: the header is two elements and about 103px tall.",
+      "anchor": {
+        "type": "selector",
+        "value": "h1 plus its following paragraph, above the filter bar"
+      },
+      "recipe": "Stack the H1 at 40px/48px weight 500 with -1.2px tracking over a 16px/22.4 subtitle in rgba(31,31,31,0.8), constrained to about 560px so it wraps to one or two lines. Place the filter bar roughly 45px below the subtitle.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "A single H1 renders at about 40px weight 500",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "A one-line statement sits directly under the H1 in secondary ink"
+        },
+        {
+          "id": "c3",
+          "check": "No breadcrumb, eyebrow or count accompanies the header",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "The subtitle is constrained to roughly half the container width"
+        }
+      ],
+      "evidence": [
+        "computed H1 'Our Locations': x160 y128 w1120 h48, 40px/48px weight 500, letter-spacing -1.2px",
+        "computed subtitle: x160 y186 w560 h45, 16px/22.4 weight 400 rgba(31,31,31,0.8)",
+        "derived: subtitle top 186 minus H1 bottom 176 = 10px; filter bar top 279 sits 48px below the subtitle",
+        "no breadcrumb element exists on this page, unlike the property page"
+      ]
+    },
+    {
+      "id": "inverted_footer",
+      "name": "Black footer bookend",
+      "kind": "component",
+      "description": "The page closes on a full-bleed black band, 295px tall with 40px padding, carrying the brand lockup and tagline at the left and three link columns at the right, then a credit line. It is the second black band on the page and the only full-bleed one, which is what makes the rounded CTA panel above it read as an inset card rather than a section.",
+      "anchor": {
+        "type": "selector",
+        "value": "full-bleed black band at the bottom of the document"
+      },
+      "recipe": "Full-bleed band, background #000, 40px padding, about 295px tall at desktop. Left block: logo plus a 14px white tagline. Right: three columns headed Navigation / Socials / Contact with 14px white links and icon-prefixed contact rows, then a credit line at low emphasis.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "The footer is full bleed while the CTA panel above it is inset",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Footer text is white on black",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Three link columns render: Navigation, Socials, Contact"
+        },
+        {
+          "id": "c4",
+          "check": "The band measures about 295px tall at desktop"
+        }
+      ],
+      "evidence": [
+        "section survey: footer band at y1666 h295, background rgb(0,0,0), padding 40px, full 1440px width",
+        "computed footer links 14px rgb(255,255,255); tagline 14px white",
+        "the footer markup is identical to the sibling FlowSpace pages"
+      ]
+    }
+  ],
+  "aspects": [
+    {
+      "id": "layout",
+      "scales": [
+        {
+          "id": "density",
+          "poles": [
+            "airy",
+            "packed"
+          ],
+          "value": 4.0,
+          "evidence": [
+            "1120px container with 128px top padding; the grid holds six 363x400 tiles on a 16px gutter and the page runs 1961px for one header, one filter bar, six tiles and a CTA panel",
+            "the 40px section of padding around the grid and the 16px card gutter are tight, but the header and CTA panel are both given generous internal padding (48px), so the page reads as evenly paced rather than packed"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "grid_discipline",
+          "poles": [
+            "free-form",
+            "strict grid"
+          ],
+          "value": 9.0,
+          "evidence": [
+            "everything lands on the 1120px container at x160; three columns at an exact 379px pitch (363 tile plus 16 gap) and rows at an exact 416px pitch (400 tile plus 16 gap); the CTA panel is a three-column grid with a declared 48px gap and columns measured at 309.328/309.328/309.344px",
+            "this is the most strictly gridded of the three FlowSpace pages: the header, the filter bar, the tile grid and the CTA panel all resolve to the same container and the same 16px gutter"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "symmetry",
+          "poles": [
+            "asymmetric",
+            "centered"
+          ],
+          "value": 2.5,
+          "evidence": [
+            "the page is left-aligned throughout: title, subtitle, both filter controls, the tile grid and the CTA panel's copy all start at the container's left edge with nothing centred",
+            "the only balancing element is the CTA panel's right-hand feature column, which counterweights the copy but does not centre it"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "container_width",
+          "slot": "container_width",
+          "kind": "number",
+          "value": 1120,
+          "evidence": [
+            "container chain resolves to a 1120px max-width element; H1 box is 1120 wide at x160 on a 1440px viewport; the CTA panel is also exactly 1120"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "grid_columns",
+          "slot": "grid_columns",
+          "kind": "number",
+          "value": 3,
+          "evidence": [
+            "three tile columns measured at x160/x539/x917 at 1440w; the CTA panel's internal grid also declares three columns"
+          ]
+        },
+        {
+          "id": "grid_column_pitch",
+          "slot": "grid_column_pitch",
+          "kind": "number",
+          "value": 379,
+          "evidence": [
+            "derived from tile x-positions: 539-160=379 and 917-539=378"
+          ],
+          "unit": "px",
+          "tolerance_pct": 3
+        },
+        {
+          "id": "grid_row_pitch",
+          "slot": "grid_row_pitch",
+          "kind": "number",
+          "value": 416,
+          "evidence": [
+            "derived from tile y-positions: 773-357=416"
+          ],
+          "unit": "px",
+          "tolerance_pct": 3
+        },
+        {
+          "id": "card_grid_gap",
+          "slot": "card_grid_gap",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "derived: 379 pitch minus a 363 tile = 16; 416 pitch minus a 400 tile = 16"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "tile_size",
+          "slot": "tile_size",
+          "kind": "enum",
+          "value": [
+            "363x400"
+          ],
+          "evidence": [
+            "computed tile boxes at 1440w are all 363x400; at 834w 385x400; at 390w 358x400"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "filter_field_size",
+          "slot": "filter_field_size",
+          "kind": "enum",
+          "value": [
+            "240x40"
+          ],
+          "evidence": [
+            "computed search wrapper x160 y301 w240 h40; city wrapper x416 y301 w240 h40"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "filter_gap",
+          "slot": "filter_gap",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "derived: city wrapper x416 minus search wrapper right edge 400 = 16px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "cta_panel_size",
+          "slot": "cta_panel_size",
+          "kind": "enum",
+          "value": [
+            "1120x293"
+          ],
+          "evidence": [
+            "computed panel box x160 y1333 w1120 h293"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "cta_panel_gap",
+          "slot": "cta_panel_gap",
+          "kind": "number",
+          "value": 48,
+          "evidence": [
+            "computed CTA panel grid gap 48px with columns measured 309.328/309.328/309.344px inside the 1024px content width"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "section_padding",
+          "slot": "section_padding",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "section survey: the Locations band pads 128px top and 80px bottom; the CTA band pads 48px; the footer pads 40px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 25
+        },
+        {
+          "id": "container_top_padding",
+          "slot": "container_top_padding",
+          "kind": "number",
+          "value": 128,
+          "evidence": [
+            "section survey records pt 128px on the Locations band; H1 top at y128"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "nav_height",
+          "slot": "nav_height",
+          "kind": "number",
+          "value": 76,
+          "evidence": [
+            "computed nav box x0 y0 w1440 h76 with 16px 24px padding"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "card_radius",
+          "slot": "card_radius",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "tiles and the CTA panel both compute radius 16px; radius census shows 16px as the most common non-zero radius (19 nodes)"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "pill_radius",
+          "slot": "pill_radius",
+          "kind": "number",
+          "value": 24,
+          "evidence": [
+            "nav CTA, View pills and the Contact pill all compute radius 24px"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "field_radius",
+          "slot": "field_radius",
+          "kind": "number",
+          "value": 8,
+          "evidence": [
+            "filter wrappers compute radius 8px, distinct from the page's 16px card radius and its 24px pill radius"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "spacing_unit",
+          "slot": "spacing_unit",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "grid gap, card padding, filter gap and the card's internal flex gap all measure 16px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 25
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the page lays out on a single 1120px container; nothing sits outside it except the nav and the footer"
+        },
+        {
+          "kind": "always",
+          "rule": "the tile grid is strictly three columns at desktop with a 16px gap on both axes"
+        },
+        {
+          "kind": "never",
+          "rule": "a tile size that varies with its content; every tile is 363x400 at desktop"
+        },
+        {
+          "kind": "never",
+          "rule": "centred copy on this page; the layout is left-aligned throughout"
+        }
+      ],
+      "directives": [
+        "lay everything on a 1120px container with 128px of top padding before the H1",
+        "build the directory as three equal columns at a 16px gap with every tile fixed at 363x400, stepping to two columns at 834w and one at 390w",
+        "place the two filter controls side by side as 240x40 fields with 16px between them",
+        "inset the CTA panel to the container width with a 16px radius and 48px padding, and let only the footer run full bleed"
+      ]
+    },
+    {
+      "id": "structure",
+      "scales": [
+        {
+          "id": "hierarchy_depth",
+          "poles": [
+            "flat",
+            "deep"
+          ],
+          "value": 3.5,
+          "evidence": [
+            "two heading levels: a 40px H1 and one 40px H2 in the CTA panel; no h3 exists on the page; nesting stops at grid -> tile -> name over address",
+            "the header has no breadcrumb and no eyebrow, so the page carries fewer layers than its own sibling property page, which runs a breadcrumb, an H1 and four h3s"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "rhythm",
+          "poles": [
+            "uniform",
+            "syncopated"
+          ],
+          "value": 4.0,
+          "evidence": [
+            "a clear four-beat march: header, filter bar, tile grid, CTA panel, with the grid's even 416px rows carrying the middle of the page",
+            "the break is the CTA panel, which switches to a dark fill and a three-column internal layout immediately before the footer's second dark band"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "component_voice",
+          "poles": [
+            "borderless",
+            "framed"
+          ],
+          "value": 7.0,
+          "evidence": [
+            "the dominant components are all framed: six bordered-by-photo tiles at 16px radius, two hairline-bordered filter fields, and a solid black CTA panel with a 16px radius",
+            "the unframed elements are only the header text and the feature rows inside the dark panel, so this page reads more framed than either sibling"
+          ],
+          "confidence": "medium"
+        }
+      ],
+      "values": [
+        {
+          "id": "section_order",
+          "slot": "section_order",
+          "kind": "enum",
+          "value": [
+            "nav",
+            "page_header",
+            "filter_bar",
+            "location_grid",
+            "cta_panel",
+            "footer"
+          ],
+          "evidence": [
+            "section survey in document order: Locations band (y0 h1253) containing LocationsList (y279 h894) -> CTA panel (y1333 h293) -> footer (y1666 h295)",
+            "text export order matches: nav, Our Locations, subtitle, Name/City filters, six location names with addresses and View, Ready to find your flow, features, Contact us, footer"
+          ],
+          "usage": "Drive band order from this list. The filter bar is not a band of its own; it sits inside the Locations band above the list."
+        },
+        {
+          "id": "section_count",
+          "slot": "section_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "four surveyed bands: the Locations band, the CTA panel band, and the footer band (plus the fixed nav)"
+          ]
+        },
+        {
+          "id": "heading_levels",
+          "slot": "heading_levels",
+          "kind": "enum",
+          "value": [
+            "h1",
+            "h2"
+          ],
+          "evidence": [
+            "document query returns one h1 ('Our Locations') and one h2 ('Ready to find your flow?'); the h3 query returns empty"
+          ],
+          "usage": "Unlike the sibling pages, the CTA heading is an h2 here and no h3 exists."
+        },
+        {
+          "id": "card_count",
+          "slot": "card_count",
+          "kind": "number",
+          "value": 6,
+          "evidence": [
+            "six tiles render: Tuileries, Commerce, Triomphe, Gustave Eiffel, Op\u00e9ra, Bor\u00e9ly"
+          ]
+        },
+        {
+          "id": "filter_control_count",
+          "slot": "filter_control_count",
+          "kind": "number",
+          "value": 2,
+          "evidence": [
+            "one text input and one select render in the filter row"
+          ]
+        },
+        {
+          "id": "city_option_count",
+          "slot": "city_option_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "select options as rendered: All, Paris, Marseille, Rennes (values __all__, plus three content ids)"
+          ]
+        },
+        {
+          "id": "feature_row_count",
+          "slot": "feature_row_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "four icon+label rows in the CTA panel: 500 Mbps Wi-Fi, 24/7 Access, Meeting Rooms, Ergonomic Chairs"
+          ]
+        },
+        {
+          "id": "avatar_count",
+          "slot": "avatar_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "four 32px portrait circles at x923/x947/x971/x995 on y1543"
+          ]
+        },
+        {
+          "id": "empty_state_present",
+          "slot": "empty_state_present",
+          "kind": "enum",
+          "value": [
+            "unknown"
+          ],
+          "evidence": [
+            "typing an impossible query removed the visible cards but no empty-state string was found in the page text and the card detector still matched wrapper nodes"
+          ],
+          "usage": "Unresolved: whether an empty state exists, and what it says. Recorded as a gap rather than asserted."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the filter bar sits between the header block and the tile grid, not above the title"
+        },
+        {
+          "kind": "always",
+          "rule": "the CTA panel follows the grid and precedes the footer"
+        },
+        {
+          "kind": "never",
+          "rule": "a third heading level below the CTA panel's h2"
+        }
+      ],
+      "directives": [
+        "order the page nav, header, filter bar, tile grid, CTA panel, footer",
+        "keep the filter bar inside the header band directly above the grid so filtering reads as acting on the list below it",
+        "give the page exactly one h1 and one h2 and no h3"
+      ]
+    },
+    {
+      "id": "type",
+      "scales": [
+        {
+          "id": "scale_contrast",
+          "poles": [
+            "even",
+            "dramatic"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "the page uses a 40 / 16 / 14 / 12 scale: the H1 is 2.5x the 16px body, and the 40px size is reused verbatim for the CTA heading so the page has two 40px display moments and a long 16px middle",
+            "there is no step between 16 and 40, which is what keeps the contrast modest: 12 and 14px carry every label and every address"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "weight_voice",
+          "poles": [
+            "light",
+            "heavy"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "a strict two-weight system: 400 for the subtitle, addresses, filter labels and the avatar caption; 500 for the H1, the CTA heading, the tile names, the feature labels, the button labels and the nav CTA",
+            "no visible string renders at 600 or 700, so the heaviest type on the page is 500 at 40px"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "family_register",
+          "poles": [
+            "editorial",
+            "utilitarian"
+          ],
+          "value": 4.0,
+          "evidence": [
+            "a single geometric sans, Plus Jakarta Sans, on every visible node; DM Sans and Inter are loaded but render nothing",
+            "the register is neutral-product: no serif, no display face, no italic anywhere in the capture"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "tracking_case",
+          "poles": [
+            "sentence-case",
+            "all-caps/wide"
+          ],
+          "value": 0.5,
+          "evidence": [
+            "every visible string is sentence or title case; textTransform computes none throughout and no uppercase string appears in the text export",
+            "tracking is negative and proportional: -1.2px on both 40px headings (-3%), normal on everything at 16px and below"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "font_family",
+          "slot": "font_family",
+          "kind": "identity",
+          "value": "Plus Jakarta Sans",
+          "evidence": [
+            "computed font-family on the H1, subtitle, filter labels, select, tile names, CTA heading and footer links: \"Plus Jakarta Sans\", \"Plus Jakarta Sans Placeholder\", sans-serif"
+          ],
+          "usage": "Identity value: resolve to Plus Jakarta Sans; the Placeholder entry is Framer's fallback alias."
+        },
+        {
+          "id": "h1_size",
+          "slot": "h1_size",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "computed H1 'Our Locations' 40px with line-height 48px on a 1120x48 box"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "h1_line_height",
+          "slot": "h1_line_height",
+          "kind": "number",
+          "value": 48,
+          "evidence": [
+            "computed line-height 48px on the H1"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "h1_tracking",
+          "slot": "h1_tracking",
+          "kind": "number",
+          "value": -1.2,
+          "evidence": [
+            "computed letter-spacing -1.2px on the 40px H1 and identically on the 40px CTA heading"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "display_reuse",
+          "slot": "display_reuse",
+          "kind": "number",
+          "value": 2,
+          "evidence": [
+            "two elements compute 40px/48px weight 500 with -1.2px tracking: the H1 and the CTA panel's h2"
+          ],
+          "usage": "The CTA heading is not a smaller echo; it is set at exactly the page title's size."
+        },
+        {
+          "id": "body_size",
+          "slot": "body_size",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "computed subtitle 16px, feature labels 16px, tile names 16px, body line 16px, button labels 16px"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "body_line_height",
+          "slot": "body_line_height",
+          "kind": "number",
+          "value": 22.4,
+          "evidence": [
+            "computed line-height 22.4px on 16px text, i.e. 1.4"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "secondary_size",
+          "slot": "secondary_size",
+          "kind": "number",
+          "value": 14,
+          "evidence": [
+            "computed tile addresses 14px, avatar caption 14px, search input 14px, select 14px, footer links 14px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "label_size",
+          "slot": "label_size",
+          "kind": "number",
+          "value": 12,
+          "evidence": [
+            "computed filter labels 'Name' and 'City' at 12px with a 14.4px line height"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "font_weights",
+          "slot": "font_weights",
+          "kind": "enum",
+          "value": [
+            "400",
+            "500"
+          ],
+          "evidence": [
+            "visible-weight census: 400 for subtitle, addresses, filter labels and the avatar caption; 500 for the H1, CTA heading, tile names, feature labels and button labels"
+          ]
+        },
+        {
+          "id": "heading_ink",
+          "slot": "heading_ink",
+          "kind": "identity",
+          "value": "rgb(0,0,0)",
+          "evidence": [
+            "computed H1 colour rgb(0,0,0) on the light canvas; the CTA heading computes rgb(255,255,255) on the black panel"
+          ],
+          "usage": "Identity value: headings are pure black on the canvas and pure white on the dark panel."
+        },
+        {
+          "id": "secondary_ink",
+          "slot": "secondary_ink",
+          "kind": "identity",
+          "value": "rgba(31,31,31,0.8)",
+          "evidence": [
+            "computed subtitle colour rgba(31,31,31,0.8), the same secondary ink the sibling pages use"
+          ],
+          "usage": "Identity value: black at 80% alpha."
+        },
+        {
+          "id": "scrim_text_ink",
+          "slot": "scrim_text_ink",
+          "kind": "identity",
+          "value": "rgb(204,204,204)",
+          "evidence": [
+            "computed tile address colour rgb(204,204,204) over the photo scrim"
+          ],
+          "usage": "Identity value: dimmed text over imagery."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "one family, Plus Jakarta Sans, on every visible string"
+        },
+        {
+          "kind": "always",
+          "rule": "nothing on the page renders heavier than 500"
+        },
+        {
+          "kind": "always",
+          "rule": "40px display type carries -1.2px tracking; 16px and below sits at normal tracking"
+        },
+        {
+          "kind": "never",
+          "rule": "uppercase or wide tracking on any visible string"
+        },
+        {
+          "kind": "never",
+          "rule": "a display size between 16px and 40px; the scale jumps"
+        }
+      ],
+      "directives": [
+        "set Plus Jakarta Sans across the page; body 400, display and controls 500, nothing heavier than 500",
+        "set both the page title and the CTA heading to 40px/48px weight 500 with -1.2px tracking",
+        "hold body and control text at 16px/22.4px, addresses and captions at 14px, and filter labels at 12px",
+        "set headings to #000 on the canvas and #fff inside the dark panel"
+      ]
+    },
+    {
+      "id": "color",
+      "scales": [
+        {
+          "id": "base_polarity",
+          "poles": [
+            "light canvas",
+            "dark canvas"
+          ],
+          "value": 2.5,
+          "evidence": [
+            "the canvas is white and the page runs light for its first 1333px; the dark areas are the CTA panel (a 1120x293 inset block) and the full-bleed footer band, which together are under a fifth of the page's height",
+            "the palette census returns rgb(0,0,0) 313 times against rgb(255,255,255) 82, but the black count is dominated by text nodes and zero-size wrappers rather than filled area"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "temperature",
+          "poles": [
+            "cool",
+            "warm"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "every interface surface is neutral: pure black, pure white and neutral alpha greys, with no hue in the chrome",
+            "warmth reaches the page only through the six interior photographs, not through a tinted token"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "chroma",
+          "poles": [
+            "muted",
+            "vivid"
+          ],
+          "value": 0.5,
+          "evidence": [
+            "the interface is fully desaturated: no accent colour on the filters, the pills, the states or the panel",
+            "the computed non-neutral colour list on this page is empty \u2014 there is not even the translucent grey the property page's form fields use",
+            "there is no accent hex to record, which is the finding"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "palette_width",
+          "poles": [
+            "singular/duo",
+            "many hues"
+          ],
+          "value": 1.0,
+          "evidence": [
+            "two surfaces, black and white, plus two neutral inks (rgba(31,31,31,0.8) and rgb(204,204,204)) and one hairline border at rgba(0,0,0,0.1)",
+            "no third hue exists anywhere in the interface"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "contrast",
+          "poles": [
+            "soft",
+            "hard"
+          ],
+          "value": 8.5,
+          "evidence": [
+            "black 500-weight headings on white; a pure black CTA panel against a pure white page; white 500-weight labels inside that panel; tile names in pure white over a scrim reaching rgba(0,0,0,0.9)",
+            "the softest pairing on the page is the subtitle at rgba(31,31,31,0.8), which still clears 12:1 on white"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "surface_finish",
+          "poles": [
+            "flat",
+            "decorated"
+          ],
+          "value": 1.5,
+          "evidence": [
+            "every surface is a flat fill: the panel, the footer, the pills and the filter fields carry no gradient, no shadow and no texture",
+            "the only gradient on the page is the tile scrim, which is a legibility device rather than decoration, and the only border is a 1px rgba(0,0,0,0.1) hairline on the filter fields"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "canvas",
+          "slot": "canvas",
+          "kind": "identity",
+          "value": "rgb(255,255,255)",
+          "evidence": [
+            "computed body and page background rgb(255,255,255)"
+          ],
+          "usage": "Identity value: pure white canvas."
+        },
+        {
+          "id": "ink",
+          "slot": "ink",
+          "kind": "identity",
+          "value": "rgb(0,0,0)",
+          "evidence": [
+            "computed H1, tile names, filter labels and feature labels: rgb(0,0,0)"
+          ],
+          "usage": "Identity value: pure black ink."
+        },
+        {
+          "id": "dark_surface",
+          "slot": "dark_surface",
+          "kind": "identity",
+          "value": "rgb(0,0,0)",
+          "evidence": [
+            "computed CTA panel background rgb(0,0,0) and footer background rgb(0,0,0)"
+          ],
+          "usage": "Identity value: the panel and the footer share the ink hex."
+        },
+        {
+          "id": "secondary_ink",
+          "slot": "secondary_ink",
+          "kind": "identity",
+          "value": "rgba(31,31,31,0.8)",
+          "evidence": [
+            "computed subtitle colour rgba(31,31,31,0.8)"
+          ],
+          "usage": "Identity value: black at 80% alpha."
+        },
+        {
+          "id": "scrim_text_ink",
+          "slot": "scrim_text_ink",
+          "kind": "identity",
+          "value": "rgb(204,204,204)",
+          "evidence": [
+            "computed tile address colour rgb(204,204,204)"
+          ],
+          "usage": "Identity value: dimmed text over the tile scrim."
+        },
+        {
+          "id": "hairline",
+          "slot": "hairline",
+          "kind": "identity",
+          "value": "rgba(0,0,0,0.1)",
+          "evidence": [
+            "computed ::after border-colour on both filter wrappers: rgba(0,0,0,0.1) at 1px"
+          ],
+          "usage": "Identity value: the filter fields are defined by a 10%-black hairline, not a grey fill."
+        },
+        {
+          "id": "photo_scrim",
+          "slot": "photo_scrim",
+          "kind": "identity",
+          "value": "linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%)",
+          "evidence": [
+            "computed background-image on the tile overlay node"
+          ],
+          "usage": "Identity value: the same ramp the sibling property page uses."
+        },
+        {
+          "id": "accent_hue",
+          "slot": "accent_hue",
+          "kind": "enum",
+          "value": [
+            "none"
+          ],
+          "evidence": [
+            "the non-neutral colour census for this page is empty; no accent renders on any control or state"
+          ],
+          "usage": "The absence is the rule: do not add an accent when generating from this rubric."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "a duotone of pure black and pure white, with neutral alpha greys for secondary text and the filter hairline"
+        },
+        {
+          "kind": "always",
+          "rule": "the dark areas are exactly two: the inset CTA panel and the full-bleed footer"
+        },
+        {
+          "kind": "never",
+          "rule": "an accent or brand hue on filters, pills, states or decoration"
+        },
+        {
+          "kind": "never",
+          "rule": "a shadow, gradient or texture on an interface surface"
+        },
+        {
+          "kind": "never",
+          "rule": "a near-black ink or an off-white canvas; both are pure"
+        }
+      ],
+      "directives": [
+        "set the canvas to #fff and the ink to #000; the page has no accent token",
+        "use rgba(31,31,31,0.8) for the subtitle, rgb(204,204,204) only for text over a photo, and a 1px rgba(0,0,0,0.1) hairline to define the filter fields",
+        "fill the CTA panel and the footer with #000 and keep every other surface flat white",
+        "apply the exact ramp linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%) as the only gradient on the page"
+      ]
+    },
+    {
+      "id": "motion",
+      "scales": [
+        {
+          "id": "energy",
+          "poles": [
+            "still",
+            "kinetic"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "the page opens with a real entrance sequence: six cards staggering in over 400-1700ms, an H1 resolving from a 4px blur, and a subtitle fading up behind it, so the first 1.7s are genuinely active",
+            "after that the page is completely still: no marquee, no scroll-linked effect, no hover transforms, and zero animations in the settled state"
+          ],
+          "confidence": "high",
+          "note": "The split is what puts this at the midpoint: a loud one-shot entrance followed by a static page. The sibling property page has no entrance at all (energy 1.0) and the home page runs continuous marquees (energy 6.5)."
+        },
+        {
+          "id": "temperament",
+          "poles": [
+            "functional",
+            "expressive"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "the easing is expressive rather than mechanical \u2014 cubic-bezier(0.12,0.23,0.17,0.98), a fast-out slow-in curve shared with the home page, plus a 16px rise and per-glyph blur on the title",
+            "against that, the purpose is entirely functional: it sequences a list so the eye reads it in order, and nothing animates decoratively after load"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "entrance_stagger_step",
+          "slot": "entrance_stagger_step",
+          "kind": "number",
+          "value": 100,
+          "evidence": [
+            "per-card delays sampled from first paint: 400, 500, 600, 700, 800, 900ms \u2014 a 100ms step"
+          ],
+          "unit": "ms",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "entrance_card_duration",
+          "slot": "entrance_card_duration",
+          "kind": "number",
+          "value": 800,
+          "evidence": [
+            "every card animates for 800ms on both its opacity and its transform"
+          ],
+          "unit": "ms"
+        },
+        {
+          "id": "entrance_first_delay",
+          "slot": "entrance_first_delay",
+          "kind": "number",
+          "value": 400,
+          "evidence": [
+            "the first card's delay measured 400ms; the H1 glyph spans are already running at 1070ms"
+          ],
+          "unit": "ms",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "entrance_rise",
+          "slot": "entrance_rise",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "card and subtitle keyframes: transform translateY(16px) -> none; the CTA SourceOfTruth element uses translateY(40px)"
+          ],
+          "unit": "px",
+          "tolerance_pct": 20
+        },
+        {
+          "id": "entrance_hold_opacity",
+          "slot": "entrance_hold_opacity",
+          "kind": "number",
+          "value": 0.001,
+          "evidence": [
+            "every entrance keyframe starts at opacity 0.001 rather than 0, so elements remain hit-testable and measurable while invisible"
+          ],
+          "usage": "Reproduce the 0.001 floor exactly; a literal 0 changes focus and pointer behaviour."
+        },
+        {
+          "id": "entrance_easing",
+          "slot": "entrance_easing",
+          "kind": "identity",
+          "value": "cubic-bezier(0.12, 0.23, 0.17, 0.98)",
+          "evidence": [
+            "recorded on all six card animations, the H1 glyph spans, the subtitle and the CTA source element"
+          ],
+          "usage": "Identity value: the settle curve, shared with the template's home page."
+        },
+        {
+          "id": "h1_blur_from",
+          "slot": "h1_blur_from",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "H1 glyph-span keyframes: filter blur(4px) -> blur(0px) over 800ms"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "subtitle_delay",
+          "slot": "subtitle_delay",
+          "kind": "number",
+          "value": 200,
+          "evidence": [
+            "subtitle container animates opacity and transform for 800ms with a 200ms delay"
+          ],
+          "unit": "ms",
+          "tolerance_pct": 15
+        },
+        {
+          "id": "cta_rise",
+          "slot": "cta_rise",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "the [data-framer-name='SourceOfTruth'] element animates translateY(40px) -> none over 1500ms on a 400ms delay"
+          ],
+          "unit": "px",
+          "tolerance_pct": 15
+        },
+        {
+          "id": "transition_shortest",
+          "slot": "transition_shortest",
+          "kind": "identity",
+          "value": "color 0.15s",
+          "evidence": [
+            "CSSOM transition dump: .framer-form-text-input-clear -> color 0.15s"
+          ],
+          "usage": "Identity value: the shortest declared transition, inherited with the form component."
+        },
+        {
+          "id": "movement_trigger_list",
+          "slot": "movement_trigger_list",
+          "kind": "enum",
+          "value": [
+            "load (staggered entrance)",
+            "hover (colour, unverified on this page)"
+          ],
+          "evidence": [
+            "all recorded animations run once at load with iterations 1; no scroll-linked or intersection animation fired during the capture"
+          ],
+          "usage": "The trigger list is load-and-hover only: there is no scroll reveal on this page."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the card grid enters as a staggered wave, 100ms apart in reading order, first card at about 400ms"
+        },
+        {
+          "kind": "always",
+          "rule": "entrance animations start from opacity 0.001, not 0"
+        },
+        {
+          "kind": "always",
+          "rule": "entrance easing is cubic-bezier(0.12, 0.23, 0.17, 0.98)"
+        },
+        {
+          "kind": "never",
+          "rule": "a scroll-linked reveal, a marquee or a looping animation"
+        },
+        {
+          "kind": "never",
+          "rule": "a hover transform or scale"
+        }
+      ],
+      "directives": [
+        "animate the six tiles in reading order: opacity 0.001 to 1 and translateY(16px) to none, 800ms each, delays 400/500/600/700/800/900ms",
+        "split the H1 into per-glyph spans and blur each from 4px to 0 over 800ms on the same curve; give the subtitle a 200ms delay",
+        "use cubic-bezier(0.12, 0.23, 0.17, 0.98) for every entrance and keep all transitions colour-only at 0.4s or less",
+        "run every animation once at load and leave the page still thereafter"
+      ]
+    },
+    {
+      "id": "imagery",
+      "scales": [
+        {
+          "id": "role",
+          "poles": [
+            "text-led",
+            "image-led"
+          ],
+          "value": 7.5,
+          "evidence": [
+            "the page is six full-bleed photographs filling 363x400 tiles, i.e. most of a 1961px page is image; the text is a title, a subtitle, two filter labels and six name-address pairs",
+            "the imagery carries the directory's whole content, since the only way to tell one location from another at a glance is its photograph"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "medium",
+          "poles": [
+            "photographic",
+            "graphic"
+          ],
+          "value": 9.0,
+          "evidence": [
+            "every tile and every avatar is a photograph; there is no illustration or abstract graphic on the page",
+            "the line icons in the filter field and the feature list are UI glyphs, not imagery"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "treatment",
+          "poles": [
+            "natural",
+            "stylized"
+          ],
+          "value": 1.5,
+          "evidence": [
+            "the photographs are untreated: no duotone, no grade, no blur and no cut-out",
+            "the only post-processing is the bottom scrim on each tile, which is a legibility device applied identically over six different photos"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "framing",
+          "poles": [
+            "sharp",
+            "rounded"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "tiles compute a 16px radius on a 363x400 box, under 5% of the short side, so corners read as softened rather than pilled",
+            "the avatar circles are an exception at 40px radius (fully round), but they are portraits in a proof row rather than content imagery"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "tile_radius",
+          "slot": "tile_radius",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "tile radius computes 16px; image radius census: 16px appears 19 times, the most common non-zero radius on the page"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "tile_ratio",
+          "slot": "tile_ratio",
+          "kind": "number",
+          "value": 0.91,
+          "evidence": [
+            "derived from the 363x400 tile box, taller than wide"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "avatar_size",
+          "slot": "avatar_size",
+          "kind": "number",
+          "value": 32,
+          "evidence": [
+            "four computed avatar boxes of 32x32 at y1543"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "avatar_overlap",
+          "slot": "avatar_overlap",
+          "kind": "number",
+          "value": 8,
+          "evidence": [
+            "derived: circles at x923/x947/x971/x995 are 24px apart while each is 32px wide"
+          ],
+          "unit": "px",
+          "tolerance_pct": 20
+        },
+        {
+          "id": "avatar_radius",
+          "slot": "avatar_radius",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "computed avatar border-radius 40px on a 32px box, i.e. fully round"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "overlay_scrim",
+          "slot": "overlay_scrim",
+          "kind": "identity",
+          "value": "linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%)",
+          "evidence": [
+            "computed background-image on the tile overlay node"
+          ],
+          "usage": "Identity value: the only overlay in the system, shared with the sibling property page."
+        },
+        {
+          "id": "image_object_fit",
+          "slot": "image_object_fit",
+          "kind": "enum",
+          "value": [
+            "cover"
+          ],
+          "evidence": [
+            "photographs fill their fixed frames without letterboxing at all three widths; the mobile stills crop rather than fit"
+          ],
+          "usage": "Frames are fixed-aspect containers the photo fills; the crop adapts, the frame does not."
+        },
+        {
+          "id": "photo_count",
+          "slot": "photo_count",
+          "kind": "number",
+          "value": 10,
+          "evidence": [
+            "six tile photographs plus four avatar portraits render in the capture"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "location imagery is an untreated interior photograph filling a fixed 363x400 frame"
+        },
+        {
+          "kind": "always",
+          "rule": "text on a photograph sits on the recorded bottom-anchored scrim"
+        },
+        {
+          "kind": "never",
+          "rule": "a duotone, grade, blur or cut-out treatment on a photograph"
+        },
+        {
+          "kind": "never",
+          "rule": "a square-cornered photographic frame; tiles are 16px and avatars are fully round"
+        }
+      ],
+      "directives": [
+        "give every tile an untreated interior photograph filling a 363x400 frame with object-fit cover and a 16px radius",
+        "apply the exact bottom scrim and set the name in white 16px/500 over the address in rgb(204,204,204) 14px",
+        "render the proof row as four 32px fully round portraits overlapping by 8px"
+      ]
+    },
+    {
+      "id": "copy",
+      "scales": [
+        {
+          "id": "register",
+          "poles": [
+            "casual",
+            "formal"
+          ],
+          "value": 5.5,
+          "evidence": [
+            "the header states the directory's promise in a warm sentence ('From the heart of the city to calmer corners, our coworking spaces are designed to keep you productive, connected, and inspired') and the CTA closes on 'Ready to find your flow?' with 'Your desk is waiting.'",
+            "against that, the operational copy is strictly functional: the labels are 'Name' and 'City', the placeholder is 'Search\u2026', and every card action is the single word 'View'"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "voice",
+          "poles": [
+            "plain",
+            "playful"
+          ],
+          "value": 4.5,
+          "evidence": [
+            "the page's own voice sits in two lines \u2014 the subtitle's 'heart of the city to calmer corners' and the CTA's 'find your flow' \u2014 while everything structural stays plain",
+            "the six tile labels are bare proper nouns with no descriptors at all"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "density",
+          "poles": [
+            "terse",
+            "explanatory"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "there is exactly one sentence of prose on the page in the header and one in the CTA panel; everything else is a label, an address or a two-word button",
+            "of roughly 40 visible strings, only two are full sentences"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "h1_text",
+          "slot": "h1_text",
+          "kind": "identity",
+          "value": "Our Locations",
+          "evidence": [
+            "computed H1 innerText 'Our Locations'; the text export lists it alone under the nav"
+          ],
+          "usage": "Identity value: a possessive plural, not 'Locations' and not a city name."
+        },
+        {
+          "id": "subtitle_text",
+          "slot": "subtitle_text",
+          "kind": "identity",
+          "value": "From the heart of the city to calmer corners, our coworking spaces are designed to keep you productive, connected, and inspired",
+          "evidence": [
+            "subtitle text export, rendering as one line at 560px width"
+          ],
+          "usage": "Identity value: note the Oxford comma before 'and inspired'."
+        },
+        {
+          "id": "filter_labels",
+          "slot": "filter_labels",
+          "kind": "enum",
+          "value": [
+            "Name",
+            "City"
+          ],
+          "evidence": [
+            "computed filter label text at 12px, x160 and x416 on y279"
+          ],
+          "usage": "Bare nouns; the search label says 'Name' rather than 'Search'."
+        },
+        {
+          "id": "search_placeholder",
+          "slot": "search_placeholder",
+          "kind": "identity",
+          "value": "Search\u2026",
+          "evidence": [
+            "computed search input placeholder text"
+          ],
+          "usage": "Identity value: uses a single-character ellipsis (U+2026), not three periods."
+        },
+        {
+          "id": "default_city_option",
+          "slot": "default_city_option",
+          "kind": "identity",
+          "value": "All",
+          "evidence": [
+            "computed select value __all__ with the rendered label 'All'"
+          ],
+          "usage": "Identity value: the unfiltered state is labelled 'All', not 'All cities' or 'Any'."
+        },
+        {
+          "id": "city_options",
+          "slot": "city_options",
+          "kind": "enum",
+          "value": [
+            "All",
+            "Paris",
+            "Marseille",
+            "Rennes"
+          ],
+          "evidence": [
+            "computed select option list"
+          ],
+          "usage": "City names are bare; the all-sentinel sits first."
+        },
+        {
+          "id": "card_label_pattern",
+          "slot": "card_label_pattern",
+          "kind": "identity",
+          "value": "<Location name> over <street>, <postcode> <city>",
+          "evidence": [
+            "tile text renders as a proper noun over an address line, e.g. 'Tuileries' over '6 Av. du G\u00e9n\u00e9ral Lemonnier, 75001 Paris'"
+          ],
+          "usage": "Identity value: no descriptor, no city-only label, no distance."
+        },
+        {
+          "id": "card_cta_label",
+          "slot": "card_cta_label",
+          "kind": "identity",
+          "value": "View",
+          "evidence": [
+            "every tile renders a single-word 'View' pill in the capture"
+          ],
+          "usage": "Identity value: the four-fold repetition of one word is the page's deliberate flatness."
+        },
+        {
+          "id": "cta_heading_text",
+          "slot": "cta_heading_text",
+          "kind": "identity",
+          "value": "Ready to find your flow?",
+          "evidence": [
+            "computed h2 text in the CTA panel"
+          ],
+          "usage": "Identity value: the template's recurring conversion line."
+        },
+        {
+          "id": "cta_body_text",
+          "slot": "cta_body_text",
+          "kind": "identity",
+          "value": "Join a community of driven professionals built for focus, flexibility, and real connection. Your desk is waiting.",
+          "evidence": [
+            "CTA panel body text, rendering as two lines at 600px"
+          ],
+          "usage": "Identity value: three sentences, ending on a five-word fragment."
+        },
+        {
+          "id": "cta_button_text",
+          "slot": "cta_button_text",
+          "kind": "identity",
+          "value": "Contact us",
+          "evidence": [
+            "computed 'Contact us' label in the white pill"
+          ],
+          "usage": "Identity value: verb plus pronoun, not 'Get in touch'."
+        },
+        {
+          "id": "feature_labels",
+          "slot": "feature_labels",
+          "kind": "enum",
+          "value": [
+            "500 Mbps Wi-Fi",
+            "24/7 Access",
+            "Meeting Rooms",
+            "Ergonomic Chairs"
+          ],
+          "evidence": [
+            "the four computed feature-row labels in the CTA panel"
+          ],
+          "usage": "Note the hyphenated 'Wi-Fi' with a capital F and the spaced '24/7'."
+        },
+        {
+          "id": "social_proof_text",
+          "slot": "social_proof_text",
+          "kind": "identity",
+          "value": "Join 500+ professionals",
+          "evidence": [
+            "computed caption beside the avatar stack, 14px"
+          ],
+          "usage": "Identity value: verb-first, with a numeral-plus-sign threshold."
+        },
+        {
+          "id": "punctuation_policy",
+          "slot": "punctuation_policy",
+          "kind": "identity",
+          "value": "full stops only in the CTA body; no stops on labels, addresses or card names; ellipsis on the search placeholder",
+          "evidence": [
+            "the CTA body carries three sentence-ending stops; every label, address and card name in the text export ends without punctuation; 'Search\u2026' uses a single ellipsis character"
+          ],
+          "usage": "Identity value: the page reserves sentence punctuation for the two prose moments."
+        },
+        {
+          "id": "card_address_pattern",
+          "slot": "card_address_pattern",
+          "kind": "identity",
+          "value": "<street>, <postcode> <city>",
+          "evidence": [
+            "tile addresses: '6 Av. du G\u00e9n\u00e9ral Lemonnier, 75001 Paris', 'Pl. de la R\u00e9publique, 35000 Rennes', 'Av. du Parc Bor\u00e9ly, 13008 Marseille'"
+          ],
+          "usage": "Identity value: one line, street then postcode then city, identical to the property page's pattern."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the H1 is a possessive plural of the page type ('Our Locations'), not the bare noun"
+        },
+        {
+          "kind": "always",
+          "rule": "every tile action is the single word View, repeated identically across all cards"
+        },
+        {
+          "kind": "always",
+          "rule": "filter labels are bare nouns and the search field is placeholdered 'Search\u2026'"
+        },
+        {
+          "kind": "never",
+          "rule": "a descriptor, category or distance on a card label; the label is the name plus its address"
+        },
+        {
+          "kind": "never",
+          "rule": "marketing adjectives in the filter or card copy; warmth is confined to the header and CTA sentences"
+        }
+      ],
+      "directives": [
+        "title the page 'Our Locations' over the one-line 'heart of the city to calmer corners' statement",
+        "label the filters 'Name' and 'City', placeholder the first 'Search\u2026', and label the unfiltered option 'All'",
+        "render each tile as the location's name over its street, postcode and city, with a single-word 'View' pill",
+        "close the page with 'Ready to find your flow?', the community sentence, 'Contact us', the four feature labels and 'Join 500+ professionals'"
+      ]
+    }
+  ],
+  "limitations": [
+    "The no-results state is unresolved: typing an impossible query removed the visible cards, but the card detector still matched five wrapper nodes and no empty-state string appeared in the page text. Whether the template prints a message, hides the grid, or silently shows nothing is unknown and should not be asserted when generating from this rubric.",
+    "Card filtering is confirmed functional (search 'tui' narrows to Tuileries; selecting Paris narrows to Tuileries) but the transition between filtered states was not characterised \u2014 whether cards animate out, fade, or replay the entrance stagger is unverified.",
+    "Hover and focus states on the filter controls, the View pills and the Contact pill are unverified. The filter border lives on the wrapper's ::after pseudo-element, which the hover probe used here cannot reach.",
+    "The city select is a native select, so its open state, option styling and any custom dropdown panel are outside the page DOM and were not captured; only the closed control and its four options are recorded.",
+    "The Contact pill contains a second, hidden 'Contact us' text container in the DOM at a different y offset. The rendered pill shows one label plus the orb; the duplicate is treated as an unused hover-slide artefact whose animated state was not confirmed.",
+    "A 10s opacity fade (0.001 to 0.001, effectively invisible) runs on the subtitle container on every load, as on the sibling pages. Its purpose is unresolved and it completes before measurement.",
+    "DM Sans and Inter load with the document but render no visible text; only Plus Jakarta Sans was observed rendering.",
+    "Wrapper nodes computing the default link blue rgb(0,0,238) appear here as on the sibling pages and are treated as not part of the design.",
+    "Template content is placeholder: six demo locations across three demo cities, demo avatar portraits, hello@yourcoworking.com and +33 6 12 34 56 78.",
+    "Validation is partial: discrimination was measured against the two sibling FlowSpace page rubrics, but a sensitivity pass, an invariance pass and a blind re-score are not yet recorded on this page.",
+    "The 834w and 390w grid measurements come from the capture's own stills plus a re-viewport probe; intermediate breakpoints between 390 and 834 were not measured.",
+    "Production use requires human sign-off on this frozen file."
+  ]
+}
