@@ -2,14 +2,12 @@
   export let data;
   import _ from "lodash";
   import { onMount } from "svelte";
-  import axios from "axios";
-  import { goto } from "$app/navigation";
   import Spinner from "./Spinner.svelte";
 
   let guests = 2;
   let email = "";
   let isSpinning = false;
-  let success = false; // ← ADDED: to track successful submission
+  let success = false; // track successful submission
 
   let checkInDate = getNextFriday();
   let checkOutDate = getNextMondayAfterFriday();
@@ -57,13 +55,15 @@
           checkOutDate,
           guests,
           propertyName: _.get(data, "nickname") + " " + _.get(data, "title"),
-          quote: formatPrice(data.prices.basePrice, data.prices.currency),
+          quote: formatPrice(
+            _.get(data, "prices.basePrice", 0),
+            _.get(data, "prices.currency", "USD")
+          ),
           id: _.get(data, "_id"),
         }),
       });
 
       if (response.ok) {
-        console.log("response ok hubspot");
         success = true;
       } else {
         alert("Submission failed – please try again.");
@@ -95,23 +95,35 @@
   });
 </script>
 
-<!-- Desktop sidebar form -->
+<!-- Sticky enquiry card -->
 <form on:submit={runHubspot}>
-  <div
-    class="border border-black p-6 rounded-xl shadow sticky top-32 order-1 lg:order-2 mb-12"
-  >
-    <p>{data.nickname}</p>
-    <p class="font-medium pb-4">
-      {formatPrice(data.prices.basePrice, data.prices.currency)} / night
+  <div class="sticky top-20 rounded-2xl bg-black p-5 text-white">
+    <p class="text-base font-medium">Book your stay or ask us anything</p>
+    <p class="mt-2 text-sm text-neutral-300">
+      Want to check dates or need help choosing the right villa? Drop us a
+      message!
     </p>
 
+    {#if _.get(data, "prices.basePrice")}
+      <p class="mt-3 text-sm text-neutral-300">
+        From
+        <span class="font-medium text-white"
+          >{formatPrice(
+            _.get(data, "prices.basePrice"),
+            _.get(data, "prices.currency", "USD")
+          )}</span
+        >
+        / night
+      </p>
+    {/if}
+
     {#if success}
-      <div class="text-center py-12">
+      <div class="py-10 text-center">
         <div
-          class="w-20 h-20 bg-black rounded-full mx-auto mb-6 flex items-center justify-center animate-checkmark"
+          class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-white"
         >
           <svg
-            class="w-12 h-12 text-white"
+            class="h-12 w-12 text-black"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -124,132 +136,138 @@
             />
           </svg>
         </div>
-        <h3 class="text-2xl font-medium mb-2">Thank You!</h3>
-        <p class="text-gray-600">
+        <h3 class="mb-2 text-2xl font-medium">Thank you!</h3>
+        <p class="text-sm text-neutral-300">
           Your enquiry has been sent.<br />We'll be in touch soon.
         </p>
       </div>
     {:else}
-      <div class="grid grid-cols-1 mb-6">
-        <!-- Email Address field -->
-        <div class="mt-6 mb-6">
-          <label class="font-medium text-sm" for="email-input"
-            >Email Address</label
-          >
-          <input
-            id="email-input"
-            type="email"
-            placeholder="you@example.com"
-            required
-            bind:value={email}
-            class="mt-0.5 py-1.5 pl-3 w-full text-white bg-black placeholder-white rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 sm:text-sm sm:leading-6"
-            style="color-scheme: dark;"
-          />
-        </div>
-        <div class="mb-4">
-          <label class="font-medium text-sm" for="checkin-input">Check In</label
-          >
-          <input
-            id="checkin-input"
-            class="text-white bg-black rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-0.5 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
-            type="date"
-            style="color-scheme: dark;"
-            bind:value={checkInDate}
-          />
-        </div>
+      <div class="mt-5 space-y-4">
         <div>
-          <label class="font-medium text-sm" for="checkout-input"
-            >Check Out</label
-          >
-          <input
-            id="checkout-input"
-            class="text-white bg-black rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-0.5 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
-            type="date"
-            style="color-scheme: dark;"
-            bind:value={checkOutDate}
-          />
+          <label class="text-xs text-white" for="email-input">Email</label>
+          <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
+            <input
+              id="email-input"
+              type="email"
+              placeholder="you@example.com"
+              required
+              bind:value={email}
+              class="w-full border-0 bg-transparent p-0 text-sm text-white placeholder-neutral-400 focus:ring-0"
+              style="color-scheme: dark;"
+            />
+          </div>
         </div>
-      </div>
 
-      <label class="font-medium text-sm mt-4" for="guests-input">Guests</label>
-      <div class="grid items-center grid-cols-5">
-        <input
-          id="guests-input"
-          type="number"
-          min="1"
-          max={data.accommodates}
-          class="mr-5 col-span-2 bg-transparent border-none text-right"
-          bind:value={guests}
-          aria-label="Number of guests"
-          style="width: 3em;"
-        />
-
-        <button
-          type="button"
-          class="mr-2 cursor-pointer"
-          aria-label="Increase guests"
-          on:click={() => {
-            if (guests < data.accommodates) guests++;
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
+        <div>
+          <label class="text-xs text-white" for="checkin-input">Check in</label>
+          <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
+            <input
+              id="checkin-input"
+              class="w-full border-0 bg-transparent p-0 text-sm text-white focus:ring-0"
+              type="date"
+              style="color-scheme: dark;"
+              bind:value={checkInDate}
             />
-          </svg>
-        </button>
+          </div>
+        </div>
 
-        <button
-          type="button"
-          class="cursor-pointer"
-          aria-label="Decrease guests"
-          on:click={() => {
-            if (guests > 1) guests--;
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
+        <div>
+          <label class="text-xs text-white" for="checkout-input">Check out</label
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M19.5 12h-15"
+          <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
+            <input
+              id="checkout-input"
+              class="w-full border-0 bg-transparent p-0 text-sm text-white focus:ring-0"
+              type="date"
+              style="color-scheme: dark;"
+              bind:value={checkOutDate}
             />
-          </svg>
-        </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs text-white" for="guests-input">Guests</label>
+          <div
+            class="mt-2 flex items-center justify-between rounded-lg bg-neutral-400/15 px-3 py-2"
+          >
+            <input
+              id="guests-input"
+              type="number"
+              min="1"
+              max={_.get(data, "accommodates", 10)}
+              class="w-12 border-0 bg-transparent p-0 text-sm text-white focus:ring-0"
+              bind:value={guests}
+              aria-label="Number of guests"
+            />
+
+            <div class="flex items-center gap-1">
+              <button
+                type="button"
+                class="cursor-pointer"
+                aria-label="Decrease guests"
+                on:click={() => {
+                  if (guests > 1) guests--;
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-5 w-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 12h-15"
+                  />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                class="cursor-pointer"
+                aria-label="Increase guests"
+                on:click={() => {
+                  if (guests < _.get(data, "accommodates", 10)) guests++;
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-5 w-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     {/if}
-    <hr class="mt-10 mb-4" />
 
-    <div>
-      <button
-        type="submit"
-        disabled={isSpinning || success}
-        class="text-lg my-5 inline-flex w-full items-center justify-center lg:px-12 px-6 py-4 text-center duration-200 bg-black text-white rounded-full focus:outline-none ring-white ring-1 transition-all relative
-         {success ? 'cursor-default' : 'cursor-pointer hover:ring-bound'}"
-      >
-        {#if isSpinning}
-          <Spinner />
-        {:else if success}
-          Sent!
-        {:else}
-          Enquire
-        {/if}
-      </button>
-    </div>
+    <button
+      type="submit"
+      disabled={isSpinning || success}
+      class="mt-5 inline-flex h-11 w-full items-center justify-center rounded-3xl bg-white text-base font-medium text-black focus:outline-none {success
+        ? 'cursor-default'
+        : 'cursor-pointer'}"
+    >
+      {#if isSpinning}
+        <Spinner />
+      {:else if success}
+        Sent!
+      {:else}
+        Send enquiry
+      {/if}
+    </button>
   </div>
 </form>

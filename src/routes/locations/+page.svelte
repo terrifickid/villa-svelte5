@@ -20,7 +20,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {#each data.countries as country}
       <a
-        href="/{encodeURIComponent(country)}"
+        href="/search/{encodeURIComponent(country)}"
         class="group bg-gray-100 rounded-2xl flex items-center justify-center min-h-40 p-8 transition-opacity duration-300 hover:opacity-70"
       >
         <h2 class="text-2xl font-medium">{country}</h2>

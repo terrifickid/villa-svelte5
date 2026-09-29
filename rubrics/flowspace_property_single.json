@@ -1,0 +1,2000 @@
+{
+  "format": "mixdown2",
+  "version": "1.0",
+  "rubric_id": "flowspace_property_single_v1",
+  "class": "web-design.page",
+  "intended_use": "both",
+  "source": {
+    "mode": "capture",
+    "what": "FlowSpace location detail page (flowspace.framer.website/locations/tuileries): a single-location page under the FlowSpace coworking template. Breadcrumb plus H1 and address over a dominant-plus-quadrant photo cluster, a sticky black enquiry form riding the right rail, an anchor tab row over three stacked sections (Spaces, Services, Access), a dark scrim photo card row for other locations, and the black footer. Monochrome UI, one family throughout, no accent hue.",
+    "when": "2026-09-29",
+    "method": "Node + puppeteer-core driving local Chromium (ms-playwright build). Loaded at 1440x900, 834x1112, 390x844; scrolled the full page to trigger every entrance, then advanced all running animations to their end state via document.getAnimations() finish+commitStyles so every still is settled. Full-page and fold stills per width. Computed-style probes on H1, section headings, breadcrumb, tabs, body, stat chips, space cards, service rows, location cards and their scrims, the enquiry form (card, labels, input wrappers, select, textarea, submit), nav and footer. Hover probes on nav links and submit button. Scroll probes at five offsets for the sticky form and the fixed nav. Full page text export.",
+    "gaps": [
+      "Hover states are only partly known. The nav link fades black to rgba(82,82,82,0.8) and the submit button was probed with no computed change. The nav CTA pill, the space cards and the location-card View pill could not be reached by the hover machinery (the picker resolved a hidden zero-size node ahead of the visible one), so their hover behaviour is unknown.",
+      "The anchor tab row is present with an active underline under Overview, but clicking a tab did not move the page in the probe; whether these tabs scroll to the sections, swap panel content, or are inert in the template is unresolved. Section headings exist for Spaces, Services and Access, so the anchors have plausible targets.",
+      "The 'Access' section contains the enquiry form only. In the visible column at desktop the section heading is followed by whitespace down to the Other-locations band; the form lives in the right rail, so the section reads as heading + empty column once the sticky form has scrolled away.",
+      "One long (10s, 5s delay) opacity fade is registered on a container in the animation timeline on every load; its purpose was not resolved and it had completed before measurement.",
+      "Several wrapper nodes compute the default link blue rgb(0,0,238) without rendering blue; the visible pills inherit no blue. Treated as not part of the design, as on the home page.",
+      "DM Sans and Inter load with the document but were not observed rendering any visible text; only Plus Jakarta Sans was seen. The rendered-size census returns only sizes up to 20px for body text, so H1 and heading sizes were read from the element itself rather than the census.",
+      "The hero image cluster is a carousel or gallery in the template's live behaviour; only its settled state is captured. Its drag or arrow affordance, if any, was not exercised.",
+      "The form is a demo: select options are Book a tour / Ask a question / Partnership / Something else, and no submission endpoint was exercised.",
+      "On mobile the stat chips wrap to two rows, which displaces the following section; the exact wrap breakpoints between 390 and 834 were not measured.",
+      "Template content is placeholder (demo address, hello@yourcoworking.com, +33 6 12 34 56 78) and would differ in a real deployment."
+    ],
+    "notes": "Sibling to flowspace_home_v1 (the template's home page). Both are pages of the same template; they share nav, footer, type scale, pill system and card radius. Where this page's evidence differs from the home page it is because the page is a detail template, not a landing page: no marquee strips, no plan inversion, no FAQ, no full-bleed hero. The sticky form is the page's structural signature and is absent from the home page."
+  },
+  "element_inventory": [
+    {
+      "element": "nav",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "white bar, 76px tall, position fixed (ancestor chain computes fixed at top 0 with a -720px x transform); logo plus four links plus a black CTA pill. Collapses to logo plus hamburger at 834 and below."
+    },
+    {
+      "element": "cta_pill",
+      "aspects": [
+        "layout",
+        "type",
+        "color",
+        "motion"
+      ],
+      "note": "'Find your desk', black, 158x44, 24px radius, 0 24px padding"
+    },
+    {
+      "element": "breadcrumb",
+      "aspects": [
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "Home > Locations > Tuileries with a light chevron separator; 14px, first two items muted, current item black"
+    },
+    {
+      "element": "page_header",
+      "aspects": [
+        "layout",
+        "type",
+        "color"
+      ],
+      "note": "H1 40px/48px weight 500, -1.2px tracking, over a 14px address line with a pin glyph"
+    },
+    {
+      "element": "photo_cluster",
+      "aspects": [
+        "layout",
+        "imagery"
+      ],
+      "note": "one 667x440 lead image at x160 plus a 2x2 grid of 214x214 tiles at x839/x1066, 12px gutters, all 16px radius"
+    },
+    {
+      "element": "anchor_tabs",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "motion"
+      ],
+      "note": "Overview / Spaces / Services / Access, 16px weight 500, active item underlined"
+    },
+    {
+      "element": "stat_chips",
+      "aspects": [
+        "layout",
+        "type"
+      ],
+      "note": "240 sqm / 48 people / 34 desks, each a line icon plus 16px weight 500 text, unboxed"
+    },
+    {
+      "element": "space_cards",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "2x2 cards, 361x74, white fill on a white page, 16px radius, 16px padding, circular icon disc plus title and subtitle"
+    },
+    {
+      "element": "service_rows",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "two-column list of eleven rows, line icon plus 16px text in secondary ink, no dividers"
+    },
+    {
+      "element": "sticky_form",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color",
+        "motion"
+      ],
+      "note": "black 377px card, 16px radius, 20px padding, position sticky at top 84px within the left column's edge; four fields plus submit"
+    },
+    {
+      "element": "form_fields",
+      "aspects": [
+        "layout",
+        "type",
+        "color"
+      ],
+      "note": "grey translucent wrappers rgba(187,187,187,0.15), 10px radius, 12px padding; labels 12px above each; submit is a full-width white pill"
+    },
+    {
+      "element": "location_cards",
+      "aspects": [
+        "layout",
+        "type",
+        "color",
+        "imagery"
+      ],
+      "note": "two 363x400 photo cards, 16px radius, 0-to-0.9 black scrim rising from the bottom third, white name over #cccccc address, white View pill at the right"
+    },
+    {
+      "element": "view_all_pill",
+      "aspects": [
+        "layout",
+        "type",
+        "color"
+      ],
+      "note": "'View All Locations' outline pill, right-aligned against the section heading; computed fill rgba(0,0,0,0.01) with a hairline border"
+    },
+    {
+      "element": "footer",
+      "aspects": [
+        "layout",
+        "structure",
+        "type",
+        "color"
+      ],
+      "note": "black band, 295px tall, 40px padding; brand plus tagline, then Navigation / Socials / Contact columns, then the credit line"
+    }
+  ],
+  "parts": [
+    {
+      "id": "sticky_enquiry_rail",
+      "name": "Sticky enquiry form on the right rail",
+      "kind": "move",
+      "description": "A black enquiry card sits in the right rail of the content grid and pins at top 84px while the left column scrolls through Spaces, Services and Access. It is the page's only dark mass above the footer and the only interactive surface on the page. Measured: the form computes position sticky with top 84px on a FORM element inside the Content block; at scroll 0 it sits at viewport y 762, at scroll 1200 it has pinned to y 104, and it releases upward once the left column ends (y -370 at scroll 1900). The card is 377px wide in a 1120px container, 16px radius, 20px padding.",
+      "entry_test": "Remove the stickiness and the page becomes a one-column list of facts with a form parked at the bottom. The form riding alongside the content is what makes this page a booking page rather than a description page, and the black card against the white column is the page's one structural contrast.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='Content'] form (position:sticky, top:84px)"
+      },
+      "recipe": "Lay the content block out as two columns inside the 1120px container: a flexible left column carrying tabs, paragraphs, cards and lists, and a fixed 377px right rail. Place the black card in the rail with position: sticky; top: 84px. Give the card background #000, radius 16px, padding 20px. The rail must be as tall as the left column or the pin releases early.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "The form computes position:sticky with a top offset near 84px",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The form sits to the right of the tabs and paragraph at 1440w, sharing their vertical band",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "The form's viewport y decreases as the page scrolls until it pins, then holds",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "The card is the only black-filled element between the nav and the footer"
+        },
+        {
+          "id": "c5",
+          "check": "The rail is narrower than the left column at desktop and the card fills the rail"
+        }
+      ],
+      "evidence": [
+        "computed: FORM position sticky, top 84px, ancestor [data-framer-name='Content'] position relative",
+        "form title viewport y measured 762 at scroll 0, 362 at scroll 400, 104 at scroll 1200, -370 at scroll 1900, -576 at scroll 2600",
+        "form card box at desktop: x 943, w 377 (title text box x943 w317 inside 20px padding), radius 16px, background rgb(0,0,0)"
+      ]
+    },
+    {
+      "id": "photo_cluster_1plus4",
+      "name": "One-plus-quadrant photo cluster",
+      "kind": "move",
+      "description": "The page is headed by five photographs arranged as one dominant landscape frame plus a 2x2 grid of squares to its right, rather than a single hero. Measured: the lead image is 667x440 at x160 y278; the four tiles are 214x214 at x839/x1066 and y278/y504. The gutters are 12px both ways and every frame carries the same 16px radius. The cluster reads as a gallery that has been given a hierarchy instead of a carousel strip.",
+      "entry_test": "Replace the cluster with one wide hero and the page loses its claim to showing the room from several angles without spending five full-width bands on it. The asymmetric 1+4 packing is the page's opening identity, and the lead frame's 667x440 box is what makes the four squares read as a supporting set.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='Hero'] img set (five frames: 667x440 lead plus four 214x214 tiles)"
+      },
+      "recipe": "Build a flex row of two groups. Left group: one image at 667x440 (ratio 1.52:1), radius 16px. Right group: a 2x2 grid of four square images at 214x214, radius 16px. Set the gap to 12px on both axes; the lead's 440px height must equal 214 + 12 + 214 so the two groups bottom-align.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Five photograph frames render in the header band",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "One frame is roughly three times the area of each of the others",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "The four smaller frames form a 2x2 grid, not a row",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Gutters between frames measure about 12px on both axes"
+        },
+        {
+          "id": "c5",
+          "check": "Every frame uses the same 16px radius",
+          "critical": true
+        }
+      ],
+      "evidence": [
+        "computed boxes at 1440w: {x160,y278,w667,h440}, {x839,y278,w214,h214}, {x1066,y278,w214,h214}, {x839,y504,w214,h214}, {x1066,y504,w214,h214}",
+        "derived gutters: 839-(160+667)=12 horizontal; 504-(278+214)=12 vertical; right group width 214+12+214=440 equals the lead height",
+        "image radius census on the page: 7 frames at 16px, 1 at 50px"
+      ]
+    },
+    {
+      "id": "anchor_tab_underline",
+      "name": "Anchor tabs with a single active underline",
+      "kind": "move",
+      "description": "A quiet row of four section names sits directly under the photo cluster and above the paragraph, with a hairline underline under the first item marking the current position. 16px weight 500 in black for the active item and the same size in secondary ink for the rest, with the underline spanning the active label. The row carries no background, no pill and no divider bar: the underline alone is the entire state signal.",
+      "entry_test": "Delete the underline and the four words read as a stray line of text between the photos and the paragraph. The single underlined label is what turns a list of nouns into a position indicator, and it is the only place the page announces that Spaces, Services and Access are places you can go.",
+      "anchor": {
+        "type": "selector",
+        "value": "tab row between [data-framer-name='Hero'] and the overview paragraph; items Overview / Spaces / Services / Access"
+      },
+      "recipe": "Place a horizontal row of four labels 16px/500 about 30px below the photo cluster. Set the active label to black and give it a 1px bottom rule in black offset a few pixels below the baseline. Set the remaining labels to the secondary ink. Row gap about 32px measured between label boxes.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Four section labels render between the photo cluster and the paragraph",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Exactly one label carries an underline rule",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "The underline spans the active label's own width, not the row width"
+        },
+        {
+          "id": "c4",
+          "check": "The row has no fill, border or pill behind it"
+        },
+        {
+          "id": "c5",
+          "check": "Labels sharing the row differ only in colour, not in size or weight"
+        }
+      ],
+      "evidence": [
+        "computed tab boxes: Overview x176 y758 w73 h22; Spaces x281; Services x371; Access x471 (16px/22.4px, weight 500, black)",
+        "the underline renders as a rule under the Overview label in every still at all three widths",
+        "row parent computes no background and no border"
+      ]
+    },
+    {
+      "id": "unboxed_stat_line",
+      "name": "Unboxed icon stat line",
+      "kind": "move",
+      "description": "The location's headline numbers are three icon-and-value pairs sitting naked on the canvas directly under the overview paragraph, with no card, chip or border around them. Each reads as a line glyph plus a short value in 16px weight 500 black: 240 sqm, 48 people, 34 desks. The spacing between pairs is wide enough (about 55px of clear air) that no separator is needed.",
+      "entry_test": "Box these three values and the page gains a row of UI furniture it deliberately avoids. The bare line is what keeps the numbers reading as facts about the room rather than as filters or options, and it is the one place the page states capacity.",
+      "anchor": {
+        "type": "selector",
+        "value": "paragraph sibling row after the overview text; three icon+value pairs"
+      },
+      "recipe": "Render a horizontal flex row of three items, each an inline line icon followed by 16px/500 black text, with roughly 55px between item boxes and no background, border or radius on any of them. On narrow widths let the row wrap to two lines.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Three stat pairs render directly under the overview paragraph",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "No stat carries a fill, border or radius",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Each stat pairs a line icon with a value",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Values are 16px weight 500 in black, distinct from the paragraph's secondary ink"
+        },
+        {
+          "id": "c5",
+          "check": "Clear separation between pairs is at least 40px at desktop"
+        }
+      ],
+      "evidence": [
+        "computed: '240 sqm' x192 y928 w67 h22, 16px/22.4 weight 500 rgb(0,0,0); '48 people' x315; '34 desks' x450",
+        "derived gaps: 315-(192+67)=56px; 450-(315+78)=57px",
+        "no background/border/radius on any of the three"
+      ]
+    },
+    {
+      "id": "borderless_white_cards",
+      "name": "White-on-white bordered cards",
+      "kind": "component",
+      "description": "The Spaces section's four cards are white-filled on a white page and are separated from the canvas by a hairline border rather than a fill contrast or shadow. Each is 361x74 with 16px radius and 16px padding, holding a circular icon disc at the left and a title over a subtitle at the right, in a 2x2 grid.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='Spaces'] card grid; four [data-framer-name='Default'] cards"
+      },
+      "recipe": "Two-column grid, gap 16px, inside the left column. Each card: background #fff, 1px hairline border, radius 16px, padding 16px, flex row with 16px gap between the icon disc and the text stack. Title 16px/500 black; subtitle 14px in secondary ink.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Four cards render in a 2x2 grid",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Card fill is white, matching the page canvas",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "A hairline border, not a shadow, separates each card from the canvas",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Cards measure about 361x74 with 16px radius and 16px padding"
+        },
+        {
+          "id": "c5",
+          "check": "Each card pairs a circular icon disc with a title over a subtitle"
+        }
+      ],
+      "evidence": [
+        "computed: card box x160 y1094 w361 h74, background rgb(255,255,255), radius 16px, padding 16px, gap 16px",
+        "grid spacing derived: second column at x537 (160+361+16); second row at y1184 (1094+74+16)",
+        "title 'Hot Desk' 16px/22.4 weight 500 black at x232 (72px inset = 16 pad + disc + 16 gap)"
+      ]
+    },
+    {
+      "id": "two_column_service_list",
+      "name": "Two-column icon service list",
+      "kind": "component",
+      "description": "Eleven amenities are split across two columns with no dividers, bullets or boxes: each row is a line icon plus a label in secondary ink, and the columns read as a single continuous list rather than two separate groups. Measured row pitch is about 44px and the columns sit at x160 and x537 in the 1120px container.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='Services'] list; two columns of icon+label rows"
+      },
+      "recipe": "Two columns of equal width, gap 16px, no vertical rules. Each row is a flex pair: a line icon then 16px text in rgba(31,31,31,0.8), with about 44px of vertical pitch and no background or border. Fill column one top-to-bottom, then column two.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Service rows render in two columns",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "No divider rule, border or fill separates rows",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Each row pairs a line icon with a text label"
+        },
+        {
+          "id": "c4",
+          "check": "Row labels use the secondary ink, not black"
+        },
+        {
+          "id": "c5",
+          "check": "The two columns start at the same x-offsets as the card grid above (about 160 and 537)"
+        }
+      ],
+      "evidence": [
+        "computed service row 'Hot desks': x194 y1401, 16px/22.4, rgb(31,31,31,0.8); icon precedes it at x160",
+        "column offsets measured x160 and x537, matching the spaces card grid",
+        "paragraph text colour matches: rgba(31,31,31,0.8)"
+      ]
+    },
+    {
+      "id": "scrim_location_cards",
+      "name": "Bottom-scrim photo location cards",
+      "kind": "component",
+      "description": "Other locations are shown as tall photo cards with a dark gradient rising from the bottom third, white name and near-white address set into the scrim at the lower left, and a white View pill floated at the lower right. The card is 363x400 with 16px radius; the scrim is a top-to-bottom ramp from transparent at 36% to rgba(0,0,0,0.9) at the bottom; the name is 16px/500 white, the address 14px in rgb(204,204,204).",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='OtherLocations'] cards; two [data-framer-name='Default'] photo cards"
+      },
+      "recipe": "Card: a 363x400 frame, radius 16px, containing a cover image. Overlay a linear-gradient from rgba(0,0,0,0) at 36% to rgba(0,0,0,0.9) at 100%. Place a bottom row inside: on the left a stack of name (16px/500, #fff) over address (14px, #cccccc), on the right the white View pill (24px radius, 0 24px padding) vertically centred against the text stack.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Location cards are tall photo cards with text overlaid, not text beside an image",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The scrim ramps to full strength at the bottom and is clear at the top",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "The name is white and the address is a clearly dimmer grey",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "A white View pill sits at the lower right of each card",
+          "critical": true
+        },
+        {
+          "id": "c5",
+          "check": "Card radius is 16px, matching the rest of the page"
+        }
+      ],
+      "evidence": [
+        "computed card box x160 y2263 w363 h400, radius 16px (data-framer-name='Default')",
+        "computed overlay: linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%)",
+        "computed text: 'Triomphe' 16px/500 rgb(255,255,255) at x176 y2605; 'Pl. Charles de Gaulle, 75008 Paris' 14px rgb(204,204,204) at x176 y2627",
+        "View pill rendered white at x445 y2614 (bottom-right of the card box)"
+      ]
+    },
+    {
+      "id": "stacked_dark_form_fields",
+      "name": "Dark form with translucent grey fields",
+      "kind": "component",
+      "description": "The black enquiry card's fields are not outlined: each input and textarea sits inside a translucent grey wrapper rgba(187,187,187,0.15) with a 10px radius and 12px padding, and the input itself is transparent with no border. A 12px label sits above each wrapper in white. The submit is a full-width white pill, which is the only light mass inside the black card.",
+      "anchor": {
+        "type": "selector",
+        "value": "form inside the sticky rail: .framer-form-input-wrapper set plus the submit control"
+      },
+      "recipe": "Card: #000, 16px radius, 20px padding. Per field: a 12px white label, 10px gap, then a wrapper with background rgba(187,187,187,0.15), radius 10px, padding 12px, holding a transparent borderless input at 14px. The select shares the wrapper style and shows a chevron on the right. The textarea wrapper is 100px tall. Submit: full width, white fill, black label, 24px radius, 48px tall.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Fields are translucent grey blocks on black, not outlined inputs",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Inputs themselves are transparent with no border",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Field wrappers use a 10px radius while the card uses 16px",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Labels sit above their fields at 12px in white"
+        },
+        {
+          "id": "c5",
+          "check": "The submit is a full-width white pill and the only white mass in the card",
+          "critical": true
+        }
+      ],
+      "evidence": [
+        "computed input wrapper: background rgba(187,187,187,0.15), radius 10px, padding 12px, no border",
+        "computed input: background rgba(0,0,0,0), border 0, 14px, colour rgb(255,255,255)",
+        "computed select: colour rgb(153,153,153) (grey placeholder state) inside the same wrapper style",
+        "computed label rows: 'Name' / 'Email' / 'Message' at 12px, wrapper-relative box height 64px (label + 10px gap + field)",
+        "submit rendered as a white full-width pill inside the black card in all three widths"
+      ]
+    },
+    {
+      "id": "page_header_stack",
+      "name": "Breadcrumb, name, address stack",
+      "kind": "component",
+      "description": "The H1 area is a three-line stack: a breadcrumb trail with light chevron separators, the location name at 40px weight 500 with -1.2px tracking, then a single address line with a pin glyph. The name is 40px against 14px for both the trail and the address, so the header is the page's largest type by 2.5x over its own subtitle.",
+      "anchor": {
+        "type": "selector",
+        "value": "page header region above [data-framer-name='Hero'] photo cluster"
+      },
+      "recipe": "Stack three rows with tight offsets: breadcrumb (14px, muted items in the secondary ink, current item black, chevrons at low contrast), then H1 at 40px/48px weight 500 with -1.2px tracking in black, then a 14px address line preceded by a small pin icon.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "A breadcrumb trail ends in the current page name",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "The H1 renders at about 40px weight 500 with negative tracking"
+        },
+        {
+          "id": "c3",
+          "check": "The address line carries a pin icon and sits directly under the H1"
+        },
+        {
+          "id": "c4",
+          "check": "Breadcrumb and address are the same size and both far smaller than the H1"
+        },
+        {
+          "id": "c5",
+          "check": "Breadcrumb separators are chevrons at low contrast, not slashes or bullets"
+        }
+      ],
+      "evidence": [
+        "computed H1 'Tuileries': x160 y172 w600 h48, 40px/48px, weight 500, letter-spacing -1.2px, rgb(0,0,0)",
+        "computed breadcrumb item 'Locations': 16px/22.4 weight 400 rgb(0,0,0); the trail renders at 14px in the still",
+        "address line renders with a pin glyph at 14px in secondary ink under the H1"
+      ]
+    },
+    {
+      "id": "section_heading_rhythm",
+      "name": "Repeated section heading and list opening",
+      "kind": "component",
+      "description": "Spaces, Services and Access are each opened by a 32px weight 500 heading with -0.64px tracking, and each heading is followed by a list or a card grid with no further ornament. The repeated shape is heading then content, at a fixed pitch, with the heading's own 38.4px line height sitting in about 40px of section padding above and below.",
+      "anchor": {
+        "type": "selector",
+        "value": "h3 elements inside [data-framer-name='Content']: 'Spaces', 'Services', 'Access'"
+      },
+      "recipe": "Per section: 40px of vertical padding, then an h3 at 32px/38.4px weight 500 with -0.64px tracking in black, then the section's own content with no rule, no eyebrow and no numbering.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "Each content section opens with a heading at about 32px weight 500"
+        },
+        {
+          "id": "c2",
+          "check": "Headings carry negative tracking in the same proportion as the H1"
+        },
+        {
+          "id": "c3",
+          "check": "No eyebrow, rule or index number precedes a heading",
+          "critical": true
+        },
+        {
+          "id": "c4",
+          "check": "Sections sit in consistent vertical padding of about 40px"
+        }
+      ],
+      "evidence": [
+        "computed headings: 'Spaces' x160 y1032 h38; 'Services' y1338; 'Access' y1704; 'Other locations in the city' y2196",
+        "all four measure 32px/38.4px weight 500, letter-spacing -0.64px, rgb(0,0,0)",
+        "section tops measured 992 / 1298 / 1664 / 2151 with 40px padding on each"
+      ]
+    },
+    {
+      "id": "inverted_footer",
+      "name": "Black footer bookend",
+      "kind": "component",
+      "description": "The page closes on a 295px black band running the full 1440px width, outside the content container, carrying the brand lockup and tagline at the left and three link columns at the right, then a credit line. It reverses the page's polarity in one step and pairs with the black enquiry card as the second dark mass.",
+      "anchor": {
+        "type": "selector",
+        "value": "[data-framer-name='Desktop'] footer band at the bottom of the document"
+      },
+      "recipe": "Full-bleed band, background #000, 40px padding, height about 295px at desktop. Left block: logo plus 14px white tagline. Right: three columns headed Navigation / Socials / Contact with 14px white links and icon-prefixed contact rows. Below, a credit line at low emphasis.",
+      "checks": [
+        {
+          "id": "c1",
+          "check": "The footer is a full-bleed black band, not a container-width panel",
+          "critical": true
+        },
+        {
+          "id": "c2",
+          "check": "Footer link text is white on the black fill",
+          "critical": true
+        },
+        {
+          "id": "c3",
+          "check": "Three link columns render: Navigation, Socials, Contact"
+        },
+        {
+          "id": "c4",
+          "check": "Contact rows carry icons ahead of the values"
+        },
+        {
+          "id": "c5",
+          "check": "The band measures about 295px tall at desktop"
+        }
+      ],
+      "evidence": [
+        "computed footer: x0 y2711 w1440 h295, background rgb(0,0,0), padding 40px",
+        "computed footer link 'Privacy policy': 14px, rgb(255,255,255), x589",
+        "computed tagline: 14px rgb(255,255,255) at x160 y2795",
+        "column heads render as Navigation / Socials / Contact"
+      ]
+    }
+  ],
+  "aspects": [
+    {
+      "id": "layout",
+      "scales": [
+        {
+          "id": "density",
+          "poles": [
+            "airy",
+            "packed"
+          ],
+          "value": 3.5,
+          "evidence": [
+            "1120px container on a 1440px viewport with 40px section padding; a 590px header band and 1385px content block hold ten elements; the page runs 3006px for what is a short set of facts",
+            "the sticky rail means the right 377px of the content block never has to hold stacked content, which keeps the left column open"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "grid_discipline",
+          "poles": [
+            "free-form",
+            "strict grid"
+          ],
+          "value": 8.0,
+          "evidence": [
+            "1120px container with everything on x160 or x537 or x943; card grid 2x2 at an exact 16px gap (derived 361+16+361=738 within the 739px left column); photo cluster on a 12px gutter with the 440px lead exactly matching 214+12+214",
+            "one exception: the sticky rail's x943 is 206px off the 61.5px sub-grid that the left column's two columns imply"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "symmetry",
+          "poles": [
+            "asymmetric",
+            "centered"
+          ],
+          "value": 2.0,
+          "evidence": [
+            "the layout is a two-column split with a 739px left column and a 377px rail; the header stack is left-aligned to the container; the photo cluster is emphatically asymmetric (667px lead against 214px squares); the stat row occupies the left third only"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "container_width",
+          "slot": "container_width",
+          "kind": "number",
+          "value": 1120,
+          "evidence": [
+            "container chain from the H1: DIV 600 -> Hero 1120 at x160 on a 1440px viewport; Main also 1120 at x160"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "content_column_width",
+          "slot": "content_column_width",
+          "kind": "number",
+          "value": 739,
+          "evidence": [
+            "left column measured 739px wide (h3 boxes x160 w739); photo cluster and card grid both resolve to this width"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "rail_width",
+          "slot": "rail_width",
+          "kind": "number",
+          "value": 377,
+          "evidence": [
+            "form card box x943 w377 on a 1440px viewport"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "rail_x",
+          "slot": "rail_x",
+          "kind": "number",
+          "value": 943,
+          "evidence": [
+            "form card and its field wrappers all start at x943; 160 + 739 + 44 gap = 943"
+          ],
+          "unit": "px",
+          "tolerance_pct": 3
+        },
+        {
+          "id": "section_padding",
+          "slot": "section_padding",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "section tops 992 / 1298 / 1664 with 40px top padding recorded per section; Main pads 128px top and 48px bottom"
+          ],
+          "unit": "px",
+          "tolerance_pct": 25
+        },
+        {
+          "id": "nav_height",
+          "slot": "nav_height",
+          "kind": "number",
+          "value": 76,
+          "evidence": [
+            "nav bar measured x0 y0 w1440 h76, padding 16px 24px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "card_radius",
+          "slot": "card_radius",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "spaces cards, location cards and the form card all compute radius 16px; image radius census: 7 frames at 16px"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "pill_radius",
+          "slot": "pill_radius",
+          "kind": "number",
+          "value": 24,
+          "evidence": [
+            "nav CTA and View pills compute radius 24px"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "field_radius",
+          "slot": "field_radius",
+          "kind": "number",
+          "value": 10,
+          "evidence": [
+            "every .framer-form-input-wrapper computes radius 10px, distinct from the page's 16px card radius"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "card_grid_gap",
+          "slot": "card_grid_gap",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "derived from card boxes: column two at x537 after a 361px card, row two at y1184 after a 74px card"
+          ],
+          "unit": "px",
+          "tolerance_pct": 25
+        },
+        {
+          "id": "photo_cluster_gutter",
+          "slot": "photo_cluster_gutter",
+          "kind": "number",
+          "value": 12,
+          "evidence": [
+            "derived: tile at x839 follows the lead ending at x827; tile row two at y504 follows 278+214"
+          ],
+          "unit": "px",
+          "tolerance_pct": 20
+        },
+        {
+          "id": "photo_lead_size",
+          "slot": "photo_lead_size",
+          "kind": "enum",
+          "value": [
+            "667x440"
+          ],
+          "evidence": [
+            "computed lead image box x160 y278 w667 h440"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "photo_tile_size",
+          "slot": "photo_tile_size",
+          "kind": "enum",
+          "value": [
+            "214x214"
+          ],
+          "evidence": [
+            "computed tile boxes x839/x1066 at y278/y504, each 214x214"
+          ],
+          "tolerance_pct": 3
+        },
+        {
+          "id": "location_card_size",
+          "slot": "location_card_size",
+          "kind": "enum",
+          "value": [
+            "363x400"
+          ],
+          "evidence": [
+            "computed location card box x160 y2263 w363 h400"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "form_card_size",
+          "slot": "form_card_size",
+          "kind": "enum",
+          "value": [
+            "377 tall auto"
+          ],
+          "evidence": [
+            "form card x943 w377 with 20px padding and a 317px inner text width; card height follows content"
+          ],
+          "tolerance_pct": 10
+        },
+        {
+          "id": "spacing_unit",
+          "slot": "spacing_unit",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "card grid gap, card padding and the icon-to-text gap inside each card all measure 16px; 40px section padding is 2.5x this"
+          ],
+          "unit": "px",
+          "tolerance_pct": 25
+        },
+        {
+          "id": "sticky_offset",
+          "slot": "sticky_offset",
+          "kind": "number",
+          "value": 84,
+          "evidence": [
+            "the FORM element computes position sticky with top 84px; the nav is 76px tall, so the 8px difference is the clearance"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the content block is a two-column split: a 739px left column and a 377px rail separated by a 44px gutter inside the 1120px container"
+        },
+        {
+          "kind": "always",
+          "rule": "every photograph on the page carries the same 16px radius"
+        },
+        {
+          "kind": "never",
+          "rule": "a card radius other than 16px or a form field radius other than 10px"
+        },
+        {
+          "kind": "never",
+          "rule": "full-bleed sections other than the nav and the footer"
+        }
+      ],
+      "directives": [
+        "lay out the page on a 1120px container: a 739px left column for content and a 377px right rail for the enquiry card, with a 44px gutter between them",
+        "set a 40px vertical section rhythm, 16px as the spacing unit, 16px radius on cards and 24px on pills",
+        "size the header photo cluster as a 667x440 lead plus four 214x214 tiles on a 12px gutter so both groups are 440px tall"
+      ]
+    },
+    {
+      "id": "structure",
+      "scales": [
+        {
+          "id": "hierarchy_depth",
+          "poles": [
+            "flat",
+            "deep"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "two heading levels only: a 40px H1 and a 32px H3 for sections; no H2, no H4, no eyebrows; the page's nesting stops at section -> card -> title over subtitle",
+            "no h2 element exists in the document at any width"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "rhythm",
+          "poles": [
+            "uniform",
+            "syncopated"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "the content block runs Spaces, Services and Access at an even 40px pitch and then breaks hard with a 512px Other-locations band and the footer",
+            "the header band is 590px against 306px and 366px for the Spaces and Services sections, so the top of the page is nearly twice as heavy as any section below it"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "component_voice",
+          "poles": [
+            "borderless",
+            "framed"
+          ],
+          "value": 6.5,
+          "evidence": [
+            "the four space cards are white on white and separated only by a hairline border, and the location cards are framed photo panels; against that, the service list and the stat row are entirely unframed, and the form card is a solid fill with no border",
+            "both readings are present, so the page sits above the midpoint rather than at it"
+          ],
+          "confidence": "medium"
+        }
+      ],
+      "values": [
+        {
+          "id": "section_order",
+          "slot": "section_order",
+          "kind": "enum",
+          "value": [
+            "nav",
+            "header_stack",
+            "photo_cluster",
+            "anchor_tabs",
+            "overview_paragraph",
+            "stat_line",
+            "Spaces",
+            "Services",
+            "Access",
+            "OtherLocations",
+            "footer"
+          ],
+          "evidence": [
+            "[data-framer-name] survey in document order: Dark-Desktop nav (h76) -> Main (h2711) containing Hero (y128 h590), Content (y742 h1385), OtherLocations (y2151 h512) -> Desktop footer (y2711 h295)",
+            "text export order confirms: breadcrumb, H1, address, tabs, paragraph, stat line, Spaces, Services, Access, Other locations, footer"
+          ],
+          "usage": "Drive section order from this list; the sticky enquiry rail is not a section and must stay inside the Content block's right rail."
+        },
+        {
+          "id": "section_count",
+          "slot": "section_count",
+          "kind": "number",
+          "value": 5,
+          "evidence": [
+            "five named bands in the survey: nav, header (Hero), content, other locations, footer"
+          ]
+        },
+        {
+          "id": "heading_levels",
+          "slot": "heading_levels",
+          "kind": "enum",
+          "value": [
+            "h1",
+            "h3"
+          ],
+          "evidence": [
+            "document query returns one h1 and four h3s; h2 query returns empty at 1440w"
+          ],
+          "usage": "Do not introduce h2 or h4; sections take h3 at 32px."
+        },
+        {
+          "id": "service_row_count",
+          "slot": "service_row_count",
+          "kind": "number",
+          "value": 11,
+          "evidence": [
+            "text export lists eleven services: hot desks, private offices, dedicated desks, meeting rooms, 500 Mbps Wifi, ergonomic chairs, soundproof booths, daily cleaning, kitchen and lounge, calm and green spaces, wellness room"
+          ]
+        },
+        {
+          "id": "space_card_count",
+          "slot": "space_card_count",
+          "kind": "number",
+          "value": 4,
+          "evidence": [
+            "four cards render in the Spaces grid: Hot Desk, Dedicated Desk, Private Office, Meeting Room"
+          ]
+        },
+        {
+          "id": "location_card_count",
+          "slot": "location_card_count",
+          "kind": "number",
+          "value": 2,
+          "evidence": [
+            "two cards render under Other locations: Triomphe and Gustave Eiffel"
+          ],
+          "usage": "The template only shows other locations in the same city; a city with one location renders an empty-state line instead."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the content block opens with the anchor tab row and the overview paragraph before any card or list"
+        },
+        {
+          "kind": "always",
+          "rule": "section headings are h3 at 32px; the page carries exactly one h1"
+        },
+        {
+          "kind": "never",
+          "rule": "a third level of content nesting below section -> card -> title over subtitle"
+        }
+      ],
+      "directives": [
+        "order the bands nav, header stack, photo cluster, anchor tabs, overview paragraph, stat line, Spaces, Services, Access, Other locations, footer",
+        "give each content section an h3 at 32px and nothing above it but the tab row",
+        "put the sticky enquiry rail inside the content block so it spans Spaces through Access and releases at the Other-locations band"
+      ]
+    },
+    {
+      "id": "type",
+      "scales": [
+        {
+          "id": "scale_contrast",
+          "poles": [
+            "even",
+            "dramatic"
+          ],
+          "value": 3.5,
+          "evidence": [
+            "H1 40px against a 14px address and 14px breadcrumb is a 2.86x step; section headings 32px against 16px body is 2x; the page never exceeds a 2.86x ratio and body copy carries the whole middle of the page",
+            "the 40px H1 is the ceiling: nothing on the page is larger, including the sticky form title"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "weight_voice",
+          "poles": [
+            "light",
+            "heavy"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "a two-weight system only: 400 for body, addresses, breadcrumbs and service rows, 500 for the H1, section headings, card titles, tabs, stat values and every button label; no 600 or 700 renders in visible text",
+            "the heaviest thing on the page is 500 at 40px, so weight is doing state and role signalling rather than emphasis"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "family_register",
+          "poles": [
+            "editorial",
+            "utilitarian"
+          ],
+          "value": 4.0,
+          "evidence": [
+            "one family throughout: Plus Jakarta Sans, a geometric sans with a tight aperture and closed terminals; DM Sans and Inter load with the document but render no visible text",
+            "the register is neutral-product rather than editorial: no serif, no display face, no italic"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "tracking_case",
+          "poles": [
+            "sentence-case",
+            "all-caps/wide"
+          ],
+          "value": 0.5,
+          "evidence": [
+            "every visible string is sentence case or title case as written; the census found textTransform none on all sampled nodes and the text export shows no uppercase strings other than FlowSpace, X and SaaS-free acronyms like Mbps and FAQ",
+            "tracking is negative rather than wide: -1.2px on the 40px H1 (-3% of size) and -0.64px on the 32px headings (-2%)"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "font_family",
+          "slot": "font_family",
+          "kind": "identity",
+          "value": "Plus Jakarta Sans",
+          "evidence": [
+            "computed font-family on H1, h3, tabs, cards, body and footer links: \"Plus Jakarta Sans\", \"Plus Jakarta Sans Placeholder\", sans-serif",
+            "document font census lists DM Sans and Inter as loaded but no visible node renders them"
+          ],
+          "usage": "Identity value: resolve to Plus Jakarta Sans; the Placeholder entries are Framer's fallback aliases and are not separate faces."
+        },
+        {
+          "id": "h1_size",
+          "slot": "h1_size",
+          "kind": "number",
+          "value": 40,
+          "evidence": [
+            "computed H1: 40px with line-height 48px on a 600x48 box"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "h1_line_height",
+          "slot": "h1_line_height",
+          "kind": "number",
+          "value": 48,
+          "evidence": [
+            "computed line-height 48px on the H1"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "h1_tracking",
+          "slot": "h1_tracking",
+          "kind": "number",
+          "value": -1.2,
+          "evidence": [
+            "computed letter-spacing -1.2px on the 40px H1, i.e. -3% of size"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "section_heading_size",
+          "slot": "section_heading_size",
+          "kind": "number",
+          "value": 32,
+          "evidence": [
+            "computed h3 'Spaces' 32px with line-height 38.4px"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "section_heading_tracking",
+          "slot": "section_heading_tracking",
+          "kind": "number",
+          "value": -0.64,
+          "evidence": [
+            "computed letter-spacing -0.64px on the 32px headings, i.e. -2% of size"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "body_size",
+          "slot": "body_size",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "computed overview paragraph 16px with line-height 22.4px; tabs, stat values, card titles and nav links are also 16px"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "body_line_height",
+          "slot": "body_line_height",
+          "kind": "number",
+          "value": 22.4,
+          "evidence": [
+            "computed line-height 22.4px on 16px text, i.e. 1.4"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "secondary_size",
+          "slot": "secondary_size",
+          "kind": "number",
+          "value": 14,
+          "evidence": [
+            "computed: address line 14px, footer links 14px, footer tagline 14px, location-card address 14px, form input text 14px"
+          ],
+          "unit": "px",
+          "tolerance_pct": 5
+        },
+        {
+          "id": "label_size",
+          "slot": "label_size",
+          "kind": "number",
+          "value": 12,
+          "evidence": [
+            "computed form labels resolve at 12px; the breadcrumb renders at 14px in the still"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "font_weights",
+          "slot": "font_weights",
+          "kind": "enum",
+          "value": [
+            "400",
+            "500"
+          ],
+          "evidence": [
+            "weight census in visible text: 400 for body, breadcrumb, nav links, service rows, footer links; 500 for H1, h3, card titles, tabs, stat values and button labels"
+          ]
+        },
+        {
+          "id": "body_ink",
+          "slot": "body_ink",
+          "kind": "identity",
+          "value": "rgba(31,31,31,0.8)",
+          "evidence": [
+            "computed overview paragraph and service row text: rgba(31,31,31,0.8)"
+          ],
+          "usage": "Identity value: secondary body ink is pure black at 80% alpha, not a grey hex."
+        },
+        {
+          "id": "muted_ink",
+          "slot": "muted_ink",
+          "kind": "identity",
+          "value": "rgb(204,204,204)",
+          "evidence": [
+            "computed location-card address text: rgb(204,204,204) on the photo scrim"
+          ],
+          "usage": "Identity value: only used for text over the dark scrim."
+        },
+        {
+          "id": "input_placeholder_ink",
+          "slot": "input_placeholder_ink",
+          "kind": "identity",
+          "value": "rgb(153,153,153)",
+          "evidence": [
+            "computed select control colour in its unset state: rgb(153,153,153)"
+          ],
+          "usage": "Identity value: the grey that marks an untouched field."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "a single family, Plus Jakarta Sans, carries every visible string on the page"
+        },
+        {
+          "kind": "always",
+          "rule": "display and heading type is 500 weight; nothing on the page is heavier than 500"
+        },
+        {
+          "kind": "always",
+          "rule": "the H1 and section headings carry negative letter-spacing proportional to size (-3% at 40px, -2% at 32px)"
+        },
+        {
+          "kind": "never",
+          "rule": "uppercase, small caps or wide tracking in any visible string"
+        }
+      ],
+      "directives": [
+        "set Plus Jakarta Sans for the whole page; body 400, display and controls 500; nothing heavier than 500",
+        "set the H1 to 40px/48px with -1.2px tracking and section headings to 32px/38.4px with -0.64px tracking",
+        "hold body copy at 16px/22.4px in rgba(31,31,31,0.8), keep labels at 12px and secondary metadata at 14px",
+        "keep every string in sentence or title case with tracking at or below zero"
+      ]
+    },
+    {
+      "id": "color",
+      "scales": [
+        {
+          "id": "base_polarity",
+          "poles": [
+            "light canvas",
+            "dark canvas"
+          ],
+          "value": 2.0,
+          "evidence": [
+            "the canvas is white and the document body computes rgb(255,255,255); the dark surfaces are the sticky enquiry card (377x588, rgb(0,0,0)) and the 1440x295 footer band, which together are under a fifth of the page",
+            "the palette census over all elements returns rgb(0,0,0) 458 times against rgb(255,255,255) 75, but the black count is dominated by text and zero-size wrappers, not by filled area"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "temperature",
+          "poles": [
+            "cool",
+            "warm"
+          ],
+          "value": 5.0,
+          "evidence": [
+            "every surface in the UI is neutral: pure black, pure white, neutral alpha greys; there is no hue anywhere in the interface chrome",
+            "the warmth on the page comes entirely from photographs of wood floors and plants, not from a tinted token"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "chroma",
+          "poles": [
+            "muted",
+            "vivid"
+          ],
+          "value": 0.5,
+          "evidence": [
+            "the interface is fully desaturated: no accent hue is used for buttons, links, states or decoration",
+            "the only saturation in any captured state comes from the photographs; the sole non-neutral computed colours on the page are two translucent greys, rgba(187,187,187,0.15) and rgba(0,0,0,0.01)",
+            "no accent hex exists to record as an identity value, which is itself the finding"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "palette_width",
+          "poles": [
+            "singular/duo",
+            "many hues"
+          ],
+          "value": 1.0,
+          "evidence": [
+            "two surfaces only: black and white, plus three neutral alpha steps for body ink, scrim text and field fills",
+            "the palette is a duotone with greys for depth rather than a multi-hue system"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "contrast",
+          "poles": [
+            "soft",
+            "hard"
+          ],
+          "value": 8.5,
+          "evidence": [
+            "black at 500 weight on white for every heading and control label; the sticky card is pure black against a pure white page; the location-card name is white over a scrim that reaches rgba(0,0,0,0.9) at the bottom",
+            "the one softened pairing is the body ink at rgba(31,31,31,0.8), which still reads above 12:1 on white"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "surface_finish",
+          "poles": [
+            "flat",
+            "decorated"
+          ],
+          "value": 1.5,
+          "evidence": [
+            "every surface is a flat fill: no gradient in the interface, no shadow anywhere in the capture, no texture, no noise",
+            "the only gradient on the page is the location-card scrim, linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%), which is a legibility device rather than decoration"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "canvas",
+          "slot": "canvas",
+          "kind": "identity",
+          "value": "rgb(255,255,255)",
+          "evidence": [
+            "computed body background and the page's dominant filled surface: rgb(255,255,255)"
+          ],
+          "usage": "Identity value: the page canvas is pure white."
+        },
+        {
+          "id": "ink",
+          "slot": "ink",
+          "kind": "identity",
+          "value": "rgb(0,0,0)",
+          "evidence": [
+            "computed H1, h3, card titles, tabs, stat values and nav links: rgb(0,0,0)"
+          ],
+          "usage": "Identity value: primary ink is pure black, not a near-black hex."
+        },
+        {
+          "id": "dark_surface",
+          "slot": "dark_surface",
+          "kind": "identity",
+          "value": "rgb(0,0,0)",
+          "evidence": [
+            "computed form card background rgb(0,0,0) and footer background rgb(0,0,0)"
+          ],
+          "usage": "Identity value: the dark surface shares the ink hex."
+        },
+        {
+          "id": "secondary_ink",
+          "slot": "secondary_ink",
+          "kind": "identity",
+          "value": "rgba(31,31,31,0.8)",
+          "evidence": [
+            "computed overview paragraph, service rows and select placeholder-adjacent text"
+          ],
+          "usage": "Identity value: secondary ink is black at 80% alpha."
+        },
+        {
+          "id": "scrim_text_ink",
+          "slot": "scrim_text_ink",
+          "kind": "identity",
+          "value": "rgb(204,204,204)",
+          "evidence": [
+            "computed location-card address text rgb(204,204,204)"
+          ],
+          "usage": "Identity value: dimmed text over the photo scrim."
+        },
+        {
+          "id": "field_fill",
+          "slot": "field_fill",
+          "kind": "identity",
+          "value": "rgba(187,187,187,0.15)",
+          "evidence": [
+            "computed .framer-form-input-wrapper background on all four fields"
+          ],
+          "usage": "Identity value: form fields are a translucent grey over black, never a solid grey hex."
+        },
+        {
+          "id": "outline_pill_fill",
+          "slot": "outline_pill_fill",
+          "kind": "identity",
+          "value": "rgba(0,0,0,0.01)",
+          "evidence": [
+            "computed fill on the 'View All Locations' pill: rgba(0,0,0,0.01), which renders as an outline pill with a hairline border"
+          ],
+          "usage": "Identity value: near-zero alpha, not transparent, so the pill still hit-tests as filled."
+        },
+        {
+          "id": "photo_scrim",
+          "slot": "photo_scrim",
+          "kind": "identity",
+          "value": "linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%)",
+          "evidence": [
+            "computed background-image on the location-card overlay node"
+          ],
+          "usage": "Identity value: exact ramp. The scrim is clear above 36% and reaches 90% black at the base."
+        },
+        {
+          "id": "accent_hue",
+          "slot": "accent_hue",
+          "kind": "enum",
+          "value": [
+            "none"
+          ],
+          "evidence": [
+            "no accent colour renders in any captured state; the only non-neutral computed colours are two translucent greys"
+          ],
+          "usage": "The absence is the rule: do not introduce an accent colour when generating from this rubric."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the interface is a duotone of pure black and pure white, with neutral alpha greys for secondary text and field fills"
+        },
+        {
+          "kind": "always",
+          "rule": "the two dark masses are the sticky enquiry card and the footer band; nothing else in the interface is filled black"
+        },
+        {
+          "kind": "never",
+          "rule": "an accent or brand hue on buttons, links, states or decoration"
+        },
+        {
+          "kind": "never",
+          "rule": "a shadow, gradient or texture on an interface surface"
+        },
+        {
+          "kind": "never",
+          "rule": "a near-black ink hex or an off-white canvas; both are pure"
+        }
+      ],
+      "directives": [
+        "set the canvas to #fff and the ink to #000; there is no accent token in this system",
+        "use rgba(31,31,31,0.8) for body copy and list text, rgb(204,204,204) only for text on the photo scrim, and rgb(153,153,153) for untouched field text",
+        "fill form fields with rgba(187,187,187,0.15) on the black card, and use the exact ramp linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%) as the only gradient on the page",
+        "keep every interface surface a flat fill with no shadow"
+      ]
+    },
+    {
+      "id": "motion",
+      "scales": [
+        {
+          "id": "energy",
+          "poles": [
+            "still",
+            "kinetic"
+          ],
+          "value": 1.0,
+          "evidence": [
+            "the page has no entrance animation, no marquee and no scroll effect: the animation API returned zero animations at every width (total 0, finished 0) both early and late in the load, and zero elements remained hidden after settling",
+            "the only motion in the system is the sticky form travelling with the viewport, which is layout rather than animation"
+          ],
+          "confidence": "high",
+          "note": "This is the sharpest contrast with the template's home page, which runs word-by-word blur-settle entrance text and two marquee strips; the detail template is static by design."
+        },
+        {
+          "id": "temperament",
+          "poles": [
+            "functional",
+            "expressive"
+          ],
+          "value": 1.5,
+          "evidence": [
+            "the transitions that exist are all short and utilitarian: colour 0.4s cubic-bezier(0.44,0,0.56,1) on a text preset, colour 0.2s cubic-bezier(0,0,1,1) on a second preset, colour 0.15s on the form clear control",
+            "the form wrappers declare transitions on background, box-shadow and the ::after border properties with no duration, so they resolve to the browser default",
+            "nothing animates for expression: no reveal, no parallax, no hover scale"
+          ],
+          "confidence": "medium",
+          "note": "The count of two distinct easing curves and a sub-half-second duration ceiling is what puts this below the midpoint rather than at it."
+        }
+      ],
+      "values": [
+        {
+          "id": "entrance_animation",
+          "slot": "entrance_animation",
+          "kind": "enum",
+          "value": [
+            "none"
+          ],
+          "evidence": [
+            "animation API sampling at 1440, 834 and 390 returned earlyAnims [] and anims [] at every width; finished/loopPaused/committed all 0 in both settle passes"
+          ],
+          "usage": "Do not add an entrance reveal when generating from this rubric. The absence is a graded property of the page, not an omission."
+        },
+        {
+          "id": "transition_nav_link",
+          "slot": "transition_nav_link",
+          "kind": "identity",
+          "value": "color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "evidence": [
+            "CSSOM transition dump: .framer-2N9Pz .framer-styles-preset-1vqdd03 -> color 0.4s cubic-bezier(0.44,0,0.56,1)"
+          ],
+          "usage": "Identity value: the ease is symmetric (0.44,0,0.56,1)."
+        },
+        {
+          "id": "transition_text_preset",
+          "slot": "transition_text_preset",
+          "kind": "identity",
+          "value": "color 0.2s cubic-bezier(0, 0, 1, 1)",
+          "evidence": [
+            "CSSOM transition dump: .framer-tvFpi .framer-styles-preset-11qh2jp -> color 0.2s cubic-bezier(0,0,1,1)"
+          ],
+          "usage": "Identity value: a linear ease at 0.2s for the second text preset."
+        },
+        {
+          "id": "transition_form_clear",
+          "slot": "transition_form_clear",
+          "kind": "identity",
+          "value": "color 0.15s",
+          "evidence": [
+            "CSSOM transition dump: .framer-form-text-input-clear -> color 0.15s"
+          ],
+          "usage": "Identity value: the shortest transition in the system."
+        },
+        {
+          "id": "hover_ink_step",
+          "slot": "hover_ink_step",
+          "kind": "identity",
+          "value": "rgba(82,82,82,0.8)",
+          "evidence": [
+            "hover probe on a nav link: before rgb(0,0,0), after rgba(82,82,82,0.8) \u2014 the black link fades to the same family as the body ink but darker"
+          ],
+          "usage": "Identity value: measured hover colour. Extends the ink ramp rather than introducing a new colour."
+        },
+        {
+          "id": "sticky_top",
+          "slot": "sticky_top",
+          "kind": "number",
+          "value": 84,
+          "evidence": [
+            "computed position sticky with top 84px on the form element"
+          ],
+          "unit": "px",
+          "tolerance_pct": 10
+        },
+        {
+          "id": "movement_trigger_list",
+          "slot": "movement_trigger_list",
+          "kind": "enum",
+          "value": [
+            "scroll (sticky pin only)",
+            "hover (colour fade)"
+          ],
+          "evidence": [
+            "no scroll-linked or intersection effects fire during the capture; the only scroll response observed is the sticky form pinning and the fixed nav persisting"
+          ],
+          "usage": "The trigger list is deliberately short: scroll and hover only."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the page loads fully revealed: no entrance animation, no reveal-on-scroll, no marquee"
+        },
+        {
+          "kind": "always",
+          "rule": "every transition is a colour fade of 0.4s or less"
+        },
+        {
+          "kind": "never",
+          "rule": "a transform, scale or slide on hover"
+        },
+        {
+          "kind": "never",
+          "rule": "an easing outside the recorded pair of cubic-bezier(0.44,0,0.56,1) and cubic-bezier(0,0,1,1)"
+        }
+      ],
+      "directives": [
+        "ship the page with no entrance animation and no scroll reveals; text is visible on first paint",
+        "use only colour transitions, at 0.4s cubic-bezier(0.44,0,0.56,1) for nav links and 0.2s cubic-bezier(0,0,1,1) elsewhere",
+        "fade nav links from black to rgba(82,82,82,0.8) on hover and keep every other hover a no-op",
+        "pin the enquiry card with position sticky at top 84px; the pin is the page's only motion"
+      ]
+    },
+    {
+      "id": "imagery",
+      "scales": [
+        {
+          "id": "role",
+          "poles": [
+            "text-led",
+            "image-led"
+          ],
+          "value": 6.0,
+          "evidence": [
+            "the page opens with five photographs occupying the 590px header band, and the Other-locations cards are 363x400 of pure image; the sections that carry the page's facts are text-only",
+            "the photographs establish the space and the text enumerates it, so the page leans image-first without being image-only"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "medium",
+          "poles": [
+            "photographic",
+            "graphic"
+          ],
+          "value": 9.0,
+          "evidence": [
+            "every image on the page is a photograph of the interior; there is no illustration, no icon-as-image, no abstract graphic",
+            "the line icons are vector glyphs in the UI layer, not imagery"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "treatment",
+          "poles": [
+            "natural",
+            "stylized"
+          ],
+          "value": 1.5,
+          "evidence": [
+            "the photographs are untreated: no duotone, no colour grade, no blur, no cut-out",
+            "the only post-processing is the bottom scrim on the location cards, which is a legibility device applied over an otherwise natural photo"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "framing",
+          "poles": [
+            "sharp",
+            "rounded"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "all seven photographic frames compute a 16px radius on boxes of 667x440, 214x214 and 363x400; 16px is under 4% of every frame's short side, so the corners read as softened rather than as pills",
+            "the radius is uniform across the header cluster and the location cards, so the framing is a constant rather than a per-image decision"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "photo_radius",
+          "slot": "photo_radius",
+          "kind": "number",
+          "value": 16,
+          "evidence": [
+            "image radius census at 1440w: 7 frames at 16px, 1 at 50px (a logo mark)"
+          ],
+          "unit": "px"
+        },
+        {
+          "id": "hero_photo_count",
+          "slot": "hero_photo_count",
+          "kind": "number",
+          "value": 5,
+          "evidence": [
+            "five frames measured in the header band: one 667x440 plus four 214x214"
+          ]
+        },
+        {
+          "id": "photo_ratio_lead",
+          "slot": "photo_ratio_lead",
+          "kind": "number",
+          "value": 1.52,
+          "evidence": [
+            "derived from the lead frame's 667x440 box"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "photo_ratio_tile",
+          "slot": "photo_ratio_tile",
+          "kind": "number",
+          "value": 1.0,
+          "evidence": [
+            "the four supporting frames are 214x214, i.e. square"
+          ]
+        },
+        {
+          "id": "photo_ratio_location_card",
+          "slot": "photo_ratio_location_card",
+          "kind": "number",
+          "value": 0.91,
+          "evidence": [
+            "derived from the location card's 363x400 box, which is taller than wide"
+          ],
+          "tolerance_pct": 5
+        },
+        {
+          "id": "overlay_scrim",
+          "slot": "overlay_scrim",
+          "kind": "identity",
+          "value": "linear-gradient(rgba(0,0,0,0) 36%, rgba(0,0,0,0.9) 100%)",
+          "evidence": [
+            "computed background-image on the location-card overlay node"
+          ],
+          "usage": "Identity value: the only image overlay in the system."
+        },
+        {
+          "id": "image_object_fit",
+          "slot": "image_object_fit",
+          "kind": "enum",
+          "value": [
+            "cover"
+          ],
+          "evidence": [
+            "photographs fill their frames without letterboxing in any of the three widths; the mobile and tablet stills show the lead frame cropping rather than fitting"
+          ],
+          "usage": "Frames are fixed-aspect containers the photo fills; the crop adapts, the frame does not."
+        },
+        {
+          "id": "scrim_legibility_pair",
+          "slot": "scrim_legibility_pair",
+          "kind": "identity",
+          "value": "#ffffff name over #cccccc address over rgba(0,0,0,0.9) base",
+          "evidence": [
+            "computed: 'Triomphe' rgb(255,255,255) 16px/500 over the scrim base; 'Pl. Charles de Gaulle, 75008 Paris' rgb(204,204,204) 14px; scrim reaches rgba(0,0,0,0.9) at the base"
+          ],
+          "usage": "Identity value: the two-step text hierarchy that sits on the scrim."
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "imagery is photographic interior shots, unfiltered, filling fixed-aspect frames"
+        },
+        {
+          "kind": "always",
+          "rule": "text placed on a photograph sits on the recorded bottom-anchored scrim"
+        },
+        {
+          "kind": "never",
+          "rule": "a duotone, colour grade, blur or cut-out treatment on a photograph"
+        },
+        {
+          "kind": "never",
+          "rule": "a photographic frame with square corners or a radius other than 16px"
+        }
+      ],
+      "directives": [
+        "use untreated interior photographs that fill fixed-aspect frames with object-fit cover",
+        "give every photographic frame 16px radius: 667x440 for the lead, 214x214 for the four supporting tiles, 363x400 for location cards",
+        "apply the exact bottom scrim gradient and set the name in white 16px/500 over the address in rgb(204,204,204) 14px"
+      ]
+    },
+    {
+      "id": "copy",
+      "scales": [
+        {
+          "id": "register",
+          "poles": [
+            "casual",
+            "formal"
+          ],
+          "value": 6.0,
+          "evidence": [
+            "the page pairs a descriptive overview sentence in plain professional prose with an informal form invitation ('Want to see the space in person or need help choosing the right plan? Drop us a message!')",
+            "the exclamation mark and the contraction sit against 'Located just steps from the Jardin des Tuileries and Rue de Rivoli', so the register is deliberately mixed: factual body, warm call to action"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "voice",
+          "poles": [
+            "plain",
+            "playful"
+          ],
+          "value": 3.0,
+          "evidence": [
+            "the product voice is plain and slightly metaphorical only in the space card subtitles: 'Sit anywhere, stay flexible', 'Your own desk, every day', 'Focus and grow with your team', 'Where ideas take shape'",
+            "the section headings are single bare nouns: Spaces, Services, Access"
+          ],
+          "confidence": "high"
+        },
+        {
+          "id": "density",
+          "poles": [
+            "terse",
+            "explanatory"
+          ],
+          "value": 4.0,
+          "evidence": [
+            "the overview runs three lines of about 300 characters and is the only paragraph on the page; everything else is a label, a value or a two-to-six word subtitle",
+            "the page is dominated by fragments: 11 service labels, 4 space names with 4 subtitles, 3 stat values, 4 nav items, 6 footer links"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "values": [
+        {
+          "id": "h1_pattern",
+          "slot": "h1_pattern",
+          "kind": "identity",
+          "value": "<Location name>",
+          "evidence": [
+            "H1 is the bare location name 'Tuileries'; the text export lists it alone between the breadcrumb and the address"
+          ],
+          "usage": "Identity value: the H1 is the location's own name with no tagline and no city."
+        },
+        {
+          "id": "breadcrumb_pattern",
+          "slot": "breadcrumb_pattern",
+          "kind": "identity",
+          "value": "Home > Locations > <Location name>",
+          "evidence": [
+            "breadcrumb items in the text export: Home, Locations, Tuileries"
+          ],
+          "usage": "Identity value: three levels, ending on the current page name."
+        },
+        {
+          "id": "address_pattern",
+          "slot": "address_pattern",
+          "kind": "identity",
+          "value": "<street>, <postcode> <city>",
+          "evidence": [
+            "'6 Av. du G\u00e9n\u00e9ral Lemonnier, 75001 Paris'; other locations render 'Pl. Charles de Gaulle, 75008 Paris' and 'Av. Gustave Eiffel, 75007 Paris'"
+          ],
+          "usage": "Identity value: one line, street then postcode then city."
+        },
+        {
+          "id": "section_labels",
+          "slot": "section_labels",
+          "kind": "enum",
+          "value": [
+            "Spaces",
+            "Services",
+            "Access"
+          ],
+          "evidence": [
+            "h3 text in document order: Spaces, Services, Access, then Other locations in the city"
+          ],
+          "usage": "Bare nouns for the content sections; the Other-locations heading is the only sentence-form section heading."
+        },
+        {
+          "id": "stat_line_values",
+          "slot": "stat_line_values",
+          "kind": "enum",
+          "value": [
+            "240 sqm",
+            "48 people",
+            "34 desks"
+          ],
+          "evidence": [
+            "text export and computed boxes on the stat row"
+          ],
+          "usage": "Three values, each a number plus a lowercase unit noun."
+        },
+        {
+          "id": "space_card_subtitle_pattern",
+          "slot": "space_card_subtitle_pattern",
+          "kind": "identity",
+          "value": "<imperative or noun phrase>, <4-6 words>",
+          "evidence": [
+            "'Sit anywhere, stay flexible' / 'Your own desk, every day' / 'Focus and grow with your team' / 'Where ideas take shape'"
+          ],
+          "usage": "Identity value: short benefit fragments, no full stop."
+        },
+        {
+          "id": "cta_phrasing",
+          "slot": "cta_phrasing",
+          "kind": "enum",
+          "value": [
+            "Send your message",
+            "View",
+            "View All Locations",
+            "Find your desk"
+          ],
+          "evidence": [
+            "computed and text-export labels on every control"
+          ],
+          "usage": "Action-first, no 'Learn more', no 'Click here'."
+        },
+        {
+          "id": "form_title",
+          "slot": "form_title",
+          "kind": "identity",
+          "value": "Book a tour or ask us anything",
+          "evidence": [
+            "form card title text, 16px/500 white"
+          ],
+          "usage": "Identity value: the card names both jobs the form does."
+        },
+        {
+          "id": "form_help_line",
+          "slot": "form_help_line",
+          "kind": "identity",
+          "value": "Want to see the space in person or need help choosing the right plan? Drop us a message!",
+          "evidence": [
+            "form card body line under the title"
+          ],
+          "usage": "Identity value: the only sentence in the page's copy that carries an exclamation mark."
+        },
+        {
+          "id": "form_select_options",
+          "slot": "form_select_options",
+          "kind": "enum",
+          "value": [
+            "Select...",
+            "Book a tour",
+            "Ask a question",
+            "Partnership",
+            "Something else"
+          ],
+          "evidence": [
+            "form select options in the text export, with 'Select...' as the unset state"
+          ],
+          "usage": "The select's own label is the question 'What can we help you with?'."
+        },
+        {
+          "id": "field_labels",
+          "slot": "field_labels",
+          "kind": "enum",
+          "value": [
+            "Name",
+            "Email",
+            "What can we help you with?",
+            "Message"
+          ],
+          "evidence": [
+            "computed label rows in the form card"
+          ],
+          "usage": "Field labels are sentence case; only the select label is a full question."
+        },
+        {
+          "id": "empty_state_copy",
+          "slot": "empty_state_copy",
+          "kind": "identity",
+          "value": "No other locations found \u2014 view all locations instead.",
+          "evidence": [
+            "text export line rendered in the Other-locations band when the city has no second location"
+          ],
+          "usage": "Identity value: the template's own empty state, an em dash with no spaces."
+        },
+        {
+          "id": "punctuation_policy",
+          "slot": "punctuation_policy",
+          "kind": "identity",
+          "value": "no terminal stops on fragments; em dash unspaced; one exclamation mark on the form invitation",
+          "evidence": [
+            "card subtitles carry no full stops; the empty state uses an unspaced em dash; 'Drop us a message!' is the only exclamation in the capture"
+          ],
+          "usage": "Identity value: fragments stay unstopped, so the one exclamation reads as intentional."
+        },
+        {
+          "id": "body_length_rule",
+          "slot": "body_length_rule",
+          "kind": "number",
+          "value": 300,
+          "evidence": [
+            "the overview paragraph runs about 300 characters over three lines at desktop; no other prose block exceeds two lines"
+          ],
+          "unit": "characters",
+          "tolerance_pct": 25
+        }
+      ],
+      "rules": [
+        {
+          "kind": "always",
+          "rule": "the H1 is the bare location name and the breadcrumb carries the Home > Locations > name path"
+        },
+        {
+          "kind": "always",
+          "rule": "section headings are single bare nouns; only the Other-locations heading is a sentence"
+        },
+        {
+          "kind": "always",
+          "rule": "control labels are action-first verb phrases"
+        },
+        {
+          "kind": "never",
+          "rule": "a full stop at the end of a card subtitle, a stat value or a nav label"
+        },
+        {
+          "kind": "never",
+          "rule": "marketing adjectives in the overview paragraph; it describes the room and its setting"
+        }
+      ],
+      "directives": [
+        "title the page with the location name alone and lead the breadcrumb Home > Locations > <name>",
+        "open with one overview paragraph of about 300 characters describing the setting, then the three-value stat line",
+        "label the content sections Spaces, Services and Access and keep their content to names and short fragments",
+        "write the enquiry card as 'Book a tour or ask us anything' over one warm invitation line, then the four fields Name, Email, What can we help you with?, Message",
+        "keep fragments unpunctuated so the single exclamation mark on the form invitation carries the whole page's warmth"
+      ]
+    }
+  ],
+  "limitations": [
+    "Hover states are only partly known: nav links fade to rgba(82,82,82,0.8) and the submit button showed no computed change; the nav CTA pill, the space cards and the location-card View pill were unreachable by the hover probe (a hidden zero-size node resolved ahead of the visible one), so their hover behaviour is unverified.",
+    "The anchor tab row renders with an active underline but clicking a tab did not move the page in the probe. Whether the tabs scroll, swap panels, or are inert in the template is unresolved; Spaces, Services and Access exist as section headings, so plausible targets exist.",
+    "The Access section contains the enquiry form only, and the form lives in the right rail. In the left column the heading is followed by whitespace down to the Other-locations band, so the section reads as heading plus empty column once the sticky card has scrolled past.",
+    "One 10s opacity fade with a 5s delay is registered on a container on every load; its purpose was not resolved and it had completed before measurement.",
+    "Several wrapper nodes compute the default link blue rgb(0,0,238) without rendering blue; this matches the home page and is treated as not part of the design.",
+    "DM Sans and Inter load with the document but render no visible text; only Plus Jakarta Sans was observed. Body-text sizes above 20px were read from the elements themselves, since the rendered-size census only returns sizes up to 20px.",
+    "The header photo cluster behaves as a gallery or carousel in the template's live state; only the settled arrangement is captured and any drag or arrow affordance was not exercised.",
+    "The enquiry form is a demo: it has four select options and no submission endpoint was exercised. Its valid/invalid and error states are uncaptured.",
+    "Mobile stat chips wrap to two rows, displacing the following section; the exact wrap breakpoints between 390 and 834 were not measured.",
+    "The residual gaps on the sibling home page rubric apply here too wherever the two pages share a component: nav scroll reveal, the marquee-free detail template has no motion to characterise, and the footer link hover was not re-probed on this page.",
+    "Captured from a live template site; content is placeholder (demo address, hello@yourcoworking.com, +33 6 12 34 56 78) and would differ in a real deployment.",
+    "Full validation suite not yet run on this page: discrimination against example_entry.json and a sensitivity/invariance pass need a second capture and are recorded as a follow-up.",
+    "Production use requires human sign-off on this frozen file."
+  ]
+}
