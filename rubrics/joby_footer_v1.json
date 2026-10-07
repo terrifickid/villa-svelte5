@@ -1,0 +1,462 @@
+{
+  "format": "mixdown2",
+  "version": "1.0",
+  "rubric_id": "joby_footer_v1",
+  "class": "web-design.footer-system",
+  "intended_use": "both",
+  "source": {
+    "mode": "capture",
+    "what": "Joby Aviation footer on the careers page — the footerWrapper (blue link field) plus the footerCreative band (layered horizon graphic) beneath it. Distilled for structure, layout, typography and motion.",
+    "when": "2026-10-02",
+    "method": "Chromium (ms-playwright chromium-1234) driven by puppeteer-core, one isolated browser context per width. Three viewports: 1440x900, 834x1112, 390x844, deviceScaleFactor 1, page scrolled to the document end and settled 2s so the footer reveal completed. Page-transition and cookie overlays were removed from the DOM before measurement — the site's page-transition layer is what blanked the footer in the naive full-page capture. Values from getComputedStyle, getBoundingClientRect, resolved :root custom properties, the authored Footer-module CSS rules read out of the document stylesheets, and inline SVG geometry (viewBox, rect x/y/width/height, fill) read from the DOM. Collision tests compare real client rects, not assumptions.",
+    "gaps": [
+      "The footer reveal is driven by --footer-up, measured as 0vh at the page top and 40vh once the footer is in view (a 360px translateY at a 900px viewport). The interpolation curve and the scroll trigger point were not isolated; only the two endpoint values are measured.",
+      "The newsletter's filled state (input:not(:placeholder-shown), which widens the field to 41.7rem and lifts the title and disclaimer by 8.6rem) was read from authored CSS but not exercised, because typing an address was out of scope for a layout capture.",
+      "The newsletter success and error states were not exercised; only their authored rules were read.",
+      "The mobile variant's second SVG (footerCreativeSVGMobile) resolves to display:none at all three widths measured, so the intended mobile graphic was not observed rendering. What renders at 390 is the desktop SVG scaled by its viewBox.",
+      "The footer creative artwork's own internals are only partly resolved: it is a single inline SVG with 7 rects, 1 path and 1 group, and the artwork appears to be one wing/horizon curve. The individual path geometry beyond the captured bounding boxes was not traced.",
+      "Hover and focus states on footer links (a 1.5px underline scaling in from the left, 1px on sub-links) were read from authored CSS, not captured as states.",
+      "Only the careers page footer was captured. The footer is a site-wide component, so cross-template consistency is assumed rather than verified."
+    ],
+    "notes": "The user described the structure as footerWrapper with footerCreative underneath. Measured, that is half right and the difference matters. footerWrapper is a blue (#007AE5) container with overflow hidden that holds the <footer> grid; footerCreative sits OUTSIDE the wrapper, as a sibling further down the page in a separate SectionWrapper, carrying the dark blue #1C3F99 background and the horizon SVG. So the two are adjacent page sections, not parent and child. The wrapper is 900px tall at 1440 and the footer grid fills it exactly, with the creative band 448.2px below. Two real defects were found and are recorded as negative evidence: the footer grid reserves a 700px hole between its left and right column groups, and at 390px the logo and the newsletter both collide with the Explore link list."
+  },
+  "element_inventory": [
+    { "element": "footerWrapper", "aspects": ["layout", "color"], "note": "blue field, overflow hidden, holds the footer grid" },
+    { "element": "footer grid", "aspects": ["layout", "structure"], "note": "16-track grid, same tokens as the page" },
+    { "element": "link lists (four)", "aspects": ["layout", "type", "structure"], "note": "sub, main, explore, social" },
+    { "element": "logo container", "aspects": ["layout", "motion"], "note": "row 2, aligned to the row's end" },
+    { "element": "newsletter block", "aspects": ["layout", "type", "motion", "copy"], "note": "title, underline input, submit arrow, disclaimer" },
+    { "element": "footer ::after", "aspects": ["layout", "color"], "note": "3.4rem dark-blue strip at the foot of the grid" },
+    { "element": "footerCreative", "aspects": ["layout", "color", "imagery"], "note": "dark-blue band carrying the horizon SVG" },
+    { "element": "horizon SVG", "aspects": ["imagery", "color", "layout"], "note": "four stacked bands plus one curve path, 1600x737 viewBox" }
+  ],
+  "parts": [
+    {
+      "id": "wrapper_creative_split",
+      "name": "Blue field, then horizon band",
+      "kind": "move",
+      "description": "The footer is two stacked page sections, not one. A blue field carries all the links, the logo and the newsletter; beneath it a separate dark-blue band carries a layered horizon graphic whose coloured strata continue the page's palette. The band has no text at all — it is pure surface, 448.2px of it at 1440, closing the page on an image rather than on information.",
+      "entry_test": "End the footer at the link field and the page stops on a flat colour; the layering of the horizon band is what gives the page a floor. The band is identity-carrying and would fail the removal test.",
+      "anchor": { "type": "selector", "value": "[class*='footerWrapper'], [class*='footerCreative']" },
+      "recipe": "Build two sibling sections. Section one: a wrapper with background var(--color-blue) and overflow hidden, containing the footer grid. Section two: a band with background var(--color-dark-blue), position relative, width 100%, pointer-events none, holding the SVG absolutely at bottom 0 left 0 width 100%, z-index 2. Note the wrapper does NOT contain the band — they are adjacent siblings in the page flow. Heights: wrapper 900px at 1440 (matching the viewport), 1112px at 834, 844px at 390; band 448.2px at 1440, 259.6px at 834, 590.7px at 390.",
+      "checks": [
+        { "id": "c1", "check": "The link field and the horizon band are separate stacked sections, not one container", "critical": true },
+        { "id": "c2", "check": "The horizon band carries no text content at all", "critical": true },
+        { "id": "c3", "check": "The band sits below the link field with no gap between them", "weight": 1 },
+        { "id": "c4", "check": "The band's background is the darker blue and the field's is the brighter blue", "weight": 1 },
+        { "id": "c5", "check": "The band is non-interactive (pointer-events none)", "weight": 1 }
+      ],
+      "evidence": [
+        "measured at 1440: footerWrapper box y 10064.8, h 900, bg rgb(0,122,229); footerCreative box y 10964.8, h 448.2, bg rgb(28,63,153) — the band begins exactly where the wrapper ends (10064.8 + 900 = 10964.8)",
+        "authored: .footerWrapper { position:relative; height:fit-content; background-color:var(--color-blue); overflow:hidden }",
+        "authored: .footerCreative { position:relative; width:100%; background-color:var(--color-dark-blue); pointer-events:none }",
+        "footerCreative innerText is empty at all three widths",
+        "measured heights: wrapper 900 / 1112 / 844 at 1440 / 834 / 390; band 448.2 / 259.6 / 590.7"
+      ]
+    },
+    {
+      "id": "layered_horizon",
+      "name": "Layered horizon",
+      "kind": "move",
+      "description": "The closing graphic is four horizontal colour strata meeting a single large curve that sweeps up from the bottom left to the top right, so the bands appear to be cut by a wing or a horizon line. The strata step from dark blue through pale blue and bright blue back to dark blue, and their heights decrease sharply toward the bottom (296, 296, 182, 57 units in a 737-unit box). The curve is drawn as one path on a group that overhangs its container by 8 units on the left and 170 above the top, so the artwork bleeds past its own bounds.",
+      "entry_test": "Flatten the strata into a single fill and the footer loses its only graphic; it is the one drawn gesture on the whole page and the reason the page ends rather than stops.",
+      "anchor": { "type": "selector", "value": "[class*='footerCreative'] svg" },
+      "recipe": "One inline SVG, viewBox 0 0 1600 737, no explicit width/height, positioned absolute bottom 0 left 0 width 100% z-index 2. Inside: a group offset x=8 y=-170, containing four full-width rects at y 202/498/680 with height 296/182/57 plus the group's top rect. Fills in stacking order: dark blue #1C3F99, pale blue #C1DFEF, bright blue #007AE5, dark blue #1C3F99. The cutting curve is a single path, d='M1600 737C1600 737 1283.98 736.995 600 737C1600 736.989 1600 -0.000151364 1600 -0.000151364L1600 737Z', fill #646464 in the captured state — the visible colours come from the rects, so treat the path as the mask/cut shape rather than a fill. Do not change the viewBox aspect on mobile; it scales by width only.",
+      "checks": [
+        { "id": "c1", "check": "The graphic is four stacked colour strata cut by one large curve", "critical": true },
+        { "id": "c2", "check": "Strata heights decrease toward the bottom of the band", "weight": 1 },
+        { "id": "c3", "check": "The artwork bleeds past its container on at least one axis", "weight": 1 },
+        { "id": "c4", "check": "The SVG is positioned to the band's bottom edge, not its top", "weight": 1 },
+        { "id": "c5", "check": "The graphic carries no text or logo", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .footerCreative svg { position:absolute; bottom:0; left:0; width:100%; z-index:2 }",
+        "measured 1440: svg box x 0, w 1440, h 663.3, top -215.1px from the band top, viewBox '0 0 1600 737'",
+        "group transform offset: box x -351, w 1800 against a 1440 container — a bleed of 351px left and 360px right",
+        "four rects, fills in order #1C3F99, #C1DFEF, #007AE5, #1C3F99; heights 296, 296, 182, 57 in viewBox units",
+        "curve path d='M1600 737C1600 737 1283.98 736.995 600 737C1600 736.989 1600 -0.000151364 1600 -0.000151364L1600 737Z'",
+        "scaling: at 834 the same viewBox renders 834x384.2; at 390 the SVG resolves display:none with width 100% and height auto"
+      ]
+    },
+    {
+      "id": "four_list_rails",
+      "name": "Four link rails on the same tracks",
+      "kind": "move",
+      "description": "The four link lists are placed on fixed spans of the shared 16-track grid — columns 1-2, 11-2, 13-2, 15-2 — so each list is exactly two tracks wide (156px at 1440) regardless of how long its longest link is. The rails are constant and the text fits inside them.",
+      "entry_test": "Size each list to its own content and the right-hand cluster loses its shared left edges; the fixed rail width is what makes four unequal lists read as a set of columns.",
+      "anchor": { "type": "selector", "value": "footer [class*='footerSubLinks'], footer [class*='footerMainLinks'], footer [class*='footerExploreLinks'], footer [class*='footerSocialLinks']" },
+      "recipe": "grid-column 1 / span 2 for the sub-links, 11 / span 2 for main, 13 / span 2 for explore, 15 / span 2 for social; grid-row 1 for the three right-hand lists, auto for the sub-links. Each list is display flex, column-direction, width fit-content, and resolves to exactly two tracks: 156px at 1440, 156px at 1200, 156px at 1024, 156px at 834. Critically: do not adopt this page's interior hole. Reserving rails at column 1 and at columns 11-16 leaves columns 3 through 10 (x 250 to 860, about 610px at 1440) empty on the same row. A rail system must either declare that gap as an intentional spacer span or redistribute the rails; the page leaves it undeclared, which is the defect.",
+      "checks": [
+        { "id": "c1", "check": "Each list is placed by column span, not by content width", "critical": true },
+        { "id": "c2", "check": "All four lists resolve to the same width (two tracks)", "critical": true },
+        { "id": "c3", "check": "Interior columns between the left and right clusters are accounted for as a declared span", "critical": true },
+        { "id": "c4", "check": "The three right-hand lists share a grid row", "weight": 1 },
+        { "id": "c5", "check": "A list's longest link still fits inside its two-track rail", "weight": 1 }
+      ],
+      "evidence": [
+        "measured gridColumn at 1440: sub '1 / span 2', main '11 / span 2', explore '13 / span 2', social '15 / span 2'; gridRow '1' on main/explore/social",
+        "all four boxes: w 156px, y 10462.8, h 177",
+        "x positions: 40, 900, 1072, 1244 — columns 3 to 10 (x 250 to 860, ~610px) empty on row 1",
+        "authored: .footerSubLinks { transform: translateY(var(--footer-up)); display:flex; gridColumn: 1 / span 2 } and the same pattern for the other three",
+        "longest link 'Health Plan Transparency' measures 142.1px inside a 156px rail (91% fill); 'X' measures 12.7px in a rail of the same width"
+      ]
+    },
+    {
+      "id": "label_then_links",
+      "name": "Label row, then the links",
+      "kind": "move",
+      "description": "Each list opens with a small label in the 12px caption size, then a 32px gap, then the links themselves at 18px. The label is not a heading — it is the same 12px caption style used elsewhere on the site — and it is separated from its list by a fixed margin rather than by a type-size jump.",
+      "entry_test": "Set the label and the links at one size and the columns lose their headers; the caption-size label plus the fixed 32px break is what makes a list read as a labelled group rather than a run of links.",
+      "anchor": { "type": "selector", "value": "footer ul > li:first-child" },
+      "recipe": "First li in each list carries margin-bottom 3.2rem and its anchor is set at the 12px/450 caption style; subsequent links are 18px/450. The gap between the label li and the second li measures exactly 32px on all three right-hand lists. The sub-links list (legal links and copyright) has no label and no such gap — every item is 12px with 0 gap, so it reads as a footnote block rather than a titled column. That difference is deliberate and should be preserved: three labelled columns plus one unlabelled footnote list.",
+      "checks": [
+        { "id": "c1", "check": "Three of the four lists carry a 12px label as their first item", "critical": true },
+        { "id": "c2", "check": "The label-to-links gap is a fixed 32px, not a line-height artifact", "weight": 1 },
+        { "id": "c3", "check": "Links below the label are set larger than the label (18px against 12px)", "weight": 1 },
+        { "id": "c4", "check": "The legal/copyright list is unlabelled and set entirely at the caption size", "weight": 1 },
+        { "id": "c5", "check": "No list label uses an oversized or bold heading treatment", "weight": 1 }
+      ],
+      "evidence": [
+        "first-item margins: footerMainLinks li margin '0px 0px 32px', same for explore and social; footerSubLinks li margin '0px'",
+        "label anchors ('Discover', 'Explore', 'Connect') render 12px/450; the links beneath render 18px/450",
+        "measured label-to-links gaps: 32, 32, 32px on main/explore/social; 0px between items in the sub-links list",
+        "all six sub-links items render 12px/450 with zero gaps — a footnote block"
+      ]
+    },
+    {
+      "id": "row_two_baseline_split",
+      "name": "Row two carries logo and newsletter",
+      "kind": "move",
+      "description": "The second grid row pairs the logo on the far left with the newsletter block on the right, sharing the row but not the alignment: the logo is explicitly aligned to the row's end while the newsletter sits at its own natural top, so the two halves of the row are deliberately not on a shared baseline.",
+      "entry_test": "Align the logo to the row's top and it floats away from the foot of the column beside it; the end-alignment is what anchors the mark to the bottom of the link block above.",
+      "anchor": { "type": "selector", "value": "footer [class*='logoContainer'], footer [class*='newsletter']" },
+      "recipe": "Row 2 holds logoContainer at grid-column 1 / span 4 with align-self end, and the newsletter at 11 / span 5. At 1440 those resolve to logo x 40 w 176 h 52 and newsletter x 900 w 414 h 70.2. Because the two are on the same row but different alignments, their tops differ: logo y 10823.8 against newsletter y 10805.6, an 18.2px offset. That offset is the row's design, not a bug — but it must be an intentional consequence of align-self, never of an accidental margin. Do not copy the row spacing: the two rows sit 525.8px apart because the row is implicit inside a fixed 900px field and absorbs all remaining height as one void.",
+      "checks": [
+        { "id": "c1", "check": "Logo and newsletter share grid row 2", "critical": true },
+        { "id": "c2", "check": "The logo is aligned to the row's end while the newsletter is not", "weight": 1 },
+        { "id": "c3", "check": "The vertical offset between the two halves follows from align-self, not from a manual margin", "weight": 1 },
+        { "id": "c4", "check": "The row gap is a declared value, not the leftover of a fixed field height", "critical": true },
+        { "id": "c5", "check": "The newsletter's right edge aligns with the right-hand link rail above it", "weight": 1 }
+      ],
+      "evidence": [
+        "measured gridColumn/gridRow: logoContainer '1 / span 4' row '2' alignSelf 'end'; newsletter '11 / span 5' row '2'",
+        "measured boxes at 1440: logo x 40, y 10823.8, w 176, h 52; newsletter x 900, y 10805.6, w 414, h 70.2 — an 18.2px top offset",
+        "row 1 bottom y 10462.8 + 177 = 10639.8; row 2 newsletter top 10805.6 — a 165.8px gap",
+        "wrapper is a fixed 900px at 1440 with the grid's implicit rows absorbing the remainder"
+      ]
+    },
+    {
+      "id": "newsletter_underline_field",
+      "name": "Underline field that grows on entry",
+      "kind": "move",
+      "description": "The signup is a bare underlined input with no box, set at display size so it reads as a line of type rather than a form control, with a small arrow to its right. On typing, the field widens and the title and disclaimer slide up out of the way, so the control changes shape and its surroundings reflow together.",
+      "entry_test": "Box the input and the footer gains a form where it had a line of text; the underline treatment and the widening are what keep the signup in the footer's typographic register.",
+      "anchor": { "type": "selector", "value": "[class*='newsletterForm'] input" },
+      "recipe": "Input: width 16ch, background none, colour var(--color-white), border-radius 0, font-size 2.8rem weight 500 line-height 120% letter-spacing -0.056rem, with a bottom border only. On :not(:placeholder-shown) the width becomes 41.7rem. The submit is an absolutely positioned 1.8rem arrow at right, translated -50% on Y, pointer-events none until the field has content, at which point it takes the light colour and becomes interactive. The title and disclaimer lift 8.6rem on the same trigger. Title also takes the dimmed blue at that point. Durations: width and border-bottom .4s in-out-cubic; transform .4s out-cubic; title colour .4s in-out-cubic.",
+      "checks": [
+        { "id": "c1", "check": "The input is underline-only with no box, border or fill", "critical": true },
+        { "id": "c2", "check": "Input is set at display size, not at a normal form-control size", "critical": true },
+        { "id": "c3", "check": "The field widens once it has content", "weight": 1 },
+        { "id": "c4", "check": "The title and disclaimer move as the field grows", "weight": 1 },
+        { "id": "c5", "check": "The submit arrow is inert until the field has content", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .newsletterForm input { width:16ch; background-color:initial; border-radius:0px; font-size:2.8rem; font-weight:500; line-height:120%; letter-spacing:-0.056rem; transition: width .4s var(--ease-in-out-cubic), border-bottom .4s var(--ease-in-out-cubic), transform .4s var(--ease-out-cubic) }",
+        "authored: .newsletterForm input:not(:placeholder-shown) { width:41.7rem }",
+        "authored: .newsletter:has(input:not(:placeholder-shown)) .newsletterTitle { transform: translateY(-8.6rem) }",
+        "authored: .newsletterSubmit { position:absolute; top:50%; right:0; width:1.8rem; height:1.8rem; transform:translateY(-50%); pointer-events:none; opacity:1 } with pointer-events:auto once the field has content",
+        "measured at 1440: input box x 900, y 10841.2, w 283.5, h 34.6, font 28px/500; submit box x 1165.5, y 10849.5, 18x18"
+      ]
+    },
+    {
+      "id": "footer_up_reveal",
+      "name": "Footer-up reveal variable",
+      "kind": "move",
+      "description": "The footer's content is offset downward and rises into place as the footer scrolls into view, driven by a single custom property rather than by per-element animation. Every list shares the property, so the whole set lifts as one surface.",
+      "entry_test": "Animate the lists individually and they arrive out of step; the single shared offset is what makes the footer read as one panel sliding up rather than four lists appearing.",
+      "anchor": { "type": "selector", "value": "footer [class*='footerSubLinks'], footer [class*='footerMainLinks'], footer [class*='footerExploreLinks'], footer [class*='footerSocialLinks']" },
+      "recipe": "Declare --footer-up on the footer and transform each list by translateY(var(--footer-up)). Measured: 0vh while the footer is off screen (transform none), 40vh once the footer is in view — 360px at a 900px viewport. Drive the property from a scroll-position value so every list moves by the same amount at the same time. Do not attach separate entrance animations to the four lists, and do not animate the logo or newsletter on this property — only the link lists carry it.",
+      "checks": [
+        { "id": "c1", "check": "All four link lists share one offset property rather than animating separately", "critical": true },
+        { "id": "c2", "check": "The offset resolves to a viewport-relative length (40vh measured)", "weight": 1 },
+        { "id": "c3", "check": "The lists are offset while the footer is off screen and reach zero offset when it is in view", "weight": 1 },
+        { "id": "c4", "check": "The logo and newsletter are not on the same offset property", "weight": 1 },
+        { "id": "c5", "check": "The lists keep their shared top edge at every point of the travel", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .footerSubLinks, .footerMainLinks, .footerExploreLinks, .footerSocialLinks all carry transform: translateY(var(--footer-up))",
+        "measured --footer-up on the footer: '0vh' at the page top, '40vh' once scrolled to the document end",
+        "measured transform on footerSubLinks at the document end: matrix(1,0,0,1,0,360) — 360px at a 900px viewport",
+        "at the page top the same lists report transform none",
+        "no getAnimations() entries target the footer lists, confirming the movement is a driven transform rather than a keyframe animation"
+      ]
+    },
+    {
+      "id": "footer_foot_strip",
+      "name": "Dark strip at the foot of the grid",
+      "kind": "move",
+      "description": "The grid's bottom edge carries a dark-blue strip drawn as a pseudo-element, 3.4rem tall, so the link field ends on a band of the darker colour rather than on bare blue — the strip pre-echoes the horizon band below it and ties the two sections together.",
+      "entry_test": "Remove the strip and the blue field meets the horizon band as a hard colour change; the strip is what makes the transition read as a deliberate step.",
+      "anchor": { "type": "selector", "value": "footer::after" },
+      "recipe": "footer::after, position absolute, bottom 0, left 0, width 100%, height 3.4rem, background var(--color-dark-blue). Rendered height 34px at a 10px root. Use the same dark-blue token as the horizon band so the strip and the band are literally the same colour.",
+      "checks": [
+        { "id": "c1", "check": "A dark strip spans the full width at the grid's bottom edge", "critical": true },
+        { "id": "c2", "check": "The strip uses the same dark-blue token as the band below", "weight": 1 },
+        { "id": "c3", "check": "The strip is drawn as a pseudo-element or background layer, not a content element", "weight": 1 },
+        { "id": "c4", "check": "The strip's height scales with the root (3.4rem)", "weight": 1 },
+        { "id": "c5", "check": "The strip sits flush to the field's bottom with no gap", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .footer::after { position:absolute; bottom:0; left:0; width:100%; height:3.4rem; background-color:var(--color-dark-blue) }",
+        "--color-dark-blue resolves to #1c3f99, the same token the footerCreative band uses",
+        "footer padding-bottom 8.9rem sits above the strip"
+      ]
+    },
+    {
+      "id": "no_collision_at_narrow",
+      "name": "Narrow-width collision avoidance",
+      "kind": "move",
+      "description": "This is a negative move: the requirement the page fails. When the footer stacks at narrow widths the logo, the newsletter and the link lists must occupy separate vertical space. On this page they do not — at 390px the logo and the newsletter both overlap the Explore link list, because the stacked grid rows and the absolutely positioned newsletter disclaimer share the same band of vertical space.",
+      "entry_test": "Not a gesture to copy — the opposite. Recorded because a footer rubric that omits it will happily reproduce the fault. Overlapping footer content fails the removal test in reverse: it must be removed.",
+      "anchor": { "type": "selector", "value": "footer [class*='logoContainer'], footer [class*='newsletter'], footer [class*='footerExploreLinks']" },
+      "recipe": "At narrow widths give every footer block its own row and verify with real client rects that no two blocks intersect. Do not rely on grid row order alone when a block is absolutely positioned inside another (the newsletter's disclaimer is position absolute, so the newsletter's own box does not grow to contain it). Measured collisions at 390: logo box x 16.6 y 183.5 w 59.5 h 36.6 against explore list x 16.6 y 130.8 w 356.8 h 93.2 — overlapping; newsletter box x 135.5 y 172.1 w 237.8 h 48 against the same explore list — overlapping. The sub-links list at 390 is also fully off-screen above the field (y -228) because the lists keep their shared offset while the field is shorter than their total height.",
+      "checks": [
+        { "id": "c1", "check": "At the narrowest width no two footer blocks' client rects intersect", "critical": true },
+        { "id": "c2", "check": "Blocks that stack are given separate grid rows rather than overlapping implicitly", "critical": true },
+        { "id": "c3", "check": "An absolutely positioned child (the disclaimer) does not escape its parent's reserved space", "weight": 1 },
+        { "id": "c4", "check": "No footer content sits outside the field's visible bounds at any width", "weight": 1 },
+        { "id": "c5", "check": "The shared reveal offset does not push content past the field's top", "weight": 1 }
+      ],
+      "evidence": [
+        "measured at 390x844: logo box {x 16.6, y 183.5, w 59.5, h 36.6} and footerExploreLinks {x 16.6, y 130.8, w 356.8, h 93.2} — intersection true",
+        "measured at 390x844: newsletter {x 135.5, y 172.1, w 237.8, h 48} and footerExploreLinks — intersection true",
+        "measured at 390x844: footerSubLinks box y -228, i.e. entirely above the field's top edge, while the field is 844px tall",
+        "authored: .newsletterDisclaimer { position:absolute; bottom:0; left:0; opacity:0 } — the disclaimer is out of flow, so the newsletter's box does not account for it",
+        "the visible mobile render shows the logo overlapping the 'Sign up for updates' title"
+      ]
+    }
+  ],
+  "aspects": [
+    {
+      "id": "layout",
+      "scales": [
+        { "id": "density", "poles": ["airy", "packed"], "value": 4.5, "evidence": ["the wrapper is a full 900px at 1440 holding 17 short links, a logo and one signup line; the four lists occupy 177px of a 900px field, leaving roughly two thirds of the field empty"], "confidence": "medium" },
+        { "id": "grid_discipline", "poles": ["free-form", "strict grid"], "value": 8.0, "evidence": ["the footer is a 16-track grid on the page's shared tokens with every child placed by explicit gridColumn and gridRow; the wrapper and band are full-bleed sections"], "confidence": "high", "note": "placement is strict, but the undeclared 610px interior gap and the mobile collisions are discipline failures at the layout level" },
+        { "id": "symmetry", "poles": ["asymmetric", "centered"], "value": 2.0, "evidence": ["every block is anchored to a rail: left cluster at column 1, right cluster at 11/13/15; nothing is centred and there is no centre axis"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "footer_columns", "slot": "footer_columns", "kind": "number", "value": 16, "tolerance_pct": 1, "usage": "the footer grid's column count, shared with the page via --grid-columns", "evidence": ["--grid-columns resolves to 16; .footer uses repeat(var(--grid-columns), 1fr)"] },
+        { "id": "footer_gutter", "slot": "footer_gutter", "kind": "number", "value": 16, "unit": "px", "tolerance_pct": 1, "usage": "column gutter at a 10px root (1.6rem); 13.03px at 834", "evidence": ["--gutter-width 1.6rem; computed columnGap 16px at 1440, 13.0312px at 834"] },
+        { "id": "footer_side_padding", "slot": "footer_side_padding", "kind": "number", "value": 40, "unit": "px", "tolerance_pct": 1, "usage": "side padding at a 10px root (4rem base padding); 32.58px at 834, 16.64px at 390", "evidence": ["computed padding 38px 40px 89px at 1440; 30.95px 32.58px 72.49px at 834; 24.96px 16.64px 33.28px at 390"] },
+        { "id": "footer_padding_top", "slot": "footer_padding", "kind": "number", "value": 38, "unit": "px", "tolerance_pct": 5, "usage": "3.8rem top padding — note this is smaller than the side padding", "evidence": [".footer padding 3.8rem var(--base-padding) 8.9rem var(--base-padding)"] },
+        { "id": "footer_padding_bottom", "slot": "footer_padding", "kind": "number", "value": 89, "unit": "px", "tolerance_pct": 5, "usage": "8.9rem bottom padding, sitting above the dark strip", "evidence": [".footer padding-bottom 8.9rem; computed 89px at a 10px root"] },
+        { "id": "rail_span", "slot": "rail_span", "kind": "number", "value": 2, "unit": "columns", "tolerance_pct": 1, "usage": "every link list occupies exactly two tracks", "evidence": ["all four lists gridColumn span 2; all measure 156px wide"] },
+        { "id": "rail_width", "slot": "rail_width", "kind": "number", "value": 156, "unit": "px", "tolerance_pct": 1, "usage": "the rendered width of a two-track rail at 1440", "evidence": ["measured width 156px on all four lists"] },
+        { "id": "rail_positions", "slot": "rail_positions", "kind": "enum", "value": ["1", "11", "13", "15"], "usage": "the four lists' starting columns", "evidence": ["computed gridColumn '1 / span 2', '11 / span 2', '13 / span 2', '15 / span 2'"] },
+        { "id": "logo_span", "slot": "logo_span", "kind": "number", "value": 4, "unit": "columns", "tolerance_pct": 1, "usage": "the logo container's span on row 2", "evidence": ["computed gridColumn '1 / span 4'; measured width 176px"] },
+        { "id": "newsletter_span", "slot": "newsletter_span", "kind": "number", "value": 5, "unit": "columns", "tolerance_pct": 1, "usage": "the newsletter's span on row 2", "evidence": ["computed gridColumn '11 / span 5'; measured width 414px"] },
+        { "id": "foot_strip_height", "slot": "foot_strip_height", "kind": "number", "value": 34, "unit": "px", "tolerance_pct": 5, "usage": "the dark strip at the grid's foot (3.4rem)", "evidence": [".footer::after height 3.4rem"] },
+        { "id": "field_height_1440", "slot": "field_height", "kind": "number", "value": 900, "unit": "px", "tolerance_pct": 5, "usage": "the blue field's height at 1440 — equal to the viewport, and reached by height fit-content plus stretched rows, not a hard-coded 900px", "evidence": ["measured wrapper and footer height 900px at 1440x900; 1112px at 834x1112; 844px at 390x844 — in each case the field equals the viewport height"] },
+        { "id": "band_height_1440", "slot": "band_height", "kind": "number", "value": 448.2, "unit": "px", "tolerance_pct": 8, "usage": "the horizon band's height at 1440; 259.6px at 834 and 590.7px at 390", "evidence": ["measured footerCreative height 448.2px at 1440, 259.6px at 834, 590.7px at 390"] },
+        { "id": "label_gap", "slot": "label_gap", "kind": "number", "value": 32, "unit": "px", "tolerance_pct": 5, "usage": "the margin below a list's label item before the links begin", "evidence": ["first li margin-bottom '32px' on main/explore/social; measured gaps 32px"] },
+        { "id": "row_gap", "slot": "row_gap", "kind": "identity", "value": "declared only; the page uses no explicit row gap", "usage": "the vertical gap between footer rows", "evidence": ["grid rowGap resolves to 0px; the measured 165.8px between row 1's bottom and row 2's top is the leftover of the fixed 900px field, not a declared gap"] },
+        { "id": "root_font_size", "slot": "root_font_size", "kind": "number", "value": 10, "unit": "px", "tolerance_pct": 15, "usage": "the fluid rem root; 8.14px at 834, 10.4px at 390", "evidence": ["computed html font-size 10px at 1440, 8.14453px at 834, 10.4px at 390"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the footer grid uses the page's shared column, gutter and base-padding tokens rather than declaring its own" },
+        { "kind": "always", "rule": "every footer block is placed by explicit column span and row" },
+        { "kind": "always", "rule": "the logo, the newsletter and every link list occupy non-intersecting vertical space at every width" },
+        { "kind": "never", "rule": "a footer row's height is the leftover of a fixed field height; rows and gaps are declared" },
+        { "kind": "never", "rule": "an interior span of reserved rails is left unaccounted for (the page leaves columns 3-10 empty on row 1)" },
+        { "kind": "never", "rule": "the blue field is hard-coded to a pixel height" }
+      ],
+      "directives": [
+        "lay the footer on the shared 16-track grid with the page's gutter and base padding",
+        "place the four lists at span 2 on columns 1, 11, 13, 15 and place the logo at span 4 and the newsletter at span 5 on row 2",
+        "declare the space between the left and right clusters as an explicit spacer span instead of leaving it empty",
+        "at narrow widths give the logo, each list and the newsletter their own rows so no two blocks intersect"
+      ]
+    },
+    {
+      "id": "structure",
+      "scales": [
+        { "id": "hierarchy_depth", "poles": ["flat", "deep"], "value": 2.0, "evidence": ["two tiers only: list labels at 12px and links at 18px; the newsletter title at 28px is the largest thing in the footer but is not a heading in a hierarchy"], "confidence": "high" },
+        { "id": "rhythm", "poles": ["uniform", "syncopated"], "value": 4.0, "evidence": ["one repeated column template across four lists with a single irregular list (the unlabelled footnote column); one band below the field; no variation in the template itself"], "confidence": "medium" },
+        { "id": "component_voice", "poles": ["borderless", "framed"], "value": 1.5, "evidence": ["no cards, borders or shadows anywhere in the footer; the only edges are a 1.5px underline that scales in on link hover, a 1px underline on sub-links, and the section band as a whole"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "section_stack", "slot": "section_stack", "kind": "enum", "value": ["footerWrapper (link field)", "footerCreative (horizon band)"], "usage": "the footer's two sections, in order", "evidence": ["footerWrapper box y 10064.8 h 900; footerCreative box y 10964.8 h 448.2 — adjacent, no gap"] },
+        { "id": "list_roles", "slot": "list_roles", "kind": "enum", "value": ["main navigation", "explore links", "social links", "legal and copyright footnote"], "usage": "the four lists and what each carries", "evidence": ["measured items: main reads Discover..Careers; explore reads Explore, For Investors, Fly Blade, Joby Shop, Electric Skies; social reads Connect, YouTube, Instagram, LinkedIn, X; sub reads Privacy Policy, Terms of Use, Impact Report, Health Plan Transparency, Commitment to Safety, and the copyright line"] },
+        { "id": "rows", "slot": "rows", "kind": "enum", "value": ["row 1: four link lists", "row 2: logo and newsletter"], "usage": "the footer grid's two rows", "evidence": ["row 1 children all at y 10462.8; row 2 children at y 10823.8 (logo) and 10805.6 (newsletter)"] },
+        { "id": "wrapper_containment", "slot": "wrapper_containment", "kind": "identity", "value": "footerCreative is NOT inside footerWrapper", "usage": "the two are adjacent page sections, not nested", "evidence": ["footerWrapper children list contains only the footer element; footerCreative's parent is a separate SectionWrapper"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the footer is exactly two stacked sections: the link field and the closing band" },
+        { "kind": "always", "rule": "three list columns carry a label and one is an unlabelled footnote block" },
+        { "kind": "never", "rule": "a footer component is bounded by a card, border or shadow" },
+        { "kind": "never", "rule": "a third tier of text hierarchy is introduced inside the footer" }
+      ],
+      "directives": [
+        "build two sections in order: the blue link field, then the dark horizon band",
+        "keep three labelled list columns plus one unlabelled legal footnote column",
+        "separate everything with space and hairlines rather than containers"
+      ]
+    },
+    {
+      "id": "type",
+      "scales": [
+        { "id": "scale_contrast", "poles": ["even", "dramatic"], "value": 3.0, "evidence": ["footer type runs 12, 18 and 28px — a 2.3x span; the widest gap is between the newsletter title at 28px and the labels at 12px"], "confidence": "high", "note": "narrow by comparison with the page's 5.0 display-to-body ratio; the footer is set almost flat" },
+        { "id": "weight_voice", "poles": ["light", "heavy"], "value": 4.5, "evidence": ["weights are 450 for every link and 500 for the newsletter title and input only; nothing bold, nothing below 400"], "confidence": "high" },
+        { "id": "family_register", "poles": ["editorial", "utilitarian"], "value": 8.0, "evidence": ["one neutral sans (jobyText) carries every link and label; the newsletter title and input add jobyDisplay — two families, both neutral"], "confidence": "high" },
+        { "id": "tracking_case", "poles": ["sentence-case", "all-caps/wide"], "value": 1.0, "evidence": ["all footer copy is sentence or title case with no uppercase transform; tracking is negative where set (-0.14px at 14px equivalent caption sizes, -0.056rem on the 28px newsletter line)"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "label_size", "slot": "label_size", "kind": "number", "value": 12, "unit": "px", "tolerance_pct": 1, "usage": "list labels and every sub-links item, at a 10px root", "evidence": ["computed 12px/450/letter-spacing -0.24px on labels 'Discover', 'Explore', 'Connect' and all sub-links"] },
+        { "id": "link_size", "slot": "link_size", "kind": "number", "value": 18, "unit": "px", "tolerance_pct": 1, "usage": "the links inside each labelled column", "evidence": ["computed 18px/450 on Experience, Technology, Company, News, Careers, For Investors, Fly Blade, Joby Shop, Electric Skies, YouTube, Instagram, LinkedIn, X"] },
+        { "id": "newsletter_size", "slot": "newsletter_size", "kind": "number", "value": 28, "unit": "px", "tolerance_pct": 1, "usage": "the newsletter title and the input text (2.8rem), the largest type in the footer", "evidence": [".newsletterTitle and .newsletterForm input font-size 2.8rem; computed 28px/500/line-height 120%"] },
+        { "id": "newsletter_tracking", "slot": "newsletter_tracking", "kind": "number", "value": -0.056, "unit": "rem", "tolerance_pct": 10, "usage": "letter-spacing on the newsletter title and input (-2% of size)", "evidence": ["authored letter-spacing -0.056rem on .newsletterTitle and the input"] },
+        { "id": "disclaimer_size", "slot": "disclaimer_size", "kind": "number", "value": 12, "unit": "px", "tolerance_pct": 1, "usage": "the newsletter disclaimer and inline link", "evidence": ["computed 12px/450 on the disclaimer span and its Privacy Policy link"] },
+        { "id": "display_family", "slot": "display_family", "kind": "identity", "value": "jobyDisplay", "usage": "newsletter title and input only", "evidence": [".newsletterTitle computed font-family jobyDisplay"] },
+        { "id": "text_family", "slot": "text_family", "kind": "identity", "value": "jobyText", "usage": "every link, label and the disclaimer", "evidence": ["footer links and labels computed font-family jobyText"] },
+        { "id": "weight_set", "slot": "weight_set", "kind": "enum", "value": ["450", "500"], "usage": "the footer's closed weight set", "evidence": ["computed weights: 450 on all links and labels, 500 on the newsletter title and input"] },
+        { "id": "colour_role", "slot": "colour_role", "kind": "identity", "value": "#F5F4DF on both field and band", "usage": "all footer text uses the light token against both blue surfaces", "evidence": ["footer computed color rgb(245,244,223); links 18px/450 in the same colour"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "list labels are set at the caption size, never as headings" },
+        { "kind": "always", "rule": "links inside a labelled column are set larger than that column's label" },
+        { "kind": "never", "rule": "uppercase text or positive tracking anywhere in the footer" },
+        { "kind": "never", "rule": "a weight outside the footer's closed set" },
+        { "kind": "never", "rule": "more than two type families" }
+      ],
+      "directives": [
+        "set labels and the legal footnote at 12px/450 and column links at 18px/450",
+        "set the newsletter title and input at 28px/500 with -2% tracking",
+        "keep every footer string sentence or title case"
+      ]
+    },
+    {
+      "id": "color",
+      "scales": [
+        { "id": "base_polarity", "poles": ["light canvas", "dark canvas"], "value": 8.5, "evidence": ["the field is a saturated mid blue and the band beneath it a deep navy; all text is the light cream token reversed out"], "confidence": "high" },
+        { "id": "temperature", "poles": ["cool", "warm"], "value": 3.0, "evidence": ["the footer is built almost entirely from cool blues; the only warm notes are the orange and pink strata inside the horizon graphic"], "confidence": "high" },
+        { "id": "chroma", "poles": ["muted", "vivid"], "value": 7.5, "evidence": ["the field is full-saturation brand blue; the horizon band adds a pale blue and a bright blue at full saturation; only the cream text is neutral"], "confidence": "high" },
+        { "id": "palette_width", "poles": ["singular/duo", "many hues"], "value": 5.0, "evidence": ["five distinct tokens appear in the footer across its two sections: bright blue, deep navy, pale blue, cream, plus the orange and pink that carry through from the page's palette"], "confidence": "high" },
+        { "id": "contrast", "poles": ["soft", "hard"], "value": 7.0, "evidence": ["cream on brand blue and cream on navy are both strong pairings; the only soft edge is the transition where the bright blue meets the navy band with no divider"], "confidence": "high" },
+        { "id": "surface_finish", "poles": ["flat", "decorated"], "value": 4.0, "evidence": ["the link field is a flat fill with no gradient or texture; the horizon band adds the page's only illustrated surface, made of flat colour strata rather than gradients"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "field_surface", "slot": "field_surface", "kind": "identity", "value": "#007AE5", "usage": "the wrapper's blue behind all footer content", "evidence": ["footerWrapper computed background rgb(0,122,229); --color-blue #007ae5"] },
+        { "id": "band_surface", "slot": "band_surface", "kind": "identity", "value": "#1C3F99", "usage": "the horizon band's background", "evidence": ["footerCreative computed background rgb(28,63,153); --color-dark-blue #1c3f99"] },
+        { "id": "strat_colors", "slot": "strat_colors", "kind": "identity", "value": ["#1C3F99", "#C1DFEF", "#007AE5", "#1C3F99"], "usage": "the four horizon strata in stacking order", "evidence": ["SVG rect fills read from the DOM: #1C3F99, #C1DFEF, #007AE5, #1C3F99"] },
+        { "id": "text_color", "slot": "text_color", "kind": "identity", "value": "#F5F4DF", "usage": "every footer string", "evidence": ["footer computed color rgb(245,244,223); --color-white #f5f4df"] },
+        { "id": "muted_text", "slot": "muted_text", "kind": "identity", "value": "the dark blue token", "usage": "the newsletter placeholder and the arrow before the field has content", "evidence": ["input::placeholder and .newsletterSubmit colour var(--color-dark-blue-ui)"] },
+        { "id": "strip_color", "slot": "strip_color", "kind": "identity", "value": "#1C3F99", "usage": "the dark strip at the grid's foot", "evidence": [".footer::after background var(--color-dark-blue)"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "all footer text uses one light token against every blue surface it crosses" },
+        { "kind": "always", "rule": "the foot strip and the horizon band use the same dark-blue token" },
+        { "kind": "never", "rule": "a gradient, texture or glow on any footer surface" },
+        { "kind": "never", "rule": "a text colour other than the light token in the link field" }
+      ],
+      "directives": [
+        "fill the link field with the bright blue token and the closing band with the dark blue token",
+        "stratify the horizon graphic in dark blue, pale blue, bright blue, dark blue",
+        "reverse all footer text out in the light cream token"
+      ]
+    },
+    {
+      "id": "motion",
+      "scales": [
+        { "id": "energy", "poles": ["still", "kinetic"], "value": 3.0, "evidence": ["one scroll-driven reveal of the four lists and a hover underline; the horizon band is completely static"], "confidence": "high" },
+        { "id": "temperament", "poles": ["functional", "expressive"], "value": 4.5, "evidence": ["the reveal is a single shared offset rather than a per-element cascade, and the newsletter's growth and lift are purposeful; no overshoot, no decorative motion"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "reveal_offset", "slot": "reveal_offset", "kind": "number", "value": 40, "unit": "vh", "tolerance_pct": 10, "usage": "the footer-up offset once the footer is in view; 0vh off screen", "evidence": ["--footer-up measures '0vh' at the page top and '40vh' at the document end; 360px at a 900px viewport"] },
+        { "id": "reveal_property", "slot": "reveal_property", "kind": "identity", "value": "--footer-up", "usage": "the single custom property driving the link lists' translateY", "evidence": ["all four lists carry transform: translateY(var(--footer-up))"] },
+        { "id": "hover_underline", "slot": "hover_underline", "kind": "number", "value": 1.5, "unit": "px", "tolerance_pct": 1, "usage": "the underline that scales in on link hover; 1px on sub-links", "evidence": [".footer li::after height 1.5px; .footerSubLinks li::after height 1px"] },
+        { "id": "link_transition", "slot": "link_transition", "kind": "identity", "value": "transform .3s cubic-bezier(.165,.84,.44,1)", "usage": "the shared link underline transition", "evidence": ["--link-transition resolved on :root and used by .footer li::after"] },
+        { "id": "field_grow_duration", "slot": "field_grow_duration", "kind": "number", "value": 400, "unit": "ms", "tolerance_pct": 10, "usage": "the newsletter input widening and the title/disclaimer lift", "evidence": [".newsletterForm input transition width .4s var(--ease-in-out-cubic); input:not(:placeholder-shown) width 41.7rem"] },
+        { "id": "submit_fade_duration", "slot": "submit_fade_duration", "kind": "number", "value": 400, "unit": "ms", "tolerance_pct": 10, "usage": "the submit arrow's colour and interactivity change", "evidence": [".newsletterSubmit transition opacity .4s var(--ease-in-out-cubic), transform .4s var(--ease-out-cubic)"] },
+        { "id": "triggers", "slot": "triggers", "kind": "enum", "value": ["scroll-into-view", "hover", "input"], "usage": "the events that drive footer motion", "evidence": ["the reveal is scroll-driven; li::after scales on hover; the newsletter responds to input content"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the link lists' reveal is driven by one shared offset, never by per-list animations" },
+        { "kind": "always", "rule": "the logo and newsletter are excluded from the reveal offset" },
+        { "kind": "never", "rule": "the horizon band animates" },
+        { "kind": "never", "rule": "an overshoot curve or a bounce anywhere in the footer" },
+        { "kind": "never", "rule": "footer motion runs longer than about 500ms" }
+      ],
+      "directives": [
+        "drive all four link lists from a single --footer-up offset, 0vh off screen to 40vh in view",
+        "keep the closing band completely static",
+        "transition the newsletter field width and its neighbours' positions over 400ms",
+        "scale link underlines in over the shared 300ms link transition"
+      ]
+    },
+    {
+      "id": "imagery",
+      "scales": [
+        { "id": "role", "poles": ["text-led", "image-led"], "value": 3.0, "evidence": ["the link field is entirely typographic; the closing band is entirely graphic with no text at all, so the footer splits into one text section and one image section"], "confidence": "high" },
+        { "id": "medium", "poles": ["photographic", "graphic"], "value": 9.5, "evidence": ["the only imagery is a vector graphic of flat colour strata cut by one curve; no photography anywhere in the footer"], "confidence": "high" },
+        { "id": "treatment", "poles": ["natural", "stylized"], "value": 8.0, "evidence": ["the strata are hard-edged flat brand colours with no gradient, grain or overlay; it is a stylised abstract landscape, not a representation"], "confidence": "high" },
+        { "id": "framing", "poles": ["sharp", "rounded"], "value": 2.5, "evidence": ["the graphic is full-bleed edge to edge with square corners; the only curve is the artwork's own sweep, not a container radius"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "svg_viewbox", "slot": "svg_viewbox", "kind": "identity", "value": "0 0 1600 737", "usage": "the horizon graphic's coordinate space", "evidence": ["viewBox attribute read from the DOM at all three widths"] },
+        { "id": "svg_scaling", "slot": "svg_scaling", "kind": "identity", "value": "width 100%, height auto, anchored bottom", "usage": "the graphic scales by width and stays pinned to the band's foot", "evidence": [".footerCreative svg { position:absolute; bottom:0; left:0; width:100%; z-index:2 }"] },
+        { "id": "strat_count", "slot": "strat_count", "kind": "number", "value": 4, "tolerance_pct": 1, "usage": "the number of colour strata in the graphic", "evidence": ["four rects with distinct fills read from the DOM"] },
+        { "id": "strat_heights", "slot": "strat_heights", "kind": "enum", "value": ["296", "296", "182", "57"], "usage": "the strata heights in viewBox units, decreasing toward the bottom", "evidence": ["rect height attributes 296, 296, 182, 57 read from the DOM"] },
+        { "id": "graphic_bleed", "slot": "graphic_bleed", "kind": "number", "value": 8, "unit": "units", "tolerance_pct": 50, "usage": "the group's horizontal overhang past the viewBox (x=8, and a rendered bleed far wider due to scaling)", "evidence": ["group rects carry x='8' width='1600' in a 1600-unit viewBox; rendered group box x -351 w 1800 against a 1440 container"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the imagery is a flat vector graphic, never a photograph" },
+        { "kind": "always", "rule": "the graphic sits full-bleed with square corners" },
+        { "kind": "never", "rule": "gradients, grain or texture inside the graphic" },
+        { "kind": "never", "rule": "text or a logo inside the closing graphic" }
+      ],
+      "directives": [
+        "build the closing graphic as one inline SVG on a 1600x737 viewBox scaling by width",
+        "stack four flat colour strata with heights decreasing toward the bottom",
+        "cut the strata with a single large curve and let the artwork bleed past its container"
+      ]
+    },
+    {
+      "id": "copy",
+      "scales": [
+        { "id": "register", "poles": ["casual", "formal"], "value": 4.0, "evidence": ["navigation labels are plain single words or short phrases; the newsletter disclaimer is formal legal-adjacent prose ('By entering your email address you agree to receive newsletters, updates, and marketing information')"], "confidence": "medium" },
+        { "id": "voice", "poles": ["plain", "playful"], "value": 1.5, "evidence": ["no wordplay, no asides, no memorable phrasing anywhere in the footer; it is functional labelling plus one legal sentence"], "confidence": "high" },
+        { "id": "density", "poles": ["terse", "explanatory"], "value": 2.5, "evidence": ["17 links average about two words each; the only prose is a single 21-word disclaimer"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "label_copy", "slot": "label_copy", "kind": "enum", "value": ["Discover", "Explore", "Connect"], "usage": "the three column labels, each a single verb", "evidence": ["measured label text at 1440"] },
+        { "id": "newsletter_title", "slot": "newsletter_title", "kind": "identity", "value": "Sign up for updates", "usage": "the newsletter heading", "evidence": ["measured newsletterTitle text"] },
+        { "id": "newsletter_placeholder", "slot": "newsletter_placeholder", "kind": "identity", "value": "Enter e-mail address", "usage": "the input placeholder; note the hyphenated 'e-mail'", "evidence": ["placeholder text read from the input"] },
+        { "id": "disclaimer_copy", "slot": "disclaimer_copy", "kind": "identity", "value": "By entering your email address you agree to receive newsletters, updates, and marketing information. You can opt out at any time. See our Privacy Policy.", "usage": "the newsletter disclaimer, with an inline Privacy Policy link", "evidence": ["measured disclaimer span text, 21 words plus the inline link"] },
+        { "id": "legal_links", "slot": "legal_links", "kind": "enum", "value": ["Privacy Policy", "Terms of Use", "Impact Report", "Health Plan Transparency", "Commitment to Safety", "© 2026 Joby Aero, Inc."], "usage": "the unlabelled footnote list, in order", "evidence": ["measured sub-links items at 12px/450"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "column labels are a single verb or noun, never a phrase" },
+        { "kind": "always", "rule": "the copyright line is the last item of the unlabelled footnote list" },
+        { "kind": "never", "rule": "promotional or playful copy in the footer" },
+        { "kind": "never", "rule": "more than one sentence of prose in the newsletter block" }
+      ],
+      "directives": [
+        "label columns with single verbs: Discover, Explore, Connect",
+        "head the signup 'Sign up for updates' and place the legal sentence beneath it",
+        "close the footnote list with the copyright line"
+      ]
+    }
+  ],
+  "limitations": [
+    "The reveal curve is not characterised. --footer-up measures 0vh at the page top and 40vh at the document end (360px at a 900px viewport), but the interpolation between those endpoints and the scroll position that triggers the transition were not isolated.",
+    "The newsletter's filled state was not exercised: the field widening to 41.7rem and the 8.6rem lift of the title and disclaimer are read from authored CSS, not measured in a live state. Typing an address was out of scope for a layout capture.",
+    "The newsletter success and error states were not exercised; only their authored rules were read.",
+    "A second SVG exists in the markup (footerCreativeSVGMobile) but resolves to display:none at all three widths measured, so the intended mobile artwork was never observed. What renders at 390 is the desktop artwork scaled to width, which is why the horizon curve is proportionally much larger on mobile.",
+    "The footer field's height tracks the viewport exactly at all three widths measured (900/1112/844). Whether that is authored behaviour or a coincidence of content plus stretched rows was not resolved; the authored rule is height fit-content, so the match is likely emergent and may break at other viewport heights.",
+    "Two layout defects are recorded as negative evidence and are NOT targets: the undeclared 610px interior gap between the left and right column clusters on row 1, and the mobile collisions where the logo and newsletter overlap the Explore list at 390px. An applier must not reproduce either.",
+    "The sub-links list renders entirely above the field's top edge at 390px (y -228) because the four lists keep their shared offset while the stacked field is shorter than their combined height. This is a third defect, recorded in the same negative-evidence move.",
+    "Hover and focus states (the 1.5px and 1px underlines) were read from authored CSS, not captured.",
+    "The horizon graphic is described from its geometry — 7 rects, 1 path, 1 group on a 1600x737 viewBox — and from a rendered screenshot; the individual path curves beyond the captured bounding boxes were not traced, so the exact silhouette is characterised rather than specified.",
+    "Only the careers page footer was captured; cross-template consistency is assumed, not verified."
+  ]
+}

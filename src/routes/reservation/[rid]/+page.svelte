@@ -2,20 +2,22 @@
   export let data;
 </script>
 
-<section class=" frame pt-32 md:pt-40 pb-6">
-  <div>
-    <h1 class="v_heading flex items-center">Reservation Confirmed</h1>
+<section class="v-band">
+  <h1 class="col-span-full font-satoshi text-display text-black">
+    Reservation Confirmed
+  </h1>
 
-    <p class="text-gray-600 my-6 text-lg">
-      Thank you. Your reservation has been confirmed.
-    </p>
+  <p class="col-span-full mt-6 text-body text-gray-600 lg:col-span-8">
+    Thank you. Your reservation has been confirmed.
+  </p>
 
-    <div class="grid grid-cols-2">
-      <div class="mb-6">
-        <label class="text-lg block font-medium mb-1">Confirmation Code</label>
-        <div class="inline-block border border-bound rounded-md p-4">
-          <span class="text-xl text-gray-800">{data.confirmationCode}</span>
-        </div>
+  <div class="col-span-full mt-12">
+    <div class="mb-6">
+      <label class="mb-2 block text-caption font-medium text-black">
+        Confirmation Code
+      </label>
+      <div class="inline-block rounded-md border border-bound p-4">
+        <span class="text-standfirst text-gray-800">{data.confirmationCode}</span>
       </div>
     </div>
   </div>

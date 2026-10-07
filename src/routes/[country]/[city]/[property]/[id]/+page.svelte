@@ -111,9 +111,9 @@
 </svelte:head>
 
 <!-- Header stack: breadcrumb, name, address -->
-<section class="mx-auto w-full max-w-6xl px-6 pt-32 md:pt-40">
-  <nav aria-label="Breadcrumb">
-    <ol class="flex flex-wrap items-center gap-2 text-sm text-black/80">
+<section class="v-band">
+  <nav class="col-span-full" aria-label="Breadcrumb">
+    <ol class="flex flex-wrap items-center gap-2 text-caption text-black/80">
       <li>
         <a
           class="transition-colors duration-300 ease-in-out hover:text-neutral-600/80"
@@ -156,12 +156,12 @@
     </ol>
   </nav>
 
-  <h1 class="mt-4 text-4xl font-medium tracking-tight text-black">
+  <h1 class="col-span-full mt-6 font-satoshi text-display text-black lg:col-span-12">
     {_.get(data, "nickname", "Property")}
   </h1>
 
   {#if fullAddress()}
-    <p class="mt-2 flex items-center gap-2 text-sm text-black/80">
+    <p class="col-span-full mt-2 flex items-center gap-2 text-caption text-black/80 lg:col-span-8">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -184,12 +184,11 @@
       <span>{fullAddress()}</span>
     </p>
   {/if}
-</section>
 
-<!-- One-plus-quadrant photo cluster -->
-<section class="mx-auto mt-8 w-full max-w-6xl px-6">
+  <!-- One-plus-quadrant photo cluster -->
+  <div class="col-span-full mt-8">
   {#if pictures.length >= 2}
-    <div class="grid grid-cols-5 gap-3">
+    <div class="grid grid-cols-5 gap-4">
       <div class="col-span-3 overflow-hidden rounded-2xl">
         <img
           class="aspect-[3/2] h-full w-full object-cover"
@@ -197,7 +196,7 @@
           alt="{_.get(data, 'nickname', 'Property')} photo 1"
         />
       </div>
-      <div class="col-span-2 grid grid-cols-2 gap-3">
+      <div class="col-span-2 grid grid-cols-2 gap-4">
         {#each pictures.slice(1, 5) as picture, i}
           <div class="overflow-hidden rounded-2xl">
             <img
@@ -220,19 +219,20 @@
       />
     </div>
   {/if}
+  </div>
 </section>
 
 <!-- Content block: left column plus sticky enquiry rail -->
-<section class="mx-auto w-full max-w-6xl px-6 py-10">
-  <div class="grid grid-cols-1 gap-11 lg:grid-cols-[1fr_24rem]">
-    <div>
+<section class="v-band">
+  <div class="contents">
+    <div class="col-span-full lg:col-span-8">
       <!-- Anchor tabs -->
       <div class="flex flex-wrap items-center gap-8">
         {#each tabs as tab}
           <a
             href="#{tab.id}"
             on:click={() => (activeTab = tab.id)}
-            class="border-b pb-1 text-base font-medium {activeTab === tab.id
+            class="border-b pb-1 text-body font-medium {activeTab === tab.id
               ? 'border-black text-black'
               : 'border-transparent text-black/80'}"
           >
@@ -244,14 +244,14 @@
       <!-- Overview paragraph -->
       {#if summary}
         <div id="overview" class="scroll-mt-24 pt-6">
-          <p class:line-clamp-6={more} class="whitespace-pre-line text-base text-black/80">
+          <p class:line-clamp-6={more} class="whitespace-pre-line text-body text-black/80">
             {summary}
           </p>
           {#if summary.length > 320}
             <button
               type="button"
               on:click={() => (more = !more)}
-              class="mt-3 text-sm text-black/80 underline"
+              class="mt-4 text-caption text-black/80 underline"
             >
               {more ? "Show more" : "Show less"}
             </button>
@@ -260,8 +260,8 @@
       {/if}
 
       <!-- Unboxed stat line -->
-      <div class="flex flex-wrap items-center gap-x-14 gap-y-4 pt-8">
-        <p class="flex items-center gap-2 text-base font-medium text-black">
+      <div class="flex flex-wrap items-center gap-x-12 gap-y-4 pt-8">
+        <p class="flex items-center gap-2 text-body font-medium text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -274,7 +274,7 @@
           </svg>
           {_.get(data, "accommodates", 0)} guests
         </p>
-        <p class="flex items-center gap-2 text-base font-medium text-black">
+        <p class="flex items-center gap-2 text-body font-medium text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -287,7 +287,7 @@
           </svg>
           {_.get(data, "bedrooms", 0)} bedrooms
         </p>
-        <p class="flex items-center gap-2 text-base font-medium text-black">
+        <p class="flex items-center gap-2 text-body font-medium text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -303,8 +303,8 @@
       </div>
 
       <!-- The villa: white-on-white cards -->
-      <div class="pt-10">
-        <h3 class="text-3xl font-medium tracking-tight text-black">The villa</h3>
+      <div class="pt-12">
+        <h3 class="font-satoshi text-standfirst font-medium text-black">The villa</h3>
         <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {#each villaCards() as card}
             <div
@@ -325,8 +325,8 @@
                 </svg>
               </div>
               <div>
-                <p class="text-base font-medium text-black">{card.title}</p>
-                <p class="text-sm text-black/80">{card.subtitle}</p>
+                <p class="text-body font-medium text-black">{card.title}</p>
+                <p class="text-caption text-black/80">{card.subtitle}</p>
               </div>
             </div>
           {/each}
@@ -335,9 +335,9 @@
 
       <!-- Gallery: remaining photographs -->
       {#if pictures.length > 5}
-        <div id="gallery" class="scroll-mt-24 pt-10">
-          <h3 class="text-3xl font-medium tracking-tight text-black">Gallery</h3>
-          <div class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">
+        <div id="gallery" class="scroll-mt-24 pt-12">
+          <h3 class="font-satoshi text-standfirst font-medium text-black">Gallery</h3>
+          <div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {#each pictures.slice(5) as picture, i}
               <div class="overflow-hidden rounded-2xl">
                 <img
@@ -355,12 +355,12 @@
 
       <!-- Amenities: two-column icon list -->
       {#if _.get(data, "amenities", []).length > 0}
-        <div id="amenities" class="scroll-mt-24 pt-10">
-          <h3 class="text-3xl font-medium tracking-tight text-black">Amenities</h3>
+        <div id="amenities" class="scroll-mt-24 pt-12">
+          <h3 class="font-satoshi text-standfirst font-medium text-black">Amenities</h3>
           <ul class="mt-6 columns-1 gap-4 sm:columns-2">
             {#each _.get(data, "amenities", []) as amenity}
               <li
-                class="mb-4 flex break-inside-avoid items-center gap-3 text-base text-black/80"
+                class="mb-4 flex break-inside-avoid items-center gap-4 text-body text-black/80"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -380,9 +380,9 @@
       {/if}
 
       <!-- Location -->
-      <div id="location" class="scroll-mt-24 pt-10">
-        <h3 class="text-3xl font-medium tracking-tight text-black">Location</h3>
-        <p class="mt-6 flex items-center gap-2 text-base text-black/80">
+      <div id="location" class="scroll-mt-24 pt-12">
+        <h3 class="font-satoshi text-standfirst font-medium text-black">Location</h3>
+        <p class="mt-6 flex items-center gap-2 text-body text-black/80">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -404,7 +404,7 @@
           </svg>
           <span>{fullAddress()}</span>
         </p>
-        <p class="mt-3 text-base text-black/80">
+        <p class="mt-4 text-body text-black/80">
           Get in touch and we'll share arrival details, check-in times and
           everything you need for the drive in.
         </p>
@@ -412,27 +412,25 @@
     </div>
 
     <!-- Sticky enquiry rail -->
-    <aside>
+    <aside class="col-span-full mt-12 lg:col-span-5 lg:col-start-12 lg:mt-0">
       <Hubspot {data} />
     </aside>
   </div>
 </section>
 
 <!-- Other villas in the city -->
-<section class="mx-auto w-full max-w-6xl px-6 pt-10 pb-20">
-  <div class="flex flex-wrap items-center justify-between gap-4">
-    <h3 class="text-3xl font-medium tracking-tight text-black">
-      Other villas in {city || country || "the area"}
-    </h3>
-    <a
-      href="/search/{encodeURIComponent(city || country || "")}"
-      class="inline-flex h-11 items-center rounded-3xl border border-black/10 bg-black/[0.01] px-6 text-base font-medium text-black"
-    >
-      View All Locations
-    </a>
-  </div>
+<section class="v-band">
+  <h3 class="col-span-full font-satoshi text-standfirst font-medium text-black lg:col-span-7">
+    Other villas in {city || country || "the area"}
+  </h3>
+  <a
+    href="/search/{encodeURIComponent(city || country || "")}"
+    class="col-span-full mt-4 inline-flex h-11 w-fit items-center rounded-3xl border border-black/10 bg-black/[0.01] px-6 text-caption font-medium text-black lg:col-start-14 lg:col-span-3 lg:mt-0 lg:justify-self-end"
+  >
+    View All Locations
+  </a>
 
-  <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="col-span-full mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
     {#each otherVillas as villa}
       <a
         href="/search/{encodeURIComponent(city || country || "")}"
@@ -448,11 +446,11 @@
         <div class="absolute inset-0 bg-linear-to-t from-black/90 to-transparent"></div>
         <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4">
           <div>
-            <p class="text-base font-medium text-white">{villa.name}</p>
-            <p class="text-sm text-neutral-300">{city}{country ? `, ${country}` : ""}</p>
+            <p class="text-body font-medium text-white">{villa.name}</p>
+            <p class="text-caption text-neutral-300">{city}{country ? `, ${country}` : ""}</p>
           </div>
           <span
-            class="inline-flex h-11 items-center rounded-3xl bg-white px-6 text-base font-medium text-black"
+            class="inline-flex h-11 items-center rounded-3xl bg-white px-6 text-caption font-medium text-black"
           >
             View
           </span>

@@ -43,26 +43,26 @@
     class="flex justify-between items-center my-8"
     aria-label="Pagination mobile"
   >
-    <span class="text-lg">Page {currentPage} of {totalPages}</span>
+    <span class="text-caption">Page {currentPage} of {totalPages}</span>
     <div>
       {#if currentPage > 1}
         <a
           href="/search/{keyword}?page={currentPage - 1}"
-          class="px-5 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md"
+          class="px-5 py-2 text-caption font-medium text-gray-700 bg-white border rounded-md"
           >‹ Prev</a
         >
       {:else}
-        <span class="px-5 py-2 text-sm text-gray-400">‹ Prev</span>
+        <span class="px-5 py-2 text-caption text-gray-400">‹ Prev</span>
       {/if}
 
       {#if currentPage < totalPages}
         <a
           href="/search/{keyword}?page={currentPage + 1}"
-          class="px-5 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md"
+          class="px-5 py-2 text-caption font-medium text-gray-700 bg-white border rounded-md"
           >Next ›</a
         >
       {:else}
-        <span class="px-5 py-2 text-sm text-gray-400">Next ›</span>
+        <span class="px-5 py-2 text-caption text-gray-400">Next ›</span>
       {/if}
     </div>
   </nav>

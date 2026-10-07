@@ -13,29 +13,28 @@
   let cards = $state(data.cards ?? []);
 </script>
 
-<section
-  class="spaces-section grid grid-cols-2 container mx-auto max-w-6xl px-6 gap-6"
-  id="spaces"
->
+<section class="v-band" id="spaces">
   <!-- Headline & CTA -->
-  <div class="header">
+  <div class="col-span-full lg:col-span-7">
     <div class="text-content">
-      <h2 class="text-3xl mb-4">{title}</h2>
-      <p>{description}</p>
+      <h2 class="font-satoshi text-heading">{title}</h2>
+      <p class="mt-6 text-body">{description}</p>
     </div>
 
-    <BookATour />
+    <div class="mt-12"><BookATour /></div>
   </div>
 
   <!-- Cards Grid -->
-  <div class="cards-grid">
+  <div
+    class="col-span-full mt-12 space-y-6 lg:col-span-8 lg:col-start-9 lg:mt-0"
+  >
     {#each cards as card}
       <article
-        class="card flex border rounded-2xl p-6 mb-6 pl-26 border-gray-200"
+        class="card flex rounded-2xl border border-gray-200 p-6"
       >
         <div class="card-text">
-          <p class="subtitle mb-4">{card.subtitle}</p>
-          <p class="description">{card.description}</p>
+          <p class="mb-4 text-body font-medium">{card.subtitle}</p>
+          <p class="text-body text-zinc-600">{card.description}</p>
         </div>
       </article>
     {/each}

@@ -26,7 +26,7 @@
 </script>
 
 <div
-  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
+  class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
 >
   {#each data.results as item}
     <a
@@ -51,22 +51,22 @@
         />
 
         <div
-          class="flex flex-col items-start justify-between flex-1 w-full mt-3"
+          class="flex flex-col items-start justify-between flex-1 w-full mt-4"
         >
           <div class="w-full flex flex-col items-start justify-center">
-            <p class="text-regent-900 font-medium lg:text-xl text-lg">
+            <p class="text-body font-medium text-black">
               {item.nickname}
             </p>
-            <p class="mb-1">
+            <p class="mb-2 text-body text-black/80">
               {formatPrice(item.prices.basePrice, item.prices.currency)}
               Per Night
             </p>
 
             <div class="grid grid-cols-2 w-full">
-              <p class="text-sm">
+              <p class="text-caption">
                 {item.address.city}
               </p>
-              <p class="text-right text-sm mb-1">
+              <p class="text-right text-caption">
                 {item.bedrooms} Beds
                 {item.bathrooms} Bath
               </p>

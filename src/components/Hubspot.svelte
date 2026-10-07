@@ -98,14 +98,14 @@
 <!-- Sticky enquiry card -->
 <form on:submit={runHubspot}>
   <div class="sticky top-20 rounded-2xl bg-black p-5 text-white">
-    <p class="text-base font-medium">Book your stay or ask us anything</p>
-    <p class="mt-2 text-sm text-neutral-300">
+    <p class="text-body font-medium">Book your stay or ask us anything</p>
+    <p class="mt-2 text-caption text-neutral-300">
       Want to check dates or need help choosing the right villa? Drop us a
       message!
     </p>
 
     {#if _.get(data, "prices.basePrice")}
-      <p class="mt-3 text-sm text-neutral-300">
+      <p class="mt-3 text-caption text-neutral-300">
         From
         <span class="font-medium text-white"
           >{formatPrice(
@@ -136,15 +136,15 @@
             />
           </svg>
         </div>
-        <h3 class="mb-2 text-2xl font-medium">Thank you!</h3>
-        <p class="text-sm text-neutral-300">
+        <h3 class="mb-2 font-satoshi text-standfirst font-medium">Thank you!</h3>
+        <p class="text-caption text-neutral-300">
           Your enquiry has been sent.<br />We'll be in touch soon.
         </p>
       </div>
     {:else}
-      <div class="mt-5 space-y-4">
+      <div class="mt-6 space-y-4">
         <div>
-          <label class="text-xs text-white" for="email-input">Email</label>
+          <label class="text-label text-white" for="email-input">Email</label>
           <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
             <input
               id="email-input"
@@ -152,18 +152,18 @@
               placeholder="you@example.com"
               required
               bind:value={email}
-              class="w-full border-0 bg-transparent p-0 text-sm text-white placeholder-neutral-400 focus:ring-0"
+              class="w-full border-0 bg-transparent p-0 text-caption text-white placeholder-neutral-400 focus:ring-0"
               style="color-scheme: dark;"
             />
           </div>
         </div>
 
         <div>
-          <label class="text-xs text-white" for="checkin-input">Check in</label>
+          <label class="text-label text-white" for="checkin-input">Check in</label>
           <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
             <input
               id="checkin-input"
-              class="w-full border-0 bg-transparent p-0 text-sm text-white focus:ring-0"
+              class="w-full border-0 bg-transparent p-0 text-caption text-white focus:ring-0"
               type="date"
               style="color-scheme: dark;"
               bind:value={checkInDate}
@@ -172,12 +172,12 @@
         </div>
 
         <div>
-          <label class="text-xs text-white" for="checkout-input">Check out</label
+          <label class="text-label text-white" for="checkout-input">Check out</label
           >
           <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
             <input
               id="checkout-input"
-              class="w-full border-0 bg-transparent p-0 text-sm text-white focus:ring-0"
+              class="w-full border-0 bg-transparent p-0 text-caption text-white focus:ring-0"
               type="date"
               style="color-scheme: dark;"
               bind:value={checkOutDate}
@@ -186,7 +186,7 @@
         </div>
 
         <div>
-          <label class="text-xs text-white" for="guests-input">Guests</label>
+          <label class="text-label text-white" for="guests-input">Guests</label>
           <div
             class="mt-2 flex items-center justify-between rounded-lg bg-neutral-400/15 px-3 py-2"
           >
@@ -195,7 +195,7 @@
               type="number"
               min="1"
               max={_.get(data, "accommodates", 10)}
-              class="w-12 border-0 bg-transparent p-0 text-sm text-white focus:ring-0"
+              class="w-12 border-0 bg-transparent p-0 text-caption text-white focus:ring-0"
               bind:value={guests}
               aria-label="Number of guests"
             />
@@ -257,7 +257,7 @@
     <button
       type="submit"
       disabled={isSpinning || success}
-      class="mt-5 inline-flex h-11 w-full items-center justify-center rounded-3xl bg-white text-base font-medium text-black focus:outline-none {success
+      class="mt-6 inline-flex h-11 w-full items-center justify-center rounded-3xl bg-white text-caption font-medium text-black focus:outline-none {success
         ? 'cursor-default'
         : 'cursor-pointer'}"
     >

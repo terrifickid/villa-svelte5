@@ -4,14 +4,17 @@
   import PaginationBar from "$components/PaginationBar.svelte";
 </script>
 
-<section>
-  <div class="frame py-12 pt-40">
-    <p class="v_heading" />
-    <p class="mb-12 v_heading">
-      Search Results for <i>"{data.keyword}"</i> ({data.total})
-    </p>
+<section class="v-band">
+  <h1 class="col-span-full mb-12 font-satoshi text-display text-black">
+    Search Results for <i>"{data.keyword}"</i> ({data.total})
+  </h1>
+  <div class="col-span-full">
     <PaginationBar {data} />
+  </div>
+  <div class="col-span-full mt-12">
     <PropertyList {data} />
+  </div>
+  <div class="col-span-full">
     <PaginationBar {data} />
   </div>
 </section>

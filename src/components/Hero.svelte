@@ -45,30 +45,25 @@
 </script>
 
 <!--  style="background-image: url(/upscaled2.jpeg)" -->
-<div class="bg-no-repeat bg-cover bg-center bg-black pt-12">
-  <section
-    class="text-white bg-cover bg-center bg-center bg-cover mx-auto container max-w-6xl px-6"
-  >
-    <!-- Dark fade gradient overlay -->
-    <div class="py-[30vh]">
-      <!-- Or for a solid dark fade from top: bg-gradient-to-b from-black/70 to-transparent -->
-      <div class="px-12 text-center">
-        <div>
-          <h1 class="text-5xl inline-block drop-shadow-2xl">
-            Let us find you a place to stay
-          </h1>
+<div class="bg-no-repeat bg-cover bg-center bg-black">
+  <section class="v-band py-32 text-white">
+    <h1
+      class="col-span-full font-satoshi text-display text-white lg:col-span-12"
+    >
+      Let us find you a place to stay
+    </h1>
 
-          <h2 class=" hidden my-4">
-            A curated collection of exclusive beachfront and private estates in
-            the Caribbean and worldwide — featuring infinity pools, ocean views,
-            and exceptional amenities.
-          </h2>
+    <h2 class="hidden">
+      A curated collection of exclusive beachfront and private estates in the
+      Caribbean and worldwide — featuring infinity pools, ocean views, and
+      exceptional amenities.
+    </h2>
 
-          <div
-            class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-10 w-full"
-          >
+    <div
+      class="col-span-full mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4"
+    >
             <div>
-              <label for="location" class="flex text-sm leading-6"
+              <label for="location" class="flex text-caption"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -93,7 +88,7 @@
               <select
                 bind:value={search.country}
                 name="location"
-                class="bg-transparent mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
+                class="bg-transparent mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-caption"
               >
                 {#each data.countries as country}
                   <option value={country}>{country}</option>
@@ -102,7 +97,7 @@
             </div>
 
             <div>
-              <label for="location" class="flex text-sm leading-6"
+              <label for="location" class="flex text-caption"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -122,7 +117,7 @@
               <select
                 bind:value={search.minOccupancy}
                 name="guests"
-                class="bg-transparent mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
+                class="bg-transparent mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-caption"
               >
                 <option value="1">1</option>
                 <option value="2" selected>2</option>
@@ -138,7 +133,7 @@
             </div>
 
             <div>
-              <label for="location" class="flex text-sm leading-6">
+              <label for="location" class="flex text-caption">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -156,17 +151,17 @@
               >
               <input
                 bind:value={search.checkIn}
-                class="bg-transparent rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
+                class="bg-transparent rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-caption"
                 type="date"
                 style=" color-scheme: dark;"
               />
             </div>
           </div>
 
-          <div class="text-center mt-6">
+          <div class="flex items-end">
             <button
               type="submit"
-              class="my-5 inline-flex cursor-pointer items-center justify-center w-auto lg:px-24 px-6 py-4 text-center duration-200 bg-transparent rounded-full focus:outline-none ring-gray-300 hover:ring-bound ring-1"
+              class="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-transparent px-6 py-4 text-center text-caption duration-200 ring-1 ring-gray-300 hover:ring-bound focus:outline-none"
             >
               {#if searching}
                 <Spinner />
@@ -175,8 +170,5 @@
               {/if}
             </button>
           </div>
-        </div>
-      </div>
-    </div>
   </section>
 </div>

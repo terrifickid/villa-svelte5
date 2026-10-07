@@ -6,34 +6,37 @@
   const { entry } = data;
 </script>
 
-<section class="flex flex-col mb-12">
+<!-- Hero: full-bleed media band -->
+<section>
   <ContentfulImage
     asset={entry.fields.imagePreview}
     alt={entry.fields.title}
     background
-    className="w-full h-128 flex flex-col items-start justify-center p-32"
+    className="v-band min-h-128 items-center"
   >
-    <div class="relative z-10 w-1/2 flex flex-col justify-start text-white">
-      <div class="flex flex-wrap gap-2 mb-4">
+    <div class="col-span-full text-white lg:col-span-8">
+      <div class="mb-4 flex flex-wrap gap-2">
         {#each entry.fields.tags ?? [] as tag}
           <span
-            class="inline-block bg-blue-500/80 text-white text-xs px-3 py-1 rounded mb-2"
+            class="inline-block bg-blue-500/80 text-label text-white px-3 py-1 rounded"
           >
             {tag}
           </span>
         {/each}
       </div>
-      <h1 class="text-4xl font-semibold mb-4">{entry.fields.title}</h1>
+      <h1 class="font-satoshi text-display text-white">{entry.fields.title}</h1>
     </div>
   </ContentfulImage>
   <div
-    class="w-full h-[40px] bg-cover bg-center mt-[-40px]"
+    class="mt-[-40px] h-[40px] w-full bg-cover bg-center"
     style="background-image: url(/papercut.png)"
   >
     &nbsp;
   </div>
 </section>
 
-<section class="w-full flex flex-col gap-6 mb-12 px-32">
-  <ContenfullRichText data={entry.fields.content?.content ?? []} />
+<section class="v-band">
+  <div class="col-span-full space-y-6 text-body lg:col-span-8">
+    <ContenfullRichText data={entry.fields.content?.content ?? []} />
+  </div>
 </section>

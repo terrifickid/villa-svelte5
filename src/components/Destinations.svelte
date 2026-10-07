@@ -3,27 +3,25 @@
   export let data;
 </script>
 
-<section class="frame min-h-screen flex items-center">
-  <div>
-    <div class="mt-4 text-2xl bg-black p-12 text-white rounded-2xl text-center">
-      Embark on a journey of discovery as you delve into our curated selection
-      of exclusive properties, all nestled within the most sought-after and
-      popular destinations around the world.
-    </div>
+<section class="v-band">
+  <div
+    class="col-span-full rounded-2xl bg-black p-12 text-standfirst text-white lg:col-span-8"
+  >
+    Embark on a journey of discovery as you delve into our curated selection of
+    exclusive properties, all nestled within the most sought-after and popular
+    destinations around the world.
   </div>
 </section>
 
-<section class="frame min-h-screen">
+<section class="v-band">
   <!-- Locations Grid -->
-
-  <div class="max-w-lg mx-auto">
+  <div class="col-span-full space-y-6 lg:col-span-8">
     {#each data.countries as location}
       <div
-        class="group m-6 bg-gray-100 rounded-2xl flex items-center justify-center align-center min-h-[30vw]"
+        class="group flex min-h-[30vw] items-center justify-center rounded-2xl bg-gray-100"
       >
         <!-- Content -->
-
-        <h3 class="text-2xl">
+        <h3 class="font-satoshi text-standfirst font-medium">
           {location}
         </h3>
       </div>

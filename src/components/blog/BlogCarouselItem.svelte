@@ -21,36 +21,36 @@
       {asset}
       alt={title}
       background
-      className="rounded-lg shadow-md hover:shadow-xl transition-shadow h-96 flex flex-col justify-between p-6 font-montserrat"
+      className="rounded-lg shadow-md hover:shadow-xl transition-shadow h-96 flex flex-col justify-between p-6"
     >
       <div class="relative z-10 text-left">
-        <p class="text-sm text-blue-300 font-medium mb-2">
+        <p class="mb-2 text-caption font-medium text-blue-300">
           {humanPublishedDate}
         </p>
       </div>
 
       <a href={`/blog/${postId}`} class="relative z-10 flex flex-col items-start">
         <h3
-          class="text-2xl md:text-3xl font-thin text-white mb-3 line-clamp-3 group-hover:underline transition-colors text-left"
+          class="mb-4 text-left font-satoshi text-standfirst font-medium text-white line-clamp-3 group-hover:underline transition-colors"
         >
           {title}
         </h3>
 
         <div class="flex flex-wrap gap-2 mb-4">
           <span
-            class="inline-block bg-blue-500/80 text-white text-xs px-3 py-1 rounded"
+            class="inline-block bg-blue-500/80 text-label text-white px-3 py-1 rounded"
           >
             Luxury
           </span>
           <span
-            class="inline-block bg-blue-500/80 text-white text-xs px-3 py-1 rounded"
+            class="inline-block bg-blue-500/80 text-label text-white px-3 py-1 rounded"
           >
             Vacations
           </span>
         </div>
 
         <span
-          class="text-white font-medium text-sm hover:underline group-hover:underline transition-colors"
+          class="text-caption font-medium text-white hover:underline group-hover:underline transition-colors"
         >
           read more
         </span>

@@ -6,14 +6,16 @@
   />
 </svelte:head>
 
-<section class="mx-auto w-full max-w-6xl px-6 pt-32 pb-20 md:pt-40">
-  <h1 class="text-4xl font-medium tracking-tight text-black">Villa Owners</h1>
+<section class="v-band">
+  <h1 class="col-span-full font-satoshi text-display text-black">
+    Villa Owners
+  </h1>
 
-  <section class="mt-12">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-12">
+    <h2 class="font-satoshi text-heading text-black">
       Why a Villa Hotel?
     </h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         The Caribbean villa experience is and has been fragmented, lacking in
         standardization and simply too complex, and too time-consuming for the
@@ -34,18 +36,18 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">Our Formula</h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">Our Formula</h2>
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         We have a simple formula and that is to provide a great service that
         increases occupancy and that enables profitable relationships between our
         villa owners and us.
       </p>
       <p>Behind this simple formula is:</p>
-      <ul class="space-y-3">
-        <li class="flex items-start gap-3">
-          <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-black"></span>
+      <ul class="space-y-4">
+        <li class="flex items-start gap-4">
+          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
           <span>
             An advanced marketing strategy involving the Creation of Great
             Listings and Personal online marketing through an remarkable platform
@@ -53,29 +55,29 @@
             in the Caribbean Tourist industry;
           </span>
         </li>
-        <li class="flex items-start gap-3">
-          <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-black"></span>
+        <li class="flex items-start gap-4">
+          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
           <span>
             Guest Management, E Concierge and Guest Relationship Services
           </span>
         </li>
-        <li class="flex items-start gap-3">
-          <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-black"></span>
+        <li class="flex items-start gap-4">
+          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
           <span>Property Management</span>
         </li>
-        <li class="flex items-start gap-3">
-          <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-black"></span>
+        <li class="flex items-start gap-4">
+          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
           <span>Powerful Relationships</span>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">
       Marketing Your Villa
     </h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         Villabound Ltd offers world-class comprehensive marketing and
         distribution solutions to villa owners to ensure their personal villas
@@ -88,11 +90,11 @@
       </p>
     </div>
 
-    <div class="mt-10">
-      <h3 class="text-2xl font-medium tracking-tight text-black">
+    <div class="mt-12">
+      <h3 class="font-satoshi text-standfirst font-medium text-black">
         Internet Marketing
       </h3>
-      <div class="mt-3 max-w-[680px] space-y-6 text-base text-black/80">
+      <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
         <p>
           76% of all travel bookings begin online. This is an amazing statistic
           and actionable figure. We are aware of the extreme importance of our
@@ -117,11 +119,11 @@
       </div>
     </div>
 
-    <div class="mt-10">
-      <h3 class="text-2xl font-medium tracking-tight text-black">
+    <div class="mt-12">
+      <h3 class="font-satoshi text-standfirst font-medium text-black">
         Niche Marketing
       </h3>
-      <div class="mt-3 max-w-[680px] space-y-6 text-base text-black/80">
+      <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
         <p>
           Villabound has its finger on the pulse of the new emerging niche travel
           markets including photo, culinary and adventure tourism. Our concierge
@@ -133,11 +135,11 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">
       E Concierge and Guest Relationship Services
     </h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         To maximize revenue opportunities and achieve the highest possible level
         of guest satisfaction, Villabound knows that it must engage guests from
@@ -168,9 +170,9 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">Customization</h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">Customization</h2>
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         Our packages are completely flexible in catering for the individual needs
         and expectations of the contemporary villa-renter. Throughout each step of
@@ -189,11 +191,11 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">
       Revenue &amp; Accounts Management and Booking System
     </h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         We believe firmly in a model of transparency and as such, each of our
         owners will have up to the minute real time access to their villas revenue
@@ -217,11 +219,11 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">
       Full Property Management
     </h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         We provide a high quality and consistent villa experience throughout the
         expanse of our villa offering. In order for our collection to meet
@@ -248,11 +250,11 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">
       House Keeping Services
     </h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         House keeping is only required prior to check in. All other house keeping
         services during the duration of the guest stay comes at an additional cost
@@ -261,14 +263,14 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">
       Owner Villa Maintence Expenses
     </h2>
 
-    <div class="mt-10">
-      <h3 class="text-2xl font-medium tracking-tight text-black">Electricity</h3>
-      <div class="mt-3 max-w-[680px] space-y-6 text-base text-black/80">
+    <div class="mt-12">
+      <h3 class="font-satoshi text-standfirst font-medium text-black">Electricity</h3>
+      <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
         <p>
           We know how expensive electricity can be in Barbados and want to protect
           our owners in the best possible way. All of our guests will be given USD
@@ -302,16 +304,16 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">
       Another Reason to Join US!
     </h2>
 
-    <div class="mt-10">
-      <h3 class="text-2xl font-medium tracking-tight text-black">
+    <div class="mt-12">
+      <h3 class="font-satoshi text-standfirst font-medium text-black">
         Investment Opportunity
       </h3>
-      <div class="mt-3 max-w-[680px] space-y-6 text-base text-black/80">
+      <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
         <p>
           We are extremely passionate about Real Estate in Barbados and we believe
           in the fusion of both the Travel and Real Estate Industries. We believe
@@ -330,14 +332,14 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">
       Sealing the Deal- It’s All About the Relationships
     </h2>
 
-    <div class="mt-10">
-      <h3 class="text-2xl font-medium tracking-tight text-black">Travel Agents</h3>
-      <div class="mt-3 max-w-[680px] space-y-6 text-base text-black/80">
+    <div class="mt-12">
+      <h3 class="font-satoshi text-standfirst font-medium text-black">Travel Agents</h3>
+      <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
         <p>
           Villabound offers an integrated booking platform and word class
           marketing collateral that allows international travel agencies to easily
@@ -350,11 +352,11 @@
       </div>
     </div>
 
-    <div class="mt-10">
-      <h3 class="text-2xl font-medium tracking-tight text-black">
+    <div class="mt-12">
+      <h3 class="font-satoshi text-standfirst font-medium text-black">
         Powerful International Partnerships
       </h3>
-      <div class="mt-3 max-w-[680px] space-y-6 text-base text-black/80">
+      <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
         <p>
           When you join the Villabound Villa Hotel lineup, you don’t simply buy
           into an amazing team, you buy into a network of international
@@ -370,9 +372,9 @@
     </div>
   </section>
 
-  <section class="mt-14">
-    <h2 class="text-3xl font-medium tracking-tight text-black">Join us!</h2>
-    <div class="mt-4 max-w-[680px] space-y-6 text-base text-black/80">
+  <section class="col-span-full mt-16">
+    <h2 class="font-satoshi text-heading text-black">Join us!</h2>
+    <div class="mt-6 max-w-2xl space-y-6 text-body text-black/80">
       <p>
         The driving vision behind Villabound is optimal satisfaction for the
         traveller with an amazing product and prime occupancy rates for villa
@@ -435,10 +437,10 @@
     </div>
   </section>
 
-  <p class="mt-14 text-base text-black">
+  <p class="col-span-full mt-16 text-body text-black">
     <a
       class="underline hover:opacity-70"
-      href="#owners-portal">Log in to the Owners’ Portal</a
+      href="/contact">Log in to the Owners’ Portal</a
     >
   </p>
 </section>

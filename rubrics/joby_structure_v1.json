@@ -1,0 +1,379 @@
+{
+  "format": "mixdown2",
+  "version": "1.0",
+  "rubric_id": "joby_structure_v1",
+  "class": "web-design.layout-system",
+  "intended_use": "both",
+  "source": {
+    "mode": "capture",
+    "what": "Joby Aviation news article page (Blade BLADEone / Aero partnership announcement) — distilled for its GRID and TYPE system only. The entry encodes the corrected system the page points at, not the page's faults.",
+    "when": "2026-10-02",
+    "method": "Chromium (ms-playwright chromium-1234) driven by puppeteer-core, one isolated browser context per width, no shared state. Six viewports captured: 1440, 1200, 1024, 834, 600, 390 (deviceScaleFactor 1 for measurement, 2-3 for stills). Per viewport: full-page and above-the-fold JPEG stills, computed styles via getComputedStyle for every grid container and its direct children, getBoundingClientRect for box geometry, grid-template-columns / column-gap / padding read directly off the resolved computed style, per-child grid-column and grid-area read back to derive column spans. Page scrolled end to end before measurement (all entrance animations finished, not frozen) so no element was measured in a pre-animation state. 16-column placements derived by matching each child's x offset against the computed track starts, not by reading markup.",
+    "gaps": [
+      "No design-token source, Figma file, or CSS custom-property dump exists for this site; every value here is read off rendered computed styles, so authored intent cannot be distinguished from accident.",
+      "The full-page desktop capture does not contain the footer's text. The footer text was still measured live via computed styles and DOM (see evidence below); the missing text is an artifact of the capture path (a full-bleed colour band below the footer's creative section), not of the page.",
+      "Column spans at 1024w and below were derived from a grid whose tracks resolve to 0px with a 100px column-gap, so track-index arithmetic is unreliable below 1024; those placements are reported from grid-column values instead.",
+      "Hover, focus, and open-menu states were not captured for layout purposes.",
+      "Only one page of the site was captured. The 16-column grid, gutter, and type scale were confirmed on this page only; whether other templates share them is unverified."
+    ],
+    "notes": "SCOPE. This entry grades horizontal grid, vertical rhythm, and typography. Color, imagery, motion, and copy carry no scales and no values: their canon scales are null with reasons rather than guessed. The page's own faults are treated as negative evidence that justifies a rule, never as the target — see the rules in layout, structure, and type. Where the page and its own system disagree, the system wins in every target."
+  },
+  "element_inventory": [
+    { "element": "page grid container", "aspects": ["layout", "structure"], "note": "the single 16-track grid every band is built on; declared once, inherited by every section" },
+    { "element": "page gutter", "aspects": ["layout"], "note": "fixed inset 0 40px at 1440/1200/1024" },
+    { "element": "column tracks", "aspects": ["layout"], "note": "fixed px, 70/55/44 at 1440/1200/1024; not fr, not percentage" },
+    { "element": "column gap", "aspects": ["layout"], "note": "constant 16px above 834w" },
+    { "element": "hero band", "aspects": ["layout", "type", "structure"] },
+    { "element": "full-bleed media band", "aspects": ["layout", "structure"], "note": "the one deliberate grid escape; 1440x900, radius 0" },
+    { "element": "article body column", "aspects": ["layout", "type"], "note": "span 8 = 672px at 1440; the measure every text block resolves to" },
+    { "element": "side rail", "aspects": ["layout", "structure"], "note": "span 2 = 156px, x 40; carries published date and share" },
+    { "element": "card row", "aspects": ["layout", "structure", "type"], "note": "the section whose cards currently ignore the tracks" },
+    { "element": "footer link rails", "aspects": ["layout", "structure"], "note": "rails 1 / 11 / 13 / 15 on row 1, logo 1/4 and newsletter 11/5 on row 2" },
+    { "element": "section stack", "aspects": ["structure"], "note": "the vertical order and the padding that separates bands" },
+    { "element": "type scale", "aspects": ["type"], "note": "two families, five weights, one ratio" }
+  ],
+  "parts": [
+    {
+      "id": "sixteen_track_field",
+      "name": "The 16-track field",
+      "kind": "move",
+      "description": "Every horizontal band on the page — nav, hero, media, standfirst, article, sidebar, card section, footer — resolves to the same 16-column grid with the same fixed px tracks and the same constant column gap. There is no per-section grid. The page's whole horizontal identity is that one field, and every block's left and right edge is a track edge.",
+      "entry_test": "Delete the 16-track field and every band degrades to ad-hoc widths — the page stops looking like itself. The field is the single gesture the page repeats in every section.",
+      "anchor": { "type": "selector", "value": "[class*='NewsArticleHero'] [class*='heroContent'], [class*='newsArticleBody'], [class*='newsArticleContentSection'], [class*='sectionNews'], footer[class*='Footer']" },
+      "recipe": "Declare the grid once on a shared page container and let every band inherit it: display:grid; grid-template-columns: repeat(16, 70px); column-gap: 16px; padding-inline: 40px. At 1200w the track becomes 55px, at 1024w 44px; gap and gutter stay 16px and 40px. Verified exact: 1440 - 80 = 1360 = 16*70 + 15*16; 1200 - 80 = 1120 = 16*55 + 15*16; 1024 - 80 = 944 = 16*44 + 15*16. Never redeclare the grid inside a section: a section that redeclares it is how this page acquired two incompatible placement systems on one set of tracks.",
+      "checks": [
+        { "id": "c1", "check": "Every full-width band (nav, hero, media caption, standfirst, article, sidebar, card section, footer) resolves to the same 16-track grid", "critical": true },
+        { "id": "c2", "check": "Tracks are fixed px (70/55/44 at 1440/1200/1024), not fr or %", "weight": 1 },
+        { "id": "c3", "check": "Column gap is 16px at every width at or above 834", "weight": 1 },
+        { "id": "c4", "check": "Page gutter is 40px at 1440, 1200 and 1024", "weight": 1 },
+        { "id": "c5", "check": "Content band width equals 16 tracks plus 15 gaps exactly (1360 at 1440)", "weight": 1 }
+      ],
+      "evidence": [
+        "1440w computed grid-template-columns: 70px x16 on heroContent, newsArticleBody, newsArticleContentSection, sectionNews and footer alike",
+        "1440w: 16*70 + 15*16 = 1360 = 1440 - 2*40, exact to the pixel",
+        "1200w: tracks 55px, 16*55 + 15*16 = 1120 = 1200 - 80, exact",
+        "1024w: tracks 44px, 16*44 + 15*16 = 944 = 1024 - 80, exact",
+        "identical column-gap 16px reported on all five grid containers"
+      ]
+    },
+    {
+      "id": "span_placement_vocabulary",
+      "name": "Placement by column span, not by content width",
+      "kind": "move",
+      "description": "Every block is placed by declaring a column span on the shared field. The page uses a small, reused span vocabulary — 2 (rail, 156px), 7 (section heading, 586px), 8 (article measure, 672px and caption, 672px), 12 (hero headline, 1016px), 16 (full content band, 1360px) — and blocks align to track edges, not to each other's widths.",
+      "entry_test": "Remove span placement and blocks size themselves from content; the page's edges stop landing on each other. The span vocabulary is what makes the layout readable as one system.",
+      "anchor": { "type": "selector", "value": "[class*='heroContent'] > *, [class*='newsArticleBody'] > *, [class*='newsArticleContentSection'] > *, [class*='sectionNews'] > *, footer[class*='Footer'] > *" },
+      "recipe": "Set grid-column on the child, e.g. grid-column: 1 / span 12 for a hero headline, 5 / span 8 for the article measure, 1 / span 2 for the rail, 1 / span 16 for a full band. Derive left edges from the span, never from a pixel width. Where text must not exceed a comfortable measure, cap it with max-width inside its span rather than resizing the span. Never place a major block with a flex content width — measured on this page, the card row's three items resolve to 559 / 458 / 343px, a 1.63:1 spread, none of which lands on a track start (the second begins at x=599, where no column begins).",
+      "checks": [
+        { "id": "c1", "check": "Every direct child of a grid band declares grid-column, or is an intentional full-bleed escape", "critical": true },
+        { "id": "c2", "check": "No major block's left edge falls between track starts", "critical": true },
+        { "id": "c3", "check": "Span vocabulary is small and reused (2, 7, 8, 12, 16 observed) rather than one span per block", "weight": 1 },
+        { "id": "c4", "check": "Sibling blocks in one band share a track edge where the design intends alignment (rail at column 1, measure at column 5)", "weight": 1 },
+        { "id": "c5", "check": "Card-row items are equal spans or a declared span pattern, not content-derived widths", "weight": 1 }
+      ],
+      "evidence": [
+        "heroContent children: h1 '1 / span 12' (x40 w1016); caption '1 / span 8' (x40 w672); date '9 / -1' (x728 w672)",
+        "newsArticleBody children: spacer 'span 2' (x40); standfirst '5 / -1' (x384 w1016)",
+        "newsArticleContentSection children: rail 'span 2' (x40 w156); content '5 / span 8' (x384 w672)",
+        "sectionNews children: h2 '1 / span 7' (x40 w586); button '14 / span 3' (x1257 w143); card container '1 / span 16' (x40 w1360)",
+        "footer children: four lists at '1 / span 2', '11 / span 2', '13 / span 2', '15 / span 2'; then logo '1 / span 4' (w176) and newsletter '11 / span 5' (w414)",
+        "counter-evidence: card items measured 558.8 / 457.9 / 343.3px wide at x 40 / 599 / 1057 — content-derived, track-inconsistent"
+      ]
+    },
+    {
+      "id": "reading_column_span8",
+      "name": "The article column is exactly span 8",
+      "kind": "move",
+      "description": "Body text occupies columns 5 through 12, which is 672px at 1440w, with the side rail on columns 1-2 and columns 3-4 held empty as the gutter between rail and text. The blank columns are structural, not accidental: they are what separates the rail from the measure.",
+      "entry_test": "Let the text run wider and the rail crowds it; let it run narrower and the empty columns read as a mistake. The exact 8-column measure is what makes the article band legible as designed rather than fitted.",
+      "anchor": { "type": "selector", "value": "[class*='newsArticleContentSection'] > [class*='__content']" },
+      "recipe": "grid-column: 5 / span 8 on the text column; rail at 1 / span 2; leave 3-4 empty. Article measure is then 8*70 + 7*16 = 672px at 1440w. Text inside the span may carry a max-width cap (the page declares max-width: 760px on the span-8 parent, which never binds because the span is narrower than the cap) but the span itself must not change. If a block inside the article needs to be wider than the measure, widen it on a shared rule that overhangs symmetrically, not on one block.",
+      "checks": [
+        { "id": "c1", "check": "Body text column is span 8 starting at column 5", "critical": true },
+        { "id": "c2", "check": "Side rail is span 2 at column 1", "weight": 1 },
+        { "id": "c3", "check": "Columns 3-4 are empty, preserving the rail-to-text gutter", "weight": 1 },
+        { "id": "c4", "check": "Any max-width cap inside the span is wider than the span (never binding)", "weight": 1 },
+        { "id": "c5", "check": "Measure equals 672px at 1440w", "weight": 1 }
+      ],
+      "evidence": [
+        "computed grid-column '5 / span 8' on NewsArticleContentSection__content; rect x 384, w 672",
+        "8*70 + 7*16 = 672, exact",
+        "rail (StickyJSElement) rect x 40, w 156 = span 2; columns 3-4 (x 250-370) empty",
+        "content parent declares max-width 760px against a 672px box — a non-binding cap"
+      ]
+    },
+    {
+      "id": "fluid_scale_multiplier",
+      "name": "One fluid multiplier, held across the whole scale",
+      "kind": "move",
+      "description": "Below its fixed-track tier the page does not step its values; it multiplies them all by one factor. At 834w every measured value — track width 35.83px, column gap 13.03px, gutter 32.58px, h1 65.16px, body 13.03px — is the 1024w value times 0.8145. At 390w every value is the 600w value times 0.65. Type, gutter, gap and tracks travel together.",
+      "entry_test": "Step only the type and leave the grid, and the measure drifts against the columns; step only the grid and the type breaks its ratio. The single multiplier is what keeps the system proportional while it shrinks.",
+      "anchor": { "type": "selector", "value": "html / :root (the single scale that every band inherits)" },
+      "recipe": "Drive the whole system from one scale factor per breakpoint tier. Fixed tiers: 1440 track 70px, 1200 track 55px, 1024 track 44px, gutter 40px throughout, gap 16px throughout. Below the fixed tier, multiply every value by the tier factor (0.8145 in this design's middle tier, 0.65 in its small tier) rather than restating each value. Express values as calc() off one custom property so the factor cannot drift between grid and type. Return gap and gutter to their unscaled constants (16px and 40px) at the mobile tier, where the page reverts to 6 tracks and a fixed 16px gutter.",
+      "checks": [
+        { "id": "c1", "check": "At the middle tier, track, gap, gutter, h1 and body are all the previous-tier value times one common factor", "critical": true },
+        { "id": "c2", "check": "The factor is expressed once (a single custom property or calc base), not restated per value", "weight": 1 },
+        { "id": "c3", "check": "At the mobile tier, gutter returns to 16px and column gap to 8.32px rather than continuing the multiplier", "weight": 1 },
+        { "id": "c4", "check": "Display-to-body size ratio is unchanged across the fluid tiers", "weight": 1 },
+        { "id": "c5", "check": "Grid and type shrink by the same factor (no drift between measure and columns)", "weight": 1 }
+      ],
+      "evidence": [
+        "834w vs 1024w: track 35.8281 / 44 = 0.8143; gap 13.0312 / 16 = 0.8144; gutter 32.5781 / 40 = 0.8145; h1 65.1562 / 80 = 0.8145; body 13.0312 / 16 = 0.8146",
+        "390w vs 600w: track 52.5312 / 80.7969 = 0.6502; body 16.64 / 25.6 = 0.65; h1 35.36 / 54.4 = 0.65",
+        "mobile tier overrides: 390w gutter 16.64px (= 16 x 1.04 vw-relative split, not the 0.65 factor), column gap 8.32px"
+      ]
+    },
+    {
+      "id": "negative_space_rail",
+      "name": "Fixed rails at the outer columns",
+      "kind": "move",
+      "description": "The system reserves its outermost columns for optional furniture: column 1-2 for a left rail, columns 15-16 for a right cluster, so a band can carry a rail or sit empty without the main block moving. The footer uses all four of those rails at once — 1, 11, 13, 15 — and the article uses 1-2 with 15-16 empty.",
+      "entry_test": "Remove the reserved outer rails and furniture starts pushing the main column; the layout's stability under varying content comes from those columns being held.",
+      "anchor": { "type": "selector", "value": "footer[class*='Footer'] > ul, [class*='newsArticleContentSection'] > *" },
+      "recipe": "Reserve span 2 at column 1 and span 2 ending at column 16 as optional furniture slots. Main content starts at column 5 when a left rail is present and column 1 when it is not; the right cluster ends flush at column 16. Critical: a band with furniture on rails must not leave an unaccounted void between the rail clusters. The footer here places its four lists on rails 1 / 11 / 13 / 15 and leaves columns 3 through 10 (x 250 to 860, about 700px) empty on row 1, which is a rail system used without a rule for the space between. When a band carries furniture on both sides, the interior space must be a declared span (a spacer, a divider, or nothing at all — not a hole).",
+      "checks": [
+        { "id": "c1", "check": "Rails occupy span 2 at column 1 and span 2 ending at column 16", "weight": 1 },
+        { "id": "c2", "check": "Main content's left edge is a track start whether or not a rail is present", "critical": true },
+        { "id": "c3", "check": "A band with furniture on both sides accounts for the interior columns as a declared span", "critical": true },
+        { "id": "c4", "check": "No band leaves an interior void wider than one track unaccounted for", "weight": 1 },
+        { "id": "c5", "check": "A rail carrying no content collapses the main block left rather than leaving the rail reserved and empty", "weight": 1 }
+      ],
+      "evidence": [
+        "footer children on row 1: footerSubLinks x40, footerMainLinks x900, footerExplore x1072, footerSocial x1244 — rails 1 / 11 / 13 / 15, columns 3-10 empty (x 250 to 860)",
+        "article band: rail x40 w156 (span 2), content x384 w672 (span 8), columns 15-16 empty",
+        "each footer rail list measures exactly 156px while holding wildly different content ('Health Plan Transparency' 142.1px, 'X' one glyph)"
+      ]
+    },
+    {
+      "id": "baselined_grid_rows",
+      "name": "Grid rows baseline their items",
+      "kind": "move",
+      "description": "When a band puts two blocks on one grid row, their tops align to the track row, not to their own content heights. Rows are declared, so the vertical space between rows is a set value rather than the leftover of a fixed band height.",
+      "entry_test": "Let row items float to their own heights and a band reads as two unrelated halves; the row is what makes a two-sided band read as one line of content.",
+      "anchor": { "type": "selector", "value": "footer[class*='Footer'] > * (row 2)" },
+      "recipe": "Declare grid-template-rows or rely on align-items: start with items that have no self-alignment margin. Both blocks on a row share a top edge; if one is a form and the other a logo, the form's first text baseline is offset from its own box top by a known amount so the pair still reads level. Never let a row's items resolve to different top offsets: this footer's row 2 puts the logo top at y 4566.1 and the newsletter top at y 4547.9 — an 18.2px offset between the two halves of one row. Keep row gaps explicit (this footer's two rows sit 525.8px apart because the row is implicit inside a fixed 900px band and absorbs all remaining height as one void).",
+      "checks": [
+        { "id": "c1", "check": "Items sharing a grid row share a top edge within 2px", "critical": true },
+        { "id": "c2", "check": "Row gaps are declared values, not the leftover of a fixed band height", "critical": true },
+        { "id": "c3", "check": "No implicit row absorbs more than one row-gap of unaccounted vertical space", "weight": 1 },
+        { "id": "c4", "check": "Band height is determined by its rows and their gaps, not fixed independently", "weight": 1 },
+        { "id": "c5", "check": "Aligned items do not carry per-item top margins that break the shared edge", "weight": 1 }
+      ],
+      "evidence": [
+        "footer row 1 all four lists top y 3845.1 — correctly baselined",
+        "footer row 2: logo top y 4566.1, newsletter top y 4547.9 — 18.2px apart in the same row",
+        "row 1 bottom y 4022.1 to row 2 newsletter top y 4547.9 = 525.8px gap",
+        "footer declares height 900px with grid-auto-rows unset and row-gap 0px"
+      ]
+    },
+    {
+      "id": "one_type_ratio",
+      "name": "Two families, one size ratio",
+      "kind": "move",
+      "description": "One display family and one text family, and the display-to-body ratio is the same at every breakpoint: 5.0 at 1440 (80:16), 5.0 at 834 (65.16:13.03). The size ladder is a small set of steps off the body size, and the ratio between display and body is the whole of the type hierarchy.",
+      "entry_test": "Change the ratio at one breakpoint and the page stops reading as the same design at tablet width. The held ratio is the identity.",
+      "anchor": { "type": "selector", "value": "h1[class*='titleArticlePage'], p[class*='body6'], span[class*='caption']" },
+      "recipe": "Display family for headings only, text family for body and UI. Body 16px/1.4 (lh 22.4px); article title 80px/1.0; section heading 64px/1.0. Weight steps from a closed set of five: 400, 450, 500, 550 — no bold, nothing under 400. Hold display:body at the same ratio through every breakpoint (5.0 through the fixed and middle tiers). At the mobile tier the page's own ratio collapses to 2.125 because body jumps to 25.6px while h2 steps to only 51.2px — treat that as a fault, not a target; keep the ratio the same at every width. Cap display sizes at their fixed-tier value rather than letting them keep growing with the viewport.",
+      "checks": [
+        { "id": "c1", "check": "Exactly two families in use: one display for headings, one text for body and UI", "critical": true },
+        { "id": "c2", "check": "Display-to-body size ratio is identical at every breakpoint", "critical": true },
+        { "id": "c3", "check": "Weights come from a closed set (400/450/500/550) with no bold and nothing under 400", "weight": 1 },
+        { "id": "c4", "check": "Body line-height is about 1.4; display line-height about 1.0", "weight": 1 },
+        { "id": "c5", "check": "Display size is capped at its fixed-tier value and does not grow with viewport width", "weight": 1 }
+      ],
+      "evidence": [
+        "h1 80px/550/lh 80px; h2 64px/550/lh 64px; body 16px/400/lh 22.4px; captions 14px/450 and 12px/450",
+        "ratio 80/16 = 5.0 at 1440; 65.1562/13.0312 = 5.0 at 834; 3.0 body variance identified at 600 and 390 (ratio 2.125) as a fault",
+        "two families only: jobyDisplay, jobyText",
+        "weights observed: 400 body, 450 captions/labels, 500 subheads, 550 display"
+      ]
+    },
+    {
+      "id": "tracking_rule",
+      "name": "Tracking is a ratio of size",
+      "kind": "move",
+      "description": "Letter-spacing is derived from font size, not chosen per element: -3% at display sizes and -2% at text sizes. The 24px and 14px steps break to -1%, which is the tell that the rule was hand-applied rather than computed.",
+      "entry_test": "Drop the tracking and set sizes render loose at 80px and cramped at 12px; the derived rule is what keeps every size optically consistent.",
+      "anchor": { "type": "selector", "value": "h1[class*='titleArticlePage'], p[class*='body6'], span[class*='caption']" },
+      "recipe": "Compute letter-spacing from font-size rather than declaring it per selector: display sizes take -0.03em, text sizes -0.02em. At 80px that is -2.4px; 64px -1.92px; 18px -0.36px; 16px -0.32px; 12px -0.24px. The page declares 24px at -0.24px (-1%) and 14px at -0.14px (-1%) — two steps off the rule; normalise them to -0.02em so every size obeys the same derivation.",
+      "checks": [
+        { "id": "c1", "check": "Letter-spacing is expressed as a ratio of font-size (em), not a per-selector px value", "critical": true },
+        { "id": "c2", "check": "Display sizes track at about -3% and text sizes at about -2%", "weight": 1 },
+        { "id": "c3", "check": "No size carries tracking that breaks the ratio by more than 0.5 percentage points", "weight": 1 },
+        { "id": "c4", "check": "Tracking scales with the fluid size factor rather than staying fixed", "weight": 1 },
+        { "id": "c5", "check": "Only one heading tier sits above body size with tightened tracking", "weight": 1 }
+      ],
+      "evidence": [
+        "80px -> -2.4px (-3.00%); 64px -> -1.92px (-3.00%); 18px -> -0.36px (-2.00%); 16px -> -0.32px (-2.00%); 12px -> -0.24px (-2.00%)",
+        "breaks: 24px -> -0.24px (-1.00%); 14px -> -0.14px (-1.00%)",
+        "834w tracking 1.95469px = 65.1562 x -3.00%, confirming the ratio travels with the fluid scale"
+      ]
+    }
+  ],
+  "aspects": [
+    {
+      "id": "layout",
+      "scales": [
+        { "id": "density", "poles": ["airy", "packed"], "value": 5.0, "evidence": ["article band holds one 672px measure plus a 156px rail with two full columns of empty gutter between them; the card band holds three items across 1360px; hero band is 1016px of type in 1360px of field"], "confidence": "medium", "note": "read from grid occupancy: roughly half of each band's tracks carry content" },
+        { "id": "grid_discipline", "poles": ["free-form", "strict grid"], "value": 9.0, "evidence": ["five separate grid containers all resolve to identical 16px-gap 16-track fields; band width equals tracks plus gaps exactly (1360 = 16*70 + 15*16); every measured block edge except the intro paragraph and its rule lands on a track start"], "confidence": "high", "note": "this entry scores the corrected system; the page as rendered would read lower because of the card row" },
+        { "id": "symmetry", "poles": ["asymmetric", "centered"], "value": 3.0, "evidence": ["every band is left-anchored at column 1 with content running left to right; the right cluster in the footer and the button in the card band terminate at column 16 rather than balancing a centre axis"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "grid_tracks", "slot": "grid_tracks", "kind": "number", "value": 16, "unit": "columns", "tolerance_pct": 1, "usage": "every horizontal band on the page", "evidence": ["grid-template-columns on all five grid containers resolves to 16 tracks"] },
+        { "id": "track_width_1440", "slot": "track_width", "kind": "number", "value": 70, "unit": "px", "tolerance_pct": 2, "usage": "fixed track at 1440w", "evidence": ["computed 70px x16 at 1440w"] },
+        { "id": "track_width_1200", "slot": "track_width", "kind": "number", "value": 55, "unit": "px", "tolerance_pct": 2, "usage": "fixed track at 1200w", "evidence": ["computed 55px x16 at 1200w"] },
+        { "id": "track_width_1024", "slot": "track_width", "kind": "number", "value": 44, "unit": "px", "tolerance_pct": 2, "usage": "fixed track at 1024w", "evidence": ["computed 44px x16 at 1024w"] },
+        { "id": "column_gap", "slot": "column_gap", "kind": "number", "value": 16, "unit": "px", "tolerance_pct": 1, "usage": "column gap at every width at or above 834; 13.03 at 834 and 8.32 at 390 when fluid", "evidence": ["column-gap 16px reported on all five grid containers at 1440, 1200 and 1024"] },
+        { "id": "page_gutter", "slot": "page_gutter", "kind": "number", "value": 40, "unit": "px", "tolerance_pct": 1, "usage": "horizontal page inset at 1440/1200/1024; 32.58 at 834; 16.64 at 390", "evidence": ["padding-inline 40px on heroContent, newsArticleBody, newsArticleContentSection, sectionNews and footer"] },
+        { "id": "content_band_1440", "slot": "content_band", "kind": "number", "value": 1360, "unit": "px", "tolerance_pct": 1, "usage": "16 tracks plus 15 gaps, derived not declared", "evidence": ["1440 - 2*40 = 1360 = 16*70 + 15*16"] },
+        { "id": "rail_width", "slot": "rail_width", "kind": "number", "value": 156, "unit": "px", "tolerance_pct": 1, "usage": "span 2; carries the article date rail and all four footer list rails", "evidence": ["every footer ul measures 156px wide; article rail measures 156px"] },
+        { "id": "measure_span", "slot": "measure_span", "kind": "number", "value": 8, "unit": "columns", "tolerance_pct": 1, "usage": "the article text column", "evidence": ["computed grid-column '5 / span 8' on the article content column"] },
+        { "id": "measure_px_1440", "slot": "measure_px", "kind": "number", "value": 672, "unit": "px", "tolerance_pct": 1, "usage": "the reading measure at 1440w", "evidence": ["article body rect width 672px = 8*70 + 7*16"] },
+        { "id": "span_vocabulary", "slot": "span_vocabulary", "kind": "enum", "value": ["2", "4", "5", "7", "8", "12", "16"], "usage": "the complete set of spans observed on the page; using a span outside this set should be deliberate", "evidence": ["spans read back from grid-column on every grid child across hero, body, article, card and footer bands"] },
+        { "id": "vertical_rhythm_ladder", "slot": "vertical_rhythm_ladder", "kind": "enum", "value": ["8", "16", "24", "32", "48", "64", "96", "128", "160", "200"], "usage": "the spacing ladder this entry imposes; the page's own measured values are ad hoc and are not the target", "evidence": ["page's measured vertical values are 0.1, 21.8, 57, 89, 120, 140, 200, 525.8 — the ladder above replaces them"] },
+        { "id": "section_padding", "slot": "section_padding", "kind": "number", "value": 96, "unit": "px", "tolerance_pct": 20, "usage": "vertical padding at the top and bottom of a content band; must be a ladder value and must be equal top and bottom", "evidence": ["page's own bands use asymmetric padding: card band 23px top / 57px bottom, footer 38px top / 89px bottom — equal ladder values replace this"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "there is exactly one grid definition for the page; every band inherits it rather than declaring its own" },
+        { "kind": "always", "rule": "every grid child is placed by column span; left edges are track starts" },
+        { "kind": "always", "rule": "a band's content width equals its track sum plus its gaps" },
+        { "kind": "never", "rule": "a major block is sized by flex content width (the page's card row resolves to 559/458/343px across one 1360px band)" },
+        { "kind": "never", "rule": "a band leaves interior columns unaccounted for while reserving rails at both edges" },
+        { "kind": "never", "rule": "vertical spacing uses a value outside the declared ladder" },
+        { "kind": "never", "rule": "band padding is asymmetric without a stated reason" }
+      ],
+      "directives": [
+        "declare the 16-track grid once on a shared container: repeat(16, 70px) with column-gap 16px and padding-inline 40px; step the track to 55px at 1200 and 44px at 1024 and leave gap and gutter fixed",
+        "place every block with grid-column using the span vocabulary (2, 4, 5, 7, 8, 12, 16); derive left edges from the span",
+        "give the reading column 5 / span 8 and hold columns 3-4 empty between the rail and the text",
+        "drive every value below the fixed tier from one multiplier, 0.8145 in the middle tier and 0.65 in the small tier",
+        "take all vertical spacing from the ladder 8/16/24/32/48/64/96/128/160/200 and keep section padding equal top and bottom"
+      ]
+    },
+    {
+      "id": "structure",
+      "scales": [
+        { "id": "hierarchy_depth", "poles": ["flat", "deep"], "value": 3.0, "evidence": ["one display tier (article title) and one section tier (64px) above body; the only sub-tiers are 14px captions and a 24px standfirst"], "confidence": "high" },
+        { "id": "rhythm", "poles": ["uniform", "syncopated"], "value": 5.0, "evidence": ["six bands in order — nav, hero, full-bleed media, standfirst, article with rail, card row — five distinct archetypes with one repeat; the full-bleed media band is the single deliberate break in the field"], "confidence": "medium" },
+        { "id": "component_voice", "poles": ["borderless", "framed"], "value": 2.0, "evidence": ["cards carry no surface at all: radius 8px reported, background fully transparent, no border, no shadow; the only division is a 1px hairline rule on the left of each card item and one full-measure rule above the footnote block"], "confidence": "high", "note": "the system separates by whitespace and rules, not by boxes" }
+      ],
+      "values": [
+        { "id": "band_archetypes", "slot": "band_archetypes", "kind": "enum", "value": ["nav", "hero", "full-bleed media", "standfirst", "article with side rail", "card row", "footer"], "usage": "the vertical order of bands", "evidence": ["band tops at y 0, 140, 853, 1769, 1980, 3898, 4707 at 1440w"] },
+        { "id": "full_bleed_band", "slot": "full_bleed_band", "kind": "enum", "value": "media only", "usage": "the only band allowed to escape the gutter; radius 0, exact viewport width", "evidence": ["mediaSection rect x 0 w 1440 h 900, border-radius 0px"] },
+        { "id": "structure_gap_ladder", "slot": "structure_gap_ladder", "kind": "enum", "value": ["24", "48", "64", "96", "128", "160", "200"], "usage": "row and band gaps; declared values only", "evidence": ["page's row-1-to-row-2 gap measures 525.8px as the leftover of a fixed 900px footer — this ladder replaces leftover spacing"] },
+        { "id": "divider_rule", "slot": "divider_rule", "kind": "identity", "value": "1px hairline at the measure, symmetric overhang", "usage": "the rule above the footnote block", "evidence": ["hr width 872px, margin-left -80px, max-width calc(100% + 200px) against a 672px measure — an overhang of 200px that starts at x 304, which is not a track start"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "a band's height is the sum of its rows and their declared gaps" },
+        { "kind": "always", "rule": "items sharing a grid row share a top edge" },
+        { "kind": "always", "rule": "exactly one band may escape the gutter, and it must be full-viewport-width with zero radius" },
+        { "kind": "never", "rule": "an implicit row absorbs leftover vertical space (this footer's 525.8px void)" },
+        { "kind": "never", "rule": "a divider overhangs its measure asymmetrically or lands off a track start" },
+        { "kind": "never", "rule": "a component is bounded by a card surface where a rule and whitespace will separate it" }
+      ],
+      "directives": [
+        "build bands in the archetype order nav, hero, full-bleed media, standfirst, article with rail, card row, footer",
+        "declare grid rows explicitly and give them ladder gaps; never let a band's height be fixed independently of its rows",
+        "baseline both halves of any two-sided row to a shared top edge",
+        "keep components borderless; separate with whitespace and a single hairline rule centred on the measure"
+      ]
+    },
+    {
+      "id": "type",
+      "scales": [
+        { "id": "scale_contrast", "poles": ["even", "dramatic"], "value": 7.0, "evidence": ["display 80px against body 16px is a ratio of 5.0, held exactly at 834w (65.16 against 13.03) and dropping the article title straight to 16px body with only a 24px standfirst between"], "confidence": "high" },
+        { "id": "weight_voice", "poles": ["light", "heavy"], "value": 5.0, "evidence": ["weights from a closed five-step set: 400 body, 450 captions and labels, 500 subheads, 550 display; no bold, nothing below 400"], "confidence": "high" },
+        { "id": "family_register", "poles": ["editorial", "utilitarian"], "value": 8.0, "evidence": ["two neutral geometric/grotesque sans families only (jobyDisplay, jobyText); no serif, no mono, no display face"], "confidence": "high" },
+        { "id": "tracking_case", "poles": ["sentence-case", "all-caps/wide"], "value": 1.0, "evidence": ["all copy is sentence case or title case; no uppercase anywhere in the measured type census; tracking is negative throughout (-3% display, -2% text), never wide"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "display_family", "slot": "display_family", "kind": "identity", "value": "jobyDisplay", "usage": "article title and section headings only", "evidence": ["h1 and h2 computed font-family resolves to jobyDisplay"] },
+        { "id": "text_family", "slot": "text_family", "kind": "identity", "value": "jobyText", "usage": "body, captions, labels, links and all UI text", "evidence": ["body, caption and footer link computed font-family resolves to jobyText"] },
+        { "id": "body_size", "slot": "body_size", "kind": "number", "value": 16, "unit": "px", "tolerance_pct": 1, "usage": "body at the fixed tier", "evidence": ["paragraph computed font-size 16px"] },
+        { "id": "body_leading", "slot": "body_leading", "kind": "number", "value": 1.4, "tolerance_pct": 5, "usage": "body line-height ratio", "evidence": ["body line-height 22.4px against 16px font-size = 1.4"] },
+        { "id": "display_size", "slot": "display_size", "kind": "number", "value": 80, "unit": "px", "tolerance_pct": 1, "usage": "article title at the fixed tier; capped, never grows", "evidence": ["h1 computed font-size 80px at 1440, 1200 and 1024"] },
+        { "id": "section_heading_size", "slot": "section_heading_size", "kind": "number", "value": 64, "unit": "px", "tolerance_pct": 1, "usage": "band heading at the fixed tier", "evidence": ["h2 'Read next' computed font-size 64px"] },
+        { "id": "display_leading", "slot": "display_leading", "kind": "number", "value": 1.0, "tolerance_pct": 2, "usage": "display line-height ratio", "evidence": ["h1 80px font-size against 80px line-height; h2 64px against 64px"] },
+        { "id": "scale_ratio", "slot": "scale_ratio", "kind": "number", "value": 5.0, "tolerance_pct": 2, "usage": "display to body; held at every breakpoint", "evidence": ["80/16 = 5.0 at 1440; 65.1562/13.0312 = 5.0 at 834"] },
+        { "id": "type_steps", "slot": "type_steps", "kind": "enum", "value": ["12", "14", "16", "18", "24", "64", "80"], "usage": "the complete size set in use; a size outside this set should be deliberate", "evidence": ["type census across the page: 12, 14, 16, 18, 20, 24, 64, 80px (20px appears on one legacy control and is treated as out of system)"] },
+        { "id": "tracking_ratio_display", "slot": "tracking_ratio", "kind": "number", "value": -0.03, "unit": "em", "tolerance_pct": 20, "usage": "letter-spacing at display sizes", "evidence": ["80px -> -2.4px; 64px -> -1.92px, both exactly -3.00%"] },
+        { "id": "tracking_ratio_text", "slot": "tracking_ratio", "kind": "number", "value": -0.02, "unit": "em", "tolerance_pct": 20, "usage": "letter-spacing at text sizes", "evidence": ["18px -> -0.36px; 16px -> -0.32px; 12px -> -0.24px, all -2.00%"] },
+        { "id": "weight_set", "slot": "weight_set", "kind": "enum", "value": ["400", "450", "500", "550"], "usage": "closed weight set; no bold, nothing below 400", "evidence": ["weights observed across the type census: 400, 450, 500, 550 only"] },
+        { "id": "case_policy", "slot": "case_policy", "kind": "identity", "value": "sentence and title case; no uppercase", "usage": "all text in the system", "evidence": ["no uppercase text-transform found on any measured element"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "exactly two type families: one display for headings, one text for body and UI" },
+        { "kind": "always", "rule": "letter-spacing is derived from font-size as a ratio, never declared per selector" },
+        { "kind": "always", "rule": "the display-to-body size ratio is identical at every breakpoint" },
+        { "kind": "never", "rule": "a weight outside the closed set, or any weight below 400" },
+        { "kind": "never", "rule": "uppercase text or positive letter-spacing" },
+        { "kind": "never", "rule": "display size grows with viewport width (the page holds 80px from 1024 to 1440)" }
+      ],
+      "directives": [
+        "set two families only: jobyDisplay for headings, jobyText for everything else",
+        "set body 16px/1.4 and display sizes from a fixed set (80 title, 64 section heading, 24 standfirst, 18 subhead, 16 body, 14 caption, 12 label)",
+        "cap display size at its fixed-tier value and scale it only through the shared fluid multiplier so the 5.0 ratio survives every width",
+        "derive letter-spacing: -0.03em at display sizes, -0.02em at text sizes",
+        "keep all copy sentence or title case"
+      ]
+    },
+    {
+      "id": "color",
+      "scales": [
+        { "id": "base_polarity", "poles": ["light canvas", "dark canvas"], "value": null, "na_reason": "out of scope: this entry grades grid, vertical rhythm and typography only. Colour was measured alongside the grid but is not a target here.", "confidence": "high" },
+        { "id": "temperature", "poles": ["cool", "warm"], "value": null, "na_reason": "out of scope: colour is not graded by this entry.", "confidence": "high" },
+        { "id": "chroma", "poles": ["muted", "vivid"], "value": null, "na_reason": "out of scope: colour is not graded by this entry.", "confidence": "high" },
+        { "id": "palette_width", "poles": ["singular/duo", "many hues"], "value": null, "na_reason": "out of scope: colour is not graded by this entry.", "confidence": "high" },
+        { "id": "contrast", "poles": ["soft", "hard"], "value": null, "na_reason": "out of scope: contrast is a colour judgement, not a grid or type one.", "confidence": "high" },
+        { "id": "surface_finish", "poles": ["flat", "decorated"], "value": null, "na_reason": "out of scope: surface treatment is not graded by this entry.", "confidence": "high" }
+      ],
+      "values": [],
+      "rules": [],
+      "directives": []
+    },
+    {
+      "id": "motion",
+      "scales": [
+        { "id": "energy", "poles": ["still", "kinetic"], "value": null, "na_reason": "out of scope: this entry grades grid, vertical rhythm and typography only.", "confidence": "high" },
+        { "id": "temperament", "poles": ["functional", "expressive"], "value": null, "na_reason": "out of scope: motion is not graded by this entry.", "confidence": "high" }
+      ],
+      "values": [],
+      "rules": [],
+      "directives": []
+    },
+    {
+      "id": "imagery",
+      "scales": [
+        { "id": "role", "poles": ["text-led", "image-led"], "value": null, "na_reason": "out of scope: this entry grades grid, vertical rhythm and typography only.", "confidence": "high" },
+        { "id": "medium", "poles": ["photographic", "graphic"], "value": null, "na_reason": "out of scope: imagery is not graded by this entry.", "confidence": "high" },
+        { "id": "treatment", "poles": ["natural", "stylized"], "value": null, "na_reason": "out of scope: imagery is not graded by this entry.", "confidence": "high" },
+        { "id": "framing", "poles": ["sharp", "rounded"], "value": null, "na_reason": "out of scope: imagery is not graded by this entry. Rounded corners that affect layout rhythm are handled under layout.", "confidence": "high" }
+      ],
+      "values": [],
+      "rules": [],
+      "directives": []
+    },
+    {
+      "id": "copy",
+      "scales": [
+        { "id": "register", "poles": ["casual", "formal"], "value": null, "na_reason": "out of scope: this entry grades grid, vertical rhythm and typography only.", "confidence": "high" },
+        { "id": "voice", "poles": ["plain", "playful"], "value": null, "na_reason": "out of scope: copy is not graded by this entry.", "confidence": "high" },
+        { "id": "density", "poles": ["terse", "explanatory"], "value": null, "na_reason": "out of scope: copy density is not graded by this entry. Text-block density as a layout measure is handled under layout.density.", "confidence": "high" }
+      ],
+      "values": [],
+      "rules": [],
+      "directives": []
+    }
+  ],
+  "limitations": [
+    "Scope is deliberately narrow: horizontal grid, vertical rhythm and typography. Colour, imagery, motion and copy are not graded — their canon scales carry null with a reason rather than a guessed value. The entry is built to be applied to an unrelated artifact to bring its structure and type into alignment, not to reproduce this page.",
+    "The entry encodes the corrected system, not the page as rendered. The page's card row places three items by flex content width (559 / 458 / 343px) and its footer leaves columns 3-10 empty on row 1 while reserving rails at both edges; both are recorded as the evidence behind never-rules, and neither is a target value.",
+    "The page uses three different column models (16 fixed px tracks, a 100px-gap fluid grid at 1024 and below, and 6 tracks at 600 and below). Only the 16-track model is encoded. The mobile 6-track model is described in evidence but not scored, because the page's own mobile tier collapses the display-to-body ratio to 2.125 and is treated as a fault.",
+    "No design-token source, Figma file or CSS custom-property dump was available. Every value is read from rendered computed styles, so authored intent cannot be separated from accident anywhere in this entry.",
+    "The vertical spacing ladder (8/16/24/32/48/64/96/128/160/200) is this entry's construction. The page has no spacing scale: its measured vertical values are 0.1, 21.8, 57, 89, 120, 140, 200 and 525.8px. The ladder is a rule imposed by the rubric, not a measurement of the source.",
+    "The span vocabulary (2, 4, 5, 7, 8, 12, 16) and the track values are measured, but the page also uses spans outside it below 1024 (1/span 14, 1/span 6, 7/-1, 3/span 8) where its grid resolves to 0px tracks with a 100px gap; those placements are reported but not folded into the vocabulary.",
+    "The full-page desktop capture does not show the footer's text; the footer was measured live from the DOM and computed styles instead. The missing text is an artifact of the capture path, not of the page. No step of reading this entry requires the capture.",
+    "Only one page of the site was captured. The 16-track grid, 16px gap, 40px gutter and the type ladder were confirmed on this page alone; whether other templates share them is unverified.",
+    "Vertical rhythm was measured within the article band and across band boundaries; spacing inside the nav overlay, the cookie banner and the mobile menu was not captured."
+  ]
+}

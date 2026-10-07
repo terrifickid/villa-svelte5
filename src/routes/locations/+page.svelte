@@ -75,20 +75,27 @@
   />
 </svelte:head>
 
+<!--
+  Layout system: joby_structure_v1.
+  One full-width 16-track field per band (.v-band), every block placed
+  by column span/start, shared type tokens, ladder-only vertical spacing.
+-->
 <!-- Page header -->
-<section class="mx-auto w-full max-w-6xl px-6 pt-32 md:pt-40">
-  <h1 class="text-4xl font-medium tracking-tight text-black">Our Locations</h1>
-  <p class="mt-3 max-w-[560px] text-base text-black/80">
+<section class="v-band">
+  <h1 class="col-span-full font-satoshi text-display text-black lg:col-span-12">
+    Our Locations
+  </h1>
+  <p class="col-span-full mt-6 max-w-2xl text-body text-black/80 lg:col-span-8">
     From the heart of the islands to quieter corners, our homes are chosen to
     keep you relaxed, connected, and inspired
   </p>
 
   <!-- Filter bar -->
-  <div class="mt-12 flex flex-col gap-4 sm:flex-row">
-    <div>
-      <label class="text-xs text-black" for="location-name">Name</label>
+  <div class="contents">
+    <div class="col-span-full mt-12 sm:col-start-1 sm:col-span-8 lg:col-span-4">
+      <label class="text-label text-black" for="location-name">Name</label>
       <div
-        class="mt-2 flex h-10 w-full items-center gap-2 rounded-lg border border-black/10 px-3 sm:w-60"
+        class="mt-2 flex h-10 w-full items-center gap-2 rounded-lg border border-black/10 px-3"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -109,18 +116,20 @@
           type="text"
           placeholder="Search…"
           bind:value={query}
-          class="w-full border-0 bg-transparent p-0 text-sm text-black placeholder-black/40 focus:ring-0"
+          class="w-full border-0 bg-transparent p-0 text-caption text-black placeholder-black/40 focus:ring-0"
         />
       </div>
     </div>
 
-    <div>
-      <label class="text-xs text-black" for="location-region">Region</label>
+    <div
+      class="col-span-full mt-4 sm:col-start-9 sm:col-span-8 sm:mt-12 lg:col-start-5 lg:col-span-4"
+    >
+      <label class="text-label text-black" for="location-region">Region</label>
       <div class="relative mt-2">
         <select
           id="location-region"
           bind:value={region}
-          class="h-10 w-full appearance-none rounded-lg border border-black/10 bg-transparent py-0 pl-3 pr-9 text-sm text-black focus:ring-0 sm:w-60"
+          class="h-10 w-full appearance-none rounded-lg border border-black/10 bg-transparent py-0 pr-9 pl-3 text-caption text-black focus:ring-0"
         >
           {#each regionOptions as option}
             <option value={option}>{option}</option>
@@ -132,7 +141,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-black/80"
+          class="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-black/80"
         >
           <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
         </svg>
@@ -140,8 +149,10 @@
     </div>
   </div>
 
-  <!-- Tile grid -->
-  <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <!-- Tile grid: a 4/2/1 split of the field, so tiles land on field tracks -->
+  <div
+    class="col-span-full mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+  >
     {#each filtered as country}
       <a
         href={country.href}
@@ -161,13 +172,13 @@
           class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4"
         >
           <div>
-            <p class="text-base font-medium text-white">{country.name}</p>
+            <p class="text-body font-medium text-white">{country.name}</p>
             {#if country.region}
-              <p class="text-sm text-neutral-300">{country.region}</p>
+              <p class="text-caption text-neutral-300">{country.region}</p>
             {/if}
           </div>
           <span
-            class="inline-flex h-11 items-center rounded-3xl bg-white px-6 text-base font-medium text-black"
+            class="inline-flex h-11 items-center rounded-3xl bg-white px-6 text-caption font-medium text-black"
           >
             View
           </span>
@@ -176,25 +187,27 @@
     {/each}
 
     {#if filtered.length === 0}
-      <p class="col-span-full text-base text-black/80">No locations found.</p>
+      <p class="col-span-full text-body text-black/80">No locations found.</p>
     {/if}
   </div>
 </section>
 
 <!-- CTA panel -->
-<section class="mx-auto w-full max-w-6xl px-6 pt-10 pb-20">
-  <div class="grid grid-cols-1 gap-12 rounded-2xl bg-black p-12 lg:grid-cols-3">
-    <div class="lg:col-span-2">
-      <h2 class="text-4xl font-medium tracking-tight text-white">
+<section class="v-band">
+  <div
+    class="col-span-full grid grid-cols-1 items-start gap-x-4 rounded-2xl bg-black px-6 py-12 lg:grid-cols-16 lg:px-0"
+  >
+    <div class="col-span-full lg:col-start-2 lg:col-span-8">
+      <h2 class="font-satoshi text-heading text-white">
         Ready to find your escape?
       </h2>
-      <p class="mt-4 max-w-[600px] text-base text-white">
+      <p class="mt-6 max-w-2xl text-body text-white">
         Join a community of travellers who value privacy, comfort, and a stay
         that feels effortless. Your villa is waiting.
       </p>
       <a
         href="/contact"
-        class="mt-12 inline-flex h-12 items-center gap-4 rounded-3xl bg-white pl-6 pr-1 text-base font-medium text-black"
+        class="mt-12 inline-flex h-12 items-center gap-4 rounded-3xl bg-white pr-1 pl-6 text-caption font-medium text-black"
       >
         Contact us
         <span
@@ -218,10 +231,10 @@
       </a>
     </div>
 
-    <div>
-      <ul class="space-y-2.5">
+    <div class="col-span-full mt-12 lg:col-start-11 lg:col-span-5 lg:mt-0">
+      <ul class="space-y-4">
         {#each features as feature}
-          <li class="flex items-center gap-3 text-base font-medium text-white">
+          <li class="flex items-center gap-4 text-body font-medium text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -245,13 +258,13 @@
         <div class="flex -space-x-2">
           {#each avatars as initial}
             <span
-              class="flex size-8 items-center justify-center rounded-full bg-white/10 text-xs font-medium text-white ring-2 ring-black"
+              class="flex size-8 items-center justify-center rounded-full bg-white/10 text-label font-medium text-white ring-2 ring-black"
             >
               {initial}
             </span>
           {/each}
         </div>
-        <p class="text-sm text-white">Join 2,000+ travellers</p>
+        <p class="text-caption text-white">Join 2,000+ travellers</p>
       </div>
     </div>
   </div>

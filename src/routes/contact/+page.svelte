@@ -120,18 +120,18 @@
 </svelte:head>
 
 <!-- Black hero: invitation plus the inline enquiry form -->
-<section class="w-full bg-black px-10 pb-10 pt-32 text-white md:pt-40 lg:min-h-[800px]">
-  <div class="mx-auto grid w-full max-w-6xl grid-cols-1 gap-16 lg:grid-cols-2">
-    <div>
-      <h1 class="text-6xl font-medium tracking-tight text-white">Let’s connect</h1>
-      <p class="mt-4 max-w-lg text-base text-white">
+<section class="v-band bg-black text-white">
+  <div class="contents">
+    <div class="col-span-full lg:col-span-8">
+      <h1 class="font-satoshi text-display text-white">Let’s connect</h1>
+      <p class="mt-6 max-w-2xl text-body text-white">
         Got a question? Want to book a villa or just say hi? We’d love to hear
         from you.
       </p>
 
-      <div class="mt-16 space-y-1.5">
+      <div class="mt-16 space-y-2">
         {#each contactRows as row}
-          <div class="flex items-center gap-2 text-base text-white">
+          <div class="flex items-center gap-2 text-body text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -153,10 +153,13 @@
     </div>
 
     <!-- Form: no panel behind it -->
-    <form class="flex flex-col gap-4" on:submit={handleSubmit}>
+    <form
+      class="col-span-full mt-16 flex flex-col gap-4 lg:col-span-7 lg:col-start-10 lg:mt-0"
+      on:submit={handleSubmit}
+    >
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label class="text-xs text-white" for="name">Name</label>
+          <label class="text-label text-white" for="name">Name</label>
           <div class="mt-2.5 rounded-lg bg-neutral-400/15 p-3">
             <input
               id="name"
@@ -168,7 +171,7 @@
         </div>
 
         <div>
-          <label class="text-xs text-white" for="email">Email</label>
+          <label class="text-label text-white" for="email">Email</label>
           <div class="mt-2.5 rounded-lg bg-neutral-400/15 p-3">
             <input
               id="email"
@@ -181,7 +184,7 @@
       </div>
 
       <div>
-        <label class="text-xs text-white" for="help">
+        <label class="text-label text-white" for="help">
           What can we help you with?
         </label>
         <div class="mt-2.5 rounded-lg bg-neutral-400/15 p-3">
@@ -203,7 +206,7 @@
       </div>
 
       <div>
-        <label class="text-xs text-white" for="message">Message</label>
+        <label class="text-label text-white" for="message">Message</label>
         <div class="mt-2.5 rounded-lg bg-neutral-400/15 p-3">
           <textarea
             id="message"
@@ -216,12 +219,12 @@
 
       <button
         type="submit"
-        class="mt-1 inline-flex h-12 w-full items-center justify-center rounded-full bg-white text-base font-medium text-black"
+        class="inline-flex h-12 w-full items-center justify-center rounded-full bg-white text-caption font-medium text-black"
       >
         Send your message
       </button>
 
-      <p class="text-xs text-white">
+      <p class="text-label text-white">
         We usually reply within a few hours. No bots — just real humans.
       </p>
     </form>
@@ -229,19 +232,21 @@
 </section>
 
 <!-- FAQ band -->
-<section class="w-full bg-white px-6 pt-40 pb-20">
-  <div class="mx-auto grid w-full max-w-6xl grid-cols-1 gap-10 lg:grid-cols-2">
-    <div>
-      <h2 class="text-4xl font-medium tracking-tight text-black">
+<section class="v-band bg-white">
+  <div class="contents">
+    <div class="col-span-full lg:col-span-7">
+      <h2 class="font-satoshi text-heading text-black">
         Quick answers before you reach out
       </h2>
-      <p class="mt-3 text-base text-black/80">
+      <p class="mt-6 max-w-2xl text-body text-black/80">
         The things guests ask us most, answered plainly. Anything else, the form
         above is the quickest way to us.
       </p>
     </div>
 
-    <div class="space-y-4">
+    <div
+      class="col-span-full mt-12 space-y-4 lg:col-span-7 lg:col-start-10 lg:mt-0"
+    >
       {#each faqs as faq, i}
         <div class="rounded-lg bg-white p-4">
           <button
@@ -250,7 +255,7 @@
             aria-expanded={openIndex === i}
             on:click={() => toggle(i)}
           >
-            <span class="text-base font-medium text-black">{faq.q}</span>
+            <span class="text-body font-medium text-black">{faq.q}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -265,7 +270,7 @@
             </svg>
           </button>
           {#if openIndex === i}
-            <p class="mt-4 text-sm text-black/80">{faq.a}</p>
+            <p class="mt-4 text-caption text-black/80">{faq.a}</p>
           {/if}
         </div>
       {/each}
@@ -274,24 +279,24 @@
 </section>
 
 <!-- Testimonials band -->
-<section class="w-full bg-white pb-20">
-  <div class="mx-auto w-full max-w-6xl px-6 text-center">
-    <h2 class="text-4xl font-medium tracking-tight text-black">
+<section class="v-band bg-white">
+  <div class="col-span-full lg:col-span-7">
+    <h2 class="font-satoshi text-heading text-black">
       Still unsure? Here’s what our guests say.
     </h2>
-    <p class="mt-3 text-base text-black/80">
+    <p class="mt-6 max-w-2xl text-body text-black/80">
       Real words from people who booked a villa — and never looked back.
     </p>
   </div>
 
-  <div class="mt-16 space-y-4 overflow-hidden">
+  <div class="col-span-full mt-16 space-y-4 overflow-hidden">
     {#each [rowOne, rowTwo] as row}
       <div class="flex w-max -ml-10 gap-4">
         {#each row as testimonial}
           <article
             class="flex h-50 w-80 shrink-0 flex-col justify-between rounded-2xl bg-white p-6"
           >
-            <p class="flex items-center gap-2 text-base font-medium text-black">
+            <p class="flex items-center gap-2 text-body font-medium text-black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -307,17 +312,17 @@
               {testimonial.rating}
             </p>
 
-            <p class="text-base text-black/80">{testimonial.quote}</p>
+            <p class="text-body text-black/80">{testimonial.quote}</p>
 
             <div class="flex items-center gap-3">
               <span
-                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-medium text-black"
+                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-caption font-medium text-black"
               >
                 {testimonial.initial}
               </span>
               <div>
-                <p class="text-base font-medium text-black">{testimonial.name}</p>
-                <p class="text-sm text-black/80">{testimonial.role}</p>
+                <p class="text-body font-medium text-black">{testimonial.name}</p>
+                <p class="text-caption text-black/80">{testimonial.role}</p>
               </div>
             </div>
           </article>

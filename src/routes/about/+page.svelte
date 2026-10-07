@@ -17,12 +17,14 @@
   />
 </svelte:head>
 
-<section class="mx-auto w-full max-w-6xl px-6 pt-32 pb-20 md:pt-40">
-  <h1 class="text-4xl font-medium tracking-tight text-black">
+<section class="v-band">
+  <h1 class="col-span-full font-satoshi text-display text-black">
     About Villabound
   </h1>
 
-  <div class="mt-6 max-w-[680px] space-y-6 text-base text-black/80">
+  <div
+    class="col-span-full mt-6 max-w-2xl space-y-6 text-body text-black/80 lg:col-span-8"
+  >
     <p>
       Villabound was established in 2011 by a dynamic Barbadian entrepreneur Lily
       Dash. The company grew out of her initial company Caribound; a specialized
@@ -41,35 +43,33 @@
     </p>
   </div>
 
-  <div class="mt-16">
-    <h2 class="text-3xl font-medium tracking-tight text-black">What We Do</h2>
-    <p class="mt-4 max-w-[680px] text-base text-black/80">
+  <div class="col-span-full mt-16 lg:col-span-8">
+    <h2 class="font-satoshi text-heading text-black">What We Do</h2>
+    <p class="mt-6 max-w-2xl text-body text-black/80">
       Villabound is young company with a fresh view.
     </p>
-    <ul
-      class="mt-6 grid max-w-[900px] grid-cols-1 gap-x-10 gap-y-3 md:grid-cols-2"
-    >
+    <ul class="mt-6 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
       {#each whatWeDo as item}
-        <li class="flex items-start gap-3 text-base text-black/80">
-          <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-black"></span>
+        <li class="flex items-start gap-4 text-body text-black/80">
+          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
           <span>{item}</span>
         </li>
       {/each}
     </ul>
   </div>
 
-  <div class="mt-16">
-    <h2 class="text-3xl font-medium tracking-tight text-black">
+  <div class="col-span-full mt-16 lg:col-span-8">
+    <h2 class="font-satoshi text-heading text-black">
       Villabound’s Atelier Service
     </h2>
-    <p class="mt-4 max-w-[680px] text-base text-black/80">
+    <p class="mt-6 max-w-2xl text-body text-black/80">
       This is a private exclusive service offered by the Villabound Team. The
       service provides clients with a dedicated Villa Specialist. From finding
       tailor-made villas to catering to any lifestyle need.
     </p>
   </div>
 
-  <p class="mt-16 text-base text-black">
+  <p class="col-span-full mt-16 text-body text-black lg:col-span-8">
     For more about this unique service<br />
     Call:
     <a class="underline hover:opacity-70" href="tel:+12464245075">

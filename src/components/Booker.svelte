@@ -68,7 +68,7 @@
 </script>
 
 <div
-  class="bg-white border-t border-black fixed lg:hidden bottom-0 left-0 right-0 frame py-4 grid grid-cols-2 flex items-center z-50"
+  class="bg-white border-t border-black fixed lg:hidden bottom-0 left-0 right-0 px-4 sm:px-6 md:px-8 lg:px-10 py-4 grid grid-cols-2 flex items-center z-50"
 >
   <div>
     <p>{data.nickname}</p>

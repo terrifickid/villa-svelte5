@@ -41,8 +41,8 @@
   }
 </script>
 
-<div class="min-h-screen frame flex items-center">
-  <div class="w-full">
+<div class="v-band">
+  <div class="col-span-full lg:col-span-8">
     <div class="space-y-4 w-full">
       {#each faqs as faq}
         <div
@@ -53,7 +53,7 @@
             on:click={() => toggle(faq.id)}
             class="w-full px-6 py-6 flex justify-between items-center text-left group hover:bg-zinc-800 transition-all"
           >
-            <span class="text-lg font-medium text-white pr-8 leading-tight">
+            <span class="text-body font-medium text-white pr-8">
               {faq.question}
             </span>
 
@@ -84,7 +84,7 @@
           {#if openId === faq.id}
             <div
               transition:slide={{ duration: 250 }}
-              class="px-6 pb-7 text-zinc-400 leading-relaxed border-t border-zinc-800"
+              class="px-6 pb-6 text-body text-zinc-400 border-t border-zinc-800"
             >
               {faq.answer}
             </div>

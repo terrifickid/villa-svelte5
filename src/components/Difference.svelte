@@ -43,17 +43,14 @@
   ];
 </script>
 
-<section class="mx-auto py-20 max-w-2xl">
-  <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
+<section class="v-band">
+  <div class="col-span-full grid grid-cols-1 gap-6 lg:col-span-8">
     {#each services as service}
-      <div class=" bg-gray-100 rounded-2xl p-12 snap-start text-center">
-        <h4 class="text-lg mb-3">
+      <div class="rounded-2xl bg-gray-100 p-12">
+        <h4 class="font-satoshi text-standfirst font-medium">
           {service.title}
         </h4>
-
-        <p class="text-lg">
-          {service.description}
-        </p>
+        <p class="mt-4 text-body">{service.description}</p>
       </div>
     {/each}
   </div>

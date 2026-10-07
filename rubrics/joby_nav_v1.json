@@ -1,0 +1,496 @@
+{
+  "format": "mixdown2",
+  "version": "1.0",
+  "rubric_id": "joby_nav_v1",
+  "class": "web-design.nav-system",
+  "intended_use": "both",
+  "source": {
+    "mode": "capture",
+    "what": "Joby Aviation site header (careers page) — the fixed navigation bar and its menu overlay, distilled for structure, layout, typography and motion. Scoped to the nav only; the rest of the page is not graded.",
+    "when": "2026-10-02",
+    "method": "Chromium (ms-playwright chromium-1234) driven by puppeteer-core, one isolated browser context per width and per state. Three viewports: 1440x900, 834x1112, 390x844 (deviceScaleFactor 1). Four states captured per viewport: default at page top, scrolled down 1400px, scrolled back up to 1150px (pill state), and menu open after a synthetic click on the menu opener. Every number below comes from getComputedStyle (including ::before pseudo-element styles), getBoundingClientRect, resolved CSS custom properties on :root, and the authored CSS rules read out of the document stylesheets, plus document.getAnimations() sampled every 90ms from the first frame after the click. Discrete scroll travel was used (0 -> 1400 -> 1150) with 1.1-1.8s settles so each state was fully reached before measurement.",
+    "gaps": [
+      "The scroll-driven hide/show threshold is not fully characterised. Measured: topNav translateY is 6px at scrollY 0 and 0.72px mid-entrance, -84px (fully retracted) at scrollY 200 and beyond, and 6px again once scrolled up from 1500 to 1200. A single 200px-down step produced full retraction, so the exact trigger point between 0 and 200px was not isolated, and no velocity dependence was tested.",
+      "The reveal transition (.4s) and the retract transition (.5s) were sampled but their easing curves were read from authored CSS rather than measured frame by frame; no intermediate transform samples were captured for the hide/show pair.",
+      "The close animation (menu shutting) was not captured; only the opening sequence was sampled.",
+      "Focus-visible states, keyboard traversal order, and screen-reader announcement of the panel were not captured.",
+      "Reduced-motion behaviour was not tested; no prefers-reduced-motion branch was confirmed in the authored rules.",
+      "The nav's behaviour over a page with a light hero was not captured. The careers hero is orange, which selects the hero state variant (white menu lines); the hero-dark variant was not exercised.",
+      "The tablet viewport in this capture is 834x1112 (portrait), matching the project's standard capture matrix, not an iPad-native landscape."
+    ],
+    "notes": "The header has four distinct states, and they are genuinely four, not two. (1) DEFAULT: no surface at all — the bar is transparent and its contents sit directly on the hero. (2) RETRACTED: scrolled down, the whole bar translates up and off, leaving no header. (3) PILL: scrolled back up, a cream rounded slab fades in behind the bar, floating inset from the page edge. (4) OPEN: the bar stays, a full-width colour panel unrolls beneath it in layered bands, and the bar's own content restyles to sit on that panel. The state machine is the design. Everything below is measured."
+  },
+  "element_inventory": [
+    { "element": "nav root", "aspects": ["layout", "structure", "motion"], "note": "position fixed, 100vw, z-index 100, display flex" },
+    { "element": "bar (topNav)", "aspects": ["layout", "type", "motion"], "note": "80px tall at 1440, 8rem; carries the pill as a ::before" },
+    { "element": "pill (topNav::before)", "aspects": ["layout", "motion"], "note": "the cream rounded slab; not an element, a pseudo-element" },
+    { "element": "scrim (backgroundOverlay)", "aspects": ["motion"], "note": "full-viewport dark layer shown behind the open panel at 60% opacity" },
+    { "element": "panel (background + overlay)", "aspects": ["layout", "structure", "color", "motion"], "note": "the colour slab that unrolls; four stacked layers retract in sequence" },
+    { "element": "menu opener button", "aspects": ["layout", "motion"], "note": "33x33px, two 2px bars that cross into a close glyph" },
+    { "element": "current-page label", "aspects": ["type", "motion"], "note": "the page name beside the opener; slides out and fades on open" },
+    { "element": "logo", "aspects": ["layout", "motion"], "note": "centred mark, 51x32px at 1440; slides and reveals wordmark on open" },
+    { "element": "right inline button", "aspects": ["type", "motion"], "note": "'Investors' with arrow; swaps label on hover via an in/out pair" },
+    { "element": "open panel grid (navOpen)", "aspects": ["layout", "structure"], "note": "16-column grid, same 16px gutter as the page" },
+    { "element": "panel link lists", "aspects": ["type", "motion"], "note": "three lists: main, sub, social, each with its own stagger" }
+  ],
+  "parts": [
+    {
+      "id": "four_state_header",
+      "name": "Four-state header",
+      "kind": "move",
+      "description": "The header is a state machine with four distinct appearances, each reached by a different trigger: transparent over the hero at page top, fully retracted while scrolling down, a floating cream pill when scrolling back up, and an open colour panel when the menu is activated. No state is a variation of another — the surface, the bar's own styling and the content all change together.",
+      "entry_test": "Give the header one permanent background and it stops being this header. The four-state cycle IS the identity; a static bar with a menu would fail the removal test immediately.",
+      "anchor": { "type": "selector", "value": "nav[class*='Navigation-module']" },
+      "recipe": "Implement as four class states on the nav root, mutually exclusive except where noted: no class (default), .navHidden (scrolled down), .hero / .hero-dark (over a hero, suppresses the pill and switches bar content to white), .open (menu open). Drive default/retracted/pill from a scroll-direction listener that toggles .navHidden on downward scroll and clears it on upward scroll; drive .hero from the page template. Measurements: bar translateY is 6px at rest (the design sits the bar 0.6rem low), -84px when retracted, 6px again in the pill state. The bar height is 8rem (80px at the 1440 root of 10px). Never let two surface states paint at once: the authored rules explicitly cancel the pill on .hero and on .open.",
+      "checks": [
+        { "id": "c1", "check": "Four distinct header states exist and are reachable: default transparent, retracted, pill, open", "critical": true },
+        { "id": "c2", "check": "Default state paints no background on the bar or the nav root", "critical": true },
+        { "id": "c3", "check": "Retracted state translates the bar fully out of view (about -105% of bar height)", "weight": 1 },
+        { "id": "c4", "check": "Pill state and open state never paint simultaneously", "weight": 1 },
+        { "id": "c5", "check": "Bar rest offset is a small non-zero step (6px at 1440), not exactly 0", "weight": 1 }
+      ],
+      "evidence": [
+        "default: topNav transform matrix(1,0,0,1,0,0.72) mid-settle and matrix(1,0,0,1,0,6) settled; nav root background rgba(0,0,0,0); bar background rgba(0,0,0,0)",
+        "retracted: topNav transform matrix(1,0,0,1,0,-84) at scrollY 200 through 1500; authored rule .navHidden .topNav { transform: translateY(-100%) }",
+        "pill: topNav transform matrix(1,0,0,1,0,6) with topNav::before opacity 1",
+        "open: nav root class list reads 'nav hero open animateIn'",
+        "authored: .open .topNav::before { opacity: 0 } and .hero .topNav::before { opacity: 0 }"
+      ]
+    },
+    {
+      "id": "scroll_direction_hide",
+      "name": "Hide on down, return on up",
+      "kind": "move",
+      "description": "Scrolling down retracts the bar entirely so the viewport is clean; scrolling up brings it back with the pill surface. The two directions get different durations — the retract is slower than the reveal — so the bar leaves deliberately and returns promptly.",
+      "entry_test": "Make the bar permanently fixed and the page loses its whole scroll rhythm; make it disappear without a different return treatment and the reappearance reads as a glitch rather than a state.",
+      "anchor": { "type": "selector", "value": "nav[class*='Navigation-module'] [class*='topNav']" },
+      "recipe": "Toggle .navHidden on downward scroll past a small threshold and remove it on any upward scroll. Retract: transform .5s cubic-bezier(.32,0,.67,0) — an ease-in, so it accelerates away. Reveal: transform .4s cubic-bezier(.33,1,.68,1) — an ease-out-cubic, so it arrives quickly and settles. The asymmetry is the point: 500ms out, 400ms back, different curves. Measured travel is 0 to -84px, i.e. -105% of the 80px bar height.",
+      "checks": [
+        { "id": "c1", "check": "Scrolling down retracts the bar fully out of the viewport", "critical": true },
+        { "id": "c2", "check": "Scrolling up restores the bar with the pill surface, not the transparent default", "critical": true },
+        { "id": "c3", "check": "Retract and reveal use different durations (500ms vs 400ms observed)", "weight": 1 },
+        { "id": "c4", "check": "Retract uses an ease-in and reveal uses an ease-out, so the curves differ in direction", "weight": 1 },
+        { "id": "c5", "check": "The bar returns on the first upward travel rather than only at the page top", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .topNav { transition: transform .4s var(--ease-out-cubic) } with --ease-out-cubic = cubic-bezier(.33,1,.68,1)",
+        "authored: .navHidden .topNav { transform: translateY(-100%) } and .topNav.navHidden { transition: transform .5s var(--ease-in-cubic) } with --ease-in-cubic = cubic-bezier(.32,0,.67,0)",
+        "measured: retracted at scrollY 200, 500, 900, 1200, 1500; restored to translateY(6px) at scrollY 1200, 900, 600, 300, 100, 0 after the upward pass",
+        "travel: 0 to -84px on an 80px bar = -105%"
+      ]
+    },
+    {
+      "id": "pill_surface",
+      "name": "The floating pill",
+      "kind": "move",
+      "description": "The return surface is a cream slab with fully rounded ends that spans the page inside its own inset, floating clear of the viewport edges — it is a pill, not a full-width bar. It is drawn as a pseudo-element behind the bar's content, so the content does not move when the surface appears and the bar can carry a different surface in other states without touching layout.",
+      "entry_test": "Widen the slab to the viewport edges and the bar becomes a conventional sticky header; the inset rounded slab floating over content is what makes the reappearance feel like an object rather than a banner.",
+      "anchor": { "type": "selector", "value": "[class*='topNav']::before" },
+      "recipe": "Draw the surface as topNav::before, absolutely positioned inside the bar: top 1rem, left 2.4rem, width calc(100% - 4.8rem), height 6rem, background the cream token #F5F4DF, border-radius 56px, box-shadow rgba(0,0,0,0.23) 0 1px 1px, z-index -1. Inset is therefore 24px horizontally and 10px vertically at the 1440 root, and the slab is 60px tall inside an 80px bar. Fade it, do not slide it: opacity .3s ease-out-cubic with an 800ms delay when leaving the hero, and .4s with no delay when leaving the open state. Measurements: 1440 slab is 1392x60 at x24 y10; 834 slab is 794.9x48.9 at x19.5 y8.1; 390 slab is 373.4x47.8 at x8.3 y0.",
+      "checks": [
+        { "id": "c1", "check": "The surface is a rounded slab inset from both viewport edges, not full-bleed", "critical": true },
+        { "id": "c2", "check": "Corner radius is fully rounded relative to slab height (56px on a 60px slab)", "critical": true },
+        { "id": "c3", "check": "Surface is a pseudo-element or background layer behind the content, so content geometry is unchanged between states", "weight": 1 },
+        { "id": "c4", "check": "Inset scales with the root: 24px/10px at 1440, 19.5px/8.1px at 834, 8.3px/0 at 390", "weight": 1 },
+        { "id": "c5", "check": "A single soft shadow, about 1px offset and low opacity, sits under the slab", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .topNav::before { position:absolute; top:1rem; left:2.4rem; width:calc(100% - 4.8rem); height:6rem; background:rgb(245,244,223); border-radius:56px; box-shadow: rgba(0,0,0,0.23) 0px 1px 1px; opacity:1; transition: opacity .3s var(--ease-out-cubic) .8s; z-index:-1 }",
+        "measured 1440: ::before resolves to top 10px, left 24px, width 1392px, height 60px, bg rgb(245,244,223), radius 56px",
+        "measured 834: top 8.14px, left 19.55px, width 794.9px, height 48.86px, radius 56px",
+        "measured 390: top 0px, left 8.32px, width 373.36px, height 47.83px, radius 56px",
+        "authored: .hero .topNav::before { opacity:0; transition: opacity .4s var(--ease-out-cubic) }"
+      ]
+    },
+    {
+      "id": "layered_panel_unroll",
+      "name": "Layered panel unroll",
+      "kind": "move",
+      "description": "Opening the menu does not fade a panel in. A full-width colour slab unrolls downward from behind the bar, and behind it four stacked colour bands — pink, orange, blue, dark blue, at 50/70/100/100% heights — retract upward in sequence (scaleY to 0) with staggered timing. The overlapping travel of the slab and the bands is what produces the accordion feel; the colours are glimpsed as the bands collapse.",
+      "entry_test": "Replace the layered unroll with a simple fade and the menu becomes an ordinary overlay; the sequenced colour bands sliding against each other are the gesture that makes this menu recognisable.",
+      "anchor": { "type": "selector", "value": "[class*='__overlay'], [class*='overlayLayer'], [class*='__background']" },
+      "recipe": "Stack inside the nav, absolutely positioned, all starting at translateY(-100%) with height calc(100% + 1.2rem) so a 1.2rem lip stays hidden above. Open: set the slab and overlay to translateY(0) with transform .7s cubic-bezier(.65,0,.35,1) (in-out-cubic) and no delay; set each overlayLayer to scaleY(0) with transformOrigin center bottom, at .88s / 1.01s / .75s delay .32s / .75s delay .45s for layers 1-4. Because the layers sit at z-index 4/3/2/1 and the slab at z-index 2, the bands peel away upward as the slab arrives. Layer heights and colours: layer 1 pink #FFD9C9 at 50%, layer 2 orange #EB6110 at 70%, layer 3 blue #007AE5 at 100%, layer 4 dark blue #1C3F99 at 100%. Reversed durations on close are authored separately (.73s / .9s / .63s / .52s with delays .25s / .105s / .105s / 0).",
+      "checks": [
+        { "id": "c1", "check": "Panel opens by expanding from behind the bar, not by fading in place", "critical": true },
+        { "id": "c2", "check": "At least three stacked colour layers retract in sequence with distinct delays", "critical": true },
+        { "id": "c3", "check": "Layers use scaleY with transform-origin at bottom, so they peel upward", "weight": 1 },
+        { "id": "c4", "check": "Layer heights differ (50% / 70% / 100% / 100% observed)", "weight": 1 },
+        { "id": "c5", "check": "Panel expands over about 700ms with an in-out curve", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .overlayLayer:first-child { height:50%; background:var(--color-pink); transition: transform .73s var(--ease-in-out-cubic) .25s; z-index:4 }",
+        "authored: .overlayLayer:nth-child(2) { height:70%; background:var(--color-orange); transition: transform .9s var(--ease-in-out-cubic) .105s; z-index:3 }",
+        "authored: .overlayLayer:nth-child(3) { height:100%; background:var(--color-blue); transition: transform .63s var(--ease-in-out-cubic) .105s; z-index:2 }",
+        "authored: .overlayLayer:nth-child(4) { height:100%; background:var(--color-dark-blue); transition: transform .52s var(--ease-in-out-cubic); z-index:1 }",
+        "authored: .open .overlayLayer { transform: scaleY(0) } with .overlayLayer { transform-origin: center bottom }",
+        "authored: .open .background, .open .overlay { transform: translateY(0); transition: transform .7s var(--ease-in-out-cubic) }",
+        "sampled via getAnimations at 9ms after click: overlayLayer transforms at 880ms, 1010ms, 750ms delay 320ms, 750ms delay 450ms; background and overlay at 700ms",
+        "measured open at 1440: overlay height 652.6px, nav height 640.6px"
+      ]
+    },
+    {
+      "id": "opener_morph",
+      "name": "Opener morphs to close",
+      "kind": "move",
+      "description": "The menu control is two thin bars that cross into a close glyph. The same button rotates its own lines 45 degrees in opposite directions and re-colours them from black to white as the panel's blue surface arrives behind it, while the current-page label slides out to the right and fades, and the close label fades in.",
+      "entry_test": "Swap the morph for an icon replacement and the control stops being part of the motion language; the bars crossing in place is what ties the button to the panel it opens.",
+      "anchor": { "type": "selector", "value": "[class*='menuOpener']" },
+      "recipe": "Build the control as a 3.3rem square button with two absolutely positioned pseudo-element bars, each 3.3rem wide, 2px tall, border-radius 100px, at top calc(50% - 2.5px) and calc(50% + 2.5px), both centred with translate(-50%,-50%). Open state: both bars take width 100%, the first moves translateY(2.5px) and the second translateY(-2.5px) so they meet on the centre line, then each rotates 45 degrees in opposite directions; bars animate transform .7s cubic-bezier(.65,0,.35,1). Colour changes black to white over .4s ease-out-cubic, with the width change on a .3s delay. The button itself translates -1.6rem left so the pair stays optically centred against the incoming label. The current-page label leaves with transform .4s in-out-cubic translate(2rem) plus opacity 0, and the close label arrives on a 200ms delay.",
+      "checks": [
+        { "id": "c1", "check": "Open control is two bars rotated into a cross, in the same button position", "critical": true },
+        { "id": "c2", "check": "Bar colour flips to the colour that reads against the open panel", "weight": 1 },
+        { "id": "c3", "check": "Current-page label fades out and slides as the panel opens", "weight": 1 },
+        { "id": "c4", "check": "Bar rotation runs about 700ms on an in-out curve", "weight": 1 },
+        { "id": "c5", "check": "Two bars animate at the same duration so the cross forms symmetrically", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .menuOpener { position:relative; width:3.3rem; height:3.3rem; transition: width .4s var(--ease-out-cubic), height .4s var(--ease-out-cubic), background-color .4s var(--ease-out-cubic) .4s, transform .7s var(--ease-in-out-back), box-shadow .4s var(--ease-out-cubic) 1s, transform .4s var(--ease-out-cubic) 0s }",
+        "authored: .menuOpener::before { top:calc(50% - 2.5px); left:50%; transform:translate(-50%,-50%) } and ::after { top:calc(50% + 2.5px); left:50%; transform:translate(-50%,-50%) }",
+        "authored: .open .menuOpener::before { transform: translate(-50%,-50%) translateY(2.5px) } and ::after { transform: translate(-50%,-50%) translateY(-2.5px) } with width 100%",
+        "authored: .open .menuOpener::before, .open .menuOpener::after { background-color: var(--color-white) }",
+        "authored: .open .currentPage { transform: translate(2rem); opacity: 0 }",
+        "authored: .open .menuOpener { transform: translate(-1.6rem) }",
+        "sampled: menuOpener transform animation 700ms; currentPage opacity 400ms; menuClose opacity 400ms delay 200ms"
+      ]
+    },
+    {
+      "id": "panel_link_stagger",
+      "name": "Staggered link arrival",
+      "kind": "move",
+      "description": "The panel's link lists do not appear together. Each link rises from below (translateY) while fading in, and the three lists are staggered against each other — the main links come up first and fast, the sub-links and social links follow much later on a long, slow, decelerating curve.",
+      "entry_test": "Land every link at once and the panel loses its unrolling feel; the stagger is what makes the panel read as still settling after the surface has arrived.",
+      "anchor": { "type": "selector", "value": "[class*='navMainLinks'] li, [class*='navSubLinks'] li, [class*='navSocialLinks'] li" },
+      "recipe": "Seed the links below and invisible, then clear on open. Main links: li at transform translateY(4rem), opacity 0, cleared with opacity 50ms cubic-bezier(.32,0,.67,0) and transform 667ms cubic-bezier(.2,.21,0,1); the per-item delay steps by 83ms (820, 903, 986, 1069, 1152ms measured). Sub links: li at translateY(1rem), cleared with opacity .4s in-out-cubic and transform 2.4s cubic-bezier(.16,1,.3,1), delay starting 800ms and stepping 100ms. Social links: li at translateY(1.5rem), same 2.4s curve and 100ms steps. The long 2.4s transform on the lower lists is deliberate: it lingers so the panel appears to keep opening after the colour surface has stopped. Never give the three lists the same duration or the same delay base.",
+      "checks": [
+        { "id": "c1", "check": "Panel links animate in individually rather than appearing with the panel", "critical": true },
+        { "id": "c2", "check": "Main links use a faster curve and shorter duration than the sub/social lists", "critical": true },
+        { "id": "c3", "check": "Per-item delay steps are uniform within a list (83ms for main, 100ms for sub/social observed)", "weight": 1 },
+        { "id": "c4", "check": "Links rise from below via translateY, not a fade alone", "weight": 1 },
+        { "id": "c5", "check": "The lowest list still uses a decelerating ease-out-expo curve", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .navMainLinks li { transform: translateY(4rem); opacity:0; transition: opacity linear .8s, transform linear 1s }",
+        "authored: .animateIn .navMainLinks li { transform: translateY(0); opacity:1; transition: opacity 50ms var(--ease-in-cubic), transform .667s var(--ease-snappy) }",
+        "authored: .animateIn .navSubLinks li, .animateIn .navSocialLinks li { transition: opacity .4s var(--ease-in-out-cubic) 2s, transform 2.4s var(--ease-out-expo) 2s }",
+        "authored: .navSubLinks li { transform: translateY(1rem) } and .navSocialLinks li { transform: translateY(1.5rem) }",
+        "sampled per-item opacity delays: 820, 903, 986, 1069, 1152ms — an 83ms step",
+        "sampled per-item transform: 667ms cubic-bezier(.2,.21,0,1); sub/social li transform 2400ms cubic-bezier(.16,1,.3,1) at delays 800, 900, 1000ms"
+      ]
+    },
+    {
+      "id": "bar_content_reskin",
+      "name": "Bar content restyles per state",
+      "kind": "move",
+      "description": "The bar's own contents change colour and position by state so they always read against whatever surface is behind them: dark on the cream pill, dark on the orange hero with white opener bars, white on the blue open panel. The current-page label and the opener are the elements that move; the logo shifts aside to reveal the wordmark when the panel is open.",
+      "entry_test": "Keep one content treatment across all four states and the bar becomes illegible on at least two of them; the per-state restyling is what lets one bar live on four surfaces.",
+      "anchor": { "type": "selector", "value": "[class*='topNavLeft'], [class*='currentPage'], [class*='logo'], [class*='menuOpener']" },
+      "recipe": "Tie content colour to the state class, not to a media query. On hero templates the default state paints the opener bars with the white token and widens the left group gap to 4.6rem. In the open state the current-page label slides out entirely and the logo slides -4.6rem left while its wordmark fades in and its SVG slides from translate(-100%) to 0 over .5s cubic-bezier(.2,.21,0,1), revealing 'Joby'. In the pill state the content is dark on cream. The bar itself never changes height between default, pill and open — only the surface and the content change.",
+      "checks": [
+        { "id": "c1", "check": "Bar content colour differs per surface so it stays legible in all four states", "critical": true },
+        { "id": "c2", "check": "Current-page label is removed from the bar when the panel is open", "weight": 1 },
+        { "id": "c3", "check": "Logo reveals its wordmark on open by sliding the mark aside and unmasking the text", "weight": 1 },
+        { "id": "c4", "check": "Bar height is unchanged between default, pill and open states", "weight": 1 },
+        { "id": "c5", "check": "Hero templates use a distinct content treatment from the plain default (white opener bars)", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .topNav .menuOpener::before, .topNav .menuOpener::after { background-color: var(--color-black) }",
+        "authored: .hero .menuOpener::before, .hero .menuOpener::after { background-color: var(--color-white) } and .hero-dark:not(.open) .menuOpener::before { background-color: var(--color-black) }",
+        "authored: .hero .topNavLeft, .hero-dark .topNavLeft { gap: 4.6rem }",
+        "authored: .open .currentPage { transform: translate(2rem); opacity: 0 }",
+        "authored: .open .logo { transform: translate(-4.6rem) } with .open .logo .logoText { opacity:1; transition: opacity .5s var(--ease-out-cubic) .1s } and .logoText svg { transform: translate(0) }",
+        "measured bar height 80px at 1440 in default, pill and open states alike; nav root class list 'nav hero open animateIn' in the open state"
+      ]
+    },
+    {
+      "id": "panel_on_page_grid",
+      "name": "Panel sits on the page grid",
+      "kind": "move",
+      "description": "The open panel's contents are laid out on the same 16-column grid with the same gutter and base padding as the rest of the page, so the menu is a page surface rather than a bespoke overlay. Panel padding is fluid — expressed against viewport height — so the panel grows with short and tall viewports alike.",
+      "entry_test": "Lay the panel out free-form and it stops reading as part of the site; sharing the page's grid and padding is what makes the overlay feel like a room in the same building.",
+      "anchor": { "type": "selector", "value": "[class*='navOpen']" },
+      "recipe": "navOpen is display grid with grid-template-columns repeat(var(--grid-columns), 1fr) and column-gap var(--gutter-width), padding 0 var(--base-padding); with --grid-columns 16, --gutter-width 1.6rem and --base-padding 4rem those resolve to a 16-track grid, 16px gutter and 40px side padding at a 10px root. Vertical padding is fluid: min(16rem, 17.7vh) var(--base-padding) 8rem. At 390 the tokens change only in base padding (1.6rem, i.e. 16.64px) while the column count and gutter token hold. Panel height is content-driven (fit-content) — 560.6px at 1440, 457.2px at 834, 773.3px at 390 — and is NOT a fixed viewport fraction at desktop; only the mobile viewport is effectively filled.",
+      "checks": [
+        { "id": "c1", "check": "Panel uses the same column count as the page (16) and its gutter token", "critical": true },
+        { "id": "c2", "check": "Panel side padding uses the shared base-padding token, not a bespoke value", "weight": 1 },
+        { "id": "c3", "check": "Panel top padding is fluid against viewport height, capped at a rem maximum", "weight": 1 },
+        { "id": "c4", "check": "Panel height is content-driven, not a hard-coded fraction of the viewport", "weight": 1 },
+        { "id": "c5", "check": "Column count and gutter tokens are shared with the page rather than redeclared", "weight": 1 }
+      ],
+      "evidence": [
+        "authored: .navOpen { width:100%; padding: 0 var(--base-padding); margin: 0 auto; display:grid; gap: 0 var(--gutter-width); grid-template-columns: repeat(var(--grid-columns), 1fr) }",
+        "authored: .navOpen { padding: min(16rem,17.7vh) var(--base-padding) 8rem var(--base-padding); opacity:0; display:none; transition: display 2s allow-discrete, opacity linear .4s }",
+        "resolved tokens at 1440 (root 10px): --grid-columns 16, --gutter-width 1.6rem = 16px, --base-padding 4rem = 40px",
+        "resolved at 390 (root 10.4px): --grid-columns 16, --gutter-width 1.6rem = 16.64px, --base-padding 1.6rem = 16.64px",
+        "measured panel heights: 560.6px at 1440x900, 457.2px at 834x1112, 773.3px at 390x844 against viewport heights 900 / 1112 / 844",
+        "no numeric grid-template-columns resolves on navOpen at rest (display:none); tracks resolve only in the open state"
+      ]
+    },
+    {
+      "id": "fluid_root_scale",
+      "name": "Fluid rem root",
+      "kind": "move",
+      "description": "The whole header — bar height, pill inset, radius, control sizes, type — is authored in rem against a root font-size that itself scales with the viewport. At 1440 the root is 10px, at 834 it is 8.14px, at 390 it is 10.4px. Everything therefore shrinks and grows as one system without a single media-query override for the header's internals.",
+      "entry_test": "Pin the root at 16px and every nav value needs its own breakpoint; the fluid root is what makes the whole header collapse proportionally.",
+      "anchor": { "type": "selector", "value": "html" },
+      "recipe": "Set the html font-size fluidly (a vw-derived value with clamps) and author the header exclusively in rem. Measured roots: 10px at 1440w, 8.14453px at 834w, 10.4px at 390w. Bar height 8rem therefore renders 80px / 65.2px / 83.2px; the pill inset 2.4rem renders 24px / 19.5px / 25px; the opener 3.3rem renders 33px / 26.9px / 34.3px. Note the root is not monotonic with width — it dips at 834 and rises at 390 — because the middle tier scales the root down while the mobile tier raises it again; preserve that shape rather than replacing it with a monotonic ramp.",
+      "checks": [
+        { "id": "c1", "check": "Header dimensions are authored in rem, not px", "critical": true },
+        { "id": "c2", "check": "Root font-size varies with viewport (10px / 8.14px / 10.4px observed)", "weight": 1 },
+        { "id": "c3", "check": "Bar height, pill inset and control sizes all scale together with the root", "weight": 1 },
+        { "id": "c4", "check": "No per-breakpoint override is needed for header internals", "weight": 1 },
+        { "id": "c5", "check": "Border-radius is authored in px (56px) so the pill stays fully rounded at every root size", "weight": 1 }
+      ],
+      "evidence": [
+        "measured html font-size: 10px at 1440w, 8.14453px at 834w, 10.4px at 390w",
+        "authored: .topNav { height: 8rem; padding: 0 var(--base-padding) }",
+        "authored: .menuOpener { width: 3.3rem; height: 3.3rem }",
+        "authored: .topNav::before { top:1rem; left:2.4rem; width:calc(100% - 4.8rem); height:6rem; border-radius:56px }",
+        "rendered bar heights: 80px at 1440, 65.2px at 834, 47.8px at 390 — the 390 bar renders 4.8rem against a 10.4px root",
+        "rendered opener: 33px at 1440, 26.9px at 834, 34.3px at 390"
+      ]
+    },
+    {
+      "id": "direction_easing_library",
+      "name": "A named easing library",
+      "kind": "component",
+      "description": "Every motion in the header draws from a small named set of custom-property easings rather than ad-hoc cubic-beziers: an in-out cubic for surfaces, an out-cubic for arriving content, an ease-in for departing content, an out-expo for the long link settle, a snappy for the fast link rise, and a back curve used once for the opener. Durations cluster at 300-400ms for controls and 520-1010ms for the panel.",
+      "entry_test": "Replace the named set with per-rule beziers and the header's motion stops being one language; the shared vocabulary is what makes four different animations read as one system.",
+      "anchor": { "type": "selector", "value": ":root" },
+      "recipe": "Declare the easing set once on :root and reference it by name everywhere: --ease-in-out-cubic cubic-bezier(.65,0,.35,1) for surfaces and panel travel; --ease-out-cubic cubic-bezier(.33,1,.68,1) for content arriving; --ease-in-cubic cubic-bezier(.32,0,.67,0) for content leaving; --ease-out-expo cubic-bezier(.16,1,.3,1) for the long link settle; --ease-snappy cubic-bezier(.2,.21,0,1) for the fast link rise; --ease-in-out-back cubic-bezier(.68,-.6,.32,1.6) reserved for the opener; --ease-out-curve-cubic cubic-bezier(.35,.2,0,1). Keep control durations in a 200-400ms band and panel durations in a 500-1010ms band; nothing in the header runs longer than about 2.4s, and that exception is the deliberate linger on the lowest link list.",
+      "checks": [
+        { "id": "c1", "check": "Easings are declared as named custom properties and referenced, not repeated inline", "critical": true },
+        { "id": "c2", "check": "At least four distinct named curves are in use across surfaces, arrivals and departures", "weight": 1 },
+        { "id": "c3", "check": "Surfaces use an in-out curve; arriving content uses an ease-out; departing content uses an ease-in", "weight": 1 },
+        { "id": "c4", "check": "Control transitions sit in a 200-400ms band and panel transitions in a 500-1010ms band", "weight": 1 },
+        { "id": "c5", "check": "The overshoot back-curve is used sparingly (one control), not across the panel", "weight": 1 }
+      ],
+      "evidence": [
+        "resolved :root tokens: --ease-power4-inOut cubic-bezier(.77,0,.175,1); --ease-out-cubic cubic-bezier(.33,1,.68,1); --ease-in-out-cubic cubic-bezier(.65,0,.35,1); --ease-out-curve-cubic cubic-bezier(.35,.2,0,1); --ease-snappy cubic-bezier(.2,.21,0,1); --ease-in-cubic cubic-bezier(.32,0,.67,0); --ease-out-expo cubic-bezier(.16,1,.3,1); --ease-in-out-back cubic-bezier(.68,-.6,.32,1.6); --link-transition transform .3s cubic-bezier(.165,.84,.44,1)",
+        "control durations: pill fade .3s and .4s; currentPage .4s; menuClose .4s; topNav transform .4s; menuOpener .7s",
+        "panel durations: background/overlay .7s; overlayLayer .88s, 1.01s, .75s, .75s; link transform .667s and 2.4s"
+      ]
+    }
+  ],
+  "aspects": [
+    {
+      "id": "layout",
+      "scales": [
+        { "id": "density", "poles": ["airy", "packed"], "value": 5.0, "evidence": ["bar is 80px tall holding three small content groups with the middle group absolutely centred; open panel is 560.6px tall at 1440 holding three link lists, 5 main links at 45px pitch"], "confidence": "medium" },
+        { "id": "grid_discipline", "poles": ["free-form", "strict grid"], "value": 8.5, "evidence": ["the open panel is a 16-track grid sharing the page's --grid-columns, --gutter-width and --base-padding tokens; the bar itself is a three-part flex with one absolutely centred group rather than a grid"], "confidence": "high", "note": "the panel is strictly gridded; the bar is deliberately not, because its three groups need independent optical centring" },
+        { "id": "symmetry", "poles": ["asymmetric", "centered"], "value": 6.0, "evidence": ["the logo is absolutely centred with translate(-50%,-50%) and stays centred at every width; left and right groups are unequal in size (left 138.5px, right 88.9px at 1440) but balanced around the centre axis; the pill is symmetric with equal 24px insets"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "bar_height_rem", "slot": "bar_height", "kind": "number", "value": 8, "unit": "rem", "tolerance_pct": 2, "usage": "the bar's height token; renders 80px at a 10px root", "evidence": [".topNav height 8rem; measured 80px at 1440, 65.2px at 834"] },
+        { "id": "bar_rest_offset", "slot": "bar_rest_offset", "kind": "number", "value": 6, "unit": "px", "tolerance_pct": 20, "usage": "the bar sits 0.6rem low at rest rather than flush to the viewport top", "evidence": ["settled topNav transform matrix(1,0,0,1,0,6) at scrollY 0 at 1440w"] },
+        { "id": "retract_travel", "slot": "retract_travel", "kind": "number", "value": -105, "unit": "%", "tolerance_pct": 5, "usage": "how far the bar travels up when hidden", "evidence": ["authored translateY(-100%); measured 0 to -84px on an 80px bar"] },
+        { "id": "pill_radius", "slot": "pill_radius", "kind": "number", "value": 56, "unit": "px", "tolerance_pct": 1, "usage": "pill corner radius; authored in px so it stays fully rounded at every root size", "evidence": [".topNav::before border-radius 56px; measured radius 56px at 1440, 834 and 390 alike"] },
+        { "id": "pill_inset_x", "slot": "pill_inset_x", "kind": "number", "value": 24, "unit": "px", "tolerance_pct": 10, "usage": "horizontal inset of the pill from the viewport edge at a 10px root (2.4rem)", "evidence": [".topNav::before left 2.4rem; measured left 24px at 1440, 19.55px at 834, 8.32px at 390"] },
+        { "id": "pill_inset_y", "slot": "pill_inset_y", "kind": "number", "value": 10, "unit": "px", "tolerance_pct": 10, "usage": "vertical inset of the pill inside the bar (1rem top)", "evidence": [".topNav::before top 1rem; measured top 10px at 1440, 8.14px at 834, 0px at 390"] },
+        { "id": "pill_height", "slot": "pill_height", "kind": "number", "value": 60, "unit": "px", "tolerance_pct": 10, "usage": "slab height inside the 80px bar (6rem)", "evidence": [".topNav::before height 6rem; measured 60px at 1440, 48.86px at 834, 47.83px at 390"] },
+        { "id": "opener_size", "slot": "opener_size", "kind": "number", "value": 33, "unit": "px", "tolerance_pct": 10, "usage": "the menu control's square footprint (3.3rem)", "evidence": [".menuOpener width/height 3.3rem; measured 33px at 1440, 26.9px at 834, 34.3px at 390"] },
+        { "id": "opener_bar_thickness", "slot": "opener_bar_thickness", "kind": "number", "value": 2, "unit": "px", "tolerance_pct": 1, "usage": "thickness of each bar in the opener glyph; authored in px, not rem", "evidence": [".menuOpener::before/::after height 2px"] },
+        { "id": "opener_bar_gap", "slot": "opener_bar_gap", "kind": "number", "value": 5, "unit": "px", "tolerance_pct": 20, "usage": "centre-to-centre distance between the two opener bars (2.5px each side of centre)", "evidence": ["::before top calc(50% - 2.5px); ::after top calc(50% + 2.5px)"] },
+        { "id": "panel_columns", "slot": "panel_columns", "kind": "number", "value": 16, "tolerance_pct": 1, "usage": "the open panel's column count, shared with the page", "evidence": ["--grid-columns resolves to 16 at every width; .navOpen uses repeat(var(--grid-columns), 1fr)"] },
+        { "id": "panel_gutter", "slot": "panel_gutter", "kind": "number", "value": 16, "unit": "px", "tolerance_pct": 1, "usage": "column gutter, shared with the page (1.6rem)", "evidence": ["--gutter-width 1.6rem; resolves to 16px at a 10px root"] },
+        { "id": "panel_side_padding", "slot": "panel_side_padding", "kind": "number", "value": 40, "unit": "px", "tolerance_pct": 1, "usage": "panel side padding at a 10px root (4rem); drops to 1.6rem on mobile", "evidence": [".navOpen padding 0 var(--base-padding); --base-padding 4rem at 1440, 1.6rem at 390"] },
+        { "id": "panel_top_padding", "slot": "panel_top_padding", "kind": "identity", "value": "min(16rem, 17.7vh)", "usage": "fluid top padding so the panel grows with viewport height", "evidence": [".navOpen padding min(16rem,17.7vh) var(--base-padding) 8rem"] },
+        { "id": "panel_bottom_padding", "slot": "panel_bottom_padding", "kind": "number", "value": 80, "unit": "px", "tolerance_pct": 10, "usage": "panel bottom padding at a 10px root (8rem)", "evidence": [".navOpen padding-bottom 8rem"] },
+        { "id": "panel_height_1440", "slot": "panel_height", "kind": "number", "value": 560.6, "unit": "px", "tolerance_pct": 5, "usage": "content-driven panel height at 1440x900; NOT a fixed viewport fraction", "evidence": ["measured navOpenWrapper height 560.6px at 1440x900 (62% of viewport height)"] },
+        { "id": "overlay_lip", "slot": "overlay_lip", "kind": "number", "value": 12, "unit": "px", "tolerance_pct": 1, "usage": "the 1.2rem of panel height hidden above the bar so its top edge never shows during travel", "evidence": [".background and .overlay height calc(100% + 1.2rem); .background::after height 1.2rem"] },
+        { "id": "logo_size", "slot": "logo_size", "kind": "number", "value": 51, "unit": "px", "tolerance_pct": 5, "usage": "logo mark width at a 10px root (5.1rem); height 3.2rem", "evidence": [".logo width 5.1rem; measured 51x32px at 1440"] },
+        { "id": "root_font_size", "slot": "root_font_size", "kind": "number", "value": 10, "unit": "px", "tolerance_pct": 15, "usage": "the fluid rem root the whole header is authored against; measured 10px at 1440, 8.14px at 834, 10.4px at 390", "evidence": ["getComputedStyle(html).fontSize 10px at 1440w, 8.14453px at 834w, 10.4px at 390w"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "every header dimension is authored in rem against the fluid root; only the pill radius, the opener bar thickness and the icon grid stay in px" },
+        { "kind": "always", "rule": "the pill keeps equal horizontal insets on both sides" },
+        { "kind": "always", "rule": "the bar's height is constant across default, pill and open states" },
+        { "kind": "never", "rule": "the pill touches the viewport edges; it is always an inset floating slab" },
+        { "kind": "never", "rule": "the open panel's height is hard-coded as a fraction of the viewport" },
+        { "kind": "never", "rule": "the panel's top edge is visible during travel; the overheight lip hides it" }
+      ],
+      "directives": [
+        "set the bar to 8rem tall with padding 0 var(--base-padding) and a rest offset of 0.6rem",
+        "draw the pill as a pseudo-element at top 1rem, left 2.4rem, width calc(100% - 4.8rem), height 6rem, radius 56px",
+        "lay the open panel on the shared 16-column grid with the shared gutter and base padding; give it fluid top padding min(16rem, 17.7vh) and 8rem bottom",
+        "author everything in rem so the whole header scales with the fluid root"
+      ]
+    },
+    {
+      "id": "structure",
+      "scales": [
+        { "id": "hierarchy_depth", "poles": ["flat", "deep"], "value": 2.5, "evidence": ["top level is one flat row of three groups (left actions, centred logo, right CTA); the open panel adds exactly one level of grouping — main links 64px, sub and social links 16-20px — with no third tier"], "confidence": "high" },
+        { "id": "rhythm", "poles": ["uniform", "syncopated"], "value": 7.0, "evidence": ["four states with four different geometries; the panel's three link lists each carry a different duration and delay base (667ms with 83ms steps, 2.4s with 100ms steps, 2.4s with 100ms steps); the four colour bands travel at 880/1010/750/750ms"], "confidence": "high" },
+        { "id": "component_voice", "poles": ["borderless", "framed"], "value": 3.0, "evidence": ["no borders anywhere; surfaces are a filled pill, full-width colour bands and a scrim; the only edge treatment is a 1.5px underline that scales in on link hover and a 1px hairline under sub-links"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "nav_z_index", "slot": "nav_z_index", "kind": "number", "value": 100, "tolerance_pct": 1, "usage": "nav root stacking level; the bar itself sits at 10 inside it", "evidence": ["nav root z-index 100; topNav z-index 10; overlay z-index 2; backgroundOverlay z-index -1"] },
+        { "id": "bar_structure", "slot": "bar_structure", "kind": "enum", "value": ["left (opener + current page)", "centre (logo, absolutely centred)", "right (CTA)"], "usage": "the bar's three-part composition", "evidence": ["topNav display flex with justify-content space-between; topNavMiddle position absolute at top 50% left 50% with translate(-50%,-50%)"] },
+        { "id": "panel_lists", "slot": "panel_lists", "kind": "enum", "value": ["main links", "sub links", "social links"], "usage": "the three list groups in the open panel, each with its own animation timing", "evidence": ["navMainLinks, navSubLinks, navSocialLinks each carry distinct li transitions"] },
+        { "id": "overlay_layers", "slot": "overlay_layers", "kind": "enum", "value": ["4"], "usage": "number of stacked colour bands behind the panel", "evidence": ["four .overlayLayer children with z-index 4,3,2,1 and heights 50%,70%,100%,100%"] },
+        { "id": "scrim_opacity", "slot": "scrim_opacity", "kind": "number", "value": 0.6, "tolerance_pct": 5, "usage": "dark scrim opacity behind the open panel; the nav dropdown variant uses 0.4", "evidence": ["measured backgroundOverlay opacity 0.6 in the open state at all three widths; authored 0 for closed, 0.4 for .dropwdownOpen"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the logo group is centred on the bar's centre axis, not laid out as a flex sibling" },
+        { "kind": "always", "rule": "the open panel resolves to at most two levels of link hierarchy" },
+        { "kind": "never", "rule": "the open panel stacks more than four colour bands" },
+        { "kind": "never", "rule": "a border is used to separate header groups; separation is by space and surface" }
+      ],
+      "directives": [
+        "compose the bar as left actions, an absolutely centred logo and a right CTA at z-index 10 inside a nav root at z-index 100",
+        "give each of the three panel link lists its own animation timing rather than sharing one",
+        "show the dark scrim at 0.6 behind the open panel and hide it entirely when closed"
+      ]
+    },
+    {
+      "id": "type",
+      "scales": [
+        { "id": "scale_contrast", "poles": ["even", "dramatic"], "value": 7.5, "evidence": ["within the header the range is small (12-16px labels, 12px pill label) but the open panel jumps to 64px main links against 16-20px sub and social links — a 4.0x span inside one component"], "confidence": "high" },
+        { "id": "weight_voice", "poles": ["light", "heavy"], "value": 5.0, "evidence": ["weights in the header run 400, 450 and 500 only — no bold and nothing below 400"], "confidence": "high" },
+        { "id": "family_register", "poles": ["editorial", "utilitarian"], "value": 8.0, "evidence": ["two neutral sans families only: jobyDisplay for panel headings and the wordmark, jobyText for labels and links; no serif, no mono"], "confidence": "high" },
+        { "id": "tracking_case", "poles": ["sentence-case", "all-caps/wide"], "value": 1.5, "evidence": ["every header label is sentence or title case with no uppercase transform; tracking is negative where set (-0.14px at 14px, -0.24px at 12px)"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "label_size", "slot": "label_size", "kind": "number", "value": 14, "unit": "px", "tolerance_pct": 1, "usage": "current-page label and header links, including the pill CTA at 1440w", "evidence": ["currentPage and right link computed font-size 14px, weight 450, letter-spacing -0.14px"] },
+        { "id": "small_label_size", "slot": "small_label_size", "kind": "number", "value": 12, "unit": "px", "tolerance_pct": 1, "usage": "secondary header labels such as Share and the pill button text", "evidence": ["12px/450/-0.24px found in the header census"] },
+        { "id": "panel_link_size", "slot": "panel_link_size", "kind": "number", "value": 64, "unit": "px", "tolerance_pct": 1, "usage": "main panel links at the 1440 fixed tier", "evidence": ["panel main link spans render at 64px/500 with line-height 64px; each li box measures 45.1px tall for a single line"] },
+        { "id": "panel_sub_size", "slot": "panel_sub_size", "kind": "number", "value": 20, "unit": "px", "tolerance_pct": 10, "usage": "sub-panel links at 1440w", "evidence": ["'Fly Blade', 'Electric Skies', 'Joby Shop' computed 20px/500, family jobyDisplay"] },
+        { "id": "panel_social_size", "slot": "panel_social_size", "kind": "number", "value": 20, "unit": "px", "tolerance_pct": 10, "usage": "social and sub links in the panel at 1440w", "evidence": ["social list entries computed 20px/500"] },
+        { "id": "panel_link_leading", "slot": "panel_link_leading", "kind": "number", "value": 1.0, "tolerance_pct": 5, "usage": "panel main links are set solid", "evidence": ["panel main link spans 64px font-size against 64px line-height"] },
+        { "id": "panel_link_pitch", "slot": "panel_link_pitch", "kind": "number", "value": 69.1, "unit": "px", "tolerance_pct": 8, "usage": "vertical distance between successive main panel links at 1440w", "evidence": ["measured li y positions 239.3, 308.4, 377.4, 446.5, 515.5 — a 69.1px step"] },
+        { "id": "display_family", "slot": "display_family", "kind": "identity", "value": "jobyDisplay", "usage": "panel main links, sub links and the logo wordmark", "evidence": ["panel link computed font-family resolves to jobyDisplay"] },
+        { "id": "text_family", "slot": "text_family", "kind": "identity", "value": "jobyText", "usage": "bar labels, current-page label, social links and privacy links", "evidence": ["currentPage and social list computed font-family resolves to jobyText"] },
+        { "id": "weight_set", "slot": "weight_set", "kind": "enum", "value": ["400", "450", "500"], "usage": "closed weight set for the header", "evidence": ["weights observed in the header: 400 (panel list items), 450 (labels), 500 (display links and wordmark)"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "header label type is 14px or smaller; the pill's own label is the smallest text in the header" },
+        { "kind": "always", "rule": "the open panel's main links are set solid at line-height equal to font-size" },
+        { "kind": "never", "rule": "uppercase or positive tracking anywhere in the header" },
+        { "kind": "never", "rule": "a weight outside 400/450/500" },
+        { "kind": "never", "rule": "more than two type families" }
+      ],
+      "directives": [
+        "set bar labels at 14px/450 and secondary labels at 12px/450",
+        "set panel main links at 64px/500 solid at the fixed tier, and sub/social links at 20px/500",
+        "keep all header copy sentence or title case with negative tracking"
+      ]
+    },
+    {
+      "id": "color",
+      "scales": [
+        { "id": "base_polarity", "poles": ["light canvas", "dark canvas"], "value": 6.0, "evidence": ["state-dependent: the pill state is a light cream slab (rgb(245,244,223)), the open state is a saturated blue panel (rgb(0,122,229)) with a dark scrim; default has no surface at all"], "confidence": "high", "note": "the header has no single canvas — polarity is chosen per state" },
+        { "id": "temperature", "poles": ["cool", "warm"], "value": 5.0, "evidence": ["the palette spans both: cool blue #007AE5 and dark blue #1C3F99 against warm orange #EB6110 and pink #FFD9C9, with a neutral cream #F5F4DF"], "confidence": "high" },
+        { "id": "chroma", "poles": ["muted", "vivid"], "value": 8.0, "evidence": ["the open panel runs at full saturation on brand blue; the layered bands are fully saturated orange and pink; only the cream slab is muted"], "confidence": "high" },
+        { "id": "palette_width", "poles": ["singular/duo", "many hues"], "value": 7.0, "evidence": ["six brand hues are in play across states: cream, orange, pink, blue, dark blue and near-black"], "confidence": "high" },
+        { "id": "contrast", "poles": ["soft", "hard"], "value": 7.0, "evidence": ["cream text on blue panel and near-black on cream pill are both high-contrast pairs; the only soft edge is the 1px low-opacity shadow under the pill"], "confidence": "high" },
+        { "id": "surface_finish", "poles": ["flat", "decorated"], "value": 2.0, "evidence": ["all surfaces are flat fills; no gradients, grain or texture anywhere in the header; the only depth cue is one 1px shadow under the pill"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "pill_surface", "slot": "pill_surface", "kind": "identity", "value": "#F5F4DF", "usage": "the cream slab behind the bar in the scrolled-up state", "evidence": [".topNav::before background rgb(245,244,223); --color-white is #f5f4df"] },
+        { "id": "panel_surface", "slot": "panel_surface", "kind": "identity", "value": "#007AE5", "usage": "the open panel's blue surface", "evidence": ["--color-blue #007ae5; the open panel renders blue across the full width"] },
+        { "id": "layer_colors", "slot": "layer_colors", "kind": "identity", "value": ["#FFD9C9", "#EB6110", "#007AE5", "#1C3F99"], "usage": "the four stacked bands behind the panel, in z-order from front to back", "evidence": ["overlayLayer colour tokens --color-pink, --color-orange, --color-blue, --color-dark-blue"] },
+        { "id": "scrim_color", "slot": "scrim_color", "kind": "identity", "value": "#0E1620", "usage": "the dark scrim shown behind the open panel at 0.6 opacity", "evidence": [".backgroundOverlay background var(--color-black); --color-black #0e1620"] },
+        { "id": "ink_color", "slot": "ink_color", "kind": "identity", "value": "#0E1620", "usage": "bar content colour over the cream pill and light surfaces", "evidence": ["header labels render rgb(14,22,32) over the pill state"] },
+        { "id": "on_panel_ink", "slot": "on_panel_ink", "kind": "identity", "value": "#F5F4DF", "usage": "content colour over the blue open panel", "evidence": ["panel link and label color rgb(245,244,223) against the blue surface"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "bar content colour is chosen against the current state's surface, never fixed" },
+        { "kind": "always", "rule": "at most one branded surface is visible at a time (pill, panel, or none)" },
+        { "kind": "never", "rule": "gradients, textures or glows on any header surface" },
+        { "kind": "never", "rule": "a hue outside the six-token header palette" }
+      ],
+      "directives": [
+        "fill the pill with the cream token #F5F4DF and the open panel with the brand blue #007AE5",
+        "stack the panel's four backing bands as pink #FFD9C9, orange #EB6110, blue #007AE5, dark blue #1C3F99",
+        "show the dark scrim #0E1620 at 0.6 only while the panel is open",
+        "switch content ink between the dark token and the cream token per surface"
+      ]
+    },
+    {
+      "id": "motion",
+      "scales": [
+        { "id": "energy", "poles": ["still", "kinetic"], "value": 7.5, "evidence": ["the header runs continuously with scroll: retract at 500ms, reveal at 400ms, pill fade at 300-400ms, and the open sequence runs 35 concurrent animations over about 2.4s with staggered link arrivals"], "confidence": "high" },
+        { "id": "temperament", "poles": ["functional", "expressive"], "value": 7.5, "evidence": ["the motion is decorative as well as functional: four coloured bands retract purely for the effect, links linger on a 2.4s decelerating curve long after the panel has arrived, and the opener uses an overshoot back-curve"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "retract_duration", "slot": "retract_duration", "kind": "number", "value": 500, "unit": "ms", "tolerance_pct": 10, "usage": "bar leaving on scroll down", "evidence": [".topNav.navHidden transition transform .5s var(--ease-in-cubic)"] },
+        { "id": "reveal_duration", "slot": "reveal_duration", "kind": "number", "value": 400, "unit": "ms", "tolerance_pct": 10, "usage": "bar returning on scroll up", "evidence": [".topNav transition transform .4s var(--ease-out-cubic)"] },
+        { "id": "pill_fade_hero_exit", "slot": "pill_fade", "kind": "number", "value": 300, "unit": "ms", "tolerance_pct": 10, "usage": "pill fade when leaving the hero state, on an 800ms delay", "evidence": [".topNav::before transition opacity .3s var(--ease-out-cubic) .8s"] },
+        { "id": "pill_fade_open_exit", "slot": "pill_fade", "kind": "number", "value": 400, "unit": "ms", "tolerance_pct": 10, "usage": "pill fade when the menu opens, no delay", "evidence": [".open .topNav::before transition opacity .4s var(--ease-out-cubic) 0s"] },
+        { "id": "panel_travel_duration", "slot": "panel_travel_duration", "kind": "number", "value": 700, "unit": "ms", "tolerance_pct": 10, "usage": "the panel slab's expansion", "evidence": [".open .background transition transform .7s var(--ease-in-out-cubic); sampled at 700ms"] },
+        { "id": "panel_close_travel", "slot": "panel_close_travel", "kind": "number", "value": 730, "unit": "ms", "tolerance_pct": 10, "usage": "the panel slab's retraction on close", "evidence": [".background transition transform .73s var(--ease-in-out-cubic) .26s"] },
+        { "id": "layer_durations", "slot": "layer_durations", "kind": "enum", "value": ["520", "630", "900", "730"], "usage": "the four colour bands' retract durations, back to front", "evidence": ["overlayLayer transitions .52s, .63s, .9s, .73s authored"] },
+        { "id": "layer_open_durations", "slot": "layer_open_durations", "kind": "enum", "value": ["880", "1010", "750", "750"], "usage": "the four bands' open durations with delays 0/0/320/450ms", "evidence": ["sampled via getAnimations at 9ms after click"] },
+        { "id": "link_rise_duration", "slot": "link_rise_duration", "kind": "number", "value": 667, "unit": "ms", "tolerance_pct": 5, "usage": "main panel links rising into place", "evidence": [".animateIn .navMainLinks li transform .667s var(--ease-snappy)"] },
+        { "id": "link_settle_duration", "slot": "link_settle_duration", "kind": "number", "value": 2400, "unit": "ms", "tolerance_pct": 10, "usage": "sub and social links' long decelerating settle", "evidence": [".animateIn .navSubLinks li, .animateIn .navSocialLinks li transform 2.4s var(--ease-out-expo) 2s"] },
+        { "id": "main_link_stagger", "slot": "link_stagger", "kind": "number", "value": 83, "unit": "ms", "tolerance_pct": 10, "usage": "per-item delay step for main panel links", "evidence": ["sampled opacity delays 820, 903, 986, 1069, 1152ms"] },
+        { "id": "sub_link_stagger", "slot": "link_stagger", "kind": "number", "value": 100, "unit": "ms", "tolerance_pct": 10, "usage": "per-item delay step for sub and social links", "evidence": ["sampled li delays 800, 900, 1000ms"] },
+        { "id": "opener_morph_duration", "slot": "opener_morph_duration", "kind": "number", "value": 700, "unit": "ms", "tolerance_pct": 5, "usage": "the opener bars rotating into the close cross", "evidence": [".menuOpener::before/::after transition transform .7s var(--ease-in-out-cubic); sampled at 700ms"] },
+        { "id": "scrim_duration", "slot": "scrim_duration", "kind": "number", "value": 700, "unit": "ms", "tolerance_pct": 10, "usage": "scrim fade on open", "evidence": [".open .backgroundOverlay transition opacity .7s var(--ease-in-out-cubic)"] },
+        { "id": "easing_inout", "slot": "easing", "kind": "identity", "value": "cubic-bezier(.65,0,.35,1)", "usage": "surfaces, panel travel, opener morph, scrim", "evidence": ["--ease-in-out-cubic resolved on :root"] },
+        { "id": "easing_out", "slot": "easing", "kind": "identity", "value": "cubic-bezier(.33,1,.68,1)", "usage": "content arriving and the bar's return", "evidence": ["--ease-out-cubic resolved on :root"] },
+        { "id": "easing_in", "slot": "easing", "kind": "identity", "value": "cubic-bezier(.32,0,.67,0)", "usage": "the bar's departure and the links' fast fade-in", "evidence": ["--ease-in-cubic resolved on :root"] },
+        { "id": "easing_expo", "slot": "easing", "kind": "identity", "value": "cubic-bezier(.16,1,.3,1)", "usage": "the long link settle", "evidence": ["--ease-out-expo resolved on :root"] },
+        { "id": "easing_back", "slot": "easing", "kind": "identity", "value": "cubic-bezier(.68,-.6,.32,1.6)", "usage": "reserved for the opener button; the only overshoot in the header", "evidence": ["--ease-in-out-back resolved on :root"] },
+        { "id": "triggers", "slot": "triggers", "kind": "enum", "value": ["scroll-down", "scroll-up", "click-opener", "hover", "focus"], "usage": "the events that drive header motion", "evidence": ["scroll direction toggles the retracted state; click toggles open; link hover scales a 1.5px underline from 0"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "scroll down and scroll up use different durations and different curve families" },
+        { "kind": "always", "rule": "the open panel expands from behind the bar rather than fading in place" },
+        { "kind": "always", "rule": "the three panel link lists are staggered against each other, never simultaneous" },
+        { "kind": "never", "rule": "an easing is written inline as a raw cubic-bezier when a named token exists" },
+        { "kind": "never", "rule": "the overshoot back-curve is used on anything but the opener control" },
+        { "kind": "never", "rule": "the panel opens without the colour bands animating" }
+      ],
+      "directives": [
+        "retract the bar with transform .5s ease-in-cubic and return it with transform .4s ease-out-cubic",
+        "expand the panel with transform .7s ease-in-out-cubic and retract the four bands with scaleY at .88s/.1.01s/.75s/.75s",
+        "stagger main links at 83ms steps on a 667ms snap curve, and sub/social links at 100ms steps on a 2.4s expo curve",
+        "morph the opener bars over 700ms with the in-out cubic and reserve the back-curve for that one control",
+        "reference easings by their named :root tokens everywhere"
+      ]
+    },
+    {
+      "id": "imagery",
+      "scales": [
+        { "id": "role", "poles": ["text-led", "image-led"], "value": null, "na_reason": "not applicable: the header contains no imagery. The only graphic is the Joby logo mark, which is an identity element handled under structure and type, not a picture.", "confidence": "high" },
+        { "id": "medium", "poles": ["photographic", "graphic"], "value": null, "na_reason": "not applicable: no imagery in the header.", "confidence": "high" },
+        { "id": "treatment", "poles": ["natural", "stylized"], "value": null, "na_reason": "not applicable: no imagery in the header.", "confidence": "high" },
+        { "id": "framing", "poles": ["sharp", "rounded"], "value": null, "na_reason": "no imagery to frame; the header's only rounded geometry is the pill slab, which is a layout value (layout.pill_radius) rather than an image treatment.", "confidence": "high" }
+      ],
+      "values": [],
+      "rules": [],
+      "directives": []
+    },
+    {
+      "id": "copy",
+      "scales": [
+        { "id": "register", "poles": ["casual", "formal"], "value": null, "na_reason": "not applicable: the header carries only navigation labels (page names, 'Investors', 'Discover', 'Connect', legal links) — there is no prose to judge register on.", "confidence": "high" },
+        { "id": "voice", "poles": ["plain", "playful"], "value": null, "na_reason": "not applicable: no prose in the header.", "confidence": "high" },
+        { "id": "density", "poles": ["terse", "explanatory"], "value": null, "na_reason": "not applicable: no prose in the header. Label count and panel link count are structural facts recorded under structure.panel_lists.", "confidence": "high" }
+      ],
+      "values": [
+        { "id": "label_set", "slot": "label_set", "kind": "enum", "value": ["Careers", "Investors", "Discover", "Connect"], "usage": "the persistent labels in the bar, in the order they read left to right", "evidence": ["bar label census at 1440: left current-page label 'Careers', right CTA 'Investors'; panel column labels 'Discover' and 'Connect'"] },
+        { "id": "panel_main_links", "slot": "panel_main_links", "kind": "enum", "value": ["Experience", "Technology", "Company", "News", "Careers", "Investors"], "usage": "the primary panel link list, in order", "evidence": ["measured panel li order at 1440 and 390"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the current page name appears as a label beside the opener" },
+        { "kind": "never", "rule": "a sentence, tagline or promotional line inside the header" }
+      ],
+      "directives": [
+        "keep header copy to single-word navigation labels only",
+        "place the current page name next to the opener and the primary external CTA at the right rail"
+      ]
+    }
+  ],
+  "limitations": [
+    "The scroll threshold that triggers retraction was not isolated. A 200px downward step produced full retraction (translateY -84px); the exact point between 0 and 200px, and any velocity dependence, is unknown. The direction rule itself is confirmed: retract on down, restore on up.",
+    "No intermediate frames were sampled for the retract/reveal pair. Their durations and curves are read from authored CSS (.5s ease-in-cubic out, .4s ease-out-cubic back) rather than measured from transform samples.",
+    "The close sequence was not captured; only the opening animation was sampled (35 concurrent animations, sampled every 90ms from 9ms after the click).",
+    "The open-state link font sizes reported here (16px per li at 1440) conflict with the rendered 64px on the link spans themselves: the li elements carry an inherited 16px while their child spans render at 64px/500. The type values above record the rendered span sizes, which are what a viewer sees; the li-level 16px is a cascade artifact of this implementation and is not treated as the design intent.",
+    "Panel type sizes are reported at the 1440 fixed tier. The panel scales with the fluid root at 834 (13.03px li-level) and 390 (16.64px), but the rendered span sizes at those widths were not separately resolved, so the true mobile display size is inferred from the root factor rather than measured directly.",
+    "The 390 mobile panel renders 773.3px tall in an 844px viewport (92% of viewport height) and the nav element itself measures 821px; the panel is content-driven and happens to nearly fill a small viewport rather than being authored as a fixed full-height surface. Whether it is intended to fill exactly on shorter devices was not tested.",
+    "Focus, keyboard traversal, reduced-motion behaviour and screen-reader announcement of the panel state were not captured.",
+    "Only the careers template was captured. The hero state variant (white opener bars, suppressed pill) was exercised because careers has an orange hero; the hero-dark variant and the technologyNav variant that hides the current-page label were read from authored CSS but not exercised on a live page.",
+    "Nav dropdown behaviour (.dropwdownOpen, which shows the scrim at 0.4 instead of 0.6) was read from CSS but not exercised."
+  ]
+}

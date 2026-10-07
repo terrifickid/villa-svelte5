@@ -1,10 +1,12 @@
-<div class="pb-12 frame">
-  <div class="xl:gap-8 xl:grid xl:grid-cols-3 border-t pt-12 mt-12">
+<div class="v-band text-regent-900">
+  <div class="col-span-full">
     <div class="text-regent-900 xl:col-span-3">
-      <div class="lg:inline-flex lg:items-center justify-between w-full">
-        <div>
+      <div
+        class="grid grid-cols-1 gap-x-4 border-t pt-12 lg:grid-cols-16 lg:items-center"
+      >
+        <div class="lg:col-span-7">
           <a href="/">
-            <div class="text-xl inline-flex items-center font-medium">
+            <div class="text-standfirst inline-flex items-center font-medium">
               <span>
                 <svg
                   class="w-6 h-6"
@@ -87,11 +89,11 @@
                   />
                 </svg>
               </span>
-              <span class="ml-3">Stay in the Know</span>
+              <span class="ml-2">Stay in the Know</span>
             </div>
           </a>
           <p class="mt-6">
-            <span class="text-slate-500 mt-6 text-base tracking-wide"
+            <span class="text-body text-slate-500"
               >Get exclusive offers straight to your inbox
             </span>
           </p>
@@ -100,7 +102,7 @@
           accept-charset="UTF-8"
           action="https://gs324.infusionsoft.com/app/form/process/832e3dc5d191bcb7f1a1cc74b0a1df11"
           method="POST"
-          class="mt-4 flex max-w-xl flex-col items-center"
+          class="col-span-full mt-12 flex w-full flex-col lg:col-span-8 lg:col-start-9 lg:mt-0"
         >
           <input
             name="inf_form_xid"
@@ -129,7 +131,7 @@
               required=""
             /><button
               type="submit"
-              class="mt-3 sm:mt-0 sm: ml-2 inline-flex items-center justify-center w-auto lg:px-12 px-6 py-4 text-center text-white duration-200 bg-black font-medium rounded-full text-base focus:outline-none hover:bg-white hover:ring-bound hover:ring-1 hover:text-black"
+              class="mt-3 sm:mt-0 sm:ml-2 inline-flex items-center justify-center w-auto lg:px-12 px-6 py-4 text-center text-caption text-white duration-200 bg-black font-medium rounded-full focus:outline-none hover:bg-white hover:ring-bound hover:ring-1 hover:text-black"
               ><div style="position:relative" />
               Submit<!-- -->
             </button>
@@ -137,13 +139,13 @@
         </form>
       </div>
     </div>
-    <div class="grid md:grid-cols-4 gap-8 xl:col-span-3 border-t pt-10 mt-6">
-      <div>
-        <h3 class="text-regent-900 font-medium lg:text-xl text-lg">Sitemap</h3>
+    <div class="mt-12 grid grid-cols-1 gap-12 border-t pt-12 md:grid-cols-16">
+      <div class="md:col-span-4">
+        <h3 class="text-body font-medium text-regent-900">Sitemap</h3>
         <ul class="mt-4 space-y-2" role="list">
           <li>
             <a
-              class="text-base text-slate-500 inline-flex items-center hover:text-regent-600"
+              class="text-caption text-slate-500 inline-flex items-center hover:text-regent-600"
               href="/"
             >
               <span>About us</span>
@@ -151,7 +153,7 @@
           </li>
           <li>
             <a
-              class="text-base text-slate-500 inline-flex items-center hover:text-regent-600"
+              class="text-caption text-slate-500 inline-flex items-center hover:text-regent-600"
               href="/owners"
             >
               <span>Villa Owners</span>
@@ -159,7 +161,7 @@
           </li>
           <li>
             <a
-              class="text-base text-slate-500 inline-flex items-center hover:text-regent-600"
+              class="text-caption text-slate-500 inline-flex items-center hover:text-regent-600"
               href="/"
             >
               <span>Blog</span>
@@ -167,7 +169,7 @@
           </li>
           <li>
             <a
-              class="text-base text-slate-500 inline-flex items-center hover:text-regent-600"
+              class="text-caption text-slate-500 inline-flex items-center hover:text-regent-600"
               href="/"
             >
               <span>Contact</span>
@@ -175,7 +177,7 @@
           </li>
           <li>
             <a
-              class="text-base text-slate-500 inline-flex items-center hover:text-regent-600"
+              class="text-caption text-slate-500 inline-flex items-center hover:text-regent-600"
               href="/"
             >
               <span>Privacy Policy</span>
@@ -183,54 +185,54 @@
           </li>
           <li>
             <a
-              class="text-base text-slate-500 hover:text-regent-600"
+              class="text-caption text-slate-500 hover:text-regent-600"
               href="/style-guide">Style Guide</a
             >
           </li>
         </ul>
       </div>
-      <div class="mt-12 md:mt-0 col-span-2">
-        <h3 class="text-regent-900 font-medium lg:text-xl text-lg">
+      <div class="md:col-span-8">
+        <h3 class="text-body font-medium text-regent-900">
           Recent posts
         </h3>
         <ul class="mt-4 space-y-2" role="list">
           <li>
-            <a class="text-base text-slate-500 hover:text-regent-600" href="#"
+            <a class="text-caption text-slate-500 hover:text-regent-600" href="#"
               >Most Luxurious Ranches in Western U.S.A</a
             >
           </li>
           <li>
-            <a class="text-base text-slate-500 hover:text-regent-600" href="#">
+            <a class="text-caption text-slate-500 hover:text-regent-600" href="#">
               Easter in Barbados</a
             >
           </li>
           <li>
-            <a class="text-base text-slate-500 hover:text-regent-600" href="#"
+            <a class="text-caption text-slate-500 hover:text-regent-600" href="#"
               >Coachella 2023</a
             >
           </li>
           <li>
-            <a class="text-base text-slate-500 hover:text-regent-600" href="#"
+            <a class="text-caption text-slate-500 hover:text-regent-600" href="#"
               >Christmas Holidays in Turks & Caicos</a
             >
           </li>
           <li>
-            <a class="text-base text-slate-500 hover:text-regent-600" href="#"
+            <a class="text-caption text-slate-500 hover:text-regent-600" href="#"
               >Spend New Year's Eve in Jamaica!</a
             >
           </li>
         </ul>
       </div>
 
-      <div class="mt-12 md:mt-0">
-        <h3 class="text-regent-900 font-medium lg:text-xl text-lg">
+      <div class="md:col-span-4">
+        <h3 class="text-body font-medium text-regent-900">
           Connect with us
         </h3>
         <ul class="mt-4 space-y-2" role="list">
-          <li class="text-base text-slate-500 hover:text-regent-600">
+          <li class="text-caption text-slate-500 hover:text-regent-600">
             Suite 1, Barbados Golf Club, Christ Church
           </li>
-          <li class="text-base text-slate-500 hover:text-regent-600">
+          <li class="text-caption text-slate-500 hover:text-regent-600">
             LILY@VILLABOUND.COM
           </li>
         </ul>

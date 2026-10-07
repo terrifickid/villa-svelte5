@@ -1,6 +1,6 @@
 <form on:submit={handleSubmit}>
   <div>
-    <div class="relative frame">
+    <div class="relative px-4 sm:px-6 md:px-8 lg:px-10">
       <div
         class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-12 flex items-center"
       >
@@ -9,7 +9,7 @@
           style="background: rgba(0,0,0,0.65);"
         >
           <div>
-            <p class="v_heading mt-3">Find a place to stay.</p>
+            <p class="font-satoshi text-heading mt-3">Find a place to stay.</p>
           </div>
           <div class="grid grid-cols-2 gap-4 mt-10">
             <div>

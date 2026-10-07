@@ -221,7 +221,7 @@
 </script>
 
 <section class="">
-    <a href="/blog/{postId}"><h2 class="v_heading">{title}</h2></a>
+    <a href="/blog/{postId}"><h2 class="font-satoshi text-heading">{title}</h2></a>
     <p>{@html renderRichText(shortInfo)}</p>
     <a href="/blog/{postId}">Read more</a>
 </section>
