@@ -21,7 +21,7 @@
       {asset}
       alt={title}
       background
-      className="rounded-lg shadow-md hover:shadow-xl transition-shadow h-96 flex flex-col justify-between p-6"
+      className="rounded-md shadow-md hover:shadow-xl transition-shadow h-96 flex flex-col justify-between p-6"
     >
       <div class="relative z-10 text-left">
         <p class="mb-2 text-caption font-medium text-blue-300">
@@ -38,12 +38,12 @@
 
         <div class="flex flex-wrap gap-2 mb-4">
           <span
-            class="inline-block bg-blue-500/80 text-label text-white px-3 py-1 rounded"
+            class="inline-block bg-blue-500/80 text-label text-white px-3 py-1 rounded-md"
           >
             Luxury
           </span>
           <span
-            class="inline-block bg-blue-500/80 text-label text-white px-3 py-1 rounded"
+            class="inline-block bg-blue-500/80 text-label text-white px-3 py-1 rounded-md"
           >
             Vacations
           </span>

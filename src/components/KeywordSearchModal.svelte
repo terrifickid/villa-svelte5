@@ -45,7 +45,7 @@
         <div
           use:clickOutside
           on:click_outside={closeModal}
-          class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-xl"
+          class="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-xl"
         >
           <div class="p-2 shadow-2xl">
             <form on:submit={search}>
@@ -53,7 +53,7 @@
                 required
                 bind:value={keywords}
                 type="text"
-                class="rounded-lg w-full p-4 text-3xl bg-white focus:ring-0 border-0 font-thin font-general"
+                class="rounded-md w-full p-4 text-3xl bg-white focus:ring-0 border-0 font-thin font-general"
                 placeholder="Properties Search"
               />
             </form>

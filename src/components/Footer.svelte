@@ -123,7 +123,7 @@
             bind:value={email}
             placeholder="Enter e-mail address"
             required
-            class="rounded-none border-0 border-b border-white bg-transparent p-0 pr-10 text-[28px] leading-[1.2] font-medium text-white placeholder-white/60 transition-[width] duration-400 focus:ring-0 {filled
+            class="rounded-md border-0 border-b border-white bg-transparent p-0 pr-10 text-[28px] leading-[1.2] font-medium text-white placeholder-white/60 transition-[width] duration-400 focus:ring-0 {filled
               ? 'w-full'
               : 'w-[16ch]'}"
           />

@@ -80,14 +80,14 @@
     <button
       on:click={checkAvailability}
       type="submit"
-      class="text-base w-auto cursor-pointer items-center justify-center lg:px-12 px-12 py-4 text-center duration-200 bg-black text-white rounded-full focus:outline-none hover:bg-black ring-white hover:ring-bound ring-1 hover:text-white hover:bg-black"
+      class="text-base w-auto cursor-pointer items-center justify-center lg:px-12 px-12 py-4 text-center duration-200 bg-black text-white rounded-md focus:outline-none hover:bg-black ring-white hover:ring-bound ring-1 hover:text-white hover:bg-black"
     >
       Reserve
     </button>
   </div>
 </div>
 <div class="hidden lg:block">
-  <div class="border border-black p-6 rounded-xl shadow sticky top-32">
+  <div class="border border-black p-6 rounded-md shadow sticky top-32">
     <p>{data.nickname}</p>
     <p class="font-medium pb-4">
       {formatPrice(data.prices.basePrice, data.prices.currency)} / night
@@ -97,7 +97,7 @@
         <label class="font-medium text-sm" for="checkin-input">Check In</label>
         <input
           id="checkin-input"
-          class="text-white bg-black rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-0.5 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
+          class="text-white bg-black rounded-md border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-0.5 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
           type="date"
           style=" color-scheme: dark;"
           bind:value={checkInDate}
@@ -108,7 +108,7 @@
         >
         <input
           id="checkout-input"
-          class="text-white bg-black rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-0.5 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
+          class="text-white bg-black rounded-md border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-0.5 py-1.5 pl-3 w-full sm:text-sm sm:leading-6"
           type="date"
           style=" color-scheme: dark;"
           bind:value={checkOutDate}
@@ -178,7 +178,7 @@
       <button
         on:click={checkAvailability}
         type="submit"
-        class="text-lg my-5 inline-flex w-full cursor-pointer items-center justify-center w-auto lg:px-12 px-6 py-4 text-center duration-200 bg-black text-white rounded-full focus:outline-none hover:bg-black ring-white hover:ring-bound ring-1 hover:text-white hover:bg-black"
+        class="text-lg my-5 inline-flex w-full cursor-pointer items-center justify-center w-auto lg:px-12 px-6 py-4 text-center duration-200 bg-black text-white rounded-md focus:outline-none hover:bg-black ring-white hover:ring-bound ring-1 hover:text-white hover:bg-black"
       >
         {#if isChecking}
           <Spinner />

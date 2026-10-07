@@ -3,7 +3,6 @@
 
   let open = $state(false);
   let retracted = $state(false);
-  let pill = $state(false);
   let lastY = 0;
 
   const THRESHOLD = 120;
@@ -31,31 +30,6 @@
 
   const path = $derived(page.url.pathname);
 
-  // Pages whose hero is dark under the transparent header
-  const isHero = $derived(path === "/" || path === "/contact");
-
-  const inkWhite = $derived(open || (isHero && !pill));
-
-  const currentPage = $derived(
-    path === "/"
-      ? "Home"
-      : path.startsWith("/locations")
-        ? "Locations"
-        : path.startsWith("/about")
-          ? "About"
-          : path.startsWith("/owners")
-            ? "Owners"
-            : path.startsWith("/blog")
-              ? "Blog"
-              : path.startsWith("/contact")
-                ? "Contact"
-                : path.startsWith("/search")
-                  ? "Search"
-                  : path.startsWith("/favorites")
-                    ? "Saved"
-                    : "Menu"
-  );
-
   const mainLinkClass =
     "relative inline-block font-satoshi text-heading after:absolute after:-bottom-1 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
   const subLinkClass =
@@ -66,13 +40,10 @@
     const y = window.scrollY;
     if (y < THRESHOLD) {
       retracted = false;
-      pill = false;
     } else if (y > lastY) {
       retracted = true;
-      pill = false;
     } else if (y < lastY) {
       retracted = false;
-      pill = true;
     }
     lastY = y;
   }
@@ -105,15 +76,6 @@
 <svelte:window onkeydown={onKeydown} />
 
 <nav class="fixed inset-x-0 top-0 z-100" aria-label="Main">
-  <!-- Scrim behind the open panel -->
-  <div
-    class="fixed inset-0 -z-20 bg-black/60 transition-opacity duration-700 ease-in-out-cubic {open
-      ? 'opacity-100'
-      : 'pointer-events-none opacity-0'}"
-    onclick={() => (open = false)}
-    aria-hidden="true"
-  ></div>
-
   <div class="relative">
     <!-- Slab and layered colour bands -->
     <div
@@ -146,74 +108,32 @@
 
     <!-- Bar -->
     <header
-      class="relative z-10 flex h-12 items-center px-4 text-caption transition-transform before:absolute before:inset-0 before:-z-10 before:rounded-none before:bg-bone before:shadow-[0_1px_1px_rgba(0,0,0,0.23)] before:transition-opacity before:duration-400 before:ease-out-cubic before:content-[''] sm:px-6 md:h-16 md:px-8 lg:h-20 lg:px-10 {inkWhite
-        ? 'text-white'
-        : 'text-black'} {retracted
+      class="relative z-10 flex h-12 items-center px-6 text-caption text-white transition-transform before:absolute before:inset-x-2 before:top-2 before:bottom-2 before:-z-10 before:rounded-md before:bg-black before:shadow-[0_1px_2px_rgba(0,0,0,0.3)] before:content-[''] sm:px-8 sm:before:inset-x-4 md:h-16 md:px-12 md:before:inset-x-6 lg:h-20 lg:px-16 lg:before:inset-x-8 lg:before:top-2.5 lg:before:bottom-2.5 {retracted
         ? '-translate-y-[105%] duration-500 ease-in-cubic'
-        : 'translate-y-0 duration-400 ease-out-cubic'} {pill && !open
-        ? 'before:opacity-100'
-        : 'before:opacity-0'}"
+        : 'translate-y-0 duration-400 ease-out-cubic'}"
     >
-      <div class="flex items-center gap-4">
-        <button
-          type="button"
-          class="relative size-[34px] shrink-0 transition duration-700 ease-in-out-cubic md:size-[27px] lg:size-[33px]"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onclick={() => (open = !open)}
-        >
-          <span
-            class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-full bg-current transition duration-700 ease-in-out-cubic {open
-              ? '-translate-y-1/2 rotate-45'
-              : 'translate-y-[calc(-50%_-_2.5px)]'}"
-          ></span>
-          <span
-            class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-full bg-current transition duration-700 ease-in-out-cubic {open
-              ? '-translate-y-1/2 -rotate-45'
-              : 'translate-y-[calc(-50%_+_2.5px)]'}"
-          ></span>
-        </button>
+      <a href="/" aria-label="Villabound home">
+        <img src="/vb.png" alt="Villabound" class="h-8 w-auto" />
+      </a>
+
+      <button
+        type="button"
+        class="relative ml-auto size-[34px] shrink-0 transition duration-700 ease-in-out-cubic md:size-[27px] lg:size-[33px]"
+        aria-label={open ? "Close menu" : "Open menu"}
+        aria-expanded={open}
+        onclick={() => (open = !open)}
+      >
         <span
-          class="transition duration-400 ease-in-out-cubic {open
-            ? 'translate-x-8 opacity-0'
-            : ''}"
-        >
-          {currentPage}
-        </span>
-      </div>
-
-      <a
-        href="/"
-        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        aria-label="Villabound home"
-      >
-        <img
-          src="/vb.png"
-          alt="Villabound"
-          class="h-8 w-auto {inkWhite ? '' : 'invert'}"
-        />
-      </a>
-
-      <a
-        href="/contact"
-        class="ml-auto inline-flex items-center gap-2 transition-opacity hover:opacity-70"
-      >
-        Enquire
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4.5 19.5 19.5 4.5m0 0H8.25m11.25 0v11.25"
-          />
-        </svg>
-      </a>
+          class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-md bg-current transition duration-700 ease-in-out-cubic {open
+            ? '-translate-y-1/2 rotate-45'
+            : 'translate-y-[calc(-50%_-_2.5px)]'}"
+        ></span>
+        <span
+          class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-md bg-current transition duration-700 ease-in-out-cubic {open
+            ? '-translate-y-1/2 -rotate-45'
+            : 'translate-y-[calc(-50%_+_2.5px)]'}"
+        ></span>
+      </button>
     </header>
 
     <!-- Open panel: collapses via grid rows so link transitions still fire -->

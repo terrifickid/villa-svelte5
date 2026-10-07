@@ -90,7 +90,7 @@
 	<button
 		on:click={() => scroll('left')}
 		disabled={!canScrollLeft}
-		class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+		class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-md p-2 shadow-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
 		aria-label="Scroll left"
 	>
 		<svg
@@ -107,7 +107,7 @@
 	<button
 		on:click={() => scroll('right')}
 		disabled={!canScrollRight}
-		class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+		class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white rounded-md p-2 shadow-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
 		aria-label="Scroll right"
 	>
 		<svg

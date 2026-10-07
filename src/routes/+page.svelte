@@ -18,7 +18,7 @@
 <!-- Established note -->
 <section class="v-band">
   <div
-    class="col-span-full space-y-6 rounded-2xl bg-black p-12 text-standfirst text-white lg:col-span-8"
+    class="col-span-full space-y-6 rounded-md bg-black p-12 text-standfirst text-white lg:col-span-8"
   >
     <p>
       Villabound was established in 2011 by a dynamic Barbadian entrepreneur

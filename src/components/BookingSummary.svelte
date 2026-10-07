@@ -33,9 +33,9 @@
 </script>
 
 <section class="">
-  <div class="border border-black rounded-xl p-6">
+  <div class="border border-black rounded-md p-6">
     <div class="grid grid-cols-3 flex items-center gap-4">
-      <img src={_.get(property, "picture.thumbnail", "")} class="rounded" />
+      <img src={_.get(property, "picture.thumbnail", "")} class="rounded-md" />
       <div class="col-span-2">
         <p class="font-medium">{_.get(property, "nickname", "")}</p>
         <p class="text-xs mb-2">{_.get(property, "title", "")}</p>

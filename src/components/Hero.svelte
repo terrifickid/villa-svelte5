@@ -88,7 +88,7 @@
               <select
                 bind:value={search.country}
                 name="location"
-                class="bg-transparent mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-caption"
+                class="bg-transparent mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-caption"
               >
                 {#each data.countries as country}
                   <option value={country}>{country}</option>
@@ -117,7 +117,7 @@
               <select
                 bind:value={search.minOccupancy}
                 name="guests"
-                class="bg-transparent mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-caption"
+                class="bg-transparent mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-caption"
               >
                 <option value="1">1</option>
                 <option value="2" selected>2</option>
@@ -151,7 +151,7 @@
               >
               <input
                 bind:value={search.checkIn}
-                class="bg-transparent rounded-full border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-caption"
+                class="bg-transparent rounded-md border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-caption"
                 type="date"
                 style=" color-scheme: dark;"
               />
@@ -161,7 +161,7 @@
           <div class="flex items-end">
             <button
               type="submit"
-              class="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-transparent px-6 py-4 text-center text-caption duration-200 ring-1 ring-gray-300 hover:ring-bound focus:outline-none"
+              class="inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-transparent px-6 py-4 text-center text-caption duration-200 ring-1 ring-gray-300 hover:ring-bound focus:outline-none"
             >
               {#if searching}
                 <Spinner />

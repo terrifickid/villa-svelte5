@@ -97,7 +97,7 @@
 
 <!-- Sticky enquiry card -->
 <form on:submit={runHubspot}>
-  <div class="sticky top-20 rounded-2xl bg-black p-5 text-white">
+  <div class="sticky top-20 rounded-md bg-black p-5 text-white">
     <p class="text-body font-medium">Book your stay or ask us anything</p>
     <p class="mt-2 text-caption text-neutral-300">
       Want to check dates or need help choosing the right villa? Drop us a
@@ -120,7 +120,7 @@
     {#if success}
       <div class="py-10 text-center">
         <div
-          class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-white"
+          class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-md bg-white"
         >
           <svg
             class="h-12 w-12 text-black"
@@ -145,7 +145,7 @@
       <div class="mt-6 space-y-4">
         <div>
           <label class="text-label text-white" for="email-input">Email</label>
-          <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
+          <div class="mt-2 rounded-md bg-neutral-400/15 px-3 py-2">
             <input
               id="email-input"
               type="email"
@@ -160,7 +160,7 @@
 
         <div>
           <label class="text-label text-white" for="checkin-input">Check in</label>
-          <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
+          <div class="mt-2 rounded-md bg-neutral-400/15 px-3 py-2">
             <input
               id="checkin-input"
               class="w-full border-0 bg-transparent p-0 text-caption text-white focus:ring-0"
@@ -174,7 +174,7 @@
         <div>
           <label class="text-label text-white" for="checkout-input">Check out</label
           >
-          <div class="mt-2 rounded-lg bg-neutral-400/15 px-3 py-2">
+          <div class="mt-2 rounded-md bg-neutral-400/15 px-3 py-2">
             <input
               id="checkout-input"
               class="w-full border-0 bg-transparent p-0 text-caption text-white focus:ring-0"
@@ -188,7 +188,7 @@
         <div>
           <label class="text-label text-white" for="guests-input">Guests</label>
           <div
-            class="mt-2 flex items-center justify-between rounded-lg bg-neutral-400/15 px-3 py-2"
+            class="mt-2 flex items-center justify-between rounded-md bg-neutral-400/15 px-3 py-2"
           >
             <input
               id="guests-input"
@@ -257,7 +257,7 @@
     <button
       type="submit"
       disabled={isSpinning || success}
-      class="mt-6 inline-flex h-11 w-full items-center justify-center rounded-3xl bg-white text-caption font-medium text-black focus:outline-none {success
+      class="mt-6 inline-flex h-11 w-full items-center justify-center rounded-md bg-white text-caption font-medium text-black focus:outline-none {success
         ? 'cursor-default'
         : 'cursor-pointer'}"
     >

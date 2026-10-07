@@ -46,7 +46,7 @@
     >
       <article>
         <div
-          class="aspect-square object-cover bg-center bg-cover h-full rounded"
+          class="aspect-square object-cover bg-center bg-cover h-full rounded-md"
           style="background-image: url({getMainImage(item)})"
         />
 

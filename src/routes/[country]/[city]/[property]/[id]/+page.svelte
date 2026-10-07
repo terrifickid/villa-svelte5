@@ -189,7 +189,7 @@
   <div class="col-span-full mt-8">
   {#if pictures.length >= 2}
     <div class="grid grid-cols-5 gap-4">
-      <div class="col-span-3 overflow-hidden rounded-2xl">
+      <div class="col-span-3 overflow-hidden rounded-md">
         <img
           class="aspect-[3/2] h-full w-full object-cover"
           src={imageOf(pictures[0])}
@@ -198,7 +198,7 @@
       </div>
       <div class="col-span-2 grid grid-cols-2 gap-4">
         {#each pictures.slice(1, 5) as picture, i}
-          <div class="overflow-hidden rounded-2xl">
+          <div class="overflow-hidden rounded-md">
             <img
               class="aspect-square h-full w-full object-cover"
               src={imageOf(picture)}
@@ -211,7 +211,7 @@
       </div>
     </div>
   {:else}
-    <div class="overflow-hidden rounded-2xl">
+    <div class="overflow-hidden rounded-md">
       <img
         class="aspect-[3/2] w-full object-cover"
         src={pictures.length ? imageOf(pictures[0]) : fallbackImage()}
@@ -308,10 +308,10 @@
         <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {#each villaCards() as card}
             <div
-              class="flex items-center gap-4 rounded-2xl border border-black/10 bg-white p-4"
+              class="flex items-center gap-4 rounded-md border border-black/10 bg-white p-4"
             >
               <div
-                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-neutral-100"
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-neutral-100"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -339,7 +339,7 @@
           <h3 class="font-satoshi text-standfirst font-medium text-black">Gallery</h3>
           <div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {#each pictures.slice(5) as picture, i}
-              <div class="overflow-hidden rounded-2xl">
+              <div class="overflow-hidden rounded-md">
                 <img
                   class="aspect-square h-full w-full object-cover"
                   src={imageOf(picture)}
@@ -425,7 +425,7 @@
   </h3>
   <a
     href="/search/{encodeURIComponent(city || country || "")}"
-    class="col-span-full mt-4 inline-flex h-11 w-fit items-center rounded-3xl border border-black/10 bg-black/[0.01] px-6 text-caption font-medium text-black lg:col-start-14 lg:col-span-3 lg:mt-0 lg:justify-self-end"
+    class="col-span-full mt-4 inline-flex h-11 w-fit items-center rounded-md border border-black/10 bg-black/[0.01] px-6 text-caption font-medium text-black lg:col-start-14 lg:col-span-3 lg:mt-0 lg:justify-self-end"
   >
     View All Locations
   </a>
@@ -434,7 +434,7 @@
     {#each otherVillas as villa}
       <a
         href="/search/{encodeURIComponent(city || country || "")}"
-        class="group relative aspect-[9/10] overflow-hidden rounded-2xl"
+        class="group relative aspect-[9/10] overflow-hidden rounded-md"
       >
         <img
           class="h-full w-full object-cover"
@@ -450,7 +450,7 @@
             <p class="text-caption text-neutral-300">{city}{country ? `, ${country}` : ""}</p>
           </div>
           <span
-            class="inline-flex h-11 items-center rounded-3xl bg-white px-6 text-caption font-medium text-black"
+            class="inline-flex h-11 items-center rounded-md bg-white px-6 text-caption font-medium text-black"
           >
             View
           </span>

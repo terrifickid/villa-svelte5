@@ -51,7 +51,7 @@
     <ul class="mt-6 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
       {#each whatWeDo as item}
         <li class="flex items-start gap-4 text-body text-black/80">
-          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
+          <span class="mt-2 size-1.5 shrink-0 rounded-md bg-black"></span>
           <span>{item}</span>
         </li>
       {/each}

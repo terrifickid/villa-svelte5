@@ -46,7 +46,7 @@
 <section class="v-band">
   <div class="col-span-full grid grid-cols-1 gap-6 lg:col-span-8">
     {#each services as service}
-      <div class="rounded-2xl bg-gray-100 p-12">
+      <div class="rounded-md bg-gray-100 p-12">
         <h4 class="font-satoshi text-standfirst font-medium">
           {service.title}
         </h4>

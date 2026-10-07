@@ -150,7 +150,7 @@
               <ContentfulImage
                 asset={post.fields.imagePreview}
                 alt={post.fields.title}
-                className="aspect-square w-full rounded-lg object-cover animate-image-in motion-reduce:animate-none lg:aspect-[3/2]"
+                className="aspect-square w-full rounded-md object-cover animate-image-in motion-reduce:animate-none lg:aspect-[3/2]"
               />
             </a>
             <time
@@ -202,7 +202,7 @@
   </p>
   <a
     href="/contact"
-    class="col-span-full mt-8 inline-flex h-12 w-fit items-center rounded-3xl bg-white px-6 text-caption font-medium text-black lg:col-start-1 lg:col-span-4 lg:row-start-2 lg:mt-12"
+    class="col-span-full mt-8 inline-flex h-12 w-fit items-center rounded-md bg-white px-6 text-caption font-medium text-black lg:col-start-1 lg:col-span-4 lg:row-start-2 lg:mt-12"
   >
     Request the look book
   </a>

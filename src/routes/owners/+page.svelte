@@ -47,7 +47,7 @@
       <p>Behind this simple formula is:</p>
       <ul class="space-y-4">
         <li class="flex items-start gap-4">
-          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
+          <span class="mt-2 size-1.5 shrink-0 rounded-md bg-black"></span>
           <span>
             An advanced marketing strategy involving the Creation of Great
             Listings and Personal online marketing through an remarkable platform
@@ -56,17 +56,17 @@
           </span>
         </li>
         <li class="flex items-start gap-4">
-          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
+          <span class="mt-2 size-1.5 shrink-0 rounded-md bg-black"></span>
           <span>
             Guest Management, E Concierge and Guest Relationship Services
           </span>
         </li>
         <li class="flex items-start gap-4">
-          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
+          <span class="mt-2 size-1.5 shrink-0 rounded-md bg-black"></span>
           <span>Property Management</span>
         </li>
         <li class="flex items-start gap-4">
-          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-black"></span>
+          <span class="mt-2 size-1.5 shrink-0 rounded-md bg-black"></span>
           <span>Powerful Relationships</span>
         </li>
       </ul>

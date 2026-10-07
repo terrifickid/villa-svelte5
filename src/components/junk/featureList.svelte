@@ -77,7 +77,7 @@
   <div class="flex flex-wrap gap-2">
     {#each features as feature}
       <span
-        class="inline-flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-caption font-medium text-gray-800"
+        class="inline-flex items-center gap-2 rounded-md bg-gray-100 px-4 py-2 text-caption font-medium text-gray-800"
       >
         {feature.text}
       </span>

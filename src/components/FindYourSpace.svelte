@@ -30,7 +30,7 @@
   >
     {#each cards as card}
       <article
-        class="card flex rounded-2xl border border-gray-200 p-6"
+        class="card flex rounded-md border border-gray-200 p-6"
       >
         <div class="card-text">
           <p class="mb-4 text-body font-medium">{card.subtitle}</p>

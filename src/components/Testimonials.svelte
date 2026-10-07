@@ -24,7 +24,7 @@
           <div class="flex items-center">
             <div>
               <img
-                class="inline-block h-9 w-9 rounded-full"
+                class="inline-block h-9 w-9 rounded-md"
                 src="https://phanatik.lexingtonthemes.com/a.jpg"
                 alt=""
               />
@@ -56,7 +56,7 @@
           <div class="flex items-center">
             <div>
               <img
-                class="inline-block h-9 w-9 rounded-full"
+                class="inline-block h-9 w-9 rounded-md"
                 src="https://phanatik.lexingtonthemes.com/a.jpg"
                 alt=""
               />
@@ -87,7 +87,7 @@
           <div class="flex items-center">
             <div>
               <img
-                class="inline-block h-9 w-9 rounded-full"
+                class="inline-block h-9 w-9 rounded-md"
                 src="https://phanatik.lexingtonthemes.com/a.jpg"
                 alt=""
               />
@@ -119,7 +119,7 @@
           <div class="flex items-center">
             <div>
               <img
-                class="inline-block h-9 w-9 rounded-full"
+                class="inline-block h-9 w-9 rounded-md"
                 src="https://phanatik.lexingtonthemes.com/a.jpg"
                 alt=""
               />
@@ -150,7 +150,7 @@
           <div class="flex items-center">
             <div>
               <img
-                class="inline-block h-9 w-9 rounded-full"
+                class="inline-block h-9 w-9 rounded-md"
                 src="https://phanatik.lexingtonthemes.com/a.jpg"
                 alt=""
               />
@@ -182,7 +182,7 @@
           <div class="flex items-center">
             <div>
               <img
-                class="inline-block h-9 w-9 rounded-full"
+                class="inline-block h-9 w-9 rounded-md"
                 src="https://phanatik.lexingtonthemes.com/a.jpg"
                 alt=""
               />

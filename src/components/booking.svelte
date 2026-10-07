@@ -1,5 +1,5 @@
 <nav
-  class=" lg:sticker lg:sticky top-28 bg-black md:p-8 p-4 md:rounded-lg w-full"
+  class=" lg:sticker lg:sticky top-28 bg-black md:p-8 p-4 md:rounded-md w-full"
   aria-label="Sidebar"
 >
   <div>
@@ -27,7 +27,7 @@
       <select
         id="location"
         name="location"
-        class=" mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
+        class=" mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
       >
         <option>01/02/2022</option>
       </select>
@@ -52,7 +52,7 @@
       <select
         id="location"
         name="location"
-        class=" mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
+        class=" mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
       >
         <option>01/02/2022</option>
       </select>
@@ -78,7 +78,7 @@
       <select
         id="location"
         name="location"
-        class="bg-black text-bound mt-2 block w-full rounded-full border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-bound focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
+        class="bg-black text-bound mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-bound focus:ring-2 focus:ring-bound sm:text-sm sm:leading-6"
       >
         <option>1</option>
         <option>2</option>
@@ -94,7 +94,7 @@
     <a
       href="/search"
       type="button"
-      class="w-full inline-flex items-center justify-center w-auto lg:px-12 px-6 py-4 text-center text-bound duration-200 bg-black rounded-full focus:outline-none ring ring-bound hover:bg-bound hover:ring-bound hover:ring-1 hover:text-black"
+      class="w-full inline-flex items-center justify-center w-auto lg:px-12 px-6 py-4 text-center text-bound duration-200 bg-black rounded-md focus:outline-none ring ring-bound hover:bg-bound hover:ring-bound hover:ring-1 hover:text-black"
     >
       Book Now
     </a>

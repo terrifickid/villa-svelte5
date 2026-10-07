@@ -126,12 +126,12 @@
             <input
               name="inf_field_Email"
               type="email"
-              class="lg:px-12 px-6 py-4 bg-white placeholder-slate-400 border border-slate-300 duration-200 focus:outline-none focus:ring focus:ring-regent-100 focus:border-regent-300 w-full rounded-full"
+              class="lg:px-12 px-6 py-4 bg-white placeholder-slate-400 border border-slate-300 duration-200 focus:outline-none focus:ring focus:ring-regent-100 focus:border-regent-300 w-full rounded-md"
               placeholder="Enter your email..."
               required=""
             /><button
               type="submit"
-              class="mt-3 sm:mt-0 sm:ml-2 inline-flex items-center justify-center w-auto lg:px-12 px-6 py-4 text-center text-caption text-white duration-200 bg-black font-medium rounded-full focus:outline-none hover:bg-white hover:ring-bound hover:ring-1 hover:text-black"
+              class="mt-3 sm:mt-0 sm:ml-2 inline-flex items-center justify-center w-auto lg:px-12 px-6 py-4 text-center text-caption text-white duration-200 bg-black font-medium rounded-md focus:outline-none hover:bg-white hover:ring-bound hover:ring-1 hover:text-black"
               ><div style="position:relative" />
               Submit<!-- -->
             </button>

@@ -95,7 +95,7 @@
     <div class="col-span-full mt-12 sm:col-start-1 sm:col-span-8 lg:col-span-4">
       <label class="text-label text-black" for="location-name">Name</label>
       <div
-        class="mt-2 flex h-10 w-full items-center gap-2 rounded-lg border border-black/10 px-3"
+        class="mt-2 flex h-10 w-full items-center gap-2 rounded-md border border-black/10 px-3"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +129,7 @@
         <select
           id="location-region"
           bind:value={region}
-          class="h-10 w-full appearance-none rounded-lg border border-black/10 bg-transparent py-0 pr-9 pl-3 text-caption text-black focus:ring-0"
+          class="h-10 w-full appearance-none rounded-md border border-black/10 bg-transparent py-0 pr-9 pl-3 text-caption text-black focus:ring-0"
         >
           {#each regionOptions as option}
             <option value={option}>{option}</option>
@@ -156,7 +156,7 @@
     {#each filtered as country}
       <a
         href={country.href}
-        class="group relative aspect-[9/10] overflow-hidden rounded-2xl"
+        class="group relative aspect-[9/10] overflow-hidden rounded-md"
       >
         <img
           class="h-full w-full object-cover"
@@ -178,7 +178,7 @@
             {/if}
           </div>
           <span
-            class="inline-flex h-11 items-center rounded-3xl bg-white px-6 text-caption font-medium text-black"
+            class="inline-flex h-11 items-center rounded-md bg-white px-6 text-caption font-medium text-black"
           >
             View
           </span>
@@ -195,7 +195,7 @@
 <!-- CTA panel -->
 <section class="v-band">
   <div
-    class="col-span-full grid grid-cols-1 items-start gap-x-4 rounded-2xl bg-black px-6 py-12 lg:grid-cols-16 lg:px-0"
+    class="col-span-full grid grid-cols-1 items-start gap-x-4 rounded-md bg-black px-6 py-12 lg:grid-cols-16 lg:px-0"
   >
     <div class="col-span-full lg:col-start-2 lg:col-span-8">
       <h2 class="font-satoshi text-heading text-white">
@@ -207,11 +207,11 @@
       </p>
       <a
         href="/contact"
-        class="mt-12 inline-flex h-12 items-center gap-4 rounded-3xl bg-white pr-1 pl-6 text-caption font-medium text-black"
+        class="mt-12 inline-flex h-12 items-center gap-4 rounded-md bg-white pr-1 pl-6 text-caption font-medium text-black"
       >
         Contact us
         <span
-          class="flex size-10 shrink-0 items-center justify-center rounded-full bg-black text-white"
+          class="flex size-10 shrink-0 items-center justify-center rounded-md bg-black text-white"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -258,7 +258,7 @@
         <div class="flex -space-x-2">
           {#each avatars as initial}
             <span
-              class="flex size-8 items-center justify-center rounded-full bg-white/10 text-label font-medium text-white ring-2 ring-black"
+              class="flex size-8 items-center justify-center rounded-md bg-white/10 text-label font-medium text-white ring-2 ring-black"
             >
               {initial}
             </span>

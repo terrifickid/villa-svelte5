@@ -160,7 +160,7 @@
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label class="text-label text-white" for="name">Name</label>
-          <div class="mt-2.5 rounded-lg bg-neutral-400/15 p-3">
+          <div class="mt-2.5 rounded-md bg-neutral-400/15 p-3">
             <input
               id="name"
               type="text"
@@ -172,7 +172,7 @@
 
         <div>
           <label class="text-label text-white" for="email">Email</label>
-          <div class="mt-2.5 rounded-lg bg-neutral-400/15 p-3">
+          <div class="mt-2.5 rounded-md bg-neutral-400/15 p-3">
             <input
               id="email"
               type="email"
@@ -187,7 +187,7 @@
         <label class="text-label text-white" for="help">
           What can we help you with?
         </label>
-        <div class="mt-2.5 rounded-lg bg-neutral-400/15 p-3">
+        <div class="mt-2.5 rounded-md bg-neutral-400/15 p-3">
           <select
             id="help"
             bind:value={help}
@@ -207,7 +207,7 @@
 
       <div>
         <label class="text-label text-white" for="message">Message</label>
-        <div class="mt-2.5 rounded-lg bg-neutral-400/15 p-3">
+        <div class="mt-2.5 rounded-md bg-neutral-400/15 p-3">
           <textarea
             id="message"
             rows="3"
@@ -219,7 +219,7 @@
 
       <button
         type="submit"
-        class="inline-flex h-12 w-full items-center justify-center rounded-full bg-white text-caption font-medium text-black"
+        class="inline-flex h-12 w-full items-center justify-center rounded-md bg-white text-caption font-medium text-black"
       >
         Send your message
       </button>
@@ -248,7 +248,7 @@
       class="col-span-full mt-12 space-y-4 lg:col-span-7 lg:col-start-10 lg:mt-0"
     >
       {#each faqs as faq, i}
-        <div class="rounded-lg bg-white p-4">
+        <div class="rounded-md bg-white p-4">
           <button
             type="button"
             class="flex w-full items-center justify-between gap-4 text-left"
@@ -294,7 +294,7 @@
       <div class="flex w-max -ml-10 gap-4">
         {#each row as testimonial}
           <article
-            class="flex h-50 w-80 shrink-0 flex-col justify-between rounded-2xl bg-white p-6"
+            class="flex h-50 w-80 shrink-0 flex-col justify-between rounded-md bg-white p-6"
           >
             <p class="flex items-center gap-2 text-body font-medium text-black">
               <svg
@@ -316,7 +316,7 @@
 
             <div class="flex items-center gap-3">
               <span
-                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-caption font-medium text-black"
+                class="flex size-10 shrink-0 items-center justify-center rounded-md bg-neutral-100 text-caption font-medium text-black"
               >
                 {testimonial.initial}
               </span>

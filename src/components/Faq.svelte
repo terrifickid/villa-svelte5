@@ -46,7 +46,7 @@
     <div class="space-y-4 w-full">
       {#each faqs as faq}
         <div
-          class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden w-full"
+          class="bg-zinc-900 border border-zinc-800 rounded-md overflow-hidden w-full"
         >
           <!-- Question Header -->
           <button

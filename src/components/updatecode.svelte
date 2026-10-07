@@ -5,7 +5,7 @@
     <!-- Logo + Brand -->
     <a href="./" class="flex items-center gap-3">
       <div
-        class="h-10 w-10 overflow-hidden rounded-lg border border-black/10 md:h-12 md:w-12"
+        class="h-10 w-10 overflow-hidden rounded-md border border-black/10 md:h-12 md:w-12"
       >
         <img
           src="https://c.animaapp.com/mjwifyx00sw6H5/assets/icon-1.svg"
@@ -47,7 +47,7 @@
     <!-- CTA Button (Desktop) -->
     <a
       href="./locations"
-      class="hidden md:flex h-12 items-center justify-center rounded-3xl px-8 text-blue-700 font-medium hover:bg-gray-100 font-plus_jakarta_sans relative overflow-hidden"
+      class="hidden md:flex h-12 items-center justify-center rounded-md px-8 text-blue-700 font-medium hover:bg-gray-100 font-plus_jakarta_sans relative overflow-hidden"
     >
       <span>Find your stay</span>
       <span
@@ -96,7 +96,7 @@
       >
       <a
         href="./locations"
-        class="mt-6 block rounded-3xl bg-blue-700 py-4 text-center text-white font-medium"
+        class="mt-6 block rounded-md bg-blue-700 py-4 text-center text-white font-medium"
       >
         Find your stay
       </a>
