@@ -19,6 +19,28 @@
   --ease-snappy: cubic-bezier(0.2, 0.21, 0, 1);
   --ease-in-out-back: cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
+  /* joby_blog_view motion: one list fade, separate image fades */
+  --animate-list-in: list-in 300ms linear;
+  --animate-image-in: image-in 400ms var(--ease-out-cubic);
+
+  @keyframes list-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes image-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* joby_structure_v1 type scale:
      size + leading + tracking (+ weight for display tiers) in one utility */
   --text-label: 0.75rem;

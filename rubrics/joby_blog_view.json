@@ -1,0 +1,615 @@
+{
+  "format": "mixdown2",
+  "version": "1.0",
+  "rubric_id": "joby_blog_view",
+  "class": "web-design.article-index",
+  "intended_use": "both",
+  "source": {
+    "mode": "capture",
+    "what": "Joby Aviation news index (the Newsroom listing page) — the archive that the single-article rubric's 'Read next' band links into. A full rubric covering all seven aspects.",
+    "when": "2026-10-02",
+    "method": "Chromium (ms-playwright chromium-1234) driven by puppeteer-core, one isolated browser context per width. Viewports 1440x900, 834x1112, 390x844 at deviceScaleFactor 1. Each pass scrolled once through the document, then every running animation was finished and its styles committed so nothing measured was in a hidden state; the last animation running at that point is the list's fade-in. Cookie overlays were removed before measurement. Values are getComputedStyle and getBoundingClientRect readings plus resolved :root custom properties and CSS rule text read out of the document stylesheets. Card and track geometry is read from live boxes, not inferred.",
+    "gaps": [
+      "Category filtering was not exercised. The page has a two-item category list (Blog Posts, Press Releases) but clicking either was out of scope, so the filtered state, its transition and whether the list is re-laid-out are unmeasured. The 'listFade' animation (300ms, linear) is captured as it runs on load and is the mechanism that would carry a filter change, but that is inference.",
+      "The category hover state could not be confirmed. Hovering 'Press Releases' produced no change in colour, opacity, font-size or transform on either the link or its first child, which most likely means the hover affordance lives on a different descendant or is driven by a transition not sampled at the right element. Recorded as unconfirmed rather than as 'no hover state'.",
+      "Cross-page card alignment is measured only within this page: all eleven regular items share an identical height (211.8px) and identical internal geometry here. Whether that holds when a headline runs to five lines instead of two was not tested, because the listing carries a fixed set of articles.",
+      "The 13-track inner grid was resolved as a track count and gap but its intended reading was not confirmed against the site's own spec. The outer 16-track grid comes from --grid-columns on :root; the inner 13-track grid appears only in the component styles, with no token backing it.",
+      "The featured item's image-to-text relationship could not be fully resolved: the featured image container is 621.6px tall against a 1.78:1 ratio, but whether the ratio is authored or a consequence of the image's own dimensions was not isolated.",
+      "The media kit band's background rises 690px above its own section box (section y 4192 h 1090, but its image starts at y 3652), so the band overlaps the preceding section. Whether that overlap is intentional composition or a layout collision was not resolved, and it is recorded as an open question rather than as a defect.",
+      "The page's list has no pagination or load-more control; all eleven items plus the featured article render at once. Whether the listing is truncated server-side at this count was not determined.",
+      "Motion at 834 and 390 was not sampled per element; entrance values come from the 1440 pass and the page's shared keyframe library.",
+      "The nav and footer are site-wide components with their own rubrics (joby_nav_v1.json, joby_footer_v1.json) and are described here only as they appear on this page.",
+      "The article count and any 'showing N of M' behaviour was not verified against the CMS."
+    ],
+    "notes": "This page is the archive view of the same publication as the single-article page, and it breaks the parent system in a different place. The outer chrome is the parent 16-track grid with the parent 16px gap and 40px gutter, unchanged. But every card row is a 13-track grid with a 12px gap — a second, undocumented column system that appears in the component styles and has no root token. Worse, that 13-track grid is sized to its own container (1105px) rather than to the page band, so the cards' right edge lands at x 1400 while the sidebar and the page gutter sit on tracks measured from a different origin. The listing therefore has two grids whose columns do not share a scale: 16 tracks of 70px with 16px gaps outside, 13 tracks of 73.92px with 12px gaps inside. Recorded alongside are three further points: the section gap between featured and list items is zero (the divider rule does the separating), the category rail is 255px and never sticky, and the featured title uses -2% tracking where every other display size on the parent uses -3%."
+  },
+  "element_inventory": [
+    { "element": "page hero (h1 'Newsroom')", "aspects": ["type", "layout"] },
+    { "element": "category rail", "aspects": ["layout", "structure", "motion"] },
+    { "element": "featured item", "aspects": ["layout", "imagery", "type"] },
+    { "element": "regular list items (eleven)", "aspects": ["layout", "type", "structure"] },
+    { "element": "item dividers", "aspects": ["color", "layout"] },
+    { "element": "list fade wrapper", "aspects": ["motion"] },
+    { "element": "media kit band", "aspects": ["imagery", "color", "layout"] },
+    { "element": "nav (fixed)", "aspects": ["motion"] },
+    { "element": "footer (link field + horizon band)", "aspects": ["color", "layout", "imagery"] }
+  ],
+  "parts": [
+    {
+      "id": "outer_grid_unchanged",
+      "name": "Parent 16-track chrome around a list",
+      "kind": "move",
+      "description": "The page header, the listing section and the footer all sit on the parent 16-track grid with the parent 16px gap and 40px gutter — the same system the article page uses. The page header places its title at column 1 and the listing section reserves its left columns for a category rail.",
+      "entry_test": "Replace the chrome's grid with the list's own and the page header stops agreeing with every other page on the site; the shared outer grid is what makes this page recognisably part of the same publication.",
+      "anchor": { "type": "selector", "value": "[class*='heroContent'], [class*='listsSection'], footer" },
+      "recipe": "Consume the parent grid in every chrome element: 16 tracks, column-gap 16px, padding 0 40px at 1440. The hero content is a 16-track grid measuring 1368px wide with a 16px gap; the listing section is a 16-track grid with padding 0 40px 120px; the footer is the same 16-track grid it is everywhere. Do not let the chrome inherit the list's inner grid — the two systems serve different jobs and the list's must not leak outward.",
+      "checks": [
+        { "id": "c1", "check": "Page header, listing section and footer all resolve to the parent 16-track grid", "critical": true },
+        { "id": "c2", "check": "The parent gap and gutter are unchanged from other pages", "critical": true },
+        { "id": "c3", "check": "The page title sits at the parent grid's first column", "weight": 1 },
+        { "id": "c4", "check": "The listing section reserves track columns for the rail rather than floating it", "weight": 1 },
+        { "id": "c5", "check": "No chrome element inherits the list's inner grid", "weight": 1 }
+      ],
+      "evidence": [
+        "measured: heroContent 16 tracks of 42.84px (first track 485.16px for the title), gap 16px, box x 36 w 1368",
+        "measured: listsSection display grid, padding '0px 40px 120px', box x 0 w 1440",
+        "measured: footer 16 tracks, gap 16px, padding '38px 40px 89px' — identical to the article page's footer",
+        "--grid-columns resolves to 16 and --base-padding to 4rem at a 10px root, the same tokens as the article page",
+        "the hero's first track measures 485.16px because the title spans a substituted track, but the grid still resolves 16 tracks"
+      ]
+    },
+    {
+      "id": "inner_thirteen_track",
+      "name": "Inner 13-track card grid",
+      "kind": "move",
+      "description": "Every card row — the featured article and all eleven list items — is laid out on a 13-track grid with a 12px gap, distinct from the parent 16-track grid. The track count comes from the component styles, not from a root token. Date, image, title and category are placed by explicit span on those thirteen tracks.",
+      "entry_test": "Place the card's parts on the parent 16-track grid and the image and title drift out of their columns relative to the divider rule; the 13-track inner grid is what holds the card's internal alignment.",
+      "anchor": { "type": "selector", "value": "[class*='regularContent'], [class*='featuredContent']" },
+      "recipe": "A nested grid on card content: 13 tracks, column-gap 12px, row-gap 12px. Card parts placed by span — date at span 1, image at 2 / span 3, title at 6 / span 5, category at 13 / span 1. At 1440 the tracks resolve to 73.92px each inside a 1105px container (13 x 73.92 + 12 x 12 = 960.96 + 144 = 1104.96). Critically: do not adopt this page's orphaned second system. A second grid with its own track count is defensible only if it is tokenised and its columns are demonstrably related to the outer grid's; here it is neither. The corrected contract is either to place card parts on the parent 16 tracks, or to declare the inner grid as a named token and state how its 13 tracks map to the outer 16.",
+      "checks": [
+        { "id": "c1", "check": "Card parts are placed by explicit span rather than by content width", "critical": true },
+        { "id": "c2", "check": "The inner grid's track count is declared as a token, not hard-coded in a component", "critical": true },
+        { "id": "c3", "check": "The inner grid's columns bear a stated relationship to the outer grid", "critical": true },
+        { "id": "c4", "check": "The inner grid's own arithmetic closes against its container", "weight": 1 },
+        { "id": "c5", "check": "The same inner grid is used by the featured row and the list rows", "weight": 1 }
+      ],
+      "evidence": [
+        "measured regularContent: 13 tracks of 73.9219px, column-gap 12px, row-gap 12px, box x 295 w 1105",
+        "measured featuredContent: 13 tracks of 73.9219px, column-gap 12px, row-gap 12px, box x 295 w 1105",
+        "arithmetic closes: 13 x 73.9219 + 12 x 12 = 1105.0, against a container of 1105",
+        "child placement: date 'span 1' (x 295 w 73.9), image '2 / span 3' (x 380.9 w 245.8), title '6 / span 5' (x 724.6 w 417.6), category '13 / span 1' (x 1326.1 w 73.9)",
+        "no :root token backs the 13 tracks — --grid-columns is 16 and the 13 appears only in component CSS"
+      ]
+    },
+    {
+      "id": "divider_not_gap",
+      "name": "Rows separated by a rule, not by space",
+      "kind": "move",
+      "description": "List items are separated by a 1px full-width rule rather than by a gap: successive items measure zero distance apart, and the only thing dividing them is an absolutely positioned hairline sitting exactly on the boundary. The rule is the ink at 20% alpha, so it reads as a soft grey rather than a hard line.",
+      "entry_test": "Remove the rule and eleven items merge into one undifferentiated column, because there is no space between them at all; the hairline is doing the entire job of separation.",
+      "anchor": { "type": "selector", "value": "[class*='borderLineBase'], [class*='regularItem']" },
+      "recipe": "Each item is position relative, and carries an absolutely positioned 1px rule element at its top edge, spanning the full width of the list container (1105px) in the ink colour at 20% alpha. Item padding is 16px top and 32px bottom, asymmetric, with no top border. Because the rule is absolutely positioned, it does not consume layout height — which is why successive items measure zero gap. Keep the rule full-width across the list, and keep the padding on the item rather than as margins between items, so the rule sits exactly on the boundary.",
+      "checks": [
+        { "id": "c1", "check": "List items are divided by a rule rather than by a gap", "critical": true },
+        { "id": "c2", "check": "The rule spans the full width of the list container", "weight": 1 },
+        { "id": "c3", "check": "The rule is soft (a tint of the ink) rather than a solid hard line", "weight": 1 },
+        { "id": "c4", "check": "The rule does not consume layout height", "weight": 1 },
+        { "id": "c5", "check": "Every item carries the rule, including the first", "weight": 1 }
+      ],
+      "evidence": [
+        "measured: eleven borderLineBase rules, each 1px tall, x 295 w 1105, background rgba(14,22,32,0.2), position absolute",
+        "rule y positions: 1668.7, 1880.6, 2092.4, 2304.3, 2516.1, 2728, 2939.8, 3151.6 — one per item",
+        "successive item gaps measure 0px on all seven pairs sampled",
+        "item computed padding '16px 0px 32px' — asymmetric, and the item carries no top border",
+        "the rule's 1105px width equals the list container's width exactly"
+      ]
+    },
+    {
+      "id": "featured_first",
+      "name": "Featured article leads the list",
+      "kind": "move",
+      "description": "The list opens with one featured article: a full-width image band above a two-part text row, its date at column 1 and its title spanning columns 6 to 12 — the same 13-track grid the smaller items use, at a much larger scale, so it sets the page's entry point.",
+      "entry_test": "Open the list with an ordinary item and the page has no entry point; the featured article's full-width image is what establishes the hierarchy.",
+      "anchor": { "type": "selector", "value": "[class*='featuredItem']" },
+      "recipe": "The featured item spans the full 16-column grid, with a 1 / -1 image container above and a text row beneath it. The image container is 1105px wide and 621.6px tall (1.78:1). The text row is a 13-track grid with 26px top and bottom padding, placing the date at span 1 (85px track) and the title at 6 / span 7 (607px). Title type is 40px/500 in the display face with tight leading. The item carries 120px of bottom padding, which is the only separation between it and the first list item besides that item's rule.",
+      "checks": [
+        { "id": "c1", "check": "Exactly one item is treated as featured and leads the list", "critical": true },
+        { "id": "c2", "check": "The featured image spans the full width of the list container", "critical": true },
+        { "id": "c3", "check": "The featured title is set larger than any list item title", "weight": 1 },
+        { "id": "c4", "check": "The featured text row uses the same inner grid as the list rows", "weight": 1 },
+        { "id": "c5", "check": "The featured title spans more columns than a list item title", "weight": 1 }
+      ],
+      "evidence": [
+        "measured featuredItem: box x 295 y 675 w 1105 h 993.7, padding '0px 0px 120px'",
+        "measured featuredImageContainer: '1 / -1', box w 1105 h 621.6 — ratio 1.78",
+        "measured featuredTextContent: 13 tracks of 85px, padding '26px 0px', date at 'span 1', title at '6 / span 7' (x 708 w 607)",
+        "featured title computed 40px/500, line-height 40px, letter-spacing -0.8px, jobyDisplay",
+        "list item titles compute 20px/500 with a 417.6px span — the featured title is twice the size and 1.45x the width"
+      ]
+    },
+    {
+      "id": "image_title_rule_row",
+      "name": "Item anatomy: date, image, title, category",
+      "kind": "move",
+      "description": "Every list item has the same five parts in the same columns: a date in the first column, the image across columns 2 to 4, the title across columns 6 to 10, and the category in the last column — with empty columns reserved between the image and the title, and between the title and the category, so the parts read as four separate registers rather than one run.",
+      "entry_test": "Run the parts together and an item becomes a line of text with a picture; the reserved empty columns are what let the eye separate date, image, title and category without any labels or rules.",
+      "anchor": { "type": "selector", "value": "[class*='regularItem'] [class*='regularContent']" },
+      "recipe": "Four parts on the 13-track inner grid: date at span 1; image at 2 / span 3; title at 6 / span 5; category at 13 / span 1. Note the two reserved gaps — column 5 sits empty between the image and the title, and columns 11 and 12 sit empty between the title and the category. At 1440 that is 73.9 + 245.8 + [empty 73.9] + 417.6 + [empty 147.8] + 73.9 across the 1105px. Date and category are set at the caption size in the text face; the title is 20px/500. All four parts share the item's top edge and its 163.8px content height.",
+      "checks": [
+        { "id": "c1", "check": "Every item has the same parts in the same columns", "critical": true },
+        { "id": "c2", "check": "Empty columns are reserved between the image and the title", "critical": true },
+        { "id": "c3", "check": "Date and category sit in the outer columns, not beside the title", "weight": 1 },
+        { "id": "c4", "check": "Date and category use the caption size while the title is larger", "weight": 1 },
+        { "id": "c5", "check": "All parts share the item's top edge and height", "weight": 1 }
+      ],
+      "evidence": [
+        "measured placements across all eleven items: date 'span 1' x 295 w 73.9; image '2 / span 3' x 380.9 w 245.8; title '6 / span 5' x 724.6 w 417.6; category '13 / span 1' x 1326.1 w 73.9",
+        "all four parts measure y 1684.7 and h 163.8 — a shared top edge and height",
+        "date and category computed 12px/450, line-height 14.4px, letter-spacing -0.24px, jobyText; title 20px/500, line-height 24px, letter-spacing -1.2px",
+        "column 5 (x 646.8 w 73.9) and columns 11-12 (x 1154.4 w 159.8) hold no content in any item",
+        "all eleven items share an identical box height of 211.8px"
+      ]
+    },
+    {
+      "id": "date_in_first_column",
+      "name": "Date pinned to the first column",
+      "kind": "move",
+      "description": "The date sits alone in the leftmost column of every item, set at the caption size, and its column is only as wide as a caption needs — so the date forms a narrow labelled margin down the left of the whole list, and the eye can scan it as a column of its own.",
+      "entry_test": "Move the date beside the title and the list loses its left margin; the dedicated first column is what makes eleven items scannable by date.",
+      "anchor": { "type": "selector", "value": "[class*='regularItem'] [class*='date']" },
+      "recipe": "The date occupies span 1 of the inner 13-track grid — a single track, 73.9px at 1440 — at the caption size (12px/450) in the text face, top-aligned with the rest of the item. It does not wrap to multiple lines at the desktop width. Because every item uses the same first-column span, the dates form an aligned column down the page; this is the list's only vertical guide besides the divider rules.",
+      "checks": [
+        { "id": "c1", "check": "The date occupies its own column at the start of every item", "critical": true },
+        { "id": "c2", "check": "The date column width is consistent across all items", "critical": true },
+        { "id": "c3", "check": "The date is set at the caption size, smaller than the title", "weight": 1 },
+        { "id": "c4", "check": "The date is top-aligned with the item rather than centred", "weight": 1 },
+        { "id": "c5", "check": "Dates align vertically down the whole list", "weight": 1 }
+      ],
+      "evidence": [
+        "measured date placement 'span 1' at x 295 w 73.9 on all eleven items — identical column and width",
+        "date computed 12px/450, line-height 14.4px, letter-spacing -0.24px",
+        "date content 'Sep 18 2026' fits one line inside 73.9px",
+        "the date box measures y 1684.7 exactly matching the image and title tops",
+        "date column x 295 equals the list container's left edge, so dates align to the list's own left rail"
+      ]
+    },
+    {
+      "id": "category_last_column",
+      "name": "Category in the last column",
+      "kind": "move",
+      "description": "The category sits alone in the rightmost column of every item, at the same caption size and weight as the date, so each item is bracketed by two small labels — when it was published on the left, what it is on the right — with the image and headline held between them.",
+      "entry_test": "Drop the category and the list loses its right-hand rail; the paired small labels are what frame each row.",
+      "anchor": { "type": "selector", "value": "[class*='regularItem'] [class*='categoryText']" },
+      "recipe": "The category occupies span 1 of the inner grid at its end — column 13, 73.9px at 1440 — at the caption size (12px/450) in the text face, sharing the item's top edge. Use the same type spec as the date so the two read as a matched pair, and leave columns 11 and 12 empty so the category is separated from the title by a clear gap rather than sitting beside it.",
+      "checks": [
+        { "id": "c1", "check": "The category occupies its own column at the end of every item", "critical": true },
+        { "id": "c2", "check": "The category's type spec matches the date's", "critical": true },
+        { "id": "c3", "check": "Empty columns separate the category from the title", "weight": 1 },
+        { "id": "c4", "check": "The category column is the same width as the date column", "weight": 1 },
+        { "id": "c5", "check": "Categories align vertically down the whole list", "weight": 1 }
+      ],
+      "evidence": [
+        "measured category placement '13 / span 1' at x 1326.1 w 73.9 on all eleven items",
+        "category computed 12px/450, line-height 14.4px, letter-spacing -0.24px — identical to the date",
+        "the category column is 73.9px, the same as the date column, giving the row matched end rails",
+        "the category's right edge (1400) equals the list container's right edge, so categories align to the list's right rail",
+        "columns 11 and 12 (x 1154.4 to 1314.2) hold no content in any item, separating the title from the category"
+      ]
+    },
+    {
+      "id": "category_rail",
+      "name": "Category rail beside the list",
+      "kind": "move",
+      "description": "A narrow rail on the left of the listing holds the category filters as a plain stack of text, unboxed and unfilled, matching the list's left rail so the rail's first item aligns with the page's list column.",
+      "entry_test": "Make the rail a row of pills above the list and it competes with the featured article; the quiet left stack is what keeps filtering available without becoming the page's subject.",
+      "anchor": { "type": "selector", "value": "[class*='categoriesNewsDesktop'], [class*='newsListContainer']" },
+      "recipe": "A rail 255px wide at x 40 — the parent grid's first columns — beside a list container 1105px wide at x 295. The rail holds each category as a block of text at body size in the text face, with 12px between them, no background, no border and no radius. The rail is not sticky: it scrolls away with the page while the list beside it is far taller (255px of rail against a 3397px list). The rail's own top (y 675) matches the list container's top exactly, so the first category aligns with the featured item's top edge.",
+      "checks": [
+        { "id": "c1", "check": "The rail sits in the parent grid's columns immediately left of the list", "critical": true },
+        { "id": "c2", "check": "The rail and the list share a top edge", "critical": true },
+        { "id": "c3", "check": "Categories are unboxed — no background, border or radius", "weight": 1 },
+        { "id": "c4", "check": "The rail's label spacing is consistent", "weight": 1 },
+        { "id": "c5", "check": "The rail stays narrower than a quarter of the band", "weight": 1 }
+      ],
+      "evidence": [
+        "measured categoriesNewsDesktop: box x 40 y 675 w 255 h 2822; list container x 295 y 675 w 1105 — shared top edge at y 675",
+        "category labels measured: 'Blog Posts' at y 699.7 and 'Press Releases' at y 724.3, both x 40 w 255",
+        "label gap between the two categories measures 12px",
+        "category computed: 16px/400 in jobyText, background rgba(0,0,0,0), border-radius 0px, padding 0px",
+        "the rail is 255px against a 1360px band (19%), and position static — it does not stick"
+      ]
+    },
+    {
+      "id": "caption_pair_type",
+      "name": "Two caption rails framing each row",
+      "kind": "move",
+      "description": "The date and the category are set at the same small size, the same weight and the same tracking, so they read as a matched pair of labels framing every item. Their size is the page's caption step, two steps below the item title and three below the featured title.",
+      "entry_test": "Set the date and category at different sizes and the framing breaks; the matched spec is what makes the two rails read as one system.",
+      "anchor": { "type": "selector", "value": "[class*='captionSmall']" },
+      "recipe": "One shared caption style used by both the date and the category: 12px, weight 450, line-height 14.4px, letter-spacing -0.24px, in the text face, no transform. It is the same caption step used across the site's other pages, so the rails stay in the parent's type system even though the items sit on their own grid.",
+      "checks": [
+        { "id": "c1", "check": "Date and category share one type style", "critical": true },
+        { "id": "c2", "check": "The caption style is smaller than the item title", "weight": 1 },
+        { "id": "c3", "check": "The caption style matches the site's caption step on other pages", "weight": 1 },
+        { "id": "c4", "check": "No uppercase transform on either rail", "weight": 1 },
+        { "id": "c5", "check": "Both rails use the text face, not the display face", "weight": 1 }
+      ],
+      "evidence": [
+        "date and category both compute 12px/450, line-height 14.4px, letter-spacing -0.24px, jobyText",
+        "the site-wide caption step on the article page is also 12px/450 with -0.24px tracking (-2% of size)",
+        "the item title computes 20px/500 — one step above, and the featured title 40px/500",
+        "no text-transform resolves on either rail"
+      ]
+    },
+    {
+      "id": "list_fade",
+      "name": "The list fades as a whole",
+      "kind": "move",
+      "description": "The whole list is wrapped in a fade layer that animates in over 300ms, so the eleven items and the featured article arrive together as one surface rather than as a cascade. The same layer is the mechanism that would carry a category filter change.",
+      "entry_test": "Fade each item separately and the list staggers; the single wrapper is what makes a long list read as one object arriving.",
+      "anchor": { "type": "selector", "value": "[class*='listFade']" },
+      "recipe": "Wrap the entire list in a single element that carries one fade animation — 300ms, linear — rather than attaching an entrance to each item. On this page the wrapper is a plain div around the list, and the animation is captured running on load. Images inside carry their own separate 400ms fade, so the wrapper's fade and the images' fades are independent.",
+      "checks": [
+        { "id": "c1", "check": "The list fades as one surface, not item by item", "critical": true },
+        { "id": "c2", "check": "The fade is bound to a single wrapper element", "weight": 1 },
+        { "id": "c3", "check": "The fade is short and linear", "weight": 1 },
+        { "id": "c4", "check": "Images fade on their own separate schedule", "weight": 1 },
+        { "id": "c5", "check": "The wrapper carries no layout of its own", "weight": 1 }
+      ],
+      "evidence": [
+        "measured listFade: box x 295 y 675 w 1105 h 3397 — it wraps the whole list and adds no padding",
+        "captured animation on listFade: duration 300ms, delay 0, easing linear",
+        "the eleven image fades are captured separately at 400ms each with the page's ease-out curve",
+        "the same keyframe library defines fadeIn as opacity 0 to 1, shared with the article page"
+      ]
+    },
+    {
+      "id": "media_kit_band",
+      "name": "Closing media kit band",
+      "kind": "move",
+      "description": "Below the listing sits a full-bleed closing band with a title on the left and a supporting line on the right, plus a single call to action — the page's only promotional surface, and the only place on this page where text is reversed out on a dark ground.",
+      "entry_test": "End the page on the last list item and the archive just stops; the media kit band is what closes it and turns a list into a destination.",
+      "anchor": { "type": "selector", "value": "[class*='sectionMediaKitNews']" },
+      "recipe": "A full-bleed band with a background image, padding 150px 40px 40px. Title at 48px/500 in the display face, reversed out in the light token, placed on the left (x 40 w 586); a supporting paragraph at 14px/400 on the right (x 1072 w 328); and one call-to-action beneath the title. Note this page's band background rises 690px above the band's own top edge, overlapping the section before it — treat that as an unresolved question, not a pattern to copy. Keep the band full-bleed and keep the title and supporting copy on the outer rails, not centred.",
+      "checks": [
+        { "id": "c1", "check": "A closing band follows the list, distinct from it", "critical": true },
+        { "id": "c2", "check": "Title and supporting copy sit on opposing rails", "critical": true },
+        { "id": "c3", "check": "The band is full-bleed with a background surface", "weight": 1 },
+        { "id": "c4", "check": "Text in the band is reversed out of the dark ground", "weight": 1 },
+        { "id": "c5", "check": "The band carries exactly one call to action", "weight": 1 }
+      ],
+      "evidence": [
+        "measured sectionMediaKitNews: box x 0 y 4192 w 1440 h 1090, padding '150px 40px 40px'",
+        "title h3 'Get the Joby Media Kit' computed 48px/500, line-height 48px, letter-spacing -1.44px, jobyDisplay, colour rgb(245,244,223), box x 40 w 586",
+        "supporting paragraph computed 14px/400, line-height 18.2px, letter-spacing -0.14px, box x 1072 w 328 — on the right rail opposite the title",
+        "one call to action measured (box x 40 w 160.5 h 38.9) beneath the title",
+        "the band's background image box is y 3652 h 920, i.e. it starts 690px above the section box at y 4192"
+      ]
+    },
+    {
+      "id": "caption_weight_step",
+      "name": "Weight carries the hierarchy",
+      "kind": "move",
+      "description": "Every step in the listing's hierarchy is carried by weight and size together, in half-hundred steps — 450 for the caption rails, 500 for titles, 550 for the page title. Nothing is bold, nothing is below 400, and no step relies on colour or case to distinguish itself.",
+      "entry_test": "Set the page title and item titles at one weight and the hierarchy flattens into a list of same-looking rows; the weight steps are what let size alone carry the difference.",
+      "anchor": { "type": "selector", "value": "h1, [class*='regularTitle'], [class*='captionSmall']" },
+      "recipe": "Use the parent's closed weight set: 400 body, 450 caption rails, 500 titles, 550 page title and display. No uppercase anywhere on the page, and no colour change to mark a level — every string is the same ink token. Tracking stays proportional to size: -3% at 100px, -2% at 40px, -6% on the 20px item title, -2% at 12px.",
+      "checks": [
+        { "id": "c1", "check": "Hierarchy is carried by size and weight, not by colour or case", "critical": true },
+        { "id": "c2", "check": "Weights stay within the parent's closed set", "critical": true },
+        { "id": "c3", "check": "No uppercase transform anywhere on the page", "weight": 1 },
+        { "id": "c4", "check": "Page title, item title and caption each take a distinct weight", "weight": 1 },
+        { "id": "c5", "check": "Tracking stays proportional to font size", "weight": 1 }
+      ],
+      "evidence": [
+        "type census at 1440: 12px|450 (35 occurrences), 18px|450 (12), 20px|500 (11), 14px|550 (8), 14px|400 (7), 40px|500 (5), 16px|500 (4), 18px|500 (4), 100px|550 (1), 48px|500 (1)",
+        "no element reports a text-transform other than 'none'",
+        "page title 100px/550 with -2.4px tracking (-2.4%); item title 20px/500 with -1.2px (-6%); caption 12px/450 with -0.24px (-2%)",
+        "every text colour resolves to rgb(14,22,32) except the reversed strings in the footer and media kit bands"
+      ]
+    },
+    {
+      "id": "display_scale_across_breakpoints",
+      "name": "One scale that rescales, not resteps",
+      "kind": "move",
+      "description": "The page's type and grid both rescale proportionally below the desktop widths rather than stepping: the page title runs 100px at 1440, 81.44px at 834 and 49.92px at 390, all by the same fluid factor, and the caption runs 12, 9.77 and 10.4 on the same curve. The grid changes track count at the smallest width while the type keeps its ratio.",
+      "entry_test": "Step the type at breakpoints and the page's rhythm jolts at each one; the proportional rescale is what keeps one scale working from 390 to 1440.",
+      "anchor": { "type": "selector", "value": "h1" },
+      "recipe": "Drive type and track sizes from a fluid root rather than from per-breakpoint values. The root measures 10px at 1440, 8.14px at 834 and 10.4px at 390, and every type size is a rem multiple of that root — which is why the same nominal sizes appear at every width with different computed values. Hold the display-to-caption ratio across all three widths. At the smallest width the grid restructures (the outer grid drops to 6 tracks and the inner to 6) while the type ratio is preserved.",
+      "checks": [
+        { "id": "c1", "check": "Type sizes rescale proportionally rather than stepping at breakpoints", "critical": true },
+        { "id": "c2", "check": "The display-to-caption ratio is held across all widths", "critical": true },
+        { "id": "c3", "check": "Sizes are declared in rem against a fluid root", "weight": 1 },
+        { "id": "c4", "check": "The grid restructures at the smallest width while type does not", "weight": 1 },
+        { "id": "c5", "check": "No type size is hard-coded per breakpoint", "weight": 1 }
+      ],
+      "evidence": [
+        "root font-size: 10px at 1440, 8.14453px at 834, 10.4px at 390",
+        "page title: 100px at 1440, 81.4453px at 834 (x0.8145), 49.92px at 390; tracking scales with it (-2.4, -1.95, -1.50)",
+        "item title: 20px at 1440, 16.29px at 834, 14.56px at 390",
+        "caption: 12px at 1440, 9.77px at 834, 10.4px at 390",
+        "grid restructure at 390: outer and hero grids drop to 6 tracks with an 8.32px gap; the footer drops to 6 tracks with 0 gap; the inner card grid becomes 6 tracks with a 16.64px gap"
+      ]
+    },
+    {
+      "id": "image_ratio_consistency",
+      "name": "Card images share one ratio",
+      "kind": "move",
+      "description": "Every list item's image is exactly the same size and ratio — 245.8 by 163.8px, a 1.5:1 crop — so the eleven images form a clean column down the page. The featured image above them is a different ratio (1.78:1) by design, at full width.",
+      "entry_test": "Let each image take its natural ratio and the list's image column develops ragged edges; the single crop ratio is what makes eleven rows align.",
+      "anchor": { "type": "selector", "value": "[class*='regularImage'] img, [class*='imageWrapper'] img" },
+      "recipe": "Crop every list item image to the same 3:2 ratio at a fixed size (245.8 x 163.8px at 1440, inside a three-track span), with object-fit cover and an 8px border radius. Crop the featured image to 1.78:1 at full list width with radius 0. Note the parent article page's card row fails exactly this test — three cards with three different ratios — so the index page's consistency is the behaviour worth taking, not the article page's.",
+      "checks": [
+        { "id": "c1", "check": "All list item images share one size and ratio", "critical": true },
+        { "id": "c2", "check": "Images are cropped rather than letterboxed", "weight": 1 },
+        { "id": "c3", "check": "The featured image's ratio differs deliberately from the list images'", "weight": 1 },
+        { "id": "c4", "check": "Radius is consistent within each image class", "weight": 1 },
+        { "id": "c5", "check": "Image widths fill their allocated span", "weight": 1 }
+      ],
+      "evidence": [
+        "all eleven list images measure 245.8 x 163.8 (ratio 1.5) at 1440, and all compute radius 8px with object-fit cover",
+        "the featured image measures 1105 x 621.6 (ratio 1.78) with radius 0px",
+        "list image width 245.8px equals its three-track span exactly (3 x 73.92 + 2 x 12 = 245.76)",
+        "at 834 list images measure 136.3 x 90.9 (ratio 1.5); at 390 they measure 107.1 x 107.1 — the ratio changes to square at the smallest width, which is the one break in the shared crop"
+      ]
+    },
+    {
+      "id": "no_pagination",
+      "name": "The list renders whole",
+      "kind": "move",
+      "description": "The archive renders every item at once with no pagination, no load-more control and no infinite-scroll trigger visible. The list is a single block on the page, ending at the closing band.",
+      "entry_test": "Add a pager and the list acquires a second navigation problem on a page that already has a category rail; rendering the set whole keeps the archive a single visual statement.",
+      "anchor": { "type": "selector", "value": "[class*='articlesGrid'], [class*='newsList']" },
+      "recipe": "Render the full list inside one grid element with no paging affordance. On this page the articles grid holds twelve children (one featured plus eleven regular) in a single 3324px block, and no control matching load-more, next, previous or page patterns exists. Whether the count is capped server-side is unresolved; the observable contract is that the page presents its list as one unit.",
+      "checks": [
+        { "id": "c1", "check": "The list renders as a single block with no paging control", "critical": true },
+        { "id": "c2", "check": "No load-more or infinite-scroll affordance is present", "weight": 1 },
+        { "id": "c3", "check": "The listing ends cleanly at the closing band", "weight": 1 },
+        { "id": "c4", "check": "The list's own container holds all items directly", "weight": 1 },
+        { "id": "c5", "check": "The featured item is a sibling of the regular items, not a separate section", "weight": 1 }
+      ],
+      "evidence": [
+        "articlesGrid holds 12 children: one featuredItem (h 993.7) and eleven regularItem (each h 211.8), box y 675 h 3324",
+        "no control on the page matches a paging pattern — the only matched control was a list item's own text",
+        "the list container ends at y 4072 (675 + 3397) and the next section begins at y 4192",
+        "the featured item and the regular items are direct siblings inside articlesGrid"
+      ]
+    }
+  ],
+  "aspects": [
+    {
+      "id": "layout",
+      "scales": [
+        { "id": "density", "poles": ["airy", "packed"], "value": 5.5, "evidence": ["eleven items each 211.8px tall with a 163.8px content band and reserved empty columns between every part; the featured article adds 993.7px above them, so the page is neither dense nor sparse"], "confidence": "high" },
+        { "id": "grid_discipline", "poles": ["free-form", "strict grid"], "value": 7.0, "evidence": ["every card part is placed by explicit span on a 13-track grid whose arithmetic closes exactly against its container, and all eleven items share identical geometry — but that inner grid is a second, untokenised system that does not derive from the parent's 16 tracks"], "confidence": "high", "note": "strictly obeyed, but the discipline is local: two unrelated column systems coexist and the inner one has no token" },
+        { "id": "symmetry", "poles": ["asymmetric", "centered"], "value": 2.0, "evidence": ["the rail sits left, the list runs right, the featured title starts at column 6 and the page title at column 1; nothing is centred"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "outer_columns", "slot": "outer_columns", "kind": "number", "value": 16, "tolerance_pct": 1, "usage": "the parent grid's track count, used by the chrome", "evidence": ["--grid-columns resolves to 16; heroContent and listsSection measure 16 tracks"] },
+        { "id": "outer_gap", "slot": "outer_gap", "kind": "number", "value": 16, "unit": "px", "tolerance_pct": 1, "usage": "the parent column gap at 1440; 13.03px at 834, 8.32px at 390", "evidence": ["heroContent columnGap 16px at 1440; 13.0312px at 834; 8.32px at 390"] },
+        { "id": "page_gutter", "slot": "page_gutter", "kind": "number", "value": 40, "unit": "px", "tolerance_pct": 1, "usage": "the side padding at 1440; 32.6px at 834, 17.7px at 390", "evidence": ["listsSection padding '0px 40px 120px'; categories x 40; at 834 rail x 32.6; at 390 item x 17.7"] },
+        { "id": "inner_columns", "slot": "inner_columns", "kind": "number", "value": 13, "tolerance_pct": 1, "usage": "the card grid's track count — a second system with no root token", "evidence": ["regularContent and featuredContent each measure 13 tracks at 1440 and 834"] },
+        { "id": "inner_gap", "slot": "inner_gap", "kind": "number", "value": 12, "unit": "px", "tolerance_pct": 1, "usage": "the card grid's gap at 1440; 9.77px at 834; 16.64px at 390", "evidence": ["regularContent columnGap 12px, rowGap 12px at 1440; 9.77344px at 834; 16.64px at 390"] },
+        { "id": "inner_track_width", "slot": "inner_track_width", "kind": "number", "value": 73.92, "unit": "px", "tolerance_pct": 2, "usage": "the card grid's track width at 1440", "evidence": ["regularContent gridTemplateColumns resolves to 73.9219px x13"] },
+        { "id": "list_width", "slot": "list_width", "kind": "number", "value": 1105, "unit": "px", "tolerance_pct": 1, "usage": "the list container's width at x 295; 624.7px at 834, 354.7px at 390", "evidence": ["measured newsListContainer box x 295 w 1105; at 834 x 176.7 w 624.7; at 390 x 17.7 w 354.7"] },
+        { "id": "rail_width", "slot": "rail_width", "kind": "number", "value": 255, "unit": "px", "tolerance_pct": 1, "usage": "the category rail's width at x 40; 144.2px at 834, hidden at 390", "evidence": ["measured categoriesNewsDesktop box x 40 w 255; at 834 x 32.6 w 144.2; at 390 the desktop rail is display none"] },
+        { "id": "item_height", "slot": "item_height", "kind": "number", "value": 211.8, "unit": "px", "tolerance_pct": 2, "usage": "the list item's outer height at 1440; 130px at 834, 146.6px at 390", "evidence": ["all eleven regularItem boxes measure h 211.8 at 1440; 130 at 834; 146.6 at 390"] },
+        { "id": "item_padding", "slot": "item_padding", "kind": "identity", "value": "16px top / 32px bottom at 1440; 13.03/26.06 at 834; 16.64/20.8 plus 20.8 sides at 390", "usage": "the item's asymmetric vertical padding", "evidence": ["regularItem computed padding '16px 0px 32px' at 1440; '13.0312px 0px 26.0625px' at 834; '16.64px 20.8px' at 390"] },
+        { "id": "rule_height", "slot": "rule_height", "kind": "number", "value": 1, "unit": "px", "tolerance_pct": 1, "usage": "the divider rule's thickness", "evidence": ["eleven borderLineBase elements each measure h 1"] },
+        { "id": "featured_image_ratio", "slot": "featured_image_ratio", "kind": "number", "value": 1.78, "tolerance_pct": 5, "usage": "the featured image band's ratio", "evidence": ["featured image box 1105 x 621.6 = 1.778"] },
+        { "id": "section_padding", "slot": "section_padding", "kind": "identity", "value": "0 40 120 on the listing section; 150 40 40 on the closing band; 38 40 89 on the footer", "usage": "section padding, recorded as ad hoc", "evidence": ["listsSection padding '0px 40px 120px'; sectionMediaKitNews '150px 40px 40px'; footer '38px 40px 89px'"] },
+        { "id": "section_stack", "slot": "section_stack", "kind": "enum", "value": ["hero 0-675", "listing 675-4192", "closing band 4192-5282", "footer 5282-7080"], "usage": "the vertical section order at 1440, page height 7080", "evidence": ["measured sectionWrapper boxes: 0/675, 675/3517, 4192/1090, 5282/1798.2"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the page chrome uses the parent 16-track grid unchanged" },
+        { "kind": "always", "rule": "card parts are placed by explicit column span" },
+        { "kind": "always", "rule": "all items in the list share identical geometry" },
+        { "kind": "never", "rule": "a second grid system exists without a root token" },
+        { "kind": "never", "rule": "an inner grid's columns bear no stated relationship to the outer grid" },
+        { "kind": "never", "rule": "list items are separated by whitespace alone" }
+      ],
+      "directives": [
+        "consume the parent 16-track grid in the header, listing section and footer",
+        "place each card's date, image, title and category by explicit span with reserved empty columns between them",
+        "give the inner card grid a token and state how its tracks map to the outer grid",
+        "separate list items with a full-width hairline rule rather than a gap",
+        "hold every list item's geometry identical"
+      ]
+    },
+    {
+      "id": "structure",
+      "scales": [
+        { "id": "hierarchy_depth", "poles": ["flat", "deep"], "value": 3.5, "evidence": ["four levels — page title 100px, featured title 40px, item title 20px, caption 12px — with the featured article's 40px sitting far closer to the page title than to the item titles it leads"], "confidence": "high" },
+        { "id": "rhythm", "poles": ["uniform", "syncopated"], "value": 7.5, "evidence": ["eleven identical items at an identical 211.8px each, then one 993.7px featured block, a 1090px closing band and a 1798px footer; the repetition is strong and the featured break is a single deliberate accent"], "confidence": "high" },
+        { "id": "component_voice", "poles": ["borderless", "framed"], "value": 3.5, "evidence": ["items carry no card, background or radius, but each is separated by a real hairline rule and the images carry an 8px radius — more framing than the article page's cards, less than a card system"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "list_parts", "slot": "list_parts", "kind": "enum", "value": ["date", "image", "title", "category"], "usage": "the four parts of a list item, in column order", "evidence": ["measured placements: date span 1, image 2/span 3, title 6/span 5, category 13/span 1"] },
+        { "id": "item_count", "slot": "item_count", "kind": "number", "value": 11, "tolerance_pct": 1, "usage": "the number of regular items, plus one featured", "evidence": ["eleven elements match the regularItem class, plus one featuredItem"] },
+        { "id": "column_spans", "slot": "column_spans", "kind": "enum", "value": ["span 1 (date)", "2 / span 3 (image)", "6 / span 5 (title)", "13 / span 1 (category)", "1 / -1 (featured image)", "6 / span 7 (featured title)"], "usage": "the card placement vocabulary", "evidence": ["computed gridColumn values read from the live DOM"] },
+        { "id": "reserved_columns", "slot": "reserved_columns", "kind": "enum", "value": ["column 5 between image and title", "columns 11-12 between title and category"], "usage": "empty columns that separate the card's parts", "evidence": ["column 5 (x 646.8 w 73.9) and columns 11-12 (x 1154.4 w 159.8) hold no content in any item"] },
+        { "id": "rail_items", "slot": "rail_items", "kind": "enum", "value": ["Blog Posts", "Press Releases"], "usage": "the category filters", "evidence": ["measured label text at y 699.7 and y 724.3"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the list opens with exactly one featured article" },
+        { "kind": "always", "rule": "every list item carries the same four parts in the same columns" },
+        { "kind": "always", "rule": "a page closes with a band distinct from its list" },
+        { "kind": "never", "rule": "a card is bounded by a background, border or shadow" },
+        { "kind": "never", "rule": "more than four levels of text hierarchy on the page" }
+      ],
+      "directives": [
+        "lead the list with one full-width featured article",
+        "give every item a date, image, title and category in fixed columns",
+        "close the page with a full-bleed media kit band",
+        "separate items with hairlines rather than framing them as cards"
+      ]
+    },
+    {
+      "id": "type",
+      "scales": [
+        { "id": "scale_contrast", "poles": ["even", "dramatic"], "value": 5.5, "evidence": ["sizes run 100, 48, 40, 20, 18, 16, 14 and 12px — an 8.3x span overall, though the four levels that matter to the list (100/40/20/12) sit at a more even 2.5x, 2x, 1.67x progression"], "confidence": "high" },
+        { "id": "weight_voice", "poles": ["light", "heavy"], "value": 3.5, "evidence": ["weights are 400, 450, 500 and 550 in half-hundred steps; the list leans on 450 for its caption rails and 500 for titles, with nothing bold"], "confidence": "high" },
+        { "id": "family_register", "poles": ["editorial", "utilitarian"], "value": 4.0, "evidence": ["two families — display for the page title and featured title, text for item titles and both caption rails — with the utilitarian text face carrying the repeating majority"], "confidence": "high", "note": "the item title uses the text face, not the display face, so the list reads as utility while the page and featured titles read as editorial" },
+        { "id": "tracking_case", "poles": ["sentence-case", "all-caps/wide"], "value": 1.0, "evidence": ["no uppercase anywhere; tracking is negative throughout, though not at one constant percentage — -2.4% on the page title, -2% on the featured title, -6% on the item title, -2% on captions"], "confidence": "high", "note": "the item title's -6% tracking is an outlier that breaks the parent's -3%/-2% rule" }
+      ],
+      "values": [
+        { "id": "page_title_size", "slot": "page_title_size", "kind": "number", "value": 100, "unit": "px", "tolerance_pct": 1, "usage": "the 'Newsroom' page title at 1440", "evidence": ["computed h1 100px/550, line-height 100px, letter-spacing -2.4px, jobyDisplay"] },
+        { "id": "featured_title_size", "slot": "featured_title_size", "kind": "number", "value": 40, "unit": "px", "tolerance_pct": 1, "usage": "the featured article's title", "evidence": ["computed featuredTitle 40px/500, line-height 40px, letter-spacing -0.8px, jobyDisplay"] },
+        { "id": "item_title_size", "slot": "item_title_size", "kind": "number", "value": 20, "unit": "px", "tolerance_pct": 1, "usage": "list item titles, in the text face", "evidence": ["computed regularTitle 20px/500, line-height 24px, letter-spacing -1.2px, jobyText"] },
+        { "id": "caption_size", "slot": "caption_size", "kind": "number", "value": 12, "unit": "px", "tolerance_pct": 1, "usage": "the date and category rails", "evidence": ["computed 12px/450, line-height 14.4px, letter-spacing -0.24px on both rails"] },
+        { "id": "band_title_size", "slot": "band_title_size", "kind": "number", "value": 48, "unit": "px", "tolerance_pct": 1, "usage": "the closing band's title", "evidence": ["computed h3 48px/500, line-height 48px, letter-spacing -1.44px, jobyDisplay"] },
+        { "id": "display_to_caption_ratio", "slot": "display_to_caption_ratio", "kind": "number", "value": 8.33, "tolerance_pct": 8, "usage": "page title to caption at 1440, held across breakpoints", "evidence": ["100:12 = 8.33 at 1440; 81.44:9.77 = 8.33 at 834; 49.92:10.4 = 4.8 at 390"] },
+        { "id": "tracking_rule", "slot": "tracking_rule", "kind": "identity", "value": "not constant: -2.4% at 100px, -2% at 40px, -6% at 20px, -2.8% at 14px, -2% at 12px", "usage": "tracking, recorded as inconsistent on this page", "evidence": ["100px -> -2.4 (-2.4%); 48px -> -1.44 (-3%); 40px -> -0.8 (-2%); 20px -> -1.2 (-6%); 14px -> -0.28 (-2%); 12px -> -0.24 (-2%)"] },
+        { "id": "families", "slot": "families", "kind": "enum", "value": ["jobyDisplay", "jobyText"], "usage": "the two families", "evidence": ["only jobyDisplay and jobyText (plus fallbacks) appear in the stylesheet font list"] },
+        { "id": "weight_set", "slot": "weight_set", "kind": "enum", "value": ["400", "450", "500", "550"], "usage": "the weight range in use", "evidence": ["type census reports 400, 450, 500 and 550 only"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "no uppercase text on the page" },
+        { "kind": "always", "rule": "the date and the category share one caption style" },
+        { "kind": "always", "rule": "display titles use tight leading equal to their size" },
+        { "kind": "never", "rule": "a weight outside the parent's closed set" },
+        { "kind": "never", "rule": "more than two type families" },
+        { "kind": "never", "rule": "an item title reaching display scale" }
+      ],
+      "directives": [
+        "set the page title at 100px/550 and the featured title at 40px/500 in the display face",
+        "set item titles at 20px/500 and both caption rails at 12px/450 in the text face",
+        "keep all type in sentence case with no uppercase transform",
+        "hold the display-to-caption ratio across breakpoints"
+      ]
+    },
+    {
+      "id": "color",
+      "scales": [
+        { "id": "base_polarity", "poles": ["light canvas", "dark canvas"], "value": 2.5, "evidence": ["a light page throughout, with the ink and canvas tokens dominating the census; only the closing band and the footer reverse the scheme"], "confidence": "high" },
+        { "id": "temperature", "poles": ["cool", "warm"], "value": 4.0, "evidence": ["a warm off-white canvas and a slightly cool near-black ink, with cool accents in the footer; the closing band's photograph provides the page's only warm material"], "confidence": "high" },
+        { "id": "chroma", "poles": ["muted", "vivid"], "value": 4.5, "evidence": ["the list itself is entirely neutral — one ink and one canvas — with saturation arriving only in the footer's bands and the closing band's image"], "confidence": "high" },
+        { "id": "palette_width", "poles": ["singular/duo", "many hues"], "value": 3.0, "evidence": ["two tokens carry the whole listing; the same five accents as the rest of the site appear only in the footer"], "confidence": "high" },
+        { "id": "contrast", "poles": ["soft", "hard"], "value": 4.5, "evidence": ["the ink on canvas is a strong pairing, but the page's structural dividers are deliberately soft at 20% alpha; the reversed text in the closing band is the hard edge"], "confidence": "high" },
+        { "id": "surface_finish", "poles": ["flat", "decorated"], "value": 2.5, "evidence": ["flat fills throughout with no gradients anywhere on the page; the only material is the closing band's photograph"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "ink", "slot": "ink", "kind": "identity", "value": "#0E1620", "usage": "all text on the page", "evidence": ["colour census: text rgb(14,22,32) x54 — the dominant text colour"] },
+        { "id": "canvas", "slot": "canvas", "kind": "identity", "value": "#F5F4DF", "usage": "the page background", "evidence": ["body background rgb(245,244,223)"] },
+        { "id": "divider", "slot": "divider", "kind": "identity", "value": "rgba(14,22,32,0.2)", "usage": "the item divider rules — the ink at 20% alpha", "evidence": ["eleven rules measure background rgba(14, 22, 32, 0.2)"] },
+        { "id": "accent_blue", "slot": "accent_blue", "kind": "identity", "value": "#007AE5", "usage": "the footer link field", "evidence": ["--color-blue #007ae5; footer background rgb(0,122,229)"] },
+        { "id": "accent_navy", "slot": "accent_navy", "kind": "identity", "value": "#1C3F99", "usage": "the footer's closing band", "evidence": ["--color-dark-blue #1c3f99; footerCreative background rgb(28,63,153)"] },
+        { "id": "reversed_text", "slot": "reversed_text", "kind": "identity", "value": "#F5F4DF", "usage": "text on the closing band and footer", "evidence": ["closing band title and footer text compute rgb(245,244,223)"] },
+        { "id": "gradient_count", "slot": "gradient_count", "kind": "number", "value": 0, "tolerance_pct": 1, "usage": "the number of gradients on the page", "evidence": ["no element on the page reports a gradient in its background-image"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "one ink and one canvas carry the whole listing" },
+        { "kind": "always", "rule": "structural dividers are a tint of the ink rather than a solid line" },
+        { "kind": "always", "rule": "reversed text reuses the canvas token" },
+        { "kind": "never", "rule": "a gradient anywhere on the page" },
+        { "kind": "never", "rule": "colour used to mark hierarchy" }
+      ],
+      "directives": [
+        "set all listing text in the near-black ink on the warm off-white canvas",
+        "draw item dividers in the ink at 20% alpha",
+        "reserve saturated colour for the closing band and the footer",
+        "keep every surface a flat fill"
+      ]
+    },
+    {
+      "id": "motion",
+      "scales": [
+        { "id": "energy", "poles": ["still", "kinetic"], "value": 2.5, "evidence": ["one 300ms fade on the whole list, eleven 400ms image fades, and the site's shared hover transitions; nothing on the page moves once loaded"], "confidence": "high" },
+        { "id": "temperament", "poles": ["functional", "expressive"], "value": 2.5, "evidence": ["every animation is a short fade with no transform and no stagger, all linear or decelerating; the page has no expressive motion at all"], "confidence": "high", "note": "the most restrained page of the set — the article page has more motion than this" }
+      ],
+      "values": [
+        { "id": "list_fade_duration", "slot": "list_fade_duration", "kind": "number", "value": 300, "unit": "ms", "tolerance_pct": 10, "usage": "the whole-list fade on load", "evidence": ["captured animation on listFade: duration 300ms, delay 0, easing linear"] },
+        { "id": "image_fade_duration", "slot": "image_fade_duration", "kind": "number", "value": 400, "unit": "ms", "tolerance_pct": 10, "usage": "each image's fade-in", "evidence": ["eleven captured animations on image nodes, each duration 400ms, delay 0"] },
+        { "id": "easing_tokens", "slot": "easing_tokens", "kind": "enum", "value": ["--ease-in-out-cubic cubic-bezier(.65,0,.35,1)", "--ease-out-cubic cubic-bezier(.33,1,.68,1)", "--link-transition transform .3s cubic-bezier(.165,.84,.44,1)"], "usage": "the shared easing set on :root", "evidence": ["resolved from :root on the live page"] },
+        { "id": "hover_state", "slot": "hover_state", "kind": "identity", "value": "unconfirmed — hovering a category produced no measurable change", "usage": "the hover affordance on categories and items", "evidence": ["hovering 'Press Releases' left colour rgb(14,22,32), opacity 1, font-size 16px and transform none unchanged on both the link and its first child"] },
+        { "id": "triggers", "slot": "triggers", "kind": "enum", "value": ["load", "hover"], "usage": "the events that drive motion on this page", "evidence": ["the list fade and image fades run on load; the shared link transition is declared for hover"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the list fades as one surface on load" },
+        { "kind": "always", "rule": "images fade on opacity alone with no transform" },
+        { "kind": "never", "rule": "a staggered per-item entrance" },
+        { "kind": "never", "rule": "motion longer than about 500ms" },
+        { "kind": "never", "rule": "an overshoot or bounce curve" }
+      ],
+      "directives": [
+        "fade the whole list once over 300ms rather than staggering its items",
+        "fade each image over 400ms on opacity alone",
+        "reuse the site's shared easing tokens rather than declaring new curves"
+      ]
+    },
+    {
+      "id": "imagery",
+      "scales": [
+        { "id": "role", "poles": ["text-led", "image-led"], "value": 6.0, "evidence": ["the featured article is dominated by a 621.6px-tall image band and every item carries a picture in a fixed column; the images are structural to the list rather than decorative"], "confidence": "high" },
+        { "id": "medium", "poles": ["photographic", "graphic"], "value": 9.0, "evidence": ["every image on the page is a photograph, including the closing band's background; the only vector artwork is the footer's horizon graphic"], "confidence": "high" },
+        { "id": "treatment", "poles": ["natural", "stylized"], "value": 3.5, "evidence": ["photographs are shown straight with no filter, duotone or overlay, cropped to consistent ratios; the closing band's image sits behind reversed text but has no tint applied"], "confidence": "high" },
+        { "id": "framing", "poles": ["sharp", "rounded"], "value": 3.5, "evidence": ["list item images carry an 8px radius while the featured image and the closing band are square — a deliberate split between the small repeating crop and the large ones"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "item_image_size", "slot": "item_image_size", "kind": "identity", "value": "245.8 x 163.8px at 1440 (1.5:1); 136.3 x 90.9 at 834; 107.1 x 107.1 at 390", "usage": "the list item image crop", "evidence": ["all eleven list images measure 245.8 x 163.8 at 1440, 136.3 x 90.9 at 834, 107.1 x 107.1 at 390"] },
+        { "id": "item_image_radius", "slot": "item_image_radius", "kind": "number", "value": 8, "unit": "px", "tolerance_pct": 1, "usage": "the radius on list item images", "evidence": ["computed border-radius 8px on all eleven list images"] },
+        { "id": "featured_image_radius", "slot": "featured_image_radius", "kind": "number", "value": 0, "unit": "px", "tolerance_pct": 1, "usage": "the featured image and closing band are square", "evidence": ["computed border-radius 0px on the featured image and the closing band image"] },
+        { "id": "object_fit", "slot": "object_fit", "kind": "identity", "value": "cover on every image", "usage": "images fill their columns and are cropped", "evidence": ["computed object-fit cover on all rendered images"] },
+        { "id": "image_count", "slot": "image_count", "kind": "number", "value": 13, "tolerance_pct": 15, "usage": "rendered images: one featured, eleven items, one closing band, with duplicates from responsive sources", "evidence": ["fifteen image elements render, thirteen distinct after dedup"] },
+        { "id": "alt_text", "slot": "alt_text", "kind": "identity", "value": "every image carries alt text drawn from its headline", "evidence": ["measured alt values on all list images, e.g. 'Joby Launches eIPP Flights in Texas', 'Joby Autonomous Aircraft Begins Cross-Country Tour'"] },
+        { "id": "ratio_consistency", "slot": "ratio_consistency", "kind": "identity", "value": "uniform within the list (1.5 at desktop and tablet), breaking to square at 390", "usage": "recorded because the parent article page fails this test", "evidence": ["list images measure 1.5 at 1440 and 834, then 1.0 at 390; on the article page the three cards measure 1.41, 1.43 and 1.50"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "every list item carries a photograph" },
+        { "kind": "always", "rule": "list item images share one size and ratio" },
+        { "kind": "always", "rule": "images are cropped square to their container" },
+        { "kind": "never", "rule": "a filter, duotone or colour overlay on a photograph" },
+        { "kind": "never", "rule": "images of differing size within the item list" }
+      ],
+      "directives": [
+        "crop every list image to one shared 3:2 ratio at a fixed three-track size",
+        "give list images an 8px radius and keep the large images square",
+        "use cover everywhere so nothing is letterboxed",
+        "give every image alt text drawn from its headline"
+      ]
+    },
+    {
+      "id": "copy",
+      "scales": [
+        { "id": "register", "poles": ["casual", "formal"], "value": 5.0, "evidence": ["headlines are formal corporate announcements and the closing band's supporting line is matter-of-fact; the page has no editorial voice of its own beyond its title"], "confidence": "high" },
+        { "id": "voice", "poles": ["plain", "playful"], "value": 1.5, "evidence": ["no wordplay or asides; the page title is a single noun and the category labels are two compound nouns"], "confidence": "high" },
+        { "id": "density", "poles": ["terse", "explanatory"], "value": 2.5, "evidence": ["the page is almost entirely headlines and dates — eleven titles, two category labels, one band title and one supporting sentence; there is no body copy at all"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "page_title", "slot": "page_title", "kind": "identity", "value": "Newsroom", "usage": "the page's h1 — a single noun, not a phrase", "evidence": ["measured h1 text 'Newsroom'"] },
+        { "id": "category_labels", "slot": "category_labels", "kind": "enum", "value": ["Blog Posts", "Press Releases"], "usage": "the two filters, both compound nouns in title case", "evidence": ["measured category label text"] },
+        { "id": "item_title_style", "slot": "item_title_style", "kind": "identity", "value": "full announcement headline, sentence case, no truncation marker", "usage": "list item titles are the articles' own headlines", "evidence": ["measured item titles are the full headlines, e.g. 'Joby Completes First-Ever Fully Autonomous Flight Across the United States'"] },
+        { "id": "date_format", "slot": "date_format", "kind": "identity", "value": "Mon D YYYY (e.g. 'Sep 18 2026', 'Oct 2 2026')", "usage": "the item date format, with no comma", "evidence": ["measured date text on all items"] },
+        { "id": "band_title", "slot": "band_title", "kind": "identity", "value": "Get the Joby Media Kit", "evidence": ["measured h3 text"] },
+        { "id": "band_support", "slot": "band_support", "kind": "identity", "value": "one sentence describing the contents of the kit", "evidence": ["measured supporting paragraph, 14px/400, e.g. 'Includes press material, photograph...'"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the page title is a single noun, not a sentence" },
+        { "kind": "always", "rule": "item titles are the articles' own headlines, unabridged" },
+        { "kind": "always", "rule": "category labels are compound nouns in title case" },
+        { "kind": "never", "rule": "body copy on an index page" },
+        { "kind": "never", "rule": "a truncated item headline on the desktop layout" }
+      ],
+      "directives": [
+        "title the page with a single noun",
+        "use the articles' own headlines as item titles, unabridged",
+        "label the categories as compound nouns in title case",
+        "support the closing band with exactly one sentence"
+      ]
+    }
+  ],
+  "limitations": [
+    "Category filtering is unmeasured. The rail's two filters were not exercised, so the filtered state, its transition and any re-layout of the list are unknown. The listFade animation (300ms) is captured on load and is the likely carrier, but that is inference.",
+    "The category hover state could not be confirmed. Hovering 'Press Releases' produced no change in colour, opacity, font-size or transform on the link or its first child. This is recorded as unconfirmed rather than as an absent hover state — the affordance may live on a descendant not sampled.",
+    "Two grid systems coexist and the inner one is a defect, not a target. The chrome sits on the parent 16-track grid; every card row sits on a 13-track grid with a 12px gap that has no root token and no stated relationship to the 16. The rubric requires the second system to be tokenised and mapped.",
+    "Type tracking is inconsistent on this page and is recorded as such. The parent's rule is -3% of size (with a -2% exception at 12px); this page runs -2.4% at 100px, -3% at 48px, -2% at 40px and 14px, -2% at 12px, and -6% on the 20px item title. The -6% item-title value is an outlier.",
+    "The list image crop breaks at the smallest width: 1.5:1 at 1440 and 834, but 1.07:1 (effectively square) at 390. Whether that is deliberate or a consequence of the container is unresolved.",
+    "The closing band's background image rises 690px above its own section box (section y 4192, image y 3652), so it overlaps the preceding section. Recorded as an open question, not as a defect or a pattern.",
+    "Cross-page card consistency is only verified within this page. All eleven items share an identical 211.8px height here because the listing's headlines happen to wrap to similar lengths; the layout's behaviour with a much longer headline was not tested.",
+    "The 13-track inner grid's intended reading was not confirmed against the site's own specification. It appears only in component styles with no token backing it.",
+    "The featured item's image ratio (1.78:1) is measured but whether it is authored or a consequence of the source image's dimensions was not isolated.",
+    "The page renders all twelve items with no paging control; whether the listing is capped server-side was not determined.",
+    "Motion at 834 and 390 was not sampled per element; values come from the 1440 pass and the shared keyframe library.",
+    "The nav and footer are site-wide components with their own rubrics and are not re-graded here."
+  ]
+}

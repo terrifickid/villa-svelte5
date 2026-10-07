@@ -26,18 +26,29 @@ export async function load({ params }) {
   }
 
   try {
-    const response = await client.getEntries({
-      content_type: BLOG_CONTENT_TYPE,
-      "fields.slug": params.slug,
-      limit: 1,
-    });
+    const [response, recent] = await Promise.all([
+      client.getEntries({
+        content_type: BLOG_CONTENT_TYPE,
+        "fields.slug": params.slug,
+        limit: 1,
+      }),
+      client.getEntries({
+        content_type: BLOG_CONTENT_TYPE,
+        order: "-sys.publishedAt",
+        limit: 4,
+      }),
+    ]);
 
     const entry = response.items[0];
     if (!entry) {
       throw error(404, "Blog post not found");
     }
 
-    return { entry };
+    const otherPosts = recent.items
+      .filter((post) => post.fields.slug !== params.slug)
+      .slice(0, 3);
+
+    return { entry, otherPosts };
   } catch (err) {
     if (err && typeof err === "object" && "status" in err) {
       throw err;

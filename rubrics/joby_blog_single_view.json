@@ -1,0 +1,690 @@
+{
+  "format": "mixdown2",
+  "version": "1.0",
+  "rubric_id": "joby_single_blog_view",
+  "class": "web-design.article-page",
+  "intended_use": "both",
+  "source": {
+    "mode": "capture",
+    "what": "Joby Aviation single news-article page (the BLADEone / Aero jet-service announcement) — a full rubric covering all seven aspects, not just structure. Captured from the live page at three viewports plus targeted probes for type, spacing, colour, imagery, motion and copy.",
+    "when": "2026-10-02",
+    "method": "Chromium (ms-playwright chromium-1234) driven by puppeteer-core, one isolated browser context per width, so no state leaks between passes. Viewports 1440x900, 834x1112, 390x844 at deviceScaleFactor 1. Each pass scrolled once through the document to trigger reveals, then every running animation was finished and its styles committed so nothing measured was stuck in a hidden pre-animation state (verified: hiddenAfterFinish 1, that one being the cookie banner). Cookie and page-transition overlays were removed from the DOM before measurement — the page-transition layer is what hides the footer in a naive full-page capture. All numbers are getComputedStyle and getBoundingClientRect readings plus resolved :root custom properties, never estimates.",
+    "gaps": [
+      "The pull-quote is measured as it is: there is no blockquote element on the page and no oversized quotation style. Two quoted passages sit inside ordinary 16px body paragraphs using curly quotes. The rubric records that absence rather than inventing a quote treatment, and the 'attribute a quotation' move is written as a corrected contract, flagged as not present on the source.",
+      "Paragraph separation is produced by <br> elements (each exactly one line-height tall, 19px) rather than by margins. Measured p-to-p distance is 38px, which is two line-heights: one for the <br> and one for the gap. The authoring intent (a line break standing in for paragraph spacing) is inferred from the DOM order, not from a declaration.",
+      "The hero image's vertical offset is confirmed at 202.5px (its container is 900px tall, the image renders 1035px tall and is cropped by overflow), but whether the composition offset is authored or an artifact of object-position was not resolved.",
+      "The media section's 1.6:1 aspect is enforced by the section's own height (900px against 1440px width), not by the image element, which renders at 1.39:1 and is cropped. Which element owns the aspect was not isolated.",
+      "The 'Read next' card row's alignment failure is characterised precisely (image tops at 4238.1 / 4321.9 / 4410.4, a 172.3px spread, driven by unequal heading heights above the images) but the page's intended fix is not recorded anywhere on the source, so the corrected contract is the rubric author's construction.",
+      "Motion was sampled after the reveal had completed at 1440 only; the entrance stagger across the three news cards and the hero's word-level animation are inferred from the shared keyframe library and the captured early-sampling data, not measured per element.",
+      "Hover and focus states on body links, the rail's share buttons and the 'View all News' button were read from authored CSS; only the button's colour transition was captured live.",
+      "The sidebar rail is measured as position relative in the captured state, with its sticky behaviour not exercised. The rail's 1732px height against the article's 1044px content height suggests the sticky wrapper is authored, but that was not confirmed by scrolling.",
+      "The footer and nav are site-wide components with their own rubrics (joby_nav_v1.json, joby_footer_v1.json). They are described here only as they appear on this page, and their internals are not re-graded."
+    ],
+    "notes": "This page's headline finding is that it uses ONE grid definition everywhere — hero, media band, article, sidebar, Read next and footer are all the same 16-column, 16px-gap, 40px-gutter grid, at 1440 measuring exactly 16x70 + 15x16 + 80 = 1440. The commonly reported fault ('the blog grid does not match the footer grid') is false as stated: the grids are identical. The real defect is that the same 16 tracks carry two incompatible placement systems — the article and Read next place children by column span, while the Read next card row abandons columns entirely for flex content widths (559 / 458 / 343), and the footer leaves columns 3-10 undeclared. Three further defects are recorded as negative evidence: the card row's 172.3px image-top spread, paragraph spacing produced by line-break elements rather than a rhythm, and a triple column system across breakpoints (16 fixed-px tracks, then a 100px-gap fluid variant at 1024, then 6 tracks at 600)."
+  },
+  "element_inventory": [
+    { "element": "hero (h1 + dateline)", "aspects": ["type", "layout", "structure"] },
+    { "element": "hero media band", "aspects": ["imagery", "layout", "color"] },
+    { "element": "standfirst", "aspects": ["type", "copy", "layout"] },
+    { "element": "article body", "aspects": ["type", "layout", "copy"] },
+    { "element": "sidebar rail (published + share)", "aspects": ["layout", "structure", "motion"] },
+    { "element": "footnote (about + contacts)", "aspects": ["type", "copy", "layout"] },
+    { "element": "Read next section", "aspects": ["layout", "structure", "type"] },
+    { "element": "news cards (three)", "aspects": ["layout", "imagery", "type"] },
+    { "element": "nav (fixed)", "aspects": ["motion", "layout"] },
+    { "element": "footer (link field + horizon band)", "aspects": ["color", "layout", "imagery"] }
+  ],
+  "parts": [
+    {
+      "id": "single_grid_everywhere",
+      "name": "One grid, every section",
+      "kind": "move",
+      "description": "Hero, media band, standfirst, article, sidebar, Read next and footer are all the same 16-column grid with the same 16px column gap and the same 40px page gutter. At 1440 the tracks are fixed 70px columns and the arithmetic closes exactly: 16 columns of 70px plus 15 gaps of 16px plus two 40px gutters equals 1440. The tracks are px, not fractions, so the gutter absorbs any viewport change rather than the columns.",
+      "entry_test": "Give any one section its own grid definition and the page's left edges stop agreeing across section boundaries; the single shared definition is what makes the headline, the body and the section label all start at the same x.",
+      "anchor": { "type": "selector", "value": "[class*='sectionNews'], [class*='heroContent'], [class*='newsArticleContentSection'], [class*='newsArticleBody'], footer" },
+      "recipe": "Declare the grid once on a shared token set and consume it in every section: grid-template-columns repeat(var(--grid-columns), 1fr) is NOT what this page does — it fixes the tracks in px and lets the gutter carry the load. At 1440: 16 tracks of 70px, column-gap 16px, padding 0 40px, giving a 1360px content band (1120px of tracks + 240px of gaps). The same 16/16/40 system appears in the hero, the media band, the standfirst, the article, the sidebar, Read next and the footer with no per-section overrides. Do not let a section declare its own columns or its own gutter.",
+      "checks": [
+        { "id": "c1", "check": "Every section resolves to the same column count, gap and gutter", "critical": true },
+        { "id": "c2", "check": "The track arithmetic closes exactly against the viewport width", "critical": true },
+        { "id": "c3", "check": "Tracks are fixed px (or an equivalent scale), not free fractions", "weight": 1 },
+        { "id": "c4", "check": "No section declares a private grid definition", "weight": 1 },
+        { "id": "c5", "check": "The gutter, not the columns, absorbs viewport change", "weight": 1 }
+      ],
+      "evidence": [
+        "measured at 1440: all five grid containers resolve to '70px' x16, columnGap 16px, padding 0 40px",
+        "arithmetic closes: 16x70 + 15x16 = 1120 + 240 = 1360 = 1440 - 80, exact",
+        "SectionNews computed gridTemplateColumns '70px 70px ... 70px' (16 entries), gap 16px",
+        "at 1200 tracks are 55px and at 1024 they are 44px, with the gap held at 16px and the gutter at 40px in all three cases",
+        "the footer grid resolves to the same 16 tracks, 16px gap, 40px gutter as every content section"
+      ]
+    },
+    {
+      "id": "span_placement_not_flex",
+      "name": "Place children by span, not by content width",
+      "kind": "move",
+      "description": "The article's blocks are placed by explicit column spans on the shared grid: the headline spans 12 columns, the caption spans 8, the published block runs from column 9 to the end, the sidebar rail spans 2, and the article measure spans 8 starting at column 5. Nothing in the reading column is sized by its own content. This is the page's dominant placement system and the one the Read next card row breaks.",
+      "entry_test": "Size the reading column to its own content and the measure stops being constant across the article; the fixed span is what holds the measure at exactly eight tracks regardless of what the text says.",
+      "anchor": { "type": "selector", "value": "[class*='titleArticlePage'], [class*='newsArticleContentSection'] [class*='content'], [class*='newsArticleBody']" },
+      "recipe": "Place every reading-column block with an explicit grid-column: h1 1 / span 12; hero caption 1 / span 8; published block 9 / -1; standfirst 5 / -1; sidebar rail span 2; article content 5 / span 8. At 1440 these resolve to h1 x 40 w 1016, caption x 40 w 672, published x 728 w 672, standfirst x 384 w 1016, rail x 40 w 156, article x 384 w 672. Note that this page uses a deliberately small span vocabulary — 1, 2, 4, 5, 7, 8, 12 and the -1 rail — and reuses it across sections. Do not place a major block by its own text width.",
+      "checks": [
+        { "id": "c1", "check": "Reading-column blocks are placed by column span, not content width", "critical": true },
+        { "id": "c2", "check": "The article measure resolves to a constant span across the whole article", "critical": true },
+        { "id": "c3", "check": "The sidebar rail occupies its own span, separate from the measure", "weight": 1 },
+        { "id": "c4", "check": "The span vocabulary stays small and is reused between sections", "weight": 1 },
+        { "id": "c5", "check": "The headline's span is visibly wider than the article measure", "weight": 1 }
+      ],
+      "evidence": [
+        "measured: h1 gridColumn '1 / span 12' -> x 40 w 1016; article content '5 / span 8' -> x 384 w 672; rail 'span 2' -> x 40 w 156",
+        "h1 renders 1016px wide against the body's 672px — a 1.51x difference inside one section stack",
+        "standfirst spans to the -1 rail (x 384 w 1016) while the article beneath it narrows to span 8",
+        "span vocabulary in use on this page: 1, 2, 4, 5, 7, 8, 12, 16 and the -1 end rail"
+      ]
+    },
+    {
+      "id": "media_full_bleed",
+      "name": "Full-bleed media band",
+      "kind": "move",
+      "description": "The hero image is a full-bleed band, edge to edge with no gutter, no radius and no border, and it is the only element on the page that escapes the 40px gutter. It is cropped by an overflow container so the visible composition is a 1440x900 window onto a taller image.",
+      "entry_test": "Inset the media band to the content gutter and the page's rhythm breaks at exactly the point the eye expects air; the full-bleed band is what separates the headline block from the article.",
+      "anchor": { "type": "selector", "value": "[class*='mediaSection']" },
+      "recipe": "A full-width section, height 900px at 1440 (a 1.6:1 band), overflow hidden, holding an image at object-fit cover with border-radius 0. The image itself renders larger than its container (1656x1035 against a 1440x900 box, offset -108px left and 202.5px down) and is cropped by the container's overflow. Keep the band out of the grid's padding — it spans the full viewport while every other block is inset by 40px. There is a 16px margin below the band before the standfirst begins.",
+      "checks": [
+        { "id": "c1", "check": "The media band spans the full viewport, escaping the page gutter", "critical": true },
+        { "id": "c2", "check": "The band has no border radius or border", "weight": 1 },
+        { "id": "c3", "check": "The image is cropped to the band rather than letterboxed", "weight": 1 },
+        { "id": "c4", "check": "The band is the only full-bleed element above the footer", "weight": 1 },
+        { "id": "c5", "check": "The band holds a fixed aspect rather than an arbitrary height", "weight": 1 }
+      ],
+      "evidence": [
+        "measured: mediaSection box x 0 w 1440 h 900; img box x -108 w 1656 h 1035 — the image overflows and is cropped",
+        "computed border-radius '0px' on both the section and the image; object-fit 'cover'",
+        "natural image size 1600x1200 (1.33:1) rendered into a 1.6:1 band",
+        "section margin '0px 0px 16px' — a 16px gap before the standfirst band",
+        "no other element above the footer spans x 0 w 1440"
+      ]
+    },
+    {
+      "id": "standfirst_band",
+      "name": "Standfirst band wider than the article",
+      "kind": "move",
+      "description": "A summary line sits in its own full-width band between the media and the article, set at 24px display type across a 1016px measure — wider than the 672px article it introduces. The band is not inset to the article's column; it starts at column 5 and runs to the right rail.",
+      "entry_test": "Set the standfirst at the article's measure and the page loses its entry point; the wider measure and the display face are what mark the summary as a different order of text from the body.",
+      "anchor": { "type": "selector", "value": "[class*='newsArticleBody']" },
+      "recipe": "A section spanning the full width with its text block placed at 5 / -1 on the shared grid (x 384 w 1016 at 1440), set in the display face at 24px weight 500, line-height 28.8px, tracking -0.24px. The band itself is 211.1px tall at 1440 and sits directly below the media band's 16px margin. Keep the summary measure wider than the article measure; do not align the two to the same right edge as if they were one column.",
+      "checks": [
+        { "id": "c1", "check": "The standfirst sits in its own band between media and article", "critical": true },
+        { "id": "c2", "check": "Its measure is wider than the article measure below it", "critical": true },
+        { "id": "c3", "check": "It is set in the display face, not the body face", "weight": 1 },
+        { "id": "c4", "check": "Its size is between the headline and the body, not equal to either", "weight": 1 },
+        { "id": "c5", "check": "It is a single summary, not a paragraph run", "weight": 1 }
+      ],
+      "evidence": [
+        "measured: band box x 0 y 1769.1 w 1440 h 211.1; text block x 384 w 1016",
+        "computed on the summary: 24px/500, line-height 28.8px (1.2), letter-spacing -0.24px, font-family jobyDisplay",
+        "the article below it is 672px wide — the summary is 1.51x the body measure",
+        "gap from the media band: 16px (the media section's bottom margin)"
+      ]
+    },
+    {
+      "id": "measure_and_rail",
+      "name": "Reading measure beside a fixed rail",
+      "kind": "move",
+      "description": "The article's text occupies columns 5 through 12 — eight tracks, 672px at 1440 — while a narrow 156px rail sits on columns 1-2 carrying the published date and the share controls. The rail is empty of body text and the measure never widens to fill it.",
+      "entry_test": "Let the body run the full band and the measure becomes a 1360px slog; the 672px span is what sets the reading rhythm.",
+      "anchor": { "type": "selector", "value": "[class*='newsArticleContentSection']" },
+      "recipe": "content at grid-column 5 / span 8 on the shared grid; the rail at span 2. At 1440 the measure is exactly 672px = 8 tracks + 7 gaps. The rail's own box measures 156px wide and 1732px tall — taller than the 1044px of article content it sits beside, because it is inside a sticky wrapper; the rail is authored to travel with the scroll. Keep the measure at the 672px span and do not let it absorb the rail's columns when the rail is present.",
+      "checks": [
+        { "id": "c1", "check": "The article measure resolves to a constant 8-track span", "critical": true },
+        { "id": "c2", "check": "A narrow rail holds the metadata and share controls in its own span", "critical": true },
+        { "id": "c3", "check": "The measure does not widen to fill the rail's columns", "weight": 1 },
+        { "id": "c4", "check": "Approximate characters per line falls in a readable band, not a 1360px band", "weight": 1 },
+        { "id": "c5", "check": "The rail is vertically offset from the article's top rather than baseline-aligned to it", "weight": 1 }
+      ],
+      "evidence": [
+        "measured: article content box x 384 w 672 h 1044; rail box x 40 w 156 h 1732",
+        "672px = 8 tracks of 70px + 7 gaps of 16px, exact",
+        "at 16px type the 672px measure carries roughly 84 characters, a long but bounded measure; the full band would be roughly 170",
+        "rail contents: 'Published October 2 2026' plus four controls labelled Copy Link, Facebook, LinkedIn, X"
+      ]
+    },
+    {
+      "id": "linebreak_paragraph_rhythm",
+      "name": "One paragraph rhythm, top to bottom",
+      "kind": "move",
+      "description": "This is a negative move recording a defect. Paragraph separation on the page is produced by break elements rather than by a declared spacing value: each paragraph is separated by a br that is exactly one line-height tall, so the visual gap between paragraphs is a line break rather than a rhythm step. The result is that paragraph spacing is tied to line-height and cannot be tuned independently of type size.",
+      "entry_test": "Not a gesture to copy — the opposite. Recorded because a full rubric that omits it will reproduce a page whose paragraph rhythm is an accident of <br> elements. Paragraph spacing must be a declared value, and must survive a change of type size.",
+      "anchor": { "type": "selector", "value": "[class*='mainContent'] > br, [class*='mainContent'] p" },
+      "recipe": "Replace break-element separation with a declared paragraph gap. On this page each of the six paragraphs is followed by a br rendering 19px tall (one line-height at 16px with normal leading), and paragraph-to-paragraph distance measures 38px — two line-heights, one for the break and one for the gap. There is no margin or padding on any paragraph (computed margin 0px, padding 0px on all six). The correct contract: set paragraph margin-bottom from the spacing ladder so the gap is a chosen value, and let line-height govern leading only. Do not use br as a layout device.",
+      "checks": [
+        { "id": "c1", "check": "Paragraph separation is a declared margin or gap, not a break element", "critical": true },
+        { "id": "c2", "check": "Paragraph spacing is independent of the line-height", "critical": true },
+        { "id": "c3", "check": "Every paragraph carries the same spacing value", "weight": 1 },
+        { "id": "c4", "check": "Changing the type size does not change the paragraph gap proportionally", "weight": 1 },
+        { "id": "c5", "check": "No paragraph is separated by a different mechanism than its siblings", "weight": 1 }
+      ],
+      "evidence": [
+        "measured DOM order in mainContent: p, br, p, br, p, br, p, br, p, br, p — five breaks between six paragraphs",
+        "each br computes 16px/400 with line-height normal and renders exactly 19px tall",
+        "paragraph-to-paragraph distance is 38px = 19px break + 19px leading",
+        "computed margin and padding are 0px on every one of the six paragraphs",
+        "paragraph boxes: h 156.8, 89.6, 112, 156.8, 179.3, 134.4 — all at x 384 w 672"
+      ]
+    },
+    {
+      "id": "read_next_band",
+      "name": "Read next band, full content width",
+      "kind": "move",
+      "description": "The Read next section is an edge-to-edge band on the page's canvas colour, holding a section label at columns 1-7 and a 'View all News' control at columns 14-16, with the card row spanning the full 16 columns beneath them.",
+      "entry_test": "Inset the section label to the article's measure and the page loses its section break; the label returning to column 1 is what marks the article as finished.",
+      "anchor": { "type": "selector", "value": "[class*='sectionNews']" },
+      "recipe": "A full-width band on the canvas colour with padding 23px 40px 57px (note the asymmetry: 23px top, 57px bottom, neither from a scale). Its label sits at 1 / span 7 and the control at 14 / span 3; the card container spans 1 / span 16. At 1440: label x 40 w 586, control x 1257.1 w 142.9 h 38.9, container x 40 w 1360. The control is a text button with no background, no radius and no border, transitioning colour over 0.3s on cubic-bezier(.33,1,.68,1).",
+      "checks": [
+        { "id": "c1", "check": "The band spans the full content width, not the article measure", "critical": true },
+        { "id": "c2", "check": "The label returns to column 1 and the control sits at the right rail", "critical": true },
+        { "id": "c3", "check": "The label and control are separated by empty interior columns", "weight": 1 },
+        { "id": "c4", "check": "The band's background matches the page canvas rather than introducing a new surface", "weight": 1 },
+        { "id": "c5", "check": "The control carries no container, background or border", "weight": 1 }
+      ],
+      "evidence": [
+        "measured: SectionNews box x 0 y 3898.2 w 1440 h 808.9, padding '23px 40px 57px', display grid on 16 x 70px tracks, gap 16px",
+        "h2 'Read next' at 64px/550/-1.92px; box x 40 w 586",
+        "control box x 1257.1 w 142.9 h 38.9, computed background rgba(0,0,0,0), border-radius 0px, transition 'color 0.3s cubic-bezier(0.33, 1, 0.68, 1)'",
+        "band background rgb(245,244,223) — the page canvas token, so the band reads as a section change without a new colour"
+      ]
+    },
+    {
+      "id": "card_row_must_use_tracks",
+      "name": "Cards placed on tracks, not content widths",
+      "kind": "move",
+      "description": "This is a negative move recording the page's central defect. The card row is dropped onto a 16-track grid but ignores it: the three cards are flex children sized by their own content, measuring 559, 458 and 343px, so no card edge except the first and last aligns to a track. Card 2 begins at x 599, which is not a track start.",
+      "entry_test": "Not a gesture to copy — the opposite. A card row on a 16-column grid must place its cards by span; this row is the reason the page reads as two incompatible placement systems sharing one grid.",
+      "anchor": { "type": "selector", "value": "[class*='sectionNews'] [class*='newsItem']" },
+      "recipe": "Place the cards by explicit span on the same 16 tracks the label above them uses. As authored, the three newsItem elements are laid out by flex with content-derived widths — 559 / 458 / 343px at 1440, a 1.63:1 ratio between the first two — so their interior edges fall between tracks (card 2 starts at x 599; the nearest track starts are 560 at the end of column 8 and 646 at the start of column 10). The row is flushed to both rails (x 40 to x 1400) while its interior divisions ignore the grid. The corrected contract: give each card a span so that every interior edge lands on a track start, and keep the spans in the same small vocabulary the rest of the page uses.",
+      "checks": [
+        { "id": "c1", "check": "Every card edge lands on a track start or end", "critical": true },
+        { "id": "c2", "check": "Cards are placed by span, not sized by content", "critical": true },
+        { "id": "c3", "check": "Card widths bear a stated ratio to one another rather than an arbitrary one", "critical": true },
+        { "id": "c4", "check": "The card row uses the same grid definition as the section label above it", "weight": 1 },
+        { "id": "c5", "check": "The row is flush to both rails and its interior divisions respect tracks", "weight": 1 }
+      ],
+      "evidence": [
+        "measured card boxes at 1440: card 1 x 40 w 558.8; card 2 x 598.8 w 457.9; card 3 x 1056.7 w 343.3 — widths 559 / 458 / 343",
+        "track starts at 1440 are 40, 110, 180, 250, 320, 390, 460, 530, 600, 670, 740, 810, 880, 950, 1020, 1090 and end at 1400",
+        "card 2's x 598.8 sits 1.2px from the column-9 start (600) — within a gutter, not on a track",
+        "card widths ratio: card 1 is 1.63x card 2; card 3 is 0.75x card 2",
+        "each card carries padding '0px 16px' and no background, border or radius; the images inside are the only visual"
+      ]
+    },
+    {
+      "id": "card_image_alignment",
+      "name": "Cards share a baseline for their images",
+      "kind": "move",
+      "description": "This is a second negative move. The three cards are equal height, but their images begin at three different vertical positions — 4238.1, 4321.9 and 4410.4px — a spread of 172.3px, because each card's text above the image takes a different number of lines and the image simply floats below it. The visible result is a stepped row where the eye expects a common top.",
+      "entry_test": "Not a gesture to copy — the opposite. A row of parallel cards must align on a shared internal edge; here the staggering of the images is the defect.",
+      "anchor": { "type": "selector", "value": "[class*='sectionNews'] [class*='newsItem'] img" },
+      "recipe": "Fix the internal order so the image occupies a consistent band. As authored, the meta line and headline sit above the image and their height varies with the text (card 1's title block is 55.9px tall, card 2's 12.7px, card 3's 34.3px), pushing each image down by a different amount. The corrected contract: either place the image first in every card, or give the text block above it a fixed height, so that all card images share a common top edge and the cards' internal rhythm is identical. Note the spread measured here is 172.3px — nearly a third of a card's height.",
+      "checks": [
+        { "id": "c1", "check": "All card images share a common top edge", "critical": true },
+        { "id": "c2", "check": "The element order inside each card is identical", "critical": true },
+        { "id": "c3", "check": "Any text block above an image has a fixed, not content-derived, height", "weight": 1 },
+        { "id": "c4", "check": "Cards are equal height and their internal bands line up", "weight": 1 },
+        { "id": "c5", "check": "The image's own aspect is consistent across cards", "weight": 1 }
+      ],
+      "evidence": [
+        "measured image tops: 4238.1, 4321.9, 4410.4 — a spread of 172.3px across three cards in one row",
+        "measured card tops are identical (all 4079.3) and card heights identical (all 570.8) — the misalignment is internal, not row-level",
+        "element order is the same (meta 4079.3, title 4106.7, image below) but the title block heights differ: 55.9 / 12.7 / 34.3px",
+        "rendered image widths differ: 632.2, 511.1, 392.8 — the images match their cards' content widths, not a shared track"
+      ]
+    },
+    {
+      "id": "rail_hierarchy",
+      "name": "Metadata rail subordinate to the measure",
+      "kind": "move",
+      "description": "The date sits in the rail directly above the share controls, in the body size and weight, with no heading treatment. The rail is a single narrow stack of small items that never competes with the article's opening.",
+      "entry_test": "Headline the rail and it competes with the article; the flat treatment is what keeps the metadata readable but secondary.",
+      "anchor": { "type": "selector", "value": "[class*='sticky'], [class*='SideSection']" },
+      "recipe": "A 156px rail on columns 1-2 holding the date line in body type and a stack of share controls beneath it. The rail is authored to travel with the scroll (it is inside a sticky wrapper; its box measures 1732px against the article's 1044px content height). Keep the rail's type at or below body size, use no heading weight, and do not let the rail's controls take a container, background or border.",
+      "checks": [
+        { "id": "c1", "check": "The rail holds metadata and controls only, no body text", "critical": true },
+        { "id": "c2", "check": "Rail type is at or below body size with no heading treatment", "weight": 1 },
+        { "id": "c3", "check": "The rail stays narrower than half the article measure", "weight": 1 },
+        { "id": "c4", "check": "Share controls are borderless and unfilled", "weight": 1 },
+        { "id": "c5", "check": "The rail is sticky against the scroll rather than static", "weight": 1 }
+      ],
+      "evidence": [
+        "measured rail box x 40 y 2166.2 w 156 h 1732; article content x 384 w 672 h 1044",
+        "rail contents: 'Published October 2 2026' plus controls labelled Copy Link, Facebook, LinkedIn, X",
+        "control computed: background rgba(0,0,0,0), border '0px none', border-radius 0px, padding 0px",
+        "rail is 156px against the article's 672px — 23% of the measure"
+      ]
+    },
+    {
+      "id": "type_scale_and_tracking",
+      "name": "Two families, one ratio, percentage tracking",
+      "kind": "move",
+      "description": "The page uses two type families only — a display face for headlines and a text face for everything else — with a constant 5:1 ratio between display and body size. Tracking is a fixed percentage of font size rather than a per-size value: -3% everywhere, with one documented exception at the smallest size.",
+      "entry_test": "Break the ratio and the page's voice splits between a shout and a whisper; the 5:1 relationship held across every breakpoint is what makes one scale work at 390 and at 1440.",
+      "anchor": { "type": "selector", "value": "h1, [class*='newsArticleBody'], [class*='mainContent'] p" },
+      "recipe": "Two families: jobyDisplay for display sizes, jobyText for body and UI. Sizes in use: 80px/550 display, 64px/550 section heading, 24px/500 summary, 20px/500 item titles, 18px/450 links, 16px/400 body, 14px/450 captions, 12px/450 labels. Tracking is -3% of the font size (80 -> -2.4, 64 -> -1.92, 24 -> -0.72 at display tracking, 18 -> -0.36, 16 -> -0.32); the single exception is the 12px size, which uses -2% (-0.24). Display line-height is 1.0; body line-height is 1.4. The display-to-body ratio holds at 5.0 across breakpoints — 80:16 at 1440 and 65.16:13.03 at 834.",
+      "checks": [
+        { "id": "c1", "check": "Exactly two type families are used", "critical": true },
+        { "id": "c2", "check": "Tracking is a fixed percentage of size rather than a per-size value", "critical": true },
+        { "id": "c3", "check": "Display line-height is tight (1.0) and body line-height is open (1.4)", "weight": 1 },
+        { "id": "c4", "check": "The display-to-body ratio holds across breakpoints", "weight": 1 },
+        { "id": "c5", "check": "No uppercase transform and no weight outside the defined set", "weight": 1 }
+      ],
+      "evidence": [
+        "families present: jobyDisplay and jobyText only (plus fallbacks)",
+        "computed: h1 80px/550, line-height 80px (1.0), letter-spacing -2.4px; section h2 64px/550, line-height 64px, letter-spacing -1.92px",
+        "computed: body p 16px/400, line-height 22.4px (1.4), letter-spacing -0.32px; summary 24px/500, line-height 28.8px, letter-spacing -0.24px",
+        "tracking rule: -3% at 80/64/18/16/14, -2% at 12 (-0.24px)",
+        "ratio 80:16 = 5.0 at 1440; 65.16:13.03 = 5.0 at 834",
+        "weights in use: 400, 450, 500, 550 — half-hundred steps, none bold, none below 400"
+      ]
+    },
+    {
+      "id": "display_face_in_body",
+      "name": "Quotations set as body text",
+      "kind": "move",
+      "description": "This is a third negative move. The article contains two quoted passages — one from a company executive — but there is no blockquote element and no quotation styling: the quotes run as ordinary 16px body paragraphs in the text face, distinguished only by curly quotation marks. A long attributed quotation therefore reads as one more paragraph.",
+      "entry_test": "Not a gesture to copy — the opposite. An attributed quotation is a distinct element and should be marked as one.",
+      "anchor": { "type": "selector", "value": "[class*='mainContent'] p" },
+      "recipe": "Mark quotations as quotations. On this page the quoted paragraphs compute identically to every other paragraph — 16px/400 in jobyText inside the 672px measure, no blockquote, no indentation, no rule, no size change, no attribution line. The corrected contract: give a quotation its own element and a treatment that separates it from body text — a size or face change, an indent or rule, and an attribution set in the caption style. The quote must remain readable at the article measure but must not be mistakable for a body paragraph.",
+      "checks": [
+        { "id": "c1", "check": "An attributed quotation is marked by a distinct element or treatment", "critical": true },
+        { "id": "c2", "check": "A quotation is visually separable from body paragraphs", "critical": true },
+        { "id": "c3", "check": "An attribution is present and set in the caption style", "weight": 1 },
+        { "id": "c4", "check": "A quotation does not set at the same size, face and weight as body text", "weight": 1 },
+        { "id": "c5", "check": "Any quotation treatment keeps the article's measure", "weight": 1 }
+      ],
+      "evidence": [
+        "zero blockquote elements exist in the document",
+        "the two quoted paragraphs compute identically to the other four: 16px/400, line-height 22.4px, letter-spacing -0.32px, jobyText, x 384 w 672",
+        "no quotation was found with a size above 28px outside the headline, summary and section heading",
+        "quotations open with a curly quote character inside otherwise ordinary paragraph markup"
+      ]
+    },
+    {
+      "id": "async_media_reveal",
+      "name": "Images fade in after their placeholder",
+      "kind": "move",
+      "description": "Every image on the page carries a two-part entrance: a placeholder element that holds for 400ms, then the image itself fading in over 400ms on a decelerating curve. The image is never visible in its unloaded state.",
+      "entry_test": "Load the images straight in and the page flashes unloaded boxes; the placeholder-then-fade sequence is what keeps the layout calm while the media arrives.",
+      "anchor": { "type": "selector", "value": "[class*='image']" },
+      "recipe": "Two animations per image: a placeholder with duration 0ms and delay 400ms, and the image itself with duration 400ms, delay 0, easing cubic-bezier(0.33, 1, 0.68, 1) (an ease-out). Combine them with a fadeIn keyframe (opacity 0 to 1). Keep the total under 800ms and never let an image animate its size — only its opacity.",
+      "checks": [
+        { "id": "c1", "check": "Images fade in rather than appearing instantly", "critical": true },
+        { "id": "c2", "check": "A placeholder holds before the image appears", "weight": 1 },
+        { "id": "c3", "check": "The entrance uses a decelerating curve", "weight": 1 },
+        { "id": "c4", "check": "Only opacity animates, never size or position", "weight": 1 },
+        { "id": "c5", "check": "The whole entrance completes within about 800ms", "weight": 1 }
+      ],
+      "evidence": [
+        "captured animations on the media image: placeholder node duration 0ms delay 400ms; image node duration 400ms delay 0 easing cubic-bezier(0.33, 1, 0.68, 1)",
+        "the page's shared keyframe library defines fadeIn as opacity 0 to 1",
+        "the same two-part pattern repeats on every image in the page (three news cards carry it as well)"
+      ]
+    },
+    {
+      "id": "shared_easing_tokens",
+      "name": "A small named easing set",
+      "kind": "move",
+      "description": "Easing is declared as named custom properties on the root rather than written inline per component, and the set is small: a symmetric in-out for surfaces, a decelerating out for arriving content, and a standard link transition. The same values drive the nav, the cards and the footer.",
+      "entry_test": "Scatter inline cubic-bezier values through components and the page's motion stops feeling like one system; the shared tokens are what make an unrelated nav and footer move with the same hand.",
+      "anchor": { "type": "selector", "value": ":root" },
+      "recipe": "Declare the easing set on :root and consume it everywhere: --ease-in-out-cubic cubic-bezier(.65,0,.35,1); --ease-out-cubic cubic-bezier(.33,1,.68,1); --link-transition transform .3s cubic-bezier(.165,.84,.44,1). Content that arrives uses the out curve; surfaces that open use the in-out curve; link underlines use the 300ms link transition. Do not author new curves per component.",
+      "checks": [
+        { "id": "c1", "check": "Easing values are declared as shared tokens, not inline per component", "critical": true },
+        { "id": "c2", "check": "Arriving content uses a decelerating curve", "weight": 1 },
+        { "id": "c3", "check": "Opening surfaces use a symmetric in-out curve", "weight": 1 },
+        { "id": "c4", "check": "The easing set stays small", "weight": 1 },
+        { "id": "c5", "check": "The same tokens are reused across unrelated components", "weight": 1 }
+      ],
+      "evidence": [
+        "resolved on :root: --ease-in-out-cubic cubic-bezier(.65,0,.35,1); --ease-out-cubic cubic-bezier(.33,1,.68,1); --link-transition transform .3s cubic-bezier(.165,.84,.44,1)",
+        "the media image entrance uses the out curve; the 'View all News' control transitions colour over 0.3s on the same out curve",
+        "the nav and footer share the same token names, confirming one motion system across the page"
+      ]
+    },
+    {
+      "id": "dark_canvas_reversed_text",
+      "name": "Dark ink on cream, with three flat accents",
+      "kind": "move",
+      "description": "The page is built on a near-black ink and a warm off-white canvas — those two tokens account for almost all text and background on the page. Against them sit three flat accent colours used in single occurrences each, with no gradients anywhere in the body.",
+      "entry_test": "Add a gradient or a fourth accent and the page's colour stops reading as a system of flat tokens; the discipline is that accents appear once each.",
+      "anchor": { "type": "selector", "value": "body" },
+      "recipe": "Two dominant tokens: ink rgb(14,22,32) for all text and the near-white canvas rgb(245,244,223) for the page and the Read next band. Three accents, each occurring once: brand blue rgb(0,122,229) on the footer link field, deep navy rgb(28,63,153) on the footer's closing band, orange rgb(235,97,16) as a single band below it. Reversed text is the same near-white token on the blue surfaces. No gradients anywhere in the body; the only large colour surfaces are flat fills.",
+      "checks": [
+        { "id": "c1", "check": "One ink and one canvas token carry nearly all text and background", "critical": true },
+        { "id": "c2", "check": "Accent colours are flat fills, never gradients", "critical": true },
+        { "id": "c3", "check": "Reversed text uses the same light token as the canvas", "weight": 1 },
+        { "id": "c4", "check": "No gradient appears in the body of the page", "weight": 1 },
+        { "id": "c5", "check": "Accents are used sparingly rather than spread across surfaces", "weight": 1 }
+      ],
+      "evidence": [
+        "colour census: text rgb(14,22,32) x57 and rgb(245,244,223) x29; backgrounds rgb(0,122,229) x4, rgb(245,244,223) x3, rgb(28,63,153) x2, rgb(255,217,201) x1, rgb(235,97,16) x1",
+        "resolved tokens: --color-blue #007ae5, --color-dark-blue #1c3f99, --color-orange #eb6110, --color-pink #ffd9c9",
+        "the footer link field is the brand blue and its closing band the deep navy — both flat fills",
+        "no linear-gradient or radial-gradient resolves on any body element"
+      ]
+    },
+    {
+      "id": "hero_type_scale",
+      "name": "Headline that holds its scale down the page",
+      "kind": "move",
+      "description": "The headline is set at 80px with tight leading (line-height equal to font size) and negative tracking, spanning 12 of 16 columns. Its block is 456.3px tall against a 713.1px hero band, so the headline plus its metadata fill the band without crowding.",
+      "entry_test": "Open the leading and the headline stops reading as a single mass; the 1.0 line-height is what lets 80px type stack without gaps.",
+      "anchor": { "type": "selector", "value": "h1" },
+      "recipe": "h1 at 80px, weight 550, in the display face, line-height 80px (1.0), letter-spacing -2.4px (-3% of size), spanning 1 / span 12 — so the headline never crosses the full band, always leaving at least four columns of empty space at the right. At 1440 it resolves to x 40 w 1016 h 456.3. The hero band above it carries 140px of top padding. The headline's size scales down proportionally below 1200px rather than stepping.",
+      "checks": [
+        { "id": "c1", "check": "Display line-height is tight (about 1.0), not normal", "critical": true },
+        { "id": "c2", "check": "The headline spans a majority of the grid but not all of it", "critical": true },
+        { "id": "c3", "check": "Tracking is negative and proportional to the font size", "weight": 1 },
+        { "id": "c4", "check": "The headline sits below a generous top padding, not against the nav", "weight": 1 },
+        { "id": "c5", "check": "The headline size scales proportionally across breakpoints", "weight": 1 }
+      ],
+      "evidence": [
+        "computed h1: 80px/550, line-height 80px, letter-spacing -2.4px, jobyDisplay; box x 40 y 140 w 1016 h 456.3",
+        "hero band: box x 0 y 0 w 1440 h 853.1, padding '140px 0px 0px'",
+        "h1 gridColumn '1 / span 12' — leaves columns 13-16 (280px) empty at 1440",
+        "at 834 the headline measures 65.16px = 80 x 0.8145, a proportional scale rather than a step"
+      ]
+    },
+    {
+      "id": "dateline_weight",
+      "name": "Dateline marked by weight, not by size",
+      "kind": "move",
+      "description": "The article opens with its dateline — city, date, em dash — set at the body size but at a heavier weight (550 against the body's 400), so it is distinguished from the opening sentence without any size change.",
+      "entry_test": "Set the dateline at body weight and it dissolves into the first sentence; the weight step is the entire signal.",
+      "anchor": { "type": "selector", "value": "[class*='mainContent'] strong" },
+      "recipe": "The opening paragraph begins with a strong element carrying the dateline, set at 16px weight 550 with the body's line-height (22.4px) and tracking (-0.32px), in the text face. It flows inline in the first paragraph rather than sitting on its own line. Use the weight set's heaviest text step — not a size change and not a separate block.",
+      "checks": [
+        { "id": "c1", "check": "The dateline is inline in the first paragraph, not a separate block", "critical": true },
+        { "id": "c2", "check": "It is distinguished by weight, not by size", "critical": true },
+        { "id": "c3", "check": "Its line-height and tracking match the body", "weight": 1 },
+        { "id": "c4", "check": "No uppercase or colour change is used to mark it", "weight": 1 },
+        { "id": "c5", "check": "It is followed by the article's first sentence on the same line", "weight": 1 }
+      ],
+      "evidence": [
+        "measured dateline element: 16px/550, line-height 22.4px, letter-spacing -0.32px, jobyText; box x 384 y 2167.2 w 233.4 h 19",
+        "body paragraphs compute 16px/400 at the same line-height and tracking — the only difference is the weight step",
+        "the dateline flows inline: text is 'NEW YORK, October 1, 2026 — ' followed by the first sentence in the same paragraph",
+        "no uppercase transform and no colour change on the dateline"
+      ]
+    },
+    {
+      "id": "link_underline_treatment",
+      "name": "Links marked by a rule that draws in",
+      "kind": "move",
+      "description": "Text links are marked by an underline rule drawn as a pseudo-element that scales in on hover rather than by a static text-decoration. The rule is hairline-thin and appears from one side.",
+      "entry_test": "Use a static underline and the hover state has nowhere to go; the drawn rule is what gives an otherwise still page its only feedback.",
+      "anchor": { "type": "selector", "value": "[class*='content'] a, [class*='footnote'] a" },
+      "recipe": "A pseudo-element rule at 1.5px height for main links and 1px for sub-links, scaling horizontally on hover over the shared 300ms link transition. Use the page's transform-based link animation rather than text-decoration, so the rule's growth is animatable. Keep the rule at hairline thickness and in the text colour.",
+      "checks": [
+        { "id": "c1", "check": "Links are marked by a drawn rule rather than a static underline", "critical": true },
+        { "id": "c2", "check": "The rule animates in on hover", "weight": 1 },
+        { "id": "c3", "check": "The rule is hairline-thin", "weight": 1 },
+        { "id": "c4", "check": "Main and sub-links use different rule weights", "weight": 1 },
+        { "id": "c5", "check": "The rule uses the shared link transition timing", "weight": 1 }
+      ],
+      "evidence": [
+        "the page's shared keyframe library defines underline-in-out using transform scaleX with a transform-origin change at the midpoint",
+        "--link-transition resolves to transform .3s cubic-bezier(.165,.84,.44,1) and is consumed by link rules",
+        "footer link rules measure 1.5px on main links and 1px on sub-links, confirming two rule weights"
+      ]
+    }
+  ],
+  "aspects": [
+    {
+      "id": "layout",
+      "scales": [
+        { "id": "density", "poles": ["airy", "packed"], "value": 4.0, "evidence": ["the article band carries a 672px measure inside a 1360px field with a full rail column and 140px of hero padding above it; the Read next band's cards are separated by 16px padding only"], "confidence": "high" },
+        { "id": "grid_discipline", "poles": ["free-form", "strict grid"], "value": 6.5, "evidence": ["one grid definition is genuinely shared by every section and the arithmetic closes exactly, but two placement systems run on it — span-based in the article and Read next header, content-width flex in the card row, which leaves card 2 starting 1.2px off a track start"], "confidence": "high", "note": "high on definition, medium on placement: the grid is strict where it is obeyed and simply ignored in the card row" },
+        { "id": "symmetry", "poles": ["asymmetric", "centered"], "value": 1.5, "evidence": ["nothing is centred anywhere; the headline is flush left at column 1, the article at column 5, and the published block runs to the right rail"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "columns", "slot": "columns", "kind": "number", "value": 16, "tolerance_pct": 1, "usage": "the shared column count on every section", "evidence": ["--grid-columns resolves to 16; every grid container measures 16 tracks"] },
+        { "id": "track_width_1440", "slot": "track_width", "kind": "number", "value": 70, "unit": "px", "tolerance_pct": 1, "usage": "the track width at 1440; 55px at 1200 and 44px at 1024", "evidence": ["computed gridTemplateColumns '70px' x16 at 1440; 55px at 1200; 44px at 1024"] },
+        { "id": "column_gap", "slot": "column_gap", "kind": "number", "value": 16, "unit": "px", "tolerance_pct": 1, "usage": "the column gap, held constant where the tracks change; 13.03px at 834 and 8.32px at 390", "evidence": ["computed columnGap 16px at 1440/1200/1024; 13.0312px at 834; 8.32px at 390"] },
+        { "id": "page_gutter", "slot": "page_gutter", "kind": "number", "value": 40, "unit": "px", "tolerance_pct": 1, "usage": "the side padding; 32.58px at 834 and 16.64px at 390", "evidence": ["computed padding 0 40px at 1440/1200/1024; --base-padding 4rem at a 10px root"] },
+        { "id": "content_band", "slot": "content_band", "kind": "number", "value": 1360, "unit": "px", "tolerance_pct": 1, "usage": "the usable band at 1440, being the viewport less both gutters", "evidence": ["1440 - 80 = 1360; 16x70 + 15x16 = 1360, so the arithmetic closes exactly"] },
+        { "id": "article_measure", "slot": "article_measure", "kind": "number", "value": 672, "unit": "px", "tolerance_pct": 1, "usage": "the article's reading measure — exactly 8 tracks and 7 gaps", "evidence": ["measured article content box x 384 w 672; 8x70 + 7x16 = 672"] },
+        { "id": "rail_width", "slot": "rail_width", "kind": "number", "value": 156, "unit": "px", "tolerance_pct": 1, "usage": "the sidebar rail's width — exactly 2 tracks", "evidence": ["2x70 + 16 = 156; measured rail box w 156"] },
+        { "id": "headline_span", "slot": "headline_span", "kind": "number", "value": 12, "unit": "columns", "tolerance_pct": 1, "usage": "the headline's span, leaving 4 columns empty at the right", "evidence": ["computed gridColumn '1 / span 12'; rendered w 1016"] },
+        { "id": "media_band_ratio", "slot": "media_band_ratio", "kind": "number", "value": 1.6, "tolerance_pct": 5, "usage": "the full-bleed media band's width-to-height ratio at 1440", "evidence": ["measured band 1440x900 = 1.6:1"] },
+        { "id": "card_width_ratio", "slot": "card_width_ratio", "kind": "number", "value": 1.63, "tolerance_pct": 5, "usage": "the ratio of card 1 to card 2; recorded as a defect, not a target", "evidence": ["measured widths 558.8 / 457.9 / 343.3 — 558.8/457.9 = 1.22, and against a nominal three-track step the spread is 1.63:1 between the largest and smallest"] },
+        { "id": "hero_padding_top", "slot": "hero_padding_top", "kind": "number", "value": 140, "unit": "px", "tolerance_pct": 5, "usage": "the hero band's top padding beneath the fixed nav", "evidence": ["heroSection computed padding '140px 0px 0px'"] },
+        { "id": "section_padding", "slot": "section_padding", "kind": "identity", "value": "23px top / 57px bottom on Read next; 38px top / 89px bottom on the footer", "usage": "section vertical padding, recorded as ad hoc rather than from a scale", "evidence": ["SectionNews computed padding '23px 40px 57px'; footer computed padding '38px 40px 89px'"] },
+        { "id": "paragraph_gap", "slot": "paragraph_gap", "kind": "number", "value": 38, "unit": "px", "tolerance_pct": 8, "usage": "the paragraph-to-paragraph distance — two line-heights, produced by a break element; recorded as a defect", "evidence": ["measured p-to-p 38px, being a 19px br plus 19px leading; paragraph margins are 0px"] },
+        { "id": "section_stack", "slot": "section_stack", "kind": "enum", "value": ["nav (fixed)", "hero 0-853", "media band 853-1769", "standfirst 1769-1980", "article + rail 1980-3898", "Read next 3898-4707", "footer field 4707-6057", "closing band 6057-6505"], "usage": "the vertical section order at 1440, page height 6541", "evidence": ["measured section boxes: media y 853.1 h 900; standfirst y 1769.1 h 211.1; content y 2166.2 h 1732; SectionNews y 3898.2 h 808.9; footer field y 5157.1 h 900"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "every section consumes one shared grid definition — same columns, gap and gutter" },
+        { "kind": "always", "rule": "major blocks are placed by explicit column span" },
+        { "kind": "always", "rule": "the article measure resolves to a whole number of tracks plus gaps (672 = span 8)" },
+        { "kind": "never", "rule": "a card row is sized by content width on a grid that its own section header obeys" },
+        { "kind": "never", "rule": "paragraph spacing is produced by break elements" },
+        { "kind": "never", "rule": "three different column systems coexist across breakpoints" },
+        { "kind": "never", "rule": "a section declares its own private gutter or gap" }
+      ],
+      "directives": [
+        "declare the 16-column grid once and consume it in every section, tracks in px with a constant gap",
+        "place the headline at span 12, the article at 5 / span 8 and the rail at span 2",
+        "run the media band full-bleed with no radius, the only element outside the gutter",
+        "place the card row by column span so every interior card edge lands on a track",
+        "set paragraph spacing as a declared margin so it survives a change of type size"
+      ]
+    },
+    {
+      "id": "structure",
+      "scales": [
+        { "id": "hierarchy_depth", "poles": ["flat", "deep"], "value": 3.0, "evidence": ["four sizes carry the hierarchy — 80px headline, 64px section label, 24px summary, 16px body — with the 64px section label sitting closer to the headline than to the text it labels"], "confidence": "high" },
+        { "id": "rhythm", "poles": ["uniform", "syncopated"], "value": 5.0, "evidence": ["one repeated band stack runs down the page but the interstitial spacings are ad hoc — 16, 211.1, 186, 38, 23, 57, 140, 200 — so the section breaks land at irregular intervals"], "confidence": "high" },
+        { "id": "component_voice", "poles": ["borderless", "framed"], "value": 2.0, "evidence": ["no card has a background, border or shadow; the only edges on the page are hairline drawn link rules, and the buttons are unfilled text controls"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "section_roles", "slot": "section_roles", "kind": "enum", "value": ["hero", "full-bleed media", "standfirst", "article with rail", "Read next", "footer"], "usage": "the page's sections in order", "evidence": ["measured section stack at 1440 from nav to page end"] },
+        { "id": "content_tiers", "slot": "content_tiers", "kind": "enum", "value": ["h1 80px/550", "h2 section 64px/550", "summary 24px/500", "item title 20px/500", "link 18px/450", "body 16px/400", "caption 14px/450", "label 12px/450"], "usage": "the complete text hierarchy, eight steps", "evidence": ["type census over the whole page: 80px|550, 64px|500, 24px|500, 20px|500, 18px|450, 16px|400, 14px|550, 12px|450"] },
+        { "id": "footnote_structure", "slot": "footnote_structure", "kind": "identity", "value": "540px measure, 64px top padding, no top border", "usage": "the footnote block below the article", "evidence": ["measured footnote box x 384 y 3211.3 w 672 h 535.1, padding '64px 0px 0px', border-top '0px none'"] },
+        { "id": "card_count", "slot": "card_count", "kind": "number", "value": 3, "tolerance_pct": 1, "usage": "the number of cards in the Read next row", "evidence": ["three newsItem elements in the row, all y 4079.3 h 570.8"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the page opens on a headline, then a full-bleed image, then a summary, then the article" },
+        { "kind": "always", "rule": "the article closes with a footnote block before the Read next band" },
+        { "kind": "always", "rule": "text hierarchy stays within eight defined steps" },
+        { "kind": "never", "rule": "a component is bounded by a card, border or shadow" },
+        { "kind": "never", "rule": "a section break is marked by anything other than a band change or spacing" }
+      ],
+      "directives": [
+        "stack hero, full-bleed media, standfirst, article with rail, Read next, footer",
+        "close the article with a footnote block separated by space alone",
+        "keep the text hierarchy to the eight defined steps"
+      ]
+    },
+    {
+      "id": "type",
+      "scales": [
+        { "id": "scale_contrast", "poles": ["even", "dramatic"], "value": 7.0, "evidence": ["display type runs 80px against a 16px body — a 5:1 ratio — with only the 24px summary between them, so the page reads as two registers with a step, not a ramp"], "confidence": "high" },
+        { "id": "weight_voice", "poles": ["light", "heavy"], "value": 4.0, "evidence": ["weights are 400 for body, 450 for links and labels, 500 for summaries and item titles, 550 for display — four half-hundred steps, nothing bold, nothing below 400"], "confidence": "high" },
+        { "id": "family_register", "poles": ["editorial", "utilitarian"], "value": 3.5, "evidence": ["two families only: a display face for headlines and summaries and a neutral text face for everything else; both are neutral in character, with the display face used at a tight 1.0 leading"], "confidence": "high" },
+        { "id": "tracking_case", "poles": ["sentence-case", "all-caps/wide"], "value": 1.0, "evidence": ["no uppercase anywhere; tracking is negative at every size, at a constant -3% of the font size (and -2% at the 12px step)"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "display_size", "slot": "display_size", "kind": "number", "value": 80, "unit": "px", "tolerance_pct": 1, "usage": "the headline size at 1440", "evidence": ["computed h1 80px/550, line-height 80px, letter-spacing -2.4px"] },
+        { "id": "section_heading_size", "slot": "section_heading_size", "kind": "number", "value": 64, "unit": "px", "tolerance_pct": 1, "usage": "the section label size", "evidence": ["computed h2 'Read next' 64px/550, line-height 64px, letter-spacing -1.92px"] },
+        { "id": "summary_size", "slot": "summary_size", "kind": "number", "value": 24, "unit": "px", "tolerance_pct": 1, "usage": "the standfirst size", "evidence": ["computed standfirst 24px/500, line-height 28.8px, letter-spacing -0.24px"] },
+        { "id": "item_title_size", "slot": "item_title_size", "kind": "number", "value": 20, "unit": "px", "tolerance_pct": 1, "usage": "news card titles", "evidence": ["type census records 20px|500 across 6 occurrences"] },
+        { "id": "body_size", "slot": "body_size", "kind": "number", "value": 16, "unit": "px", "tolerance_pct": 1, "usage": "body text, the dateline and the footnote", "evidence": ["computed p 16px/400, line-height 22.4px (1.4), letter-spacing -0.32px"] },
+        { "id": "label_size", "slot": "label_size", "kind": "number", "value": 12, "unit": "px", "tolerance_pct": 1, "usage": "the smallest size, using the -2% tracking exception", "evidence": ["computed 12px/450, letter-spacing -0.24px"] },
+        { "id": "display_line_height", "slot": "display_line_height", "kind": "number", "value": 1.0, "tolerance_pct": 5, "usage": "the display leading, equal to the font size", "evidence": ["h1 80px with line-height 80px; h2 64px with line-height 64px"] },
+        { "id": "body_line_height", "slot": "body_line_height", "kind": "number", "value": 1.4, "tolerance_pct": 5, "usage": "the body leading", "evidence": ["16px with line-height 22.4px = 1.4; the dateline and footnote share it"] },
+        { "id": "tracking_rule", "slot": "tracking_rule", "kind": "identity", "value": "-3% of font size, with -2% at 12px", "usage": "the page's single tracking rule", "evidence": ["80 -> -2.4, 64 -> -1.92, 24 -> -0.72, 18 -> -0.36, 16 -> -0.32, 14 -> -0.42 (measured -0.28 on the caption), 12 -> -0.24; every value is -3% except 12px at -2%"] },
+        { "id": "display_to_body_ratio", "slot": "display_to_body_ratio", "kind": "number", "value": 5.0, "tolerance_pct": 5, "usage": "the display-to-body ratio, held across breakpoints", "evidence": ["80:16 = 5.0 at 1440; 65.16:13.03 = 5.0 at 834"] },
+        { "id": "families", "slot": "families", "kind": "enum", "value": ["jobyDisplay", "jobyText"], "usage": "the two type families", "evidence": ["stylesheet fonts list contains jobyDisplay and jobyText plus their fallbacks only"] },
+        { "id": "weight_set", "slot": "weight_set", "kind": "enum", "value": ["400", "450", "500", "550"], "usage": "the complete weight range", "evidence": ["type census shows 400, 450, 500 and 550 only — half-hundred steps"] },
+        { "id": "measure_chars", "slot": "measure_chars", "kind": "number", "value": 84, "tolerance_pct": 10, "usage": "approximate characters per line at the 672px measure — a long measure, flagged as a judgement call", "evidence": ["672px at 16px averaging roughly 8px per character gives about 84 characters; the full band would be about 170"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "tracking is a fixed percentage of the font size, not a per-size value" },
+        { "kind": "always", "rule": "display leading is tight and body leading is open" },
+        { "kind": "always", "rule": "the display-to-body ratio holds across breakpoints" },
+        { "kind": "never", "rule": "uppercase type" },
+        { "kind": "never", "rule": "a weight heavier than the defined display step" },
+        { "kind": "never", "rule": "more than two type families" },
+        { "kind": "never", "rule": "an attributed quotation set identically to body text" }
+      ],
+      "directives": [
+        "use two families: display for headlines and summaries, text for everything else",
+        "set display leading to 1.0 and body leading to 1.4",
+        "apply tracking as -3% of the font size, with the -2% exception only at the smallest step",
+        "hold the 5:1 display-to-body ratio at every breakpoint",
+        "mark the dateline by weight alone, inline in the first paragraph"
+      ]
+    },
+    {
+      "id": "color",
+      "scales": [
+        { "id": "base_polarity", "poles": ["light canvas", "dark canvas"], "value": 2.5, "evidence": ["the page is a warm off-white canvas with near-black ink — a light page throughout, except the footer's two blue bands at the very bottom"], "confidence": "high" },
+        { "id": "temperature", "poles": ["cool", "warm"], "value": 4.0, "evidence": ["the dominant canvas is a warm off-white and the ink a slightly cool near-black; the accent set is cool blue, with a single warm orange note in the closing band"], "confidence": "high" },
+        { "id": "chroma", "poles": ["muted", "vivid"], "value": 5.5, "evidence": ["the body of the page is entirely neutral — one near-black and one off-white — while the footer's bands are fully saturated; the page is muted until the last two screens"], "confidence": "high" },
+        { "id": "palette_width", "poles": ["singular/duo", "many hues"], "value": 3.0, "evidence": ["two tokens carry the whole body of the page; five accents appear in total, four of them in the footer alone"], "confidence": "high" },
+        { "id": "contrast", "poles": ["soft", "hard"], "value": 6.5, "evidence": ["near-black on off-white is a strong pairing held across the entire body; the footer reverses the same light token onto saturated blue, and the one soft edge is where the bright blue meets the navy with no divider"], "confidence": "high" },
+        { "id": "surface_finish", "poles": ["flat", "decorated"], "value": 2.0, "evidence": ["every surface is a flat fill — no gradients, no textures, no glows anywhere; even the closing horizon graphic is built from flat colour strata"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "ink", "slot": "ink", "kind": "identity", "value": "#0E1620", "usage": "all text on the page", "evidence": ["colour census: text rgb(14,22,32) x57 — the dominant text colour"] },
+        { "id": "canvas", "slot": "canvas", "kind": "identity", "value": "#F5F4DF", "usage": "the page background and the Read next band", "evidence": ["body background rgb(245,244,223); SectionNews background the same token"] },
+        { "id": "accent_blue", "slot": "accent_blue", "kind": "identity", "value": "#007AE5", "usage": "the footer link field", "evidence": ["--color-blue #007ae5; footerWrapper background rgb(0,122,229)"] },
+        { "id": "accent_navy", "slot": "accent_navy", "kind": "identity", "value": "#1C3F99", "usage": "the footer's closing band and its foot strip", "evidence": ["--color-dark-blue #1c3f99; footerCreative background rgb(28,63,153)"] },
+        { "id": "accent_orange", "slot": "accent_orange", "kind": "identity", "value": "#EB6110", "usage": "a single band below the closing band", "evidence": ["--color-orange #eb6110; one background occurrence in the census"] },
+        { "id": "accent_pink", "slot": "accent_pink", "kind": "identity", "value": "#FFD9C9", "usage": "a single surface, the smallest accent", "evidence": ["--color-pink #ffd9c9; one background occurrence in the census"] },
+        { "id": "reversed_text", "slot": "reversed_text", "kind": "identity", "value": "#F5F4DF", "usage": "the same light token reversed onto the blue surfaces", "evidence": ["footer text colour rgb(245,244,223) on blue backgrounds"] },
+        { "id": "gradient_count", "slot": "gradient_count", "kind": "number", "value": 0, "tolerance_pct": 1, "usage": "the number of gradients in the body of the page", "evidence": ["no linear-gradient or radial-gradient resolves on any body element"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "one ink token carries all body text and one canvas token carries all page background" },
+        { "kind": "always", "rule": "accents are flat fills" },
+        { "kind": "always", "rule": "reversed text reuses the canvas token" },
+        { "kind": "never", "rule": "a gradient anywhere in the body" },
+        { "kind": "never", "rule": "a fourth accent colour" },
+        { "kind": "never", "rule": "text leaves the ink token except where reversed" }
+      ],
+      "directives": [
+        "set all body text in the near-black ink on the warm off-white canvas",
+        "reserve the saturated accents for the footer's bands, one occurrence each",
+        "keep every surface a flat fill with no gradient or texture"
+      ]
+    },
+    {
+      "id": "motion",
+      "scales": [
+        { "id": "energy", "poles": ["still", "kinetic"], "value": 3.5, "evidence": ["one scroll-driven reveal on the footer, a two-part image fade, a hover underline and a colour transition on one control — the reading experience itself never moves"], "confidence": "high" },
+        { "id": "temperament", "poles": ["functional", "expressive"], "value": 3.5, "evidence": ["every animation is short, decelerating and tied to a state change; there is no overshoot, no bounce and no autoplaying motion in the article body"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "easing_tokens", "slot": "easing_tokens", "kind": "enum", "value": ["--ease-in-out-cubic cubic-bezier(.65,0,.35,1)", "--ease-out-cubic cubic-bezier(.33,1,.68,1)", "--link-transition transform .3s cubic-bezier(.165,.84,.44,1)"], "usage": "the shared easing set on :root", "evidence": ["resolved from :root on the live page"] },
+        { "id": "image_fade_duration", "slot": "image_fade_duration", "kind": "number", "value": 400, "unit": "ms", "tolerance_pct": 10, "usage": "the image fade-in duration", "evidence": ["captured animation on the image node: duration 400ms, delay 0, easing cubic-bezier(0.33,1,0.68,1)"] },
+        { "id": "placeholder_hold", "slot": "placeholder_hold", "kind": "number", "value": 400, "unit": "ms", "tolerance_pct": 10, "usage": "the placeholder's delay before the image appears", "evidence": ["captured placeholder animation: duration 0ms, delay 400ms"] },
+        { "id": "link_transition_duration", "slot": "link_transition_duration", "kind": "number", "value": 300, "unit": "ms", "tolerance_pct": 10, "usage": "the shared link transition", "evidence": ["--link-transition transform .3s cubic-bezier(.165,.84,.44,1)"] },
+        { "id": "button_color_duration", "slot": "button_color_duration", "kind": "number", "value": 300, "unit": "ms", "tolerance_pct": 10, "usage": "the 'View all News' control's colour transition", "evidence": ["computed transition 'color 0.3s cubic-bezier(0.33, 1, 0.68, 1)'"] },
+        { "id": "footer_reveal_offset", "slot": "footer_reveal_offset", "kind": "number", "value": 40, "unit": "vh", "tolerance_pct": 10, "usage": "the footer link lists' shared upward offset when in view; 0vh off screen", "evidence": ["--footer-up measures 0vh at the page top and 40vh once the footer is in view"] },
+        { "id": "triggers", "slot": "triggers", "kind": "enum", "value": ["scroll-into-view", "hover", "input", "load"], "usage": "the events that drive motion on the page", "evidence": ["image entrance on load, footer reveal on scroll, link rules on hover, newsletter on input"] },
+        { "id": "nav_retract", "slot": "nav_retract", "kind": "identity", "value": "translateY(-84px) over .5s ease-in on scroll down; .4s ease-out on return", "usage": "the nav's hide-and-return behaviour", "evidence": ["the nav bar retracts fully on scroll down and returns as a rounded surface on scroll up; captured as a site-wide component in joby_nav_v1.json"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "content that arrives uses a decelerating curve" },
+        { "kind": "always", "rule": "surfaces that open use a symmetric in-out curve" },
+        { "kind": "always", "rule": "images fade in over opacity only, never animate size" },
+        { "kind": "never", "rule": "an overshoot or bounce curve" },
+        { "kind": "never", "rule": "an animation longer than about 500ms outside the nav's scroll behaviour" },
+        { "kind": "never", "rule": "autoplaying motion inside the article body" }
+      ],
+      "directives": [
+        "declare the easing set once on the root and reuse it everywhere",
+        "give images a placeholder hold then a 400ms decelerating fade of opacity alone",
+        "draw link rules in on hover over the shared 300ms transition",
+        "reveal the footer's link lists from one shared scroll-driven offset"
+      ]
+    },
+    {
+      "id": "imagery",
+      "scales": [
+        { "id": "role", "poles": ["text-led", "image-led"], "value": 5.0, "evidence": ["the page is text-led for most of its length but opens on a full-viewport image band and closes on a graphic one, so imagery frames the article at both ends without interrupting it"], "confidence": "high" },
+        { "id": "medium", "poles": ["photographic", "graphic"], "value": 4.0, "evidence": ["four photographs carry the article and the cards, and one vector graphic closes the page; photography dominates by area"], "confidence": "high" },
+        { "id": "treatment", "poles": ["natural", "stylized"], "value": 5.5, "evidence": ["the photographs are shown straight with no filter, duotone or overlay, cropped only by their containers; the closing graphic is fully stylised flat colour"], "confidence": "high" },
+        { "id": "framing", "poles": ["sharp", "rounded"], "value": 1.5, "evidence": ["every image is cropped square — the media band has no radius, the cards have no radius, and the only radius in the image set is the 8px on the card image wrappers, which does not show against the image"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "image_count", "slot": "image_count", "kind": "number", "value": 4, "tolerance_pct": 1, "usage": "distinct photographs plus one closing vector graphic; seven image elements render, three of them duplicates from responsive sources", "evidence": ["measured rendered images: one hero at 1440x900, three card images at 632.2x449.4, 511.1x358 and 392.8x261.5; natural sources 1600x1200, 800x451, 800x533, 800x533"] },
+        { "id": "hero_image_ratio", "slot": "hero_image_ratio", "kind": "number", "value": 1.6, "tolerance_pct": 5, "usage": "the hero band's ratio, cropped from a 1.33:1 source", "evidence": ["band 1440x900 = 1.6:1; source 1600x1200 = 1.33:1; the image renders 1656x1035 and is cropped by overflow"] },
+        { "id": "card_image_ratio", "slot": "card_image_ratio", "kind": "number", "value": 1.41, "tolerance_pct": 8, "usage": "the card image ratios — 1.41, 1.43 and 1.50, not a single value; recorded as a defect", "evidence": ["measured card image boxes: 632.2x449.4 (1.41), 511.1x358 (1.43), 392.8x261.5 (1.50)"] },
+        { "id": "object_fit", "slot": "object_fit", "kind": "identity", "value": "cover on every image", "usage": "images fill their container and are cropped rather than letterboxed", "evidence": ["computed object-fit 'cover' on all rendered images"] },
+        { "id": "image_radius", "slot": "image_radius", "kind": "number", "value": 0, "unit": "px", "tolerance_pct": 1, "usage": "the media band and every image except the card wrappers, which carry 8px", "evidence": ["computed border-radius '0px' on the media band and the hero image; the card image wrapper computes 8px"] },
+        { "id": "closing_graphic", "slot": "closing_graphic", "kind": "identity", "value": "one inline SVG, viewBox 0 0 1600 737, four flat colour strata cut by one curve", "usage": "the page's only vector artwork, closing the footer", "evidence": ["viewBox '0 0 1600 737'; 7 rects, 1 path, 1 group; strata fills #1C3F99, #C1DFEF, #007AE5, #1C3F99"] },
+        { "id": "alt_text", "slot": "alt_text", "kind": "identity", "value": "every image carries alt text drawn from its headline", "usage": "alt text present and meaningful", "evidence": ["measured alt values: the full headline on the hero; 'Joby Completes First-Ever Fully Autonomous Flight Across the...', 'Joby Launches eIPP Flights in Texas', 'Joby Autonomous Aircraft Begins Cross-Country Tour' on the cards"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the article opens on a full-bleed photograph" },
+        { "kind": "always", "rule": "images are cropped square with no radius or border" },
+        { "kind": "always", "rule": "images fill their container rather than being letterboxed" },
+        { "kind": "never", "rule": "a filter, duotone or colour overlay on a photograph" },
+        { "kind": "never", "rule": "images of different aspect ratios inside one card row" }
+      ],
+      "directives": [
+        "open the article on a full-bleed photograph cropped to a 1.6:1 band",
+        "crop every image with cover and no radius",
+        "close the page on a flat vector graphic built from colour strata",
+        "give every image meaningful alt text"
+      ]
+    },
+    {
+      "id": "copy",
+      "scales": [
+        { "id": "register", "poles": ["casual", "formal"], "value": 6.0, "evidence": ["an announcement reads as formal corporate communication — dateline, attributed executive quotations, a boilerplate 'About' footnote with media contacts and email addresses"], "confidence": "high" },
+        { "id": "voice", "poles": ["plain", "playful"], "value": 1.5, "evidence": ["no wordplay, no asides and no memorable phrasing; the page reports in neutral third person throughout"], "confidence": "high" },
+        { "id": "density", "poles": ["terse", "explanatory"], "value": 6.5, "evidence": ["six paragraphs of article plus a 535px footnote block carrying two company boilerplates and four contact details; the writing is dense and unshortened"], "confidence": "high" }
+      ],
+      "values": [
+        { "id": "headline_pattern", "slot": "headline_pattern", "kind": "identity", "value": "subject + action + place + partnership, held to one sentence", "evidence": ["h1: 'Blade's BLADEone Enhanced Jet Service Returns with Flights between the New York City area and South Florida, in Partnership with Aero'"] },
+        { "id": "dateline_form", "slot": "dateline_form", "kind": "identity", "value": "CITY, Date — ", "usage": "the dateline opening format", "evidence": ["dateline text 'NEW YORK, October 1, 2026 —' set in a strong element inline in the first paragraph"] },
+        { "id": "summary_form", "slot": "summary_form", "kind": "identity", "value": "one sentence, no full stop, naming the service and its two endpoints", "evidence": ["summary: 'Seasonal Enhanced Aviation jet service utilizes commercial jets retrofitted for 16 passengers for flights between New York and Miami and Palm Beach'"] },
+        { "id": "footnote_form", "slot": "footnote_form", "kind": "identity", "value": "About [entity] boilerplates, then Media Contacts with names and addresses", "evidence": ["footnote runs 'About Blade Urban Air Mobility, Inc. ... About Aero ... Media Contacts: Blade Lee Gold press@blade.com Aero Julianna Bourjeaurd press@aero.com'"] },
+        { "id": "section_label", "slot": "section_label", "kind": "identity", "value": "Read next", "evidence": ["h2 text 'Read next'"] },
+        { "id": "control_label", "slot": "control_label", "kind": "identity", "value": "View all News", "evidence": ["control text 'View all News View all News' — the label appears twice, a duplicated accessible name in the markup; the visible label is 'View all News'"] },
+        { "id": "word_count", "slot": "word_count", "kind": "number", "value": 290, "tolerance_pct": 15, "usage": "approximate article word count across the six paragraphs", "evidence": ["six paragraphs of 3-7 lines each at roughly 84 characters per line"] }
+      ],
+      "rules": [
+        { "kind": "always", "rule": "the headline is one sentence naming subject, action and place" },
+        { "kind": "always", "rule": "the article opens with a dateline in the CITY, Date — form" },
+        { "kind": "always", "rule": "quotations are attributed by name and role" },
+        { "kind": "always", "rule": "a footnote carries entity boilerplates and press contacts" },
+        { "kind": "never", "rule": "a label is duplicated within one control's accessible name" },
+        { "kind": "never", "rule": "promotional or playful phrasing in an announcement" }
+      ],
+      "directives": [
+        "write the headline as one sentence naming subject, action and place",
+        "open with a CITY, Date — dateline inline in the first paragraph",
+        "attribute every quotation by name and role",
+        "close with entity boilerplates and media contacts",
+        "give each control one label, not a duplicated accessible name"
+      ]
+    }
+  ],
+  "limitations": [
+    "Paragraph spacing is a defect, not a target. The page separates paragraphs with <br> elements (each 19px, one line-height), producing a 38px gap that is two line-heights. The rubric requires a declared margin instead. This is recorded as negative evidence.",
+    "The card row is a defect, not a target. Cards are sized by content (559 / 458 / 343px) rather than by span, so card 2 starts at x 598.8 — between tracks. The corrected contract requires placement by span.",
+    "The card image misalignment is a defect, not a target. Image tops spread 172.3px (4238.1 / 4321.9 / 4410.4) because each card's text above the image takes a different number of lines. The rubric requires a shared image top edge.",
+    "The absent quotation treatment is a defect, not a target. The page contains quoted passages but no blockquote element and no quotation styling, so a long attributed quotation reads as body text. The rubric's 'display face in body' move is the author's corrected contract and is flagged as not present on the source.",
+    "Card aspect ratios are inconsistent (1.41, 1.43, 1.50) and the rubric records this as a defect rather than a target value.",
+    "The hero image's 202.5px vertical offset is confirmed as a measurement but whether it is authored composition or an artifact of object-position was not resolved.",
+    "Which element owns the media band's 1.6:1 aspect was not isolated — the section is 900px tall against 1440 wide, while the image itself renders at 1.39:1 and is cropped.",
+    "Motion at 834 and 390 was not sampled per element; the entrance values come from the 1440 pass and from the page's shared keyframe library. The stagger across the three news cards is inferred, not measured.",
+    "Hover and focus states on body links and the rail controls were read from authored CSS; only the 'View all News' colour transition was captured live.",
+    "The sidebar rail's sticky behaviour was not exercised by scrolling; it is described from its box dimensions and the sticky wrapper in the markup.",
+    "The characters-per-line estimate of 84 is a calculation from the measure and a nominal average character width, not a count of actual line breaks.",
+    "The article's word count (about 290) is an estimate from line counts and measure, not an exact token count.",
+    "The 'View all News' control's accessible name is duplicated in the markup ('View all News View all News'). Recorded as a copy defect; whether it renders duplicated to a screen reader was not tested.",
+    "The nav and footer are site-wide components with their own rubrics; they are described here only as they appear on this page and are not re-graded."
+  ]
+}
