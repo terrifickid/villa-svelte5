@@ -32,9 +32,7 @@
   const path = $derived(page.url.pathname);
 
   // Pages whose hero is dark under the transparent header
-  const isHero = $derived(
-    path === "/" || path === "/contact" || path.startsWith("/blog")
-  );
+  const isHero = $derived(path === "/" || path === "/contact");
 
   const inkWhite = $derived(open || (isHero && !pill));
 
