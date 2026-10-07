@@ -146,11 +146,11 @@
 
     <!-- Bar -->
     <header
-      class="relative z-10 flex h-12 items-center px-4 text-caption transition-transform before:absolute before:inset-x-2 before:top-0 before:-z-10 before:h-12 before:rounded-[56px] before:bg-bone before:shadow-[0_1px_1px_rgba(0,0,0,0.23)] before:transition-opacity before:duration-400 before:ease-out-cubic before:content-[''] sm:px-6 md:h-16 md:px-8 md:before:inset-x-5 md:before:top-2 lg:h-20 lg:px-10 lg:before:inset-x-6 lg:before:top-2.5 lg:before:h-[60px] {inkWhite
+      class="relative z-10 flex h-12 items-center px-4 text-caption transition-transform before:absolute before:inset-0 before:-z-10 before:rounded-none before:bg-bone before:shadow-[0_1px_1px_rgba(0,0,0,0.23)] before:transition-opacity before:duration-400 before:ease-out-cubic before:content-[''] sm:px-6 md:h-16 md:px-8 lg:h-20 lg:px-10 {inkWhite
         ? 'text-white'
         : 'text-black'} {retracted
         ? '-translate-y-[105%] duration-500 ease-in-cubic'
-        : 'translate-y-1.5 duration-400 ease-out-cubic'} {pill && !open
+        : 'translate-y-0 duration-400 ease-out-cubic'} {pill && !open
         ? 'before:opacity-100'
         : 'before:opacity-0'}"
     >
