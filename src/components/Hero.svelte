@@ -1,56 +1,77 @@
 <script>
   import { goto } from "$app/navigation";
   import Spinner from "../components/Spinner.svelte";
-  import DateOption from "../components/DateOption.svelte";
-  import KeywordSearch from "../components/KeywordSearch.svelte";
-  import FindYourStayButton from "../components/buttons/findYourStay.svelte";
-  import Features from "../components/Features.svelte";
+
+  function parseISO(iso) {
+    const [y, m, d] = iso.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+
+  function toISO(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function addDays(iso, days) {
+    const d = parseISO(iso);
+    d.setDate(d.getDate() + days);
+    return toISO(d);
+  }
+
+  function getNextFriday() {
+    const now = new Date();
+    const daysUntilFriday = (5 - now.getDay() + 7) % 7;
+    const nextFriday = new Date(now);
+    nextFriday.setDate(now.getDate() + daysUntilFriday);
+    return toISO(nextFriday);
+  }
+
+  const today = toISO(new Date());
+
   let searching = false;
   let search = {
     checkIn: getNextFriday(),
-    checkOut: getNextMondayAfterFriday(),
+    checkOut: addDays(getNextFriday(), 3),
+    minOccupancy: "2",
   };
 
-  function getNextFriday() {
-    const today = new Date();
-    const daysUntilFriday = (5 - today.getDay() + 7) % 7; // Calculate days until the next Friday
-    const nextFriday = new Date(today);
-    nextFriday.setDate(today.getDate() + daysUntilFriday);
-
-    // Format the date as 'YYYY-MM-DD' for the input element
-    return nextFriday.toISOString().split("T")[0];
+  function syncCheckOut() {
+    if (search.checkIn && search.checkOut <= search.checkIn) {
+      search.checkOut = addDays(search.checkIn, 3);
+    }
   }
-  function getNextMondayAfterFriday() {
-    const nextFriday = new Date(getNextFriday());
-    const nextMonday = new Date(nextFriday);
-    nextMonday.setDate(nextFriday.getDate() + 3); // Add 3 days to get the Monday after the next Friday
 
-    // Format the date as 'YYYY-MM-DD' for the input element
-    return nextMonday.toISOString().split("T")[0];
-  }
-  function handleSubmit() {
-    console.log(search);
+  function handleSubmit(event) {
     event.preventDefault();
-    searching = true; // Toggle the variable
-    let queryParams = new URLSearchParams(search).toString();
-    let searchUrl = `/search?${queryParams}`;
-    goto(searchUrl, false);
+    searching = true;
+    const queryParams = new URLSearchParams(search).toString();
+    goto(`/search?${queryParams}`, false);
   }
 
-  function checkOut() {
-    document.getElementById("checkOut").focus();
-    document.getElementById("checkOut").select();
-  }
   export let data;
 </script>
 
 <div
-  class="min-h-screen bg-black bg-[url(/upscaled2.jpeg)] bg-cover bg-center bg-no-repeat"
+  class="relative flex min-h-screen items-center justify-center overflow-hidden bg-black px-6 py-32 text-white sm:px-10"
 >
-  <section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] py-32 text-white">
-    <h1
-      class="col-span-full font-satoshi text-display text-white lg:col-span-12"
+  <div class="absolute inset-0 overflow-hidden">
+    <video
+      class="absolute inset-0 h-full w-full min-h-full min-w-full object-cover object-center"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-hidden="true"
     >
+      <source src="/v1.mp4#t=0.001" type="video/mp4" />
+    </video>
+  </div>
+
+  <section class="relative z-10 w-full max-w-5xl">
+    <h1 class="text-center font-satoshi text-display text-white">
       Let us find you a place to stay
     </h1>
 
@@ -60,116 +81,154 @@
       exceptional amenities.
     </h2>
 
-    <div
-      class="col-span-full mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4"
+    <form
+      onsubmit={handleSubmit}
+      class="mt-12 grid grid-cols-1 gap-4 rounded-xl bg-black/40 p-6 ring-1 ring-white/10 backdrop-blur-md md:grid-cols-2 lg:grid-cols-5"
     >
-            <div>
-              <label for="location" class="flex text-caption"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                  />
-                </svg>
-                &nbsp;Location</label
-              >
-              <select
-                bind:value={search.country}
-                name="location"
-                class="bg-transparent mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-caption"
-              >
-                {#each data.countries as country}
-                  <option value={country}>{country}</option>
-                {/each}
-              </select>
-            </div>
-
-            <div>
-              <label for="location" class="flex text-caption"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                  />
-                </svg>
-                &nbsp;Guests</label
-              >
-              <select
-                bind:value={search.minOccupancy}
-                name="guests"
-                class="bg-transparent mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-bound sm:text-caption"
-              >
-                <option value="1">1</option>
-                <option value="2" selected>2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="location" class="flex text-caption">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
-                  />
-                </svg>&nbsp;Dates</label
-              >
-              <input
-                bind:value={search.checkIn}
-                class="bg-transparent rounded-md border-0 ring-gray-300 ring-1 focus:ring-bound focus:ring-2 mt-2 py-1.5 pl-3 w-full sm:text-caption"
-                type="date"
-                style=" color-scheme: dark;"
-              />
-            </div>
-          </div>
-
-          <div class="flex items-end">
-            <button
-              type="submit"
-              class="inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-transparent px-6 py-4 text-center text-caption duration-200 ring-1 ring-gray-300 hover:ring-bound focus:outline-none"
+      <!-- Location -->
+        <div>
+          <label
+            for="location"
+            class="flex items-center gap-2 text-caption text-white/80"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-5 w-5"
             >
-              {#if searching}
-                <Spinner />
-              {:else}
-                Search
-              {/if}
-            </button>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+              />
+            </svg>
+            Location
+          </label>
+          <select
+            id="location"
+            bind:value={search.country}
+            name="country"
+            class="mt-2 block w-full rounded-md border-0 bg-white/10 py-2 pl-3 pr-8 text-white ring-1 ring-inset ring-white/25 focus:ring-2 focus:ring-bound focus:outline-none"
+          >
+            {#each data.countries as country}
+              <option value={country}>{country}</option>
+            {/each}
+          </select>
+        </div>
+
+        <!-- Guests -->
+        <div>
+          <label
+            for="guests"
+            class="flex items-center gap-2 text-caption text-white/80"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-5 w-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+              />
+            </svg>
+            Guests
+          </label>
+          <select
+            id="guests"
+            bind:value={search.minOccupancy}
+            name="minOccupancy"
+            class="mt-2 block w-full rounded-md border-0 bg-white/10 py-2 pl-3 pr-8 text-white ring-1 ring-inset ring-white/25 focus:ring-2 focus:ring-bound focus:outline-none"
+          >
+            {#each ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] as guests}
+              <option value={guests}>{guests}</option>
+            {/each}
+          </select>
+        </div>
+
+      <!-- Dates -->
+        <div>
+          <div class="mb-2 flex items-center gap-2 text-caption text-white/80">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-5 w-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+              />
+            </svg>
+            Check-in
           </div>
+          <input
+            id="checkIn"
+            type="date"
+            bind:value={search.checkIn}
+            min={today}
+            onchange={syncCheckOut}
+            style="color-scheme: dark;"
+            class="mt-2 block w-full rounded-md border-0 bg-white/10 py-2 pl-3 pr-3 text-white ring-1 ring-inset ring-white/25 focus:ring-2 focus:ring-bound focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <div class="mb-2 flex items-center gap-2 text-caption text-white/80">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-5 w-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+              />
+            </svg>
+            Check-out
+          </div>
+          <input
+            id="checkOut"
+            type="date"
+            bind:value={search.checkOut}
+            min={search.checkIn}
+            style="color-scheme: dark;"
+            class="mt-2 block w-full rounded-md border-0 bg-white/10 py-2 pl-3 pr-3 text-white ring-1 ring-inset ring-white/25 focus:ring-2 focus:ring-bound focus:outline-none"
+          />
+        </div>
+
+      <!-- Search -->
+      <div class="flex items-end">
+        <button
+          type="submit"
+          class="inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-white px-6 py-3 text-center text-caption font-medium text-black duration-200 hover:bg-white/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-bound"
+        >
+          {#if searching}
+            <Spinner />
+          {:else}
+            Search
+          {/if}
+        </button>
+      </div>
+    </form>
   </section>
 </div>

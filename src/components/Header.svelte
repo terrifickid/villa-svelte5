@@ -79,18 +79,18 @@
   <div class="relative">
     <!-- Slab and layered colour bands -->
     <div
-      class="absolute inset-x-0 -top-3 -z-10 h-[calc(100%_+_12px)] overflow-hidden bg-bound transition-transform duration-700 ease-in-out-cubic {open
+      class="absolute inset-x-0 -top-3 -z-10 h-[calc(100%_+_12px)] overflow-hidden bg-black transition-transform duration-700 ease-in-out-cubic {open
         ? 'translate-y-0'
         : '-translate-y-full'}"
       aria-hidden="true"
     >
       <div
-        class="absolute inset-x-0 bottom-0 z-4 h-1/2 origin-bottom bg-bone transition-transform delay-[320ms] duration-[730ms] ease-in-out-cubic {open
+        class="absolute inset-x-0 bottom-0 z-4 h-1/2 origin-bottom bg-black transition-transform delay-[320ms] duration-[730ms] ease-in-out-cubic {open
           ? 'scale-y-0'
           : 'scale-y-100'}"
       ></div>
       <div
-        class="absolute inset-x-0 bottom-0 z-3 h-[70%] origin-bottom bg-bound transition-transform delay-[105ms] duration-[900ms] ease-in-out-cubic {open
+        class="absolute inset-x-0 bottom-0 z-3 h-[70%] origin-bottom bg-black transition-transform delay-[105ms] duration-[900ms] ease-in-out-cubic {open
           ? 'scale-y-0'
           : 'scale-y-100'}"
       ></div>
@@ -108,12 +108,16 @@
 
     <!-- Bar -->
     <header
-      class="relative z-10 flex h-20 items-center px-16 text-caption text-white transition-transform before:absolute before:inset-x-8 before:top-2.5 before:bottom-2.5 before:-z-10 before:rounded-md before:bg-linear-to-b before:from-[#101113] before:via-[#070808] before:to-[#030304] before:border before:border-black before:inset-shadow-[0_1px_0_rgba(255,255,255,0.16),0_-1px_0_rgba(0,0,0,0.9)] before:shadow-lg before:content-[''] {retracted
+      class="relative z-10 flex h-20 items-center px-16 text-caption text-white transition-transform {retracted
         ? '-translate-y-[105%] duration-500 ease-in-cubic'
         : 'translate-y-0 duration-400 ease-out-cubic'}"
     >
-      <a href="/" aria-label="Villabound home">
-        <img src="/vb.png" alt="Villabound" class="h-7 w-auto" />
+      <a
+        href="/"
+        aria-label="Villabound home"
+        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <img src="/vb.png" alt="Villabound" class="h-12 w-auto" />
       </a>
 
       <button
@@ -143,7 +147,7 @@
         : ''}"
     >
       <div class="overflow-hidden" inert={!open} aria-hidden={!open}>
-        <div class="grid grid-cols-16 gap-x-4 px-10 pt-[min(16rem,17.7vh)] pb-20 leading-snug tracking-[-0.02em] text-white">
+        <div class="grid min-h-[calc(100vh-5rem)] grid-cols-16 gap-x-4 px-10 pt-[min(16rem,17.7vh)] pb-20 leading-snug tracking-[-0.02em] text-white">
           <ul class="col-span-full space-y-2 lg:col-span-8" aria-label="Pages">
             {#each navLinks as link, i}
               <li
