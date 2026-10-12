@@ -108,12 +108,12 @@
 
     <!-- Bar -->
     <header
-      class="relative z-10 flex h-20 items-center px-10 text-caption text-white transition-transform before:absolute before:inset-x-8 before:top-2.5 before:bottom-2.5 before:-z-10 before:rounded-md before:bg-black before:shadow-[0_1px_2px_rgba(0,0,0,0.3)] before:content-[''] {retracted
+      class="relative z-10 flex h-20 items-center px-16 text-caption text-white transition-transform before:absolute before:inset-x-8 before:top-2.5 before:bottom-2.5 before:-z-10 before:rounded-md before:bg-linear-to-b before:from-[#101113] before:via-[#070808] before:to-[#030304] before:border before:border-black before:inset-shadow-[0_1px_0_rgba(255,255,255,0.16),0_-1px_0_rgba(0,0,0,0.9)] before:shadow-lg before:content-[''] {retracted
         ? '-translate-y-[105%] duration-500 ease-in-cubic'
         : 'translate-y-0 duration-400 ease-out-cubic'}"
     >
       <a href="/" aria-label="Villabound home">
-        <img src="/vb.png" alt="Villabound" class="h-8 w-auto" />
+        <img src="/vb.png" alt="Villabound" class="h-7 w-auto" />
       </a>
 
       <button

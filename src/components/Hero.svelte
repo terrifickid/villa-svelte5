@@ -44,8 +44,9 @@
   export let data;
 </script>
 
-<!--  style="background-image: url(/upscaled2.jpeg)" -->
-<div class="bg-no-repeat bg-cover bg-center bg-black">
+<div
+  class="min-h-screen bg-black bg-[url(/upscaled2.jpeg)] bg-cover bg-center bg-no-repeat"
+>
   <section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] py-32 text-white">
     <h1
       class="col-span-full font-satoshi text-display text-white lg:col-span-12"
