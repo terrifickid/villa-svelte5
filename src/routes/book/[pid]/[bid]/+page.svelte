@@ -8,7 +8,7 @@
   let property = data.data[1].data;
 </script>
 
-<section class="v-band">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <h1
     class="col-span-full flex items-center font-satoshi text-display text-black"
   >

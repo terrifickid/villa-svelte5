@@ -120,7 +120,7 @@
 </svelte:head>
 
 <!-- Black hero: invitation plus the inline enquiry form -->
-<section class="v-band bg-black text-white">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] bg-black text-white">
   <div class="contents">
     <div class="col-span-full lg:col-span-8">
       <h1 class="font-satoshi text-display text-white">Let’s connect</h1>
@@ -232,7 +232,7 @@
 </section>
 
 <!-- FAQ band -->
-<section class="v-band bg-white">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] bg-white">
   <div class="contents">
     <div class="col-span-full lg:col-span-7">
       <h2 class="font-satoshi text-heading text-black">
@@ -279,7 +279,7 @@
 </section>
 
 <!-- Testimonials band -->
-<section class="v-band bg-white">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] bg-white">
   <div class="col-span-full lg:col-span-7">
     <h2 class="font-satoshi text-heading text-black">
       Still unsure? Here’s what our guests say.

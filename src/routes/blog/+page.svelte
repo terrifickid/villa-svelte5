@@ -56,7 +56,7 @@
 </svelte:head>
 
 <!-- Page title -->
-<section class="v-band">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <h1
     class="col-span-full text-[clamp(3.125rem,9.765625vw,6.25rem)] {titleClass} lg:col-span-12"
   >
@@ -65,7 +65,7 @@
 </section>
 
 <!-- Listing -->
-<section class="v-band">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <!-- Category rail: parent grid columns 1-3, list takes 4-16 -->
   <nav
     class="hidden lg:col-start-1 lg:col-span-3 lg:block"
@@ -188,7 +188,7 @@
 </section>
 
 <!-- Closing band -->
-<section class="v-band bg-black text-white">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] bg-black text-white">
   <h2
     class="col-span-full text-[clamp(2rem,4.6875vw,3rem)] {titleClass} text-white lg:col-span-7"
   >

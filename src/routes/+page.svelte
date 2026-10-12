@@ -16,7 +16,7 @@
 <Hero {data} />
 
 <!-- Established note -->
-<section class="v-band">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <div
     class="col-span-full space-y-6 rounded-md bg-black p-12 text-standfirst text-white lg:col-span-8"
   >

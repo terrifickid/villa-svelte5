@@ -13,7 +13,7 @@
   let cards = $state(data.cards ?? []);
 </script>
 
-<section class="v-band" id="spaces">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]" id="spaces">
   <!-- Headline & CTA -->
   <div class="col-span-full lg:col-span-7">
     <div class="text-content">

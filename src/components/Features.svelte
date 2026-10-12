@@ -1,4 +1,4 @@
-<section class="v-band">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <div class="col-span-full grid grid-cols-1 gap-12 lg:col-span-12 lg:grid-cols-3">
     <div>
       <h3 class="font-satoshi text-body font-medium">

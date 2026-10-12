@@ -70,13 +70,6 @@
   --text-display--font-weight: 500;
 }
 
-/* joby_structure_v1 field: one 16-track band, staged gutters, constant 16px gap */
-@layer components {
-  .v-band {
-    @apply grid grid-cols-16 gap-x-4 px-4 py-24 leading-snug tracking-[-0.02em] sm:px-6 md:px-8 lg:px-10;
-  }
-}
-
 .ElementsApp input {
   border: 1px solid black !important;
 }

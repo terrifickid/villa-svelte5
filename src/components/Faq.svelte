@@ -41,7 +41,7 @@
   }
 </script>
 
-<div class="v-band">
+<div class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <div class="col-span-full lg:col-span-8">
     <div class="space-y-4 w-full">
       {#each faqs as faq}

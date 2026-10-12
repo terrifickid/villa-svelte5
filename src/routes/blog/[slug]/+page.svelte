@@ -80,7 +80,7 @@
 </svelte:head>
 
 <!-- Hero -->
-<section class="v-band">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <h1
     class="col-span-full font-satoshi text-display text-black lg:col-span-12"
   >
@@ -106,7 +106,7 @@
 
 <!-- Standfirst: wider than the article measure -->
 {#if summary}
-  <section class="v-band">
+  <section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
     <p
       class="col-span-full font-satoshi text-standfirst font-medium text-black lg:col-start-5 lg:col-span-12"
     >
@@ -116,7 +116,7 @@
 {/if}
 
 <!-- Article with metadata rail -->
-<section class="v-band">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <!-- Rail: metadata and share controls only -->
   <div
     class="col-span-full flex flex-wrap items-center gap-x-6 gap-y-2 lg:sticky lg:top-24 lg:col-start-1 lg:col-span-2 lg:flex-col lg:items-start lg:gap-6 lg:self-start"
@@ -173,7 +173,7 @@
 
 <!-- Read next: full content width, cards placed by span -->
 {#if otherPosts.length}
-  <section class="v-band">
+  <section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
     <h2 class="col-span-full font-satoshi text-heading text-black lg:col-span-7">
       Read next
     </h2>

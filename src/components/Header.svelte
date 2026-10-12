@@ -108,7 +108,7 @@
 
     <!-- Bar -->
     <header
-      class="relative z-10 flex h-12 items-center px-6 text-caption text-white transition-transform before:absolute before:inset-x-2 before:top-2 before:bottom-2 before:-z-10 before:rounded-md before:bg-black before:shadow-[0_1px_2px_rgba(0,0,0,0.3)] before:content-[''] sm:px-8 sm:before:inset-x-4 md:h-16 md:px-12 md:before:inset-x-6 lg:h-20 lg:px-16 lg:before:inset-x-8 lg:before:top-2.5 lg:before:bottom-2.5 {retracted
+      class="relative z-10 flex h-20 items-center px-10 text-caption text-white transition-transform before:absolute before:inset-x-8 before:top-2.5 before:bottom-2.5 before:-z-10 before:rounded-md before:bg-black before:shadow-[0_1px_2px_rgba(0,0,0,0.3)] before:content-[''] {retracted
         ? '-translate-y-[105%] duration-500 ease-in-cubic'
         : 'translate-y-0 duration-400 ease-out-cubic'}"
     >
@@ -118,7 +118,7 @@
 
       <button
         type="button"
-        class="relative ml-auto size-[34px] shrink-0 transition duration-700 ease-in-out-cubic md:size-[27px] lg:size-[33px]"
+        class="relative ml-auto size-[33px] shrink-0 transition duration-700 ease-in-out-cubic"
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         onclick={() => (open = !open)}
@@ -143,7 +143,7 @@
         : ''}"
     >
       <div class="overflow-hidden" inert={!open} aria-hidden={!open}>
-        <div class="v-band pt-[min(16rem,17.7vh)] pb-20 text-white">
+        <div class="grid grid-cols-16 gap-x-4 px-10 pt-[min(16rem,17.7vh)] pb-20 leading-snug tracking-[-0.02em] text-white">
           <ul class="col-span-full space-y-2 lg:col-span-8" aria-label="Pages">
             {#each navLinks as link, i}
               <li

@@ -43,7 +43,7 @@
   ];
 </script>
 
-<section class="v-band">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <div class="col-span-full grid grid-cols-1 gap-6 lg:col-span-8">
     {#each services as service}
       <div class="rounded-md bg-gray-100 p-12">

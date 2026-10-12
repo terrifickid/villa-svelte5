@@ -1,4 +1,4 @@
-<section class="v-band bg-zinc-900 text-white">
+<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] bg-zinc-900 text-white">
   <div class="col-span-full lg:col-span-8">
     <h2 class="font-satoshi text-heading text-white">
       Ready for your next private villa escape?

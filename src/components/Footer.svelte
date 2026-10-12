@@ -44,7 +44,7 @@
 <footer>
   <!-- Link field: bright blue, everything typographic -->
   <div
-    class="v-band relative min-h-dvh content-start bg-bound text-white after:absolute after:bottom-0 after:left-0 after:h-8.5 after:w-full after:bg-black after:content-[''] lg:grid-rows-[1fr_auto]"
+    class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] relative min-h-dvh content-start bg-bound text-white after:absolute after:bottom-0 after:left-0 after:h-8.5 after:w-full after:bg-black after:content-[''] lg:grid-rows-[1fr_auto]"
   >
     <!-- Legal and copyright footnote: unlabelled, caption size, no gaps -->
     <ul
