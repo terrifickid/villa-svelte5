@@ -3,7 +3,7 @@
   export let data;
 
   const linkClass =
-    "relative inline-block after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
+    "relative inline-block after:absolute after:-bottom-0.5 after:left-0 after:h-[0.09375rem] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
 </script>
 
 {#each data as node}

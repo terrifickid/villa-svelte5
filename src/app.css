@@ -11,6 +11,10 @@
   --font-general: "General Sans", sans-serif;
   --font-satoshi: "Satoshi", sans-serif;
 
+  /* Shared content column: grows to 100rem (1600px at the 16px default root)
+     then centres. Applied per-section so full-bleed imagery/bands stay possible. */
+  --container-shell: 100rem;
+
   /* joby_nav_v1 easing library: named curves referenced by utilities */
   --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
@@ -70,11 +74,22 @@
   --text-display--font-weight: 500;
 }
 
+/* Centred content column. Add to a section's class list, or to an inner
+   wrapper when the outer element carries a full-bleed background/media. */
+@utility shell {
+  width: 100%;
+  margin-inline: auto;
+  max-width: var(--container-shell);
+}
+
 .ElementsApp input {
   border: 1px solid black !important;
 }
-/* Global font setup – use Satoshi as the primary font (like FlowSpace) */
+/* Global font setup – use Satoshi as the primary font (like FlowSpace).
+   font-size: 100% keeps 1rem tied to the user's browser default (~16px) so the
+   rem-based grid, spacing and shell scale together with accessibility settings. */
 html {
+  font-size: 100%;
   font-family: "Satoshi", var(--font-general);
 }
 

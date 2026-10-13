@@ -66,7 +66,7 @@
       preload="auto"
       aria-hidden="true"
     >
-      <source src="/v1.mp4#t=0.001" type="video/mp4" />
+      <source src="/v2.mp4#t=0.001" type="video/mp4" />
     </video>
   </div>
 

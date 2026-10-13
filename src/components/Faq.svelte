@@ -41,56 +41,63 @@
   }
 </script>
 
-<div class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
-  <div class="col-span-full lg:col-span-8">
-    <div class="space-y-4 w-full">
-      {#each faqs as faq}
-        <div
-          class="bg-zinc-900 border border-zinc-800 rounded-md overflow-hidden w-full"
-        >
-          <!-- Question Header -->
-          <button
-            on:click={() => toggle(faq.id)}
-            class="w-full px-6 py-6 flex justify-between items-center text-left group hover:bg-zinc-800 transition-all"
-          >
-            <span class="text-body font-medium text-white pr-8">
-              {faq.question}
-            </span>
-
-            <div
-              class="w-7 h-7 flex items-center justify-center flex-shrink-0 transition-transform duration-300 {openId ===
-              faq.id
-                ? 'rotate-180'
-                : ''}"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-6 h-6 text-zinc-400 group-hover:text-white transition"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="3"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
-          </button>
-
-          <!-- Answer -->
-          {#if openId === faq.id}
-            <div
-              transition:slide={{ duration: 250 }}
-              class="px-6 pb-6 text-body text-zinc-400 border-t border-zinc-800"
-            >
-              {faq.answer}
-            </div>
-          {/if}
-        </div>
-      {/each}
-    </div>
+<section
+  class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]"
+>
+  <div class="col-span-full lg:col-span-4">
+    <p class="text-label font-medium uppercase tracking-[0.25em] text-black/50">
+      Good to know
+    </p>
+    <h2 class="mt-6 font-satoshi text-heading text-black">Questions, answered</h2>
+    <p class="mt-6 text-body text-black/70">
+      Can’t find what you’re after?
+      <a class="underline underline-offset-2" href="/contact">Talk to us</a>.
+    </p>
   </div>
-</div>
+
+  <div
+    class="col-span-full mt-12 border-t border-black/10 lg:col-span-11 lg:col-start-6 lg:mt-0"
+  >
+    {#each faqs as faq}
+      <div class="border-b border-black/10">
+        <button
+          type="button"
+          class="flex w-full items-center justify-between gap-8 py-6 text-left"
+          aria-expanded={openId === faq.id}
+          onclick={() => toggle(faq.id)}
+        >
+          <span class="font-satoshi text-standfirst font-medium text-black">
+            {faq.question}
+          </span>
+          <span
+            class="grid size-8 shrink-0 place-items-center rounded-full border border-black/15 text-black transition-transform duration-300 {openId ===
+            faq.id
+              ? 'rotate-45'
+              : ''}"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </span>
+        </button>
+
+        {#if openId === faq.id}
+          <div transition:slide={{ duration: 250 }} class="pb-8 pr-12">
+            <p class="max-w-2xl text-body text-black/70">{faq.answer}</p>
+          </div>
+        {/if}
+      </div>
+    {/each}
+  </div>
+</section>

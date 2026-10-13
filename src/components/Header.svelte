@@ -2,10 +2,6 @@
   import { page } from "$app/state";
 
   let open = $state(false);
-  let retracted = $state(false);
-  let lastY = 0;
-
-  const THRESHOLD = 120;
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -30,33 +26,17 @@
 
   const path = $derived(page.url.pathname);
 
+  // On the home page the hero carries a large centred logo instead of a bar
+  const isHome = $derived(path === "/");
+
   const mainLinkClass =
-    "relative inline-block font-satoshi text-heading after:absolute after:-bottom-1 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
+    "relative inline-block font-satoshi text-heading after:absolute after:-bottom-1 after:left-0 after:h-[0.09375rem] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
   const subLinkClass =
     "relative inline-block text-lg after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
-
-  function onScroll() {
-    if (open) return;
-    const y = window.scrollY;
-    if (y < THRESHOLD) {
-      retracted = false;
-    } else if (y > lastY) {
-      retracted = true;
-    } else if (y < lastY) {
-      retracted = false;
-    }
-    lastY = y;
-  }
 
   function onKeydown(event) {
     if (event.key === "Escape" && open) open = false;
   }
-
-  $effect(() => {
-    lastY = window.scrollY;
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  });
 
   // Close the panel whenever the route changes
   $effect(() => {
@@ -75,79 +55,117 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<nav class="fixed inset-x-0 top-0 z-100" aria-label="Main">
-  <div class="relative">
-    <!-- Slab and layered colour bands -->
+<nav class="relative z-100" aria-label="Main">
+  {#if isHome}
+    <!-- Home hero: a single large, centred white logo instead of the nav bar -->
     <div
-      class="absolute inset-x-0 -top-3 -z-10 h-[calc(100%_+_12px)] overflow-hidden bg-black transition-transform duration-700 ease-in-out-cubic {open
-        ? 'translate-y-0'
-        : '-translate-y-full'}"
-      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-[min(16vh,8rem)]"
     >
-      <div
-        class="absolute inset-x-0 bottom-0 z-4 h-1/2 origin-bottom bg-black transition-transform delay-[320ms] duration-[730ms] ease-in-out-cubic {open
-          ? 'scale-y-0'
-          : 'scale-y-100'}"
-      ></div>
-      <div
-        class="absolute inset-x-0 bottom-0 z-3 h-[70%] origin-bottom bg-black transition-transform delay-[105ms] duration-[900ms] ease-in-out-cubic {open
-          ? 'scale-y-0'
-          : 'scale-y-100'}"
-      ></div>
-      <div
-        class="absolute inset-x-0 bottom-0 z-2 h-full origin-bottom bg-black transition-transform delay-[105ms] duration-[630ms] ease-in-out-cubic {open
-          ? 'scale-y-0'
-          : 'scale-y-100'}"
-      ></div>
-      <div
-        class="absolute inset-x-0 bottom-0 z-1 h-full origin-bottom bg-black transition-transform duration-[520ms] ease-in-out-cubic {open
-          ? 'scale-y-0'
-          : 'scale-y-100'}"
-      ></div>
-    </div>
-
-    <!-- Bar -->
-    <header
-      class="relative z-10 flex h-20 items-center px-16 text-caption text-white transition-transform {retracted
-        ? '-translate-y-[105%] duration-500 ease-in-cubic'
-        : 'translate-y-0 duration-400 ease-out-cubic'}"
-    >
-      <a
-        href="/"
-        aria-label="Villabound home"
-        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      >
-        <img src="/vb.png" alt="Villabound" class="h-12 w-auto" />
+      <a href="/" aria-label="Villabound home" class="pointer-events-auto">
+        <img
+          src="/vb.png"
+          alt="Villabound"
+          class="h-16 w-auto sm:h-24"
+        />
       </a>
+    </div>
+  {:else}
+    <!-- Bar: sits in normal document flow (not sticky) -->
+    <header
+      class="z-30 bg-white text-caption text-black {open
+        ? 'fixed inset-x-0 top-0'
+        : 'relative'}"
+    >
+      <div class="shell relative flex h-20 items-center px-10">
+        <button
+          type="button"
+          class="relative size-[2.0625rem] shrink-0 transition duration-700 ease-in-out-cubic"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          onclick={() => (open = !open)}
+        >
+          <span
+            class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-md bg-current transition duration-700 ease-in-out-cubic {open
+              ? '-translate-y-1/2 rotate-45'
+              : 'translate-y-[calc(-50%_-_2.5px)]'}"
+          ></span>
+          <span
+            class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-md bg-current transition duration-700 ease-in-out-cubic {open
+              ? '-translate-y-1/2 -rotate-45'
+              : 'translate-y-[calc(-50%_+_2.5px)]'}"
+          ></span>
+        </button>
 
-      <button
-        type="button"
-        class="relative ml-auto size-[33px] shrink-0 transition duration-700 ease-in-out-cubic"
-        aria-label={open ? "Close menu" : "Open menu"}
-        aria-expanded={open}
-        onclick={() => (open = !open)}
-      >
-        <span
-          class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-md bg-current transition duration-700 ease-in-out-cubic {open
-            ? '-translate-y-1/2 rotate-45'
-            : 'translate-y-[calc(-50%_-_2.5px)]'}"
-        ></span>
-        <span
-          class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-md bg-current transition duration-700 ease-in-out-cubic {open
-            ? '-translate-y-1/2 -rotate-45'
-            : 'translate-y-[calc(-50%_+_2.5px)]'}"
-        ></span>
-      </button>
+        <a
+          href="/"
+          aria-label="Villabound home"
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          <img src="/vb.png" alt="Villabound" class="h-12 w-auto brightness-0" />
+        </a>
+
+        <a
+          href="/search"
+          aria-label="Search"
+          class="relative ml-auto size-[2.0625rem] shrink-0"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="absolute inset-0 m-auto size-[1.625rem]"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+          </svg>
+        </a>
+      </div>
     </header>
 
-    <!-- Open panel: collapses via grid rows so link transitions still fire -->
+    <!-- Full-screen overlay menu: fixed so it covers the viewport while the bar scrolls with the page -->
     <div
-      class="relative z-10 grid grid-rows-[0fr] transition-[grid-template-rows] duration-700 ease-in-out-cubic {open
-        ? 'grid-rows-[1fr]'
+      class="pointer-events-none fixed inset-x-0 top-0 z-20 grid grid-rows-[0fr] transition-[grid-template-rows] duration-700 ease-in-out-cubic {open
+        ? 'pointer-events-auto grid-rows-[1fr]'
         : ''}"
+      inert={!open}
+      aria-hidden={!open}
     >
-      <div class="overflow-hidden" inert={!open} aria-hidden={!open}>
-        <div class="grid min-h-[calc(100vh-5rem)] grid-cols-16 gap-x-4 px-10 pt-[min(16rem,17.7vh)] pb-20 leading-snug tracking-[-0.02em] text-white">
+      <div class="relative overflow-hidden">
+        <!-- Slab and layered colour bands -->
+        <div
+          class="absolute inset-0 overflow-hidden bg-black transition-transform duration-700 ease-in-out-cubic {open
+            ? 'translate-y-0'
+            : '-translate-y-full'}"
+          aria-hidden="true"
+        >
+          <div
+            class="absolute inset-x-0 bottom-0 z-4 h-1/2 origin-bottom bg-black transition-transform delay-[320ms] duration-[730ms] ease-in-out-cubic {open
+              ? 'scale-y-0'
+              : 'scale-y-100'}"
+          ></div>
+          <div
+            class="absolute inset-x-0 bottom-0 z-3 h-[70%] origin-bottom bg-black transition-transform delay-[105ms] duration-[900ms] ease-in-out-cubic {open
+              ? 'scale-y-0'
+              : 'scale-y-100'}"
+          ></div>
+          <div
+            class="absolute inset-x-0 bottom-0 z-2 h-full origin-bottom bg-black transition-transform delay-[105ms] duration-[630ms] ease-in-out-cubic {open
+              ? 'scale-y-0'
+              : 'scale-y-100'}"
+          ></div>
+          <div
+            class="absolute inset-x-0 bottom-0 z-1 h-full origin-bottom bg-black transition-transform duration-[520ms] ease-in-out-cubic {open
+              ? 'scale-y-0'
+              : 'scale-y-100'}"
+          ></div>
+        </div>
+
+        <div class="shell relative grid min-h-screen grid-cols-16 gap-x-4 px-10 pt-[min(16rem,17.7vh)] pb-20 leading-snug tracking-[-0.02em] text-white">
           <ul class="col-span-full space-y-2 lg:col-span-8" aria-label="Pages">
             {#each navLinks as link, i}
               <li
@@ -191,5 +209,5 @@
         </div>
       </div>
     </div>
-  </div>
+  {/if}
 </nav>

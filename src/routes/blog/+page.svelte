@@ -56,7 +56,7 @@
 </svelte:head>
 
 <!-- Page title -->
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+<section class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <h1
     class="col-span-full text-[clamp(3.125rem,9.765625vw,6.25rem)] {titleClass} lg:col-span-12"
   >
@@ -65,7 +65,7 @@
 </section>
 
 <!-- Listing -->
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+<section class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <!-- Category rail: parent grid columns 1-3, list takes 4-16 -->
   <nav
     class="hidden lg:col-start-1 lg:col-span-3 lg:block"
@@ -188,22 +188,24 @@
 </section>
 
 <!-- Closing band -->
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] bg-black text-white">
-  <h2
-    class="col-span-full text-[clamp(2rem,4.6875vw,3rem)] {titleClass} text-white lg:col-span-7"
-  >
-    Get the Villabound Look Book
-  </h2>
-  <p
-    class="col-span-full mt-6 text-body lg:col-start-13 lg:col-span-4 lg:mt-0"
-  >
-    A printed collection of our villas, destinations and services — sent on
-    request.
-  </p>
-  <a
-    href="/contact"
-    class="col-span-full mt-8 inline-flex h-12 w-fit items-center rounded-md bg-white px-6 text-caption font-medium text-black lg:col-start-1 lg:col-span-4 lg:row-start-2 lg:mt-12"
-  >
-    Request the look book
-  </a>
+<section class="bg-black text-white">
+  <div class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+    <h2
+      class="col-span-full text-[clamp(2rem,4.6875vw,3rem)] {titleClass} text-white lg:col-span-7"
+    >
+      Get the Villabound Look Book
+    </h2>
+    <p
+      class="col-span-full mt-6 text-body lg:col-start-13 lg:col-span-4 lg:mt-0"
+    >
+      A printed collection of our villas, destinations and services — sent on
+      request.
+    </p>
+    <a
+      href="/contact"
+      class="col-span-full mt-8 inline-flex h-12 w-fit items-center rounded-md bg-white px-6 text-caption font-medium text-black lg:col-start-1 lg:col-span-4 lg:row-start-2 lg:mt-12"
+    >
+      Request the look book
+    </a>
+  </div>
 </section>

@@ -2,7 +2,7 @@
   export let data;
 </script>
 
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+<section class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <h1 class="col-span-full font-satoshi text-display text-black">
     Reservation Confirmed
   </h1>

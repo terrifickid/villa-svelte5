@@ -1,4 +1,4 @@
-<div class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] text-regent-900">
+<div class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] text-regent-900">
   <div class="col-span-full">
     <div class="text-regent-900 xl:col-span-3">
       <div

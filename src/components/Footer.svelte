@@ -4,7 +4,7 @@
 
   // Rubric hover underline: scales in from the left over the shared 300ms curve
   const linkClass =
-    "relative inline-block text-lg after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
+    "relative inline-block text-lg after:absolute after:-bottom-0.5 after:left-0 after:h-[0.09375rem] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
   const subLinkClass =
     "relative inline-block text-label after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-[cubic-bezier(.165,.84,.44,1)] hover:after:scale-x-100";
 
@@ -44,123 +44,127 @@
 <footer>
   <!-- Link field: bright blue, everything typographic -->
   <div
-    class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] relative min-h-dvh content-start bg-bound text-white after:absolute after:bottom-0 after:left-0 after:h-8.5 after:w-full after:bg-black after:content-[''] lg:grid-rows-[1fr_auto]"
+    class="relative bg-bound text-white after:absolute after:bottom-0 after:left-0 after:h-8.5 after:w-full after:bg-black after:content-['']"
   >
-    <!-- Legal and copyright footnote: unlabelled, caption size, no gaps -->
-    <ul
-      class="col-span-full flex flex-col lg:col-span-2 lg:col-start-1"
-      role="list"
-    >
-      <li><a class={subLinkClass} href="/">Privacy Policy</a></li>
-      <li><a class={subLinkClass} href="/">Terms of Use</a></li>
-      <li class="text-label">© 2026 Villabound</li>
-    </ul>
-
-    <!-- Declared interior span: columns 3-10 are an explicit spacer, not a hole -->
     <div
-      class="hidden lg:col-span-8 lg:col-start-3 lg:block"
-      aria-hidden="true"
-    ></div>
-
-    {#each lists as list}
+      class="shell grid min-h-dvh grid-cols-16 content-start gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em] lg:grid-rows-[1fr_auto]"
+    >
+      <!-- Legal and copyright footnote: unlabelled, caption size, no gaps -->
       <ul
-        class="col-span-full mt-12 flex flex-col lg:col-span-2 lg:mt-0 {list.colStart}"
+        class="col-span-full flex flex-col lg:col-span-2 lg:col-start-1"
         role="list"
       >
-        <li class="mb-8 text-label">{list.label}</li>
-        {#each list.links as link}
-          <li><a class={linkClass} href={link.href}>{link.label}</a></li>
-        {/each}
+        <li><a class={subLinkClass} href="/">Privacy Policy</a></li>
+        <li><a class={subLinkClass} href="/">Terms of Use</a></li>
+        <li class="text-label">© 2026 Villabound</li>
       </ul>
-    {/each}
 
-    <!-- Row 2: logo aligned to the row's end, newsletter at its natural top -->
-    <a
-      href="/"
-      class="col-span-full mt-12 lg:col-span-4 lg:mt-24 lg:self-end"
-    >
-      <img src="/vb.png" alt="Villabound" class="h-10 w-auto" />
-    </a>
+      <!-- Declared interior span: columns 3-10 are an explicit spacer, not a hole -->
+      <div
+        class="hidden lg:col-span-8 lg:col-start-3 lg:block"
+        aria-hidden="true"
+      ></div>
 
-    <div class="col-span-full mt-12 lg:col-span-5 lg:col-start-11 lg:mt-24">
-      <p
-        class="font-satoshi text-[28px] leading-[1.2] font-medium transition duration-400 {filled
-          ? '-translate-y-4 text-white/50'
-          : 'text-white'}"
+      {#each lists as list}
+        <ul
+          class="col-span-full mt-12 flex flex-col lg:col-span-2 lg:mt-0 {list.colStart}"
+          role="list"
+        >
+          <li class="mb-8 text-label">{list.label}</li>
+          {#each list.links as link}
+            <li><a class={linkClass} href={link.href}>{link.label}</a></li>
+          {/each}
+        </ul>
+      {/each}
+
+      <!-- Row 2: logo aligned to the row's end, newsletter at its natural top -->
+      <a
+        href="/"
+        class="col-span-full mt-12 lg:col-span-4 lg:mt-24 lg:self-end"
       >
-        Sign up for updates
-      </p>
+        <img src="/vb.png" alt="Villabound" class="h-10 w-auto" />
+      </a>
 
-      <form
-        accept-charset="UTF-8"
-        action="https://gs324.infusionsoft.com/app/form/process/832e3dc5d191bcb7f1a1cc74b0a1df11"
-        method="POST"
-        class="mt-4"
-      >
-        <input
-          name="inf_form_xid"
-          type="hidden"
-          value="832e3dc5d191bcb7f1a1cc74b0a1df11"
-          autocomplete="off"
-        />
-        <input
-          name="inf_form_name"
-          type="hidden"
-          value="Web Form submitted"
-          autocomplete="off"
-        />
-        <input
-          name="infusionsoft_version"
-          type="hidden"
-          value="1.68.0.104"
-          autocomplete="off"
-        />
+      <div class="col-span-full mt-12 lg:col-span-5 lg:col-start-11 lg:mt-24">
+        <p
+          class="font-satoshi text-[1.75rem] leading-[1.2] font-medium transition duration-400 {filled
+            ? '-translate-y-4 text-white/50'
+            : 'text-white'}"
+        >
+          Sign up for updates
+        </p>
 
-        <div class="relative">
+        <form
+          accept-charset="UTF-8"
+          action="https://gs324.infusionsoft.com/app/form/process/832e3dc5d191bcb7f1a1cc74b0a1df11"
+          method="POST"
+          class="mt-4"
+        >
           <input
-            name="inf_field_Email"
-            type="email"
-            bind:value={email}
-            placeholder="Enter e-mail address"
-            required
-            class="rounded-md border-0 border-b border-white bg-transparent p-0 pr-10 text-[28px] leading-[1.2] font-medium text-white placeholder-white/60 transition-[width] duration-400 focus:ring-0 {filled
-              ? 'w-full'
-              : 'w-[16ch]'}"
+            name="inf_form_xid"
+            type="hidden"
+            value="832e3dc5d191bcb7f1a1cc74b0a1df11"
+            autocomplete="off"
           />
-          <button
-            type="submit"
-            aria-label="Sign up"
-            class="absolute top-1/2 right-0 size-7 -translate-y-1/2 transition duration-400 {filled
-              ? 'pointer-events-auto text-white'
-              : 'pointer-events-none text-white/40'}"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-7"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4.5 12h15m0 0-6.75-6.75M19.5 12l-6.75 6.75"
-              />
-            </svg>
-          </button>
-        </div>
-      </form>
+          <input
+            name="inf_form_name"
+            type="hidden"
+            value="Web Form submitted"
+            autocomplete="off"
+          />
+          <input
+            name="infusionsoft_version"
+            type="hidden"
+            value="1.68.0.104"
+            autocomplete="off"
+          />
 
-      <p
-        class="mt-6 text-label transition-transform duration-400 {filled
-          ? '-translate-y-4'
-          : ''}"
-      >
-        By entering your email address you agree to receive newsletters, updates,
-        and marketing information. You can opt out at any time. See our
-        <a class="underline" href="/">Privacy Policy</a>.
-      </p>
+          <div class="relative">
+            <input
+              name="inf_field_Email"
+              type="email"
+              bind:value={email}
+              placeholder="Enter e-mail address"
+              required
+              class="rounded-md border-0 border-b border-white bg-transparent p-0 pr-10 text-[1.75rem] leading-[1.2] font-medium text-white placeholder-white/60 transition-[width] duration-400 focus:ring-0 {filled
+                ? 'w-full'
+                : 'w-[16ch]'}"
+            />
+            <button
+              type="submit"
+              aria-label="Sign up"
+              class="absolute top-1/2 right-0 size-7 -translate-y-1/2 transition duration-400 {filled
+                ? 'pointer-events-auto text-white'
+                : 'pointer-events-none text-white/40'}"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-7"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4.5 12h15m0 0-6.75-6.75M19.5 12l-6.75 6.75"
+                />
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <p
+          class="mt-6 text-label transition-transform duration-400 {filled
+            ? '-translate-y-4'
+            : ''}"
+        >
+          By entering your email address you agree to receive newsletters, updates,
+          and marketing information. You can opt out at any time. See our
+          <a class="underline" href="/">Privacy Policy</a>.
+        </p>
+      </div>
     </div>
   </div>
 

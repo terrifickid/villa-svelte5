@@ -81,7 +81,7 @@
   by column span/start, shared type tokens, ladder-only vertical spacing.
 -->
 <!-- Page header -->
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+<section class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <h1 class="col-span-full font-satoshi text-display text-black lg:col-span-12">
     Our Locations
   </h1>
@@ -193,7 +193,7 @@
 </section>
 
 <!-- CTA panel -->
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+<section class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <div
     class="col-span-full grid grid-cols-1 items-start gap-x-4 rounded-md bg-black px-6 py-12 lg:grid-cols-16 lg:px-0"
   >

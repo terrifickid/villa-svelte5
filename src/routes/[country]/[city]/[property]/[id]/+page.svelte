@@ -111,7 +111,7 @@
 </svelte:head>
 
 <!-- Header stack: breadcrumb, name, address -->
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+<section class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <nav class="col-span-full" aria-label="Breadcrumb">
     <ol class="flex flex-wrap items-center gap-2 text-caption text-black/80">
       <li>
@@ -223,7 +223,7 @@
 </section>
 
 <!-- Content block: left column plus sticky enquiry rail -->
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+<section class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <div class="contents">
     <div class="col-span-full lg:col-span-8">
       <!-- Anchor tabs -->
@@ -419,7 +419,7 @@
 </section>
 
 <!-- Other villas in the city -->
-<section class="grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
+<section class="shell grid grid-cols-16 gap-x-4 px-10 py-24 leading-snug tracking-[-0.02em]">
   <h3 class="col-span-full font-satoshi text-standfirst font-medium text-black lg:col-span-7">
     Other villas in {city || country || "the area"}
   </h3>
