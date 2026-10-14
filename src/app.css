@@ -1,5 +1,6 @@
 @import url("https://api.fontshare.com/v2/css?f[]=general-sans@1,2&display=swap");
 @import url("https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
 @import "tailwindcss";
 
 @plugin '@tailwindcss/forms';
@@ -10,6 +11,7 @@
   --color-bone: #fffefd;
   --font-general: "General Sans", sans-serif;
   --font-satoshi: "Satoshi", sans-serif;
+  --font-oldstandard: "Old Standard TT", serif;
 
   /* Shared content column: grows to 100rem (1600px at the 16px default root)
      then centres. Applied per-section so full-bleed imagery/bands stay possible. */
