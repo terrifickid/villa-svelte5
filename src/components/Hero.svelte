@@ -77,10 +77,11 @@
       class="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-8 text-center"
     >
       <h1
-        class="font-oldstandard text-5xl text-white flex items-center tracking-[0.75rem]"
+        style="background-image: url('vb.png'); background-repeat: none; background-size: contain;"
+        class="font-oldstandard text-5xl text-white flex items-center tracking-[0.75rem] bg-no-repeat"
       >
         <img
-          src="/vb-logo-test.svg"
+          src="/vb-logo-e.svg"
           alt=""
           aria-hidden="true"
           class="h-20 w-auto brightness-0 invert sm:h-24"
