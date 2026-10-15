@@ -61,13 +61,7 @@
     <div
       class="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-[min(16vh,8rem)]"
     >
-      <a href="/" aria-label="Villabound home" class="pointer-events-auto">
-        <img
-          src="/vb.png"
-          alt="Villabound"
-          class="h-16 w-auto sm:h-24"
-        />
-      </a>
+      Villabound logo
     </div>
   {:else}
     <!-- Bar: sits in normal document flow (not sticky) -->
@@ -95,14 +89,6 @@
               : 'translate-y-[calc(-50%_+_2.5px)]'}"
           ></span>
         </button>
-
-        <a
-          href="/"
-          aria-label="Villabound home"
-          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-          <img src="/vb.png" alt="Villabound" class="h-12 w-auto brightness-0" />
-        </a>
 
         <a
           href="/search"
@@ -165,7 +151,9 @@
           ></div>
         </div>
 
-        <div class="shell relative grid min-h-screen grid-cols-16 gap-x-4 px-10 pt-[min(16rem,17.7vh)] pb-20 leading-snug tracking-[-0.02em] text-white">
+        <div
+          class="shell relative grid min-h-screen grid-cols-16 gap-x-4 px-10 pt-[min(16rem,17.7vh)] pb-20 leading-snug tracking-[-0.02em] text-white"
+        >
           <ul class="col-span-full space-y-2 lg:col-span-8" aria-label="Pages">
             {#each navLinks as link, i}
               <li

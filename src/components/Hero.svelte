@@ -74,19 +74,23 @@
     ></div>
     <!-- Wordmark and logo lockup -->
     <div
-      class="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-8 text-center"
+      class="pointer-events-none absolute inset-0 z-10 flex flex-col items-left justify-left gap-8 text-center p-16"
     >
       <h1
-        style="background-image: url('vb.png'); background-repeat: none; background-size: contain;"
-        class="font-oldstandard text-5xl text-white flex items-center tracking-[0.75rem] bg-no-repeat"
+        style="background-image: url('vbs.png'); background-repeat: none; background-size: contain; background-position: top left;"
+        class="font-oldstandard text-white flex items-center h-[5rem] text-[5rem] bg-no-repeat"
       >
         <img
           src="/vb-logo-e.svg"
           alt=""
           aria-hidden="true"
-          class="h-20 w-auto brightness-0 invert sm:h-24"
+          class="h-full brightness-0 invert"
         />
-        <span class="block text-[1em] h-[0.84em]"> VILLABOUND </span>
+        <span
+          class="block text-[0.46em] h-[0] leading-[0.35] pl-[0.35em] tracking-[0.35em]"
+        >
+          VILLABOUND
+        </span>
       </h1>
       <div class="flex items-center justify-center gap-10">
         <!-- Default (black) version -->
