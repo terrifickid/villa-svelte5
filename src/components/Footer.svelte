@@ -1,6 +1,9 @@
 <script>
+  import Logo from "./logo/Logo.svelte";
+
   let email = $state("");
   let filled = $derived(email.trim() !== "");
+
 
   // Rubric hover underline: scales in from the left over the shared 300ms curve
   const linkClass =
@@ -82,7 +85,7 @@
         href="/"
         class="col-span-full mt-12 lg:col-span-4 lg:mt-24 lg:self-end"
       >
-        <img src="/vb.png" alt="Villabound" class="h-10 w-auto" />
+        <Logo class="h-10 text-[2.5rem]" />
       </a>
 
       <div class="col-span-full mt-12 lg:col-span-5 lg:col-start-11 lg:mt-24">

@@ -26,7 +26,7 @@
 
   const path = $derived(page.url.pathname);
 
-  // On the home page the hero carries a large centred logo instead of a bar
+  // The home page has no header bar — its hero carries the logo lockup instead
   const isHome = $derived(path === "/");
 
   const mainLinkClass =
@@ -56,14 +56,7 @@
 <svelte:window onkeydown={onKeydown} />
 
 <nav class="relative z-100" aria-label="Main">
-  {#if isHome}
-    <!-- Home hero: a single large, centred white logo instead of the nav bar -->
-    <div
-      class="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-[min(16vh,8rem)]"
-    >
-      Villabound logo
-    </div>
-  {:else}
+  {#if !isHome}
     <!-- Bar: sits in normal document flow (not sticky) -->
     <header
       class="z-30 bg-white text-caption text-black {open

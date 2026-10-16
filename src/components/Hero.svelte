@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import Spinner from "../components/Spinner.svelte";
   import VideoHero from "../components/VideoHero.svelte";
+  import Logo from "./logo/Logo.svelte";
 
   function parseISO(iso) {
     const [y, m, d] = iso.split("-").map(Number);
@@ -67,41 +68,9 @@
     <div
       class="pointer-events-none absolute inset-0 z-10 flex flex-col items-left justify-left gap-8 text-center p-16"
     >
-      <h1
-        style="background-image: url(''); background-repeat: none; background-size: contain; background-position: top left;"
-        class="font-oldstandard text-white flex items-center h-[5rem] text-[5rem] bg-no-repeat"
-      >
-        <img
-          src="/vb-logo-e.svg"
-          alt=""
-          aria-hidden="true"
-          class="h-full brightness-0 invert"
-        />
-        <span
-          class="block text-[0.46em] h-[0] leading-[0.35] pl-[0.35em] tracking-[0.193em]"
-          style="text-justify: inter-character;"
-        >
-          VI<span class="pl-0.5"
-            >LL<span class="pl-0.5">ABOUN<span class="-ml-1">D</span></span
-            ></span
-          >
-        </span>
+      <h1>
+        <Logo class="h-[5rem] text-[5rem]" />
       </h1>
-      <div class="flex items-center justify-center gap-10">
-        <!-- Default (black) version -->
-        <img
-          src="/vb-logo-test.svg"
-          alt="Villabound"
-          class="h-20 w-auto sm:h-24"
-        />
-        <!-- White version -->
-        <img
-          src="/vb-logo-test.svg"
-          alt=""
-          aria-hidden="true"
-          class="h-20 w-auto brightness-0 invert sm:h-24"
-        />
-      </div>
     </div>
   </div>
 
