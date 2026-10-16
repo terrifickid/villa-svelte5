@@ -55,39 +55,23 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<nav class="relative z-100" aria-label="Main">
+<nav class="relative z-[100]" aria-label="Main">
   {#if !isHome}
     <!-- Bar: sits in normal document flow (not sticky) -->
     <header
-      class="z-30 bg-white text-caption text-black {open
-        ? 'fixed inset-x-0 top-0'
-        : 'relative'}"
+      class="z-30 transition-colors duration-700 ease-in-out-cubic {open
+        ? 'fixed inset-x-0 top-0 bg-black text-caption text-white'
+        : 'relative bg-white text-caption text-black'}"
     >
       <div class="shell relative flex h-20 items-center px-10">
         <button
           type="button"
-          class="relative size-[2.0625rem] shrink-0 transition duration-700 ease-in-out-cubic"
+          class="relative ml-auto size-[2.75rem] shrink-0 cursor-pointer"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onclick={() => (open = !open)}
         >
-          <span
-            class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-md bg-current transition duration-700 ease-in-out-cubic {open
-              ? '-translate-y-1/2 rotate-45'
-              : 'translate-y-[calc(-50%_-_2.5px)]'}"
-          ></span>
-          <span
-            class="absolute top-1/2 left-1/2 h-0.5 w-full -translate-x-1/2 rounded-md bg-current transition duration-700 ease-in-out-cubic {open
-              ? '-translate-y-1/2 -rotate-45'
-              : 'translate-y-[calc(-50%_+_2.5px)]'}"
-          ></span>
-        </button>
-
-        <a
-          href="/search"
-          aria-label="Search"
-          class="relative ml-auto size-[2.0625rem] shrink-0"
-        >
+          <!-- Magnifier: shown while the menu is closed -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -96,22 +80,42 @@
             stroke-width="1.75"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="absolute inset-0 m-auto size-[1.625rem]"
+            class="absolute inset-0 m-auto size-[2.25rem] transition duration-700 ease-in-out-cubic {open
+              ? 'rotate-90 scale-75 opacity-0'
+              : 'rotate-0 scale-100 opacity-100'}"
             aria-hidden="true"
           >
             <circle cx="11" cy="11" r="7"></circle>
             <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
           </svg>
-        </a>
+
+          <!-- Close (X): shown while the menu is open -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="absolute inset-0 m-auto size-[2.25rem] transition duration-700 ease-in-out-cubic {open
+              ? 'rotate-0 scale-100 opacity-100'
+              : '-rotate-90 scale-75 opacity-0'}"
+            aria-hidden="true"
+          >
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+          </svg>
+        </button>
       </div>
     </header>
 
     <!-- Full-screen overlay menu: fixed so it covers the viewport while the bar scrolls with the page -->
     <div
-      class="pointer-events-none fixed inset-x-0 top-0 z-20 grid grid-rows-[0fr] transition-[grid-template-rows] duration-700 ease-in-out-cubic {open
+      class="fixed inset-x-0 top-0 z-20 grid transition-[grid-template-rows] duration-700 ease-in-out-cubic {open
         ? 'pointer-events-auto grid-rows-[1fr]'
-        : ''}"
-      inert={!open}
+        : 'pointer-events-none grid-rows-[0fr]'}"
+      inert={open ? undefined : true}
       aria-hidden={!open}
     >
       <div class="relative overflow-hidden">

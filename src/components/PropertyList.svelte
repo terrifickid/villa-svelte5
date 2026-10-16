@@ -1,7 +1,11 @@
 <script>
   import { onMount } from "svelte";
   import _ from "lodash";
-  export let data;
+  export let data = undefined;
+  // Optional: callers that accumulate results themselves can pass the array
+  // directly instead of the whole `data` object.
+  export let results = undefined;
+  $: items = results ?? (data?.results ?? []);
   let search = "";
   function formatPrice(price, currency) {
     return new Intl.NumberFormat("en-US", {
@@ -28,7 +32,7 @@
 <div
   class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
 >
-  {#each data.results as item}
+  {#each items as item}
     <a
       href={"/" +
         urlEncode(
