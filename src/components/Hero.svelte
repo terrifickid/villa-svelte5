@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import Spinner from "../components/Spinner.svelte";
+  import VideoHero from "../components/VideoHero.svelte";
 
   function parseISO(iso) {
     const [y, m, d] = iso.split("-").map(Number);
@@ -56,17 +57,7 @@
 <div class="relative">
   <!-- Video band: full-bleed, 75vh -->
   <div class="relative h-[75vh] overflow-hidden bg-black">
-    <video
-      class="absolute inset-0 h-full w-full object-cover object-center"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      aria-hidden="true"
-    >
-      <source src="/v2.mp4#t=0.001" type="video/mp4" />
-    </video>
+    <VideoHero />
     <!-- Legibility wash behind the heading -->
     <div
       class="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-black/70 to-transparent"
@@ -77,7 +68,7 @@
       class="pointer-events-none absolute inset-0 z-10 flex flex-col items-left justify-left gap-8 text-center p-16"
     >
       <h1
-        style="background-image: url('vsb.png'); background-repeat: none; background-size: contain; background-position: top left;"
+        style="background-image: url(''); background-repeat: none; background-size: contain; background-position: top left;"
         class="font-oldstandard text-white flex items-center h-[5rem] text-[5rem] bg-no-repeat"
       >
         <img
